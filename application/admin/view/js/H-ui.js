@@ -1,4 +1,3 @@
-/*H-ui.js v2.3 date:9:53 2015-07-17 by:guojunhui*/
 if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
   var msViewportStyle = document.createElement("style")
   msViewportStyle.appendChild(
@@ -19,9 +18,7 @@ else{
 	window.onresize=function(){ location=location };	
 	$("html").addClass("Resolution");
 	}
-});/*添加收藏
-<a title="收藏本站" href="javascript:;" onClick="addFavoritepage('H-ui前端框架','http://www.h-ui.net/');">收藏本站</a>
-*/
+});
 /*收藏主站*/
 function addFavorite(name,site){
 	try{window.external.addFavorite(site,name);}

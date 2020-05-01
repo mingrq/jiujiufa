@@ -29,11 +29,12 @@ a:hover{ color:#F90}
 	line-height: 0;
 }
 .row{margin-right:0px; margin-left: 0px;}
+.margin-top{ margin-top:10px}
 .r_f{ float:right}
 .l_f{ float:left}
 .mleft{ margin-left:10px;}
 .margin{ margin:15px;}
-.border{ border:1px solid #ddd; padding:10px; height:60px; line-height:36px; margin-bottom:20px; }
+.border{ border:1px solid #ddd; padding:5px; height:50px; line-height:36px; margin-bottom:20px; }
 .border  span{ display:block; height:100%;}
 .table_menu_list{}
 .alert { margin-top:20px;}
@@ -73,18 +74,67 @@ body
 	hidden;float:left
 }
 .Manager_style,
-.search_style{ border:1px solid #ddd; padding:30px 20px; position:relative; margin-top:20px; }
+.search_style{ position:relative; margin-top:20px; }
 #parentIframe,#parentIfour{ display:none;}
 .Manager_style .title_name,
 .search_style .title_names{ position:absolute; top:-20px; font-size:18px; background-color:#ffffff; padding:5px 20px; left:10px;}
 .state-overview{ margin-top:15px;}
 #add_administrator_style .c-red{ color:#F33}
+.list_right_style{
+	float: right;
+    margin-left: 220px;
+    overflow: auto;
+    position: absolute;
+	padding:0px 10px;
+}
+.table-bordered>thead>tr>th{border-bottom-width: 1px}
+#covar_list .list_right_style.Widescreen{ margin-left:0px;}
+/*************登录****************/
+.Reg_log_style .frame_style i{ position:absolute; left:60px; top:0px; color:#999; font-size:16px; z-index:10}
+.Reg_log_style .frame_style i.tx_password{ font-size:12px; color:#F30}
+.Reg_log_style .frame_style.form_errors i{ display:none}
+.Reg_log_style .frame_style.form_error i{ display:block}
+.Reg_log_style .frame_style i{ display:none}
+.Reg_log_style .frame_style{ position:relative; height:40px; padding:0px 5px; margin-bottom:15px; border:1px solid #ddd; line-height:40px; width:286px;}
+.Reg_log_style .frame_style label{ background:url(../images/icon_login.png) no-repeat; float:left; width:40px; margin-top:2px; height:35px;border-right:1px solid #ddd;}
+.Reg_log_style .frame_style input{ height:30px; padding:5px 10px; border:0px; width:226px; font-size:14px; z-index:11; position:relative; background:0 none }
+.Reg_log_style .frame_style label.password_icon{ background-position: -5px 0px;}
+.Reg_log_style .frame_style label.user_icon{background-position: -5px -30px;}
+.Reg_log_style .frame_style label.Codes_icon{background-position: -5px -60px;}
+.Reg_log_style .frame_style.form_errors{ border:1px solid #1db5e1}
+.Reg_log_style .frame_style #Codes_text{ width:150px; padding:0px 10px;}
+.Reg_log_style .frame_style .Codes_region{ position:absolute; height:38px; border-left:1px solid #ddd; width:80px; right:0px; top:0px;}
+.Reg_log_style .frame_style.form_errors .Codes_region{border-left:1px solid #1db5e1;}
+.Reg_log_style .frame_style.form_errors label{ border-right:1px solid #1db5e1;}
+.Reg_log_style .frame_style.form_errors label.password_icon{background-position: -39px 0px;}
+.Reg_log_style .frame_style.form_errors label.user_icon{background-position: -39px -30px;}
+.Reg_log_style .frame_style.form_errors label.Codes_icon{background-position: -40px -60px;}
 /*****************************面包屑样式*****************************/
 #breadcrumbs .iframeurl{ color:#333;text-decoration : none;}
+/*********************************************小屏样式属性************************************************/
+.Resolution .dataTables_wrapper,
+.Resolution .list_right_style .search_style,
+.Resolution .article_list .table,
+.Resolution .Ads_list .border, 
+.Resolution .brand_list .table_menu_list.Widescreen table{ width:1366px;}
+.Resolution .Ads_list.Widescreen .dataTables_wrapper,
+.Resolution .Ads_list.Widescreen .border,
+.Resolution .Ads_list.Widescreen .article_list .table,
+.Resolution .list_right_style.Widescreen .dataTables_wrapper,
+.Resolution .list_right_style.Widescreen .search_style{width:100%;}
+.Resolution .detailed_style .Info_style .product_info{ width:429px;}
+.Resolution .detailed_style .Info_style .product_info a.img_link{ width:180px; height:180px;}
+.Resolution .detailed_style .Info_style .product_info a.img_link img{ width:178px; height:178px;}
+.Resolution .detailed_style .Info_style .product_info span{ width:227px;}
+.Resolution .defray_style .defray_list .defray_info{ width:270px;}
+
 /******************边框样式**************/
-.t_Record{ border:1px solid #ddd; border-radius:3px; -moz-border-radius:3px;-webkit-border-radius:3px; padding:10px; float:left}
-.news_style{ width:250px; float:left; border:1px solid #ddd; margin-left:15px; height:320px; }
-.news_style .title_name{padding-left:20px;
+.home_btn{ border:1px solid #dddddd; padding:10px; margin:15px 0px;}
+.t_Record{ border:1px solid #ddd;  padding:10px; float:left}
+.news_style{ width:250px; float:left; border:1px solid #ddd;  height:213px; }
+.Order_Statistics{ width:280px; float:left; border:1px solid #ddd; margin-right:15px; height:213px;}
+.news_style .title_name,
+.Order_Statistics .title_name {padding-left:20px;
 	font-size:16px;
 	border-bottom:1px solid #dddddd;
     background: #2a8bcc!important;
@@ -121,9 +171,15 @@ body
 .Order_form .Statistic_btn a{ display:block;}
 .Statistics_style .top_show_btn,
 .Order_form .top_show_btn{ display:none}
+.Order_Statistics .title_name{ border-bottom:0px;}
 .grading_list .table_menu_list,
 .content_style{ padding:10px; }
 .grading_list .table_menu_list .table td{font-size:12px}
+.Order_Statistics .table tr{}
+.Order_Statistics .table.table-bordered{ border:0px }
+.Order_Statistics .table.table-bordered td.name{ border-left:0px; width:120px; text-align:right}
+.Order_Statistics .table.table-bordered td.munber{ border-right:0px;}
+.Order_Statistics .table.table-bordered td.munber a{ color:#F63}
 /********密码修改样式***********/
 .change_Pass_style{ display:none;}
 .change_Pass_style .xg_style{}
@@ -254,8 +310,7 @@ body
 .chart_style{ width:400px; border-right:1px solid #ddd; float:left; height:100%; position:relative;}
 .brand_list .table_menu_list{ float:right; margin-left:410px; overflow:auto; overflow:scroll; position:absolute}
 .brand_list .table_menu_list.Widescreen{ margin-left:0px;}
-.brand_list .table_menu_list table,
-.Resolution .brand_list .table_menu_list.Widescreen table{ width:1366px}
+.brand_list .table_menu_list table{ width:1366px}
 .brand_list .table_menu_list.Widescreen table{ width:100%}
 .brand_list { overflow:hidden; position: relative; border-top:1px solid #dddddd;border-left:1px solid #dddddd ;border-right: 1px solid #dddddd;}
 /*********添加品牌样式属性********/
@@ -302,12 +357,12 @@ body
 #add_brand .right_add .p_select_list .title_name{ height:30px; font-size:14px; line-height:30px; position: relative}
 /*********************品牌详细信息样式属性***********************/
 .brand_detailed{}
-.brand_detailed .brand_info{ border:1px solid #dddddd; margin-top:50px; position:relative; margin-bottom:20px}
-.brand_detailed .title_brand{font-size:16px; color:#F63; background-color:#FFF; position:absolute; top:-20px; left:0px; padding:0px 10px;  text-align:center; height:40px; line-height:40px;}
+.brand_detailed .brand_info{ border:1px solid #dddddd; margin-top:30px; position:relative; margin-bottom:20px}
+.brand_detailed .title_brand{font-size:18px; color:#F63; background-color:#FFF; position:absolute; top:-20px; left:0px; padding:0px 10px;  text-align:center; height:40px; line-height:40px;}
 .brand_detailed .Info_style{ padding:20px 0px;   margin-right:160px; position:relative; left:0px; top:0px;}
 .brand_detailed .Info_style li{ width:250px; float:left; height:40px; line-height:40px;}
-.brand_detailed .Info_style li.b_Introduce{ width:100%; height:auto;}
-.brand_detailed .Info_style li.b_Introduce .name{ line-height:24px; margin-left:80px; margin-top:-30px;}
+.brand_detailed .Info_style .b_Introduce{ width:100%; height:auto; position:relative}
+.brand_detailed .Info_style .b_Introduce .name{ line-height:24px; margin-left:80px; position:relative; top:-30px;}
 .brand_detailed .Info_style li .label_name{ float:left; width:80px; line-height:40px; text-align:right}
 .brand_detailed .Info_style li .name{ float:left; line-height:40px; margin-left:5px;}
 .brand_detailed .brand_logo{ 
@@ -326,7 +381,7 @@ body
     *font-family:Arial;
  }
 .brand_detailed .brand_logo img{ vertical-align:middle;}
-.brand_detailed .brand_logo .name{ background-color: #F63; color:#FFF; padding:5px; margin-top:10px;}
+.brand_detailed .brand_logo .name{ background-color: #F63; color:#FFF; padding:5px; margin-top:10px; }
 .b_products_list{ border:1px solid #dddddd; position:relative}
 .b_P_Sort_list li{ line-height:34px; margin-left:10px;}
 .b_P_Sort_list li .grey,
@@ -335,12 +390,7 @@ body
 .left_Treeview{ position:relative; float:left}
 .page_right_style{ float:right; position:absolute; height:100%;}
 .page_right_style.Widescreen{ left:0px}
-.show_btn {
-	display: none;
-	position: fixed;
-	z-index: 1111;
-	top:50%
-}
+.show_btn {display: none;position: fixed;z-index: 1111;top:50%}
 .show_btn span {
 	background: url(../images/indexhead_sprite.png) -46px -30px no-repeat;
 	width: 25px;
@@ -365,6 +415,7 @@ body
 }
 .type_style{}
 .type_style .type_title,
+.cover_style .type_title,
 #add_brand .title_name,
 .page_right_style .type_title,
 .admin_info_style .type_title,
@@ -382,7 +433,7 @@ body
 	height:40px; line-height:40px;
 	color:#333333;
 	 width:100%	
-	}
+}
 .type_style .type_content{ width:500px; margin-left:auto; margin-right:auto; margin-top:50px;}
 .type_style .type_content .Operate_btn { border:1px solid #dddddd; padding:10px 0px; text-align:center}
 .form-label{ float:left; width:80px;text-align:right;}
@@ -415,6 +466,7 @@ body
 #form-article-add .formControls{ width: auto; margin-left:20px; top:0px; float:left}
 #form-article-add .formControls.col-10{ position:relative; width:90%; margin-left:10px}
 #form-article-add .formControls.col-10 textarea{ margin-left:0px; width:100%; height:250px;}
+#form-article-add .formControls.w_txt{ width:500px;}
 #form-article-add .cl .input-text,
 #form-article-add .cl .select{ width:100%; margin-left:0px}
 #form-article-add .cl .input-text.Wdate{ width:200px;}
@@ -422,8 +474,10 @@ body
 .Button_operation{ width:360px; margin-left:auto; margin-right:auto}
 /*******************订单详细样式属性********************/
 .Order_Details_style{ margin-bottom:15px;}
-.Order_Details_style .Numbering{ border-bottom:1px dashed #ddd; height:40px; line-height:40px;}
-.Order_Details_style .Numbering b{ color:#F60; font-size:18px; margin-left:5px;}
+.Order_Details_style .Numbering,
+.Refund_detailed .Numbering{ border-bottom:1px dashed #ddd; height:40px; line-height:40px;}
+.Order_Details_style .Numbering b,
+.Refund_detailed .Numbering b{ color:#F60; font-size:18px; margin-left:5px;}
 .Order_Details_style  ul li{ height:40px; line-height:40px; float:left; margin-right:20px;}
 .Order_Details_style  ul li .label_name{ font-size:16px; font-weight:bold; float:left; margin-right:10px; width:120px; text-align:right}
 .Order_Details_style  ul li span{ float:left; width:230px;}
@@ -436,10 +490,11 @@ body
 #Order_form_style  .proportion .name{ display:block; margin-top:5px; font-size:14px}
 .order_list .h_products_list { border-bottom:1px solid #dddddd;}
 #products_list .order_style{ padding:10px; margin-left:220px;}
-#products_list .order_style .order_product_name img{ border:1px solid #dddddd; padding:1px; width:60px; height:60px; }
-#products_list .order_style .order_product_name i{ color:#CCC; font-size:24px;}
+#covar_list .list_right_style .order_product_name img{ border:1px solid #dddddd; padding:1px; width:60px; height:60px; }
+#covar_list .list_right_style.order_product_name i{ color:#CCC; font-size:24px;}
 /***********订单详细样式属性************/
-.detailed_style{}
+.detailed_style{ position:relative}
+.detailed_style .Logistics_style,
 .detailed_style .Receiver_style,
 .detailed_style .product_style,
 .detailed_style .Total_style{ border:1px solid #dddddd; margin-bottom:15px;}
@@ -459,11 +514,12 @@ body
 }
 .detailed_style .Info_style{ padding:0px 5px}
 .detailed_style .Info_style .label_name{ width:100px; text-align:right; float:left;}
-.detailed_style .Info_style .col-xs-4{ margin:10px 0px; position:relative}
-.detailed_style .Info_style .col-xs-4 .o_content{}
-.detailed_style .Info_style .product_info{ border:1px solid #dddddd; width:495px; padding-right:10px; margin:10px 5px; line-height:26px; float:left}
+.detailed_style .Info_style .col-xs-3{ margin:10px 0px; position:relative}
+.detailed_style .Info_style .col-xs-3 .o_content{}
+.detailed_style .Info_style .product_info{ position:relative; border:1px solid #dddddd; width:495px; padding:0px 0px; margin:10px 5px; line-height:26px; float:left}
 .detailed_style .Info_style .product_info a{ display:block; float:left;}
 .detailed_style .Info_style .product_info a.img_link{ width:204px; height:204px; border-right:1px solid #dddddd; padding:1px;}
+.detailed_style .Info_style .product_info a.img_link img{ width:200px; height:200px;}
 .detailed_style .Info_style .product_info span{ float:left; display:block; width:265px; margin-left:10px;}
 .detailed_style .Info_style .product_info b{ color: #FCB714; font-weight:normal}
 .detailed_style .Info_style .product_info b.price{ font-size:18px; color: #F33}
@@ -472,6 +528,13 @@ body
 .Total_style .Total_m_style{font-size:16px; border-top:1px solid #dddddd; line-height:40px; height:40px;}
 .Total_style .Total{ margin-right:10px;}
 .Total_style b{ color:#F33; font-weight:600}
+.detailed_style .Logistics_style .prompt{ font-size:18px; text-align:center; padding:10px;}
+/**********订单处理***********/
+.order_list_style .order_product_name img{ border:1px solid #dddddd; padding:1px; width:60px; height:60px; }
+.order_list_style .order_product_name i{ color:#CCC; font-size:24px}
+.Refund_detailed .Numbering{ margin-bottom:15px;}
+.Refund_detailed .reund_content{ padding:10px;}
+.Refund_detailed .Info_style .status{ position:absolute; left:0px; top:0px; width:80px; height:30px; font-size:16px; line-height:30px; background-color:#d6487e; color:#FFF; text-align:center}
 /***********询价列表样式属性***********/
 .Item_Details .table.table-bordered thead tr th,
 .Item_Details .table.table-bordered td { padding:0; line-height:30px; height:30px; font-weight:normal}
@@ -538,19 +601,13 @@ body
 #add_administrator_style input,
 #add_administrator_style textarea{ margin-left:0px;}
 .admin_info_style .form-group input[disabled]{background-color: #FFFFFF !important;}
-.admin_info_style .text_info.add {
-    border: 1px solid #ddd;
-}
+.admin_info_style .text_info.add {border: 1px solid #ddd;}
 .admin_info_style .admin_modify_style{ width:400px; border-right:1px solid #dddddd; float:left }
 .admin_info_style  .xinxi,
 .admin_info_style .recording_list{ padding:10px;}
 .admin_info_style  .xinxi .add_sex ,
-.admin_info_style  .xinxi.hover .sex {
-    display: none;
-}
-.admin_info_style  .xinxi.hover .add_sex {
-    display: block;
-}
+.admin_info_style  .xinxi.hover .sex { display: none;}
+.admin_info_style  .xinxi.hover .add_sex {display: block;}
 .admin_info_style .Button_operation button{ float:left;}
 .admin_info_style .Button_operation .btn-success{ display:none}
 .admin_info_style  .xinxi span{ color:#858585}
@@ -561,19 +618,6 @@ body
 .Competence_info .name{ height:30px; line-height:30px; font-size:14px; border-bottom:1px solid #ddd; text-align:center; background-color:#ededed;}
 .Competence_info .Competence_list{ width:33.33%; float:left; border-right:1px solid #ddd; margin:0; height:320px; min-height:320px}
 .Competence_info .Competence_list li{ height:40px; line-height:40px; padding:0px 20px; width:50%; float:left}
-/*********评分********/
-.table-responsive{ }
-.table-responsive .table{min-width:1500px; width:expression_r( document.body.clientWidth < 1500px ? "1499px" : "auto");overflow-x:scroll}
- body:nth-of-type(1) .table-responsive .table{ width:1672px;}
-.score_style{ margin-bottom:20px;}
-.score_style li{ padding:5px;}
-.score_style li .Rating{ font-size:16px; color:#F90}
-.score_style .score_prompt{ color:#CCC; border-top:1px dashed #ddd;}
-.abnormal_style{ padding:20px;}
-.abnormal_style .add_reason li{ padding:10px 0px; font-size:14px}
-.abnormal_style .add_reason li label{ margin-left:80px;}
-.xinxi-xs{ height:40px; line-height:40px; border-bottom:1px dashed #ddd; margin-bottom:20px; font-size:18px;}
-.xinxi-xs span{ margin-right:30px; color:#438EB9}
 /*****************************添加用户样式属性************************/
 .add_menber{}
 .add_menber li{ margin:10px 0px; height:40px; line-height:40px; float:left; width:50%}
@@ -610,9 +654,11 @@ body
 .grading_style .page_right_style{ height:auto}
 .grading_style .table_menu_list{ width:100%}
 /********************************广告界面样式属性*************************/
-.Ads_list{ padding:15px;margin-left:220px; float:right; position: absolute}
-.Ads_list .ad_img{ overflow:hidden; width:250px; height:80px; display:block}
-.Ads_list.Widescreen { margin-left:0px;}
+.Ads_list,
+.order_list_style{ padding:15px;margin-left:220px; float:right; position: absolute; overflow:auto;}
+.Ads_list .ad_img{ overflow:hidden; height:80px; display:block}
+.Ads_list.Widescreen,
+.order_list_style.Widescreen { margin-left:0px;}
 #add_ads_style .add_adverts{ padding:15px;}
 #add_ads_style .add_adverts li{ height:32px; line-height:30px; margin:10px 0px;}
 #add_ads_style .add_adverts li .label_name{ width:80px; float:left;text-align:right}
@@ -648,7 +694,8 @@ body
 /*权限*/
 .permission-list{ border:solid 1px #eee; margin:10px}
 .permission-list > dt{ background-color: #59BD1E;padding:5px 10px; color:#FFF}
-.permission-list > dd{ padding:10px;}
+.permission-list > dd,
+.cover_style .top_style .info_style{ padding:10px;}
 .permission-list .permission-list2 > dt{ color:#ffffff; background-color: #FCA31D; margin-right:10px;}
 .permission-list > dd > dl{ padding:10px 0}
 .permission-list > dd > dl > dt{ display:inline-block;float:left;white-space:nowrap; width:100px; padding:5px}
@@ -682,9 +729,371 @@ body
     padding-left: 25px;
 	margin-left:10px;
 }
-.Validform_error {
-    background-color: #fbe2e2;
-    border-color: #c66161;
-    color: #c00;
-}
+.Validform_error {background-color: #fbe2e2;  border-color: #c66161;color: #c00;}
 .formControls>* {vertical-align: middle;}
+/***********************支付管理样式属性*************************/
+.cover_style .top_style,
+.cover_style  .centent_style{ border:1px solid #dddddd;}
+.cover_style .top_style .btn_style{ float:right; width:80px; margin-right:60px; font-size:14px}
+.cover_style .top_style .btn_style a{ 
+	  border:1px  solid #dddddd; 
+	  display:block; 
+	  width:60px; 
+	  height:30px; 
+	  margin-top:5px; 
+	  line-height:30px; 
+	  text-align:center; 
+	  background-color:#FFF; 
+	  border-radius:3px;
+	  -moz-border-radius:3px; 
+	  -webkit-border-radius:3px
+}
+.cover_style .top_style .btn_style a.xianshi_btn{ display:none}
+.cover_style  .centent_style{ margin-top:15px;}
+.cover_style  .mun_left_style{ float:left; width:220px; border-right:1px solid #dddddd;}
+/**********************账户管理*********************/
+.Account_style .Account_Balance{
+	float:left; 
+	height:100px;  
+	border-radius:3px;
+	-moz-border-radius:3px; 
+	-webkit-border-radius:3px; 
+	background-color: #FF5959; 
+	padding:10px; 
+	color:#FFF; 
+	text-align:center;
+	 margin-right:10px;
+	 width:130px;
+}
+.Account_style .Account_Balance h2{ margin:10px 0px;}
+.Account_style .Account_info{ line-height:24px; float:left; position:absolute; left:160px;}
+.Account_style .Account_info li{ height:30px; margin:5px 0px; float:left; width:250px; }
+.Account_style .Account_info li .label_name{vertical-align: baseline}
+#recording{ width:100%;text-align:left; margin-top:15px;}
+#recording .hd{ height:32px; line-height:32px; padding:0 10px 0 20px;   border-bottom:1px solid #ddd;  position:relative; }
+#recording .hd ul{ float:left;  position:absolute; left:-1px; top:0px; height:32px;   }
+#recording .hd ul li{ float:left; padding:0 25px; cursor:pointer;  font-size:14px;  }
+#recording .hd ul li.on{ height:33px;  background:#fff; border:1px solid #ddd; border-bottom:2px solid #fff; color: #333333}
+#recording .bd ul{ padding:15px;  zoom:1;  }
+#recording .bd li{ height:24px; line-height:24px;  }
+#recording .bd li .date{ float:right; color:#999; }
+.Records{ border:1px solid #dddddd; padding:10px; margin-bottom:15px}
+/*********************支付方式**********************/
+.defray_style{}
+.defray_style .defray_list,
+.Payment_details .bank_style{ border:1px solid #dddddd;}
+.defray_style .defray_list .defray_content{margin:5px;}
+.defray_style .defray_list .defray_info{ font-size:18px; border:1px solid #dddddd;float:left; margin:5px;  text-align:center; width:300px; height:396px; }
+.defray_style .defray_list .defray_content li.operating{padding:10px 0px}
+.defray_style .defray_list .defray_content li.name_logo{ height:161px; border-bottom:1px solid #dddddd;}
+.defray_style .defray_list .defray_content li.select{padding:10px 0px;  border-bottom:1px solid #dddddd}
+.defray_style .defray_list .defray_content li.description{padding:10px; font-size:14px; color:#999; border-bottom:1px solid #dddddd; text-align:left; height:90px; line-height:24px; overflow:hidden}
+.defray_style .defray_list .defray_content .defray_name{ height:40px; line-height:40px; background-color:#00a5e5; color:#ffffff}
+/********************支付详细********************/
+#add_payment_style li{ float: left; width:150px; margin-bottom:10px;}
+#add_payment_style .payment_list{ display:block; border:1px  solid #dddddd; padding:10px;}
+#add_payment_style .add_content{ border:1px solid #dddddd; padding:10px; margin:0px 15px; display:none}
+#add_payment_style .add_content li{ display:block; margin-bottom:10px; float:none; width:100%; height:100%}
+#add_payment_style .add_content li .label_name{ float:left; width:100px; text-align:right; height:32px; line-height:32px;}
+#add_payment_style .add_content li  span{ float:left; display:block; width:500px; line-height:32px;}
+#add_payment_style .add_content li .form-control{ width:300px; margin-left:10px;}
+#add_payment_style .add_content li .form-textarea{width: 400px;height: 100px;resize: none; margin-left: 10px;}
+.Payment_details{}
+.Payment_details .bank_style .title_name{ font-size:16px; height:40px; line-height:40px; border-bottom:1px solid #dddddd; padding:0px 20px;}
+.Payment_details .bank_style .bank_list{ padding:10px;}
+.Payment_details .bank_style .bank_list li{ width:200px; float:left; margin-bottom:10px; position:relative;}
+.Payment_details .bank_style .bank_list li img{ float:left}
+.Payment_details .bank_style  .operating{ border-bottom:1px solid #dddddd; padding:10px;}
+.Payment_details .bank_style .bank_list li .delete_bank{ display:none; height:30px; position:absolute; right:10px; top:0px;}
+.Payment_details .bank_style .bank_list li .delete_bank a{ color:#F33}
+.Payment_details .bank_style .Push_button{ text-align:center; display:none}
+.Payment_details .bank_style .Push_button.btn_delete,
+.Payment_details .bank_style .bank_list .delete .delete_bank{ display:block;}
+#add_bankstyle .add_bank_list li{ width:200px; float:left; margin-bottom:10px;}
+#add_bankstyle .prompt{ border:1px solid #dddddd; margin:15px; padding:10px; margin-bottom:10px;}
+.Payment_details .bank_style .bank_logo  .ace,
+.Payment_details .bank_style .bank_logo  input[type=checkbox].ace+.lbl::before,
+.Payment_details .bank_style .bank_logo  input[type=radio].ace+.lbl::before{ display:none}
+.Payment_details .bank_style .bank_logo  .ace.add,
+.Payment_details .bank_style .bank_logo  input[type=checkbox].ace.add+.lbl::before,
+.Payment_details .bank_style .bank_logo  input[type=radio].ace.add+.lbl::before{ display:block; width:16px; height:16px; float:left; margin-top:25px}
+/**********支付配置***********/
+.Configure_style{}
+.Configure_style .manner{}
+.Configure_style .manner .title_name{ height:40px; padding:0px 20px; line-height:40px; font-size:16px; color:#ffffff; background-color:#438eb9}
+.Configure_style .table th{ border-bottom:0px;}
+.Configure_style .table th,
+.Configure_style .table.table-bordered tbody tr td{ font-family: "Microsoft YaHei"}
+.Configure_style .Other_style .title_name{	
+	height:40px; 
+	border:1px solid #dddddd; 
+	line-height:40px; 
+	font-size:16px; 
+	padding:0px 20px;
+	background: #2a8bcc!important;
+    background-image: -webkit-gradient(linear,left 0,left 100%,from(#ffffff),to(#ededed))!important;
+    background-image: -webkit-linear-gradient(top,#ffffff,0%,#ededed,100%)!important;
+    background-image: -moz-linear-gradient(top,#ffffff 0,#ededed 100%)!important;
+    background-image: linear-gradient(to bottom,#ffffff 0,#ededed 100%)!important;
+    background-repeat: repeat-x!important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0)!important;
+}
+.Configure_style .Other_style .deploy{ width:260px; border:1px solid #dddddd; margin:5px; float:left; text-align:center}
+.Configure_style .Other_style .deploy .name{ 
+	height:30px;
+	line-height:30px;
+	border-bottom:1px solid #dddddd;
+	background: #2a8bcc!important;
+	background-image: -webkit-gradient(linear,left 0,left 100%,from(#ffffff),to(#ededed))!important;
+	background-image: -webkit-linear-gradient(top,#ffffff,0%,#ededed,100%)!important;
+	background-image: -moz-linear-gradient(top,#ffffff 0,#ededed 100%)!important;
+	background-image: linear-gradient(to bottom,#ffffff 0,#ededed 100%)!important;
+	background-repeat: repeat-x!important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ededed',GradientType=0)!important;
+}
+.Configure_style .Other_style .deploy  .operating{ padding:10px; border-bottom:1px solid #dddddd;}
+.Configure_style .Other_style .deploy .info{ color:#999; padding:10px;}
+.Configure_style .Other_style .deploy .Reply_style{ display:none; border:1px solid #dddddd; margin-top:10px; text-align:left}
+.Configure_style .Other_style .deploy .Reply_style .title{ border-bottom:1px solid #dddddd; display:block; height:30px; background-color:#dddddd; line-height:30px; text-align:center}
+.Configure_style .Other_style .deploy .Reply_style p{ padding:5px 10px}
+/****************************文章管理样式属性****************************/
+.article_style .add_content{}
+.article_style .add_content li{ margin-bottom:10px; line-height:32px;}
+.article_style .add_content li .label_name{ width:80px; float:left; text-align:right}
+.article_style .add_content li .content{  position:relative; left:100px;}
+.article_style .add_content li .date_Select{ display: none; float:left}
+.article_style .add_content li i{ color:#F33}
+.article_style .add_content li .add_date label{ margin-top:-5px; margin-left:10px;}
+/**************************************物查看样式属性*****************************************/
+#mohe-kuaidi_new .mh-wrap { margin: 6px 0;}
+#mohe-kuaidi_new .mh-wrap a {text-decoration: none; }
+#mohe-kuaidi_new .mh-wrap a:hover {text-decoration: underline;}
+#mohe-kuaidi_new .mh-form-wrap {padding: 5px 15px;} 
+#mohe-kuaidi_new .mh-form-wrap p { margin: 10px 0;}
+#mohe-kuaidi_new .mh-form-wrap p label { margin-right: 10px;vertical-align: middle;padding: 6px 0;}
+#mohe-kuaidi_new .mh-form-wrap p input, 
+#mohe-kuaidi_new .mh-form-wrap p select {
+	width: 186px;
+	line-height: normal;
+	border: 1px solid #ccc;
+	padding: 6px;
+	box-sizing: border-box;
+	margin: 0;
+}
+#mohe-kuaidi_new .mh-form-wrap p button {
+	width: 80px;
+	height: 28px;
+	border: 1px solid #ccc;
+	margin-left: 10px;
+	text-align: center;
+	color: #333;
+	font-family: "Microsoft Yahei";
+	font-size: 14px;
+	cursor: pointer;
+	background: #f7f7f7;
+	background: -moz-linear-gradient(top,#f7f7f7,#ececec);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(#f7f7f7),color-stop(#ececec));
+	background: -ms-linear-gradient(top,#f7f7f7,#ececec);
+	background: linear-gradient(to bottom,#f7f7f7,#ececec);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7',endColorstr='#ececec',GradientType=0);
+}
+#mohe-kuaidi_new .mh-form-wrap p button:hover {
+	background: -moz-linear-gradient(top,#ececec,#f7f7f7);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(#ececec),color-stop(#f7f7f7));
+	background: -ms-linear-gradient(top,#ececec,#f7f7f7);
+	background: linear-gradient(to bottom,#ececec,#f7f7f7);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ececec',endColorstr='#f7f7f7',GradientType=0);
+}
+#mohe-kuaidi_new .mh-form-wrap p button:active {
+	background: -moz-linear-gradient(top,#f3f3f3,#fff);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(#f3f3f3),color-stop(#fff));
+	background: -ms-linear-gradient(top,#f3f3f3,#fff);
+	background: linear-gradient(to bottom,#f3f3f3,#fff);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3',endColorstr='#ffffff',GradientType=0);
+}
+#mohe-kuaidi_new .mh-form-wrap form.mh-loading p button {position: relative;color: transparent;pointer-events: none;}
+#mohe-kuaidi_new .mh-form-wrap form.mh-loading p button::after {
+	background: url(http://p1.qhimg.com/d/inn/1b1cc057/loading_s.gif) no-repeat center;
+	content: '';
+	display: inline-block;
+	width: 4em;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -2em;
+	margin-top: -10px;
+}
+#mohe-kuaidi_new .mh-list-wrap .mh-list {border-top: 1px solid #eee;margin: 0 15px;padding: 15px 0;}
+#mohe-kuaidi_new .mh-list-wrap .mh-list ul {padding-left: 75px;padding-right: 20px;--overflow: auto;}
+#mohe-kuaidi_new .mh-list-wrap .mh-list li {position: relative;border-bottom: 1px solid #f5f5f5;margin-bottom: 8px;padding-bottom: 8px;color: #666;}
+#mohe-kuaidi_new .mh-list-wrap .mh-list li.first {color: #3eaf0e;}
+#mohe-kuaidi_new .mh-list-wrap .mh-list li p {line-height: 20px;}
+#mohe-kuaidi_new .mh-list-wrap .mh-list li .before {
+	position: absolute;
+	left: -13px;
+	top: 2.2em;
+	height: 82%;
+	width: 0;
+	border-left: 2px solid #ddd;
+}
+#mohe-kuaidi_new .mh-list-wrap .mh-list li .after {
+	position: absolute;
+	left: -16px;
+	top: 1.2em;
+	width: 8px;
+	height: 8px;
+	background: #ddd;
+	border-radius: 6px;
+}
+#mohe-kuaidi_new .mh-list-wrap .mh-list li.first .after {background: #3eaf0e;}
+#mohe-kuaidi_new .mh-kd-wrap {
+	position: relative;
+	border-top: 1px solid #eee;
+	padding: 15px;
+	padding-bottom: 25px;
+	background: #fafafa;
+}
+#mohe-kuaidi_new .mh-kd-wrap li {display: none;}
+#mohe-kuaidi_new .mh-kd-wrap li.mh-selected {display: block;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-img-wrap {
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+#mohe-kuaidi_new .mh-kd-wrap .mh-img-wrap img {width: 50px;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-info-wrap {font-size: 13px;margin-left: 60px;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-info-wrap p {margin-bottom: 8px;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-info-wrap .mh-info-name {font-family: "Microsoft Yahei";font-size: 14px;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-info-wrap .mh-info-link a {text-decoration: none;margin-right: 10px;padding: 2px 10px;border: 1px solid #ccc;color: #333;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-info-wrap .mh-info-link a:hover { background: white;}
+#mohe-kuaidi_new .mh-kd-wrap .mh-info-wrap .mh-info-link a:active {
+  background: -moz-linear-gradient(top,#f3f3f3,#fff);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(#f3f3f3),color-stop(#fff));
+  background: -ms-linear-gradient(top,#f3f3f3,#fff);
+  background: linear-gradient(to bottom,#f3f3f3,#fff);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3',endColorstr='#ffffff',GradientType=0);
+}
+#mohe-kuaidi_new .mh-slogan {position: absolute;right: 20px;bottom: 0;cursor: pointer;}
+#mohe-kuaidi_new .mh-slogan-hover {color: #3eaf0e;}
+#mohe-kuaidi_new .mh-slogan span {vertical-align: middle;}
+#mohe-kuaidi_new .mh-qrcode-wrap {
+	position: absolute;
+	right: 0;
+	bottom: -1px;
+	width: 96px;
+	margin-right: -110px;
+	border: 1px solid #d6d6d6;
+	color: #999;
+	padding: 6px;
+	box-shadow: 0 1px 1px #efefef;
+}
+#mohe-kuaidi_new .mh-icon {background: url(http://p9.qhimg.com/d/inn/f2e20611/kuaidi_new.png) no-repeat 0 0;}
+#mohe-kuaidi_new .mh-icon-qr {
+	background-position: 0 -17px;
+	display: inline-block;
+	*zoom: 1;
+	width: 13px;
+	height: 13px;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+#mohe-kuaidi_new .mh-slogan-hover .mh-icon-qr {background-position: 0 0;}
+#mohe-kuaidi_new .mh-icon-t {
+	position: absolute;
+	left: -9px;
+	bottom: 14px;
+	width: 10px;
+	height: 16px;
+	background-position: 0 -34px;
+	background-color: white;
+}
+#mohe-kuaidi_new .mh-icon-new {
+	position: absolute;
+	left: -20px;
+	top: 1.5em;
+	width: 41px;
+	height: 18px;
+	margin-left: -41px;
+	margin-top: -9px;
+	background-position: 0 -58px;
+}
+#mohe-kuaidi_new .mh-wrap .mb-search {text-decoration: underline;margin-left: 20px;}
+#mohe-kuaidi_new .mh-wrap .mb-search .mh-new {
+	display: inline-block;
+	width: 21px;
+	height: 9px;
+	margin: -1px 0 0 3px;
+	background: url(http://p0.qhimg.com/t01a3bd62f6db66463c.png) no-repeat;
+}
+#mohe-kuaidi_new .mh-identcode {border-top: 1px solid #f5f5f5;padding: 10px 15px;display: none;}
+#mohe-kuaidi_new .mh-identcode .mh-img-wrap {
+	float: left;
+	width: 54px;
+	height: 54px;
+	padding: 6px;
+	border: 1px solid #ccc;
+	overflow: hidden;
+}
+#mohe-kuaidi_new .mh-identcode .mh-img-wrap img {width: 54px;}
+#mohe-kuaidi_new .mh-identcode .mh-img-tip {margin-left: 78px;}
+#mohe-kuaidi_new .mh-identcode .mh-tip-txt {font-size: 13px;line-height: 38px;color: #666;}
+#mohe-kuaidi_new .mh-identcode .mh-btn-install {
+	text-decoration: none;
+	margin-right: 10px;
+	padding: 2px 10px;
+	border: 1px solid #ccc;
+	color: #333;
+}
+#mohe-kuaidi_new .mh-identcode .mh-btn-install:hover {text-decoration: none;}
+/******************************************************skin2样式切换操作样式属性********************************************************/
+#navbar-container .operating .link_cz{}
+#navbar-container .operating .link_cz li{ float:left; padding:0px 10px; color:#ffffff; text-align:center; background:url(../images/xdt_20.png) no-repeat; background-position:right;}
+#navbar-container .operating .link_cz li img{ margin:8px 0px;}
+#navbar-container .operating .link_cz li a{ display:block; color:#FFF; height:75px; width:75px; cursor:pointer; text-decoration:none}
+#navbar-container .operating .link_cz li.active{ background:#892e65}
+/***********************************店铺申请*******************************/
+.Shops_Audit .prompt{ padding:10px; border:1px solid #dddddd; font-size:16px; text-align:center; margin-bottom:15px;}
+.Shops_Audit .prompt b{ color:#F63; padding:0px 5px;}
+/**************************店铺详细************************/
+.detailed_style .type{ 
+    position:absolute;   
+    width: 115px;
+    height: 134px;
+    left: -10px;
+    top: -29px; 
+	background-image:url(../images/ban1.png); 
+	background-repeat:no-repeat; 
+	z-index:11
+}
+.detailed_style .shop_content{ float:left; height:140px; width:100%; position:relative; padding-left:200px;}
+.detailed_style .shop_content li{ margin:5px 0px; height:32px; float:left; width:245px}
+.detailed_style .shop_content li.shop_name{ width:100%; float:none; position:relative}
+.detailed_style .shop_logo{ height:140px; width:190px; float:left; margin-right:10px; position:absolute;}
+.detailed_style .shop_logo img{ border:1px solid #dddddd; padding:1px;}
+.detailed_style .shop_content li .label_name{ display:block; width:90px; text-align:right; float:left}
+.detailed_style .shop_content li .info{ display:block; float:left; margin-left:10px;}
+.Store_Introduction{ border:1px solid #dddddd; position: relative; margin-top:35px;}
+.Store_Introduction .title_name{ background-color:#FFF; position:absolute; top:-20px; font-size:18px; left:20px !important; padding:5px 20px;}
+.Store_Introduction .info{ margin:20px; line-height:24px;}
+.detailed_style .shop_content li.shop_name .Authenticate{ margin-left:10px; float:left;}
+.detailed_style .shop_content li.shop_name .Authenticate i{ background-image:url(../images/renz-icon.png); background-repeat:no-repeat; width:34px; height:34px; margin:0px 5px}
+.Authenticate i.icon-grxx{ background-position: -45px -40px;}
+.Authenticate i.icon-yxrz{background-position:-90px 0px}
+.Authenticate i.icon-yhk{background-position: -3px -40px}
+.Authenticate i.icon-sjrz{ background-position:-124px -40px}
+.At_button{ width:250px; margin-left:auto; margin-right:auto; margin-top:30px}
+.shop_reason{ padding:15px;}
+.shop_reason .content{ border:1px solid #dddddd; margin-bottom:15px; padding:10px; display:block}
+.shop_reason .form-control{ width:568px; height:200px; resize:none; margin-left:0px}
+/**************************金额***************************/
+.amounts_style .transaction_Money{ border:1px solid #dddddd; margin-bottom:15px;}
+.amounts_style .transaction_Money .Money{ min-width:200px; position:relative; float:left; border-right:1px solid #dddddd; text-align:center; font-size:18px; color: #F33; line-height:80px;height:100px;}
+.amounts_style .transaction_Money .Money em{ font-size:12px}
+.amounts_style .transaction_Money .Money span{ padding:0px 10px;}
+.amounts_style .transaction_Money .Money p{ font-size:14px; color:#999; background-color:#ededed; border-top:1px dashed #dddddd; position:absolute; bottom:0px; height:30px; line-height:30px; width:100%}
+.amounts_style .Statistics_btn{ margin-left:13px}
+.amounts_style .Statistics_btn i.bigger{ font-size:32px}
+.amounts_style .Statistics_btn a.btn{ margin-top:13px;}

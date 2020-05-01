@@ -1715,6 +1715,7 @@ blockquote,blockquote.pull-right
 .ace-nav>li.light-pink>a
 {
   background-color: #f4dae5;
+  color:#892E65
 }
 
 .ace-nav>li.light-pink>a:hover,.ace-nav>li.light-pink>a:focus
@@ -1725,6 +1726,7 @@ blockquote,blockquote.pull-right
 .ace-nav>li.open.light-pink>a
 {
   background-color: #eeccda!important;
+  color:#892E65 !important;
 }
 
 .ace-nav>li.dark>a
@@ -2461,8 +2463,6 @@ li [class^="icon-"],li [class*=" icon-"],.nav-list li [class^="icon-"],.nav-list
 {
   margin: 0;
   padding: 0;
-  list-style: none;
-  overflow-x: hidden;
 }
 
 .nav-list .open>a,.nav-list .open>a:hover,.nav-list .open>a:focus
@@ -2859,7 +2859,6 @@ li [class^="icon-"],li [class*=" icon-"],.nav-list li [class^="icon-"],.nav-list
 .sidebar-shortcuts-large
 {
   padding-bottom: 4px;
-  background-color:#62a8d1;
   color:#ffffff;
   font-family:"Microsoft YaHei"
 }
@@ -2870,6 +2869,7 @@ li [class^="icon-"],li [class*=" icon-"],.nav-list li [class^="icon-"],.nav-list
   line-height: 24px;
   margin-top: -2px;
   padding: 0;
+  margin-right:0px;
   border-width: 4px;
   text-align: center;
 }
@@ -4401,7 +4401,7 @@ button.btn:active
 .btn.btn-app
 {
   display: inline-block;
-
+  width:100px;
   font-size: 18px;
   font-weight: normal;
   color: #FFF;
@@ -10892,7 +10892,7 @@ background-color:#1c77ac; background-image:url(../../images/light.png); backgrou
 
 .login-layout .widget-box .widget-main
 {
-  padding: 16px 36px 36px;
+  padding: 16px 20px 20px;
   background: #f7f7f7;
 }
 
