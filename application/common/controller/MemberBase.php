@@ -3,7 +3,7 @@
  * 会员控制器基类
  */
 
-namespace common\controller;
+namespace app\common\controller;
 
 use think\Controller;
 
