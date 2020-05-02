@@ -2,6 +2,8 @@
 
 // 应用公共文件
 
+/* 引用全局定义 */
+require __DIR__ . '/common_global.php';
 
 /**
  * 写入缓存
