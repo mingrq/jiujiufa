@@ -7,7 +7,7 @@ namespace common\controller;
 
 use think\Controller;
 
-class MemberController extends Controller
+class MemberBase extends Controller
 {
     protected function _initialize()
     {
