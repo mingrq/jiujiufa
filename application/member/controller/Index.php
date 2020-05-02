@@ -10,6 +10,6 @@ class Index extends MemberBase {
     }
 
     public function index(){
-        $this->display();
+        return $this->fetch();
     }
 }
