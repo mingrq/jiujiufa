@@ -4,11 +4,6 @@ body {
     color: #333;
 }
 
-body{
-    background-color: #f4f5f6;
-    font-family: 微软雅黑;
-    font-size: 12px;
-}
 body,
 button,
 dd,
@@ -42,6 +37,12 @@ input,
 select,
 textarea {
     font: 12px/1.5 arial, tahoma, \5b8b\4f53
+}
+
+body {
+    background-color: #f4f5f6;
+    font-family: 微软雅黑;
+    font-size: 12px;
 }
 
 h1,
@@ -95,90 +96,230 @@ a {
 /**
  *  header
  */
-.header-box{
+.header-box {
     width: 100%;
     float: left;
     position: relative;
-    background-color: #ffffff;
 }
-.header-box .header{
+
+.header-box .header {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+.header-box .header .header-top {
     width: 1200px;
     margin: 0px auto;
-    position: relative;
-}
-.header-box .header .header-top{
-    width: 100%;
-    float: left;
     height: 40px;
     line-height: 40px;
+    position: relative;
 }
-.header-box .header .header-top .login-info{
+
+.header-box .header .header-top .login-info {
     float: left;
 }
-.header-box .header .header-top .login-info .welcome{
+
+.header-box .header .header-top .login-info .welcome {
     display: inline-block;
+    padding-right: 6px;
 }
-.header-box .header .header-top .login-info .userinfo{
-    color: #f70;
+
+.header-box .header .header-top .login-info .userinfo {
+    color: #FF464E;
+    padding-right: 16px;
+    font-weight: bold;
 }
-.header-box .header .header-top .login-info .user-exit{
+
+.header-box .header .header-top .login-info .user-exit {
     display: inline-block;
 }
 
-.header-box .header .header-top .list-nav{
+.header-box .header .header-top .login-info a:hover {
+    color: #FF464E;
+}
+
+.header-box .header .header-top .list-nav {
     float: right;
 }
-.header-box .header .header-top .list-nav li{
+
+.header-box .header .header-top .list-nav li {
     float: left;
-    padding-right: 16px;
+    padding-right: 20px;
 }
-.header-box .header .header-top .list-nav li a{
+
+.header-box .header .header-top .list-nav li a {
     cursor: pointer;
 }
 
-.header-box .header .header-nav{
+.header-box .header .header-top .list-nav li a:hover {
+    color: #FF464E;
+}
+
+.header-box .header-nav {
     width: 100%;
     float: left;
+    background-color: #ffffff;
+    position: relative;
 }
+
+.header-box .header-nav .header-nav-cont {
+    width: 1200px;
+    height: 80px;
+    margin: 0px auto;
+    position: relative;
+    padding: 20px 0px;
+    overflow: hidden;
+}
+
+.header-box .header-nav .header-nav-cont .header-logo {
+    width: 360px;
+    height: 80px;
+    float: left;
+    overflow: hidden;
+    padding-right: 40px;
+}
+
+.header-box .header-nav .header-nav-cont .header-logo img {
+    width: 200px;
+    height: 80px;
+}
+
+.header-box .header-nav .nav {
+    float: left;
+    position: relative;
+    height: 80px;
+}
+
+.header-box .header-nav .nav li {
+    float: left;
+    margin: 0px 10px;
+    line-height: 78px;
+}
+
+.header-box .header-nav .nav li a {
+    display: block;
+    height: 80px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0px 10px;
+}
+
+.header-box .header-nav .nav li:hover a {
+    color: #FF464E;
+    border-bottom: 2px solid #FF464E;
+}
+
 
 /**
  * main body
  */
-.personal-member{
+.content-box {
     width: 100%;
     float: left;
     position: relative;
 }
-.cont{
+
+.cont {
     width: 1200px;
-    margin: 0px auto;
+    margin: 25px auto;
     position: relative;
 }
-.cont .cont-side{
+
+.cont .cont-side {
     width: 200px;
     float: left;
     position: relative;
     overflow: hidden;
 }
-.cont-side .side-neck{
-    position: absolute;
-    top: -10px;
-    left: -14px;
-    width: 185px;
-    height: 18px;
+
+.cont-side .side-neck {
+    width: 198px;
+    float: left;
+    height: 20px;
     background: #FFF;
     border: solid 1px #FFF;
-    border-radius: 18px;
+    border-radius: 20px;
     box-shadow: 0 2px 5px #e3e3e3;
     z-index: 10;
 }
-.cont-side .side-neck i{
+
+.cont-side .side-neck i {
     display: block;
-    margin: 5px 7px;
+    margin: 5px 5px;
     height: 8px;
     background: #DDD;
     border: solid 1px #DDD;
     border-radius: 15px;
 }
 
+.cont-side .side-menu {
+    width: 180px;
+    float: left;
+    margin-left: 10px;
+    position: relative;
+    top: -10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px #e3e3e3, -1px 2px 5px #e3e3e3;
+}
+
+.cont-side .side-menu-tree {
+    width: 120px;
+    position: relative;
+    float: left;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding: 16px 10px 30px 50px;
+    overflow: hidden;
+}
+
+.cont-side .side-menu-tree dt {
+    font-size: 14px;
+    line-height: 30px;
+    font-family: "Microsoft YaHei";
+    font-weight: 700;
+    padding-top: 6px;
+}
+
+.cont-side .side-menu-tree dd {
+    font-size: 12px;
+    line-height: 26px;
+    font-family: "Microsoft YaHei";
+}
+
+.cont-side .side-menu-tree dd a:hover {
+    color: #FF464E;
+}
+
+.cont-side .icon-up-side {
+    width: 100%;
+    float: left;
+    display: block;
+    background: #f5f5f5;
+    height: 20px;
+    _height: 0;
+    transition: all .2s;
+    text-align: center;
+}
+
+.cont-side .icon-up-side i {
+    display: inline-block;
+    height: 0;
+    width: 0;
+    border: solid 5px #f5f5f5;
+    margin-top: 3px;
+    border-bottom-color: #BBB;
+}
+
+
+/**
+ * 右侧内容
+ */
+.cont .cont-main {
+    width: 980px;
+    margin-left: 20px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
 
