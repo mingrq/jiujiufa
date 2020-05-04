@@ -316,10 +316,87 @@ a {
  * 右侧内容
  */
 .cont .cont-main {
-    width: 980px;
+    width: 940px;
     margin-left: 20px;
     float: left;
     position: relative;
     overflow: hidden;
+    padding: 20px;
+    background-color: #ffffff;
 }
+
+.cont .cont-main .title {
+    width: 930px;
+    font-size: 18px;
+    float: left;
+    line-height: 20px;
+    margin-bottom: 18px;
+    padding-left: 7px;
+    border-left: 3px solid #fa3b4a;
+    overflow: hidden;
+}
+
+
+/**
+ * 会员中心
+ */
+.personal {
+    width: 940px;
+    float: left;
+}
+.personal .personal-photo{
+    width: 120px;
+    float: left;
+    position: relative;
+}
+.personal .personal-photo img{
+    width: 120px;
+    height: 120px;
+}
+.personal .personal-info{
+    width: 800px;
+    padding-left: 20px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+.personal .personal-info .item{
+    width: 800px;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px dashed #eaeaea;
+    overflow: hidden;
+    font-size: 14px;
+}
+.personal .personal-info .item .item-title{
+    width: 70px;
+    float: left;
+    text-align: right;
+}
+.personal .personal-info .item .item-value{
+    width: 720px;
+    padding-left: 10px;
+    float: left;
+    overflow: hidden;
+}
+.personal .update-personal-info{
+    width: 100%;
+    float: left;
+    text-align: center;
+    padding: 16px 0px;
+}
+.personal .update-personal-info .subbtn{
+    width: 120px;
+    text-align: center;
+    background-color: #FF464E;
+    color: #ffffff;
+    border: none;
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
 
