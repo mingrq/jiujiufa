@@ -11,7 +11,7 @@ namespace app\admin\controller;
 
 class Login extends AdminBaseController
 {
-    public function login() {
-        return $this->fetch();
+    public function index() {
+        return $this->fetch('login');
     }
 }

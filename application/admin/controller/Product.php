@@ -14,7 +14,7 @@ class Product extends AdminBaseController
 
     public function productslist()
     {
-        return $this->fetch("Products_List");
+        return $this->fetch();
     }
 
 }
