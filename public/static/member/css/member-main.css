@@ -344,23 +344,27 @@ a {
     width: 940px;
     float: left;
 }
-.personal .personal-photo{
+
+.personal .personal-photo {
     width: 120px;
     float: left;
     position: relative;
 }
-.personal .personal-photo img{
+
+.personal .personal-photo img {
     width: 120px;
     height: 120px;
 }
-.personal .personal-info{
+
+.personal .personal-info {
     width: 800px;
     padding-left: 20px;
     float: left;
     overflow: hidden;
     position: relative;
 }
-.personal .personal-info .item{
+
+.personal .personal-info .item {
     width: 800px;
     float: left;
     height: 50px;
@@ -369,25 +373,40 @@ a {
     overflow: hidden;
     font-size: 14px;
 }
-.personal .personal-info .item .item-title{
+
+.personal .personal-info .item .item-title {
     width: 70px;
     float: left;
     text-align: right;
 }
-.personal .personal-info .item .item-value{
+
+.personal .personal-info .item .item-value {
     width: 720px;
     padding-left: 10px;
     float: left;
     overflow: hidden;
 }
-.personal .update-personal-info{
+
+.personal .personal-info .item .item-value input {
+    display: inline;
+    width: 285px;
+    height: 36px;
+    margin-left: 22px;
+    padding: 0px 10px;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+}
+
+.personal .update-userinfo-button {
     width: 100%;
     float: left;
     text-align: center;
     padding: 16px 0px;
 }
-.personal .update-personal-info .subbtn{
-    width: 120px;
+
+.personal .update-userinfo-button button {
+    width: 100px;
     text-align: center;
     background-color: #FF464E;
     color: #ffffff;
