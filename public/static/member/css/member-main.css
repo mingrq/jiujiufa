@@ -355,6 +355,18 @@ a {
     width: 120px;
     height: 120px;
 }
+.personal .personal-photo .update-personal-photo{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    line-height: 25px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.personal .personal-photo .update-personal-photo:hover{
+    color: #fa3b4a;
+}
 
 .personal .personal-info {
     width: 800px;
