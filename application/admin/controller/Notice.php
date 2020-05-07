@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: ming
- * Date: 2020/5/6
- * Time: 23:04
+ * Date: 2020/5/7
+ * Time: 20:20
  */
 
 namespace app\admin\controller;
 
 
-class Membermanagement extends AdminBaseController
+class Notice extends AdminBaseController
 {
 
     public function index(){
-       return $this->fetch('memberlist');
+        return $this->fetch('notice');
     }
 }

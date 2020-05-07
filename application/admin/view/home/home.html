@@ -24,13 +24,7 @@
     <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="page-content clearfix">
-    <div class="alert alert-block alert-success">
-        <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-        <i class="icon-ok green"></i>欢迎使用<strong class="green">后台管理系统
-        <small>(v1.2)</small>
-    </strong>,你本次登录时间为2016年7月12日13时34分，登录IP:192.168.1.110.
-    </div>
+<div class="page-content clearfix" >
     <div class="state-overview clearfix">
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
@@ -63,7 +57,7 @@
                 </div>
                 <div class="value">
                     <h1>345</h1>
-                    <p>商城订单</p>
+                    <p>礼品订单</p>
                 </div>
             </section>
         </div>
@@ -86,51 +80,23 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <td class="name">未处理订单：</td>
+                    <td class="name">已成交订单数：</td>
                     <td class="munber"><a href="#">0</a>&nbsp;个</td>
                 </tr>
                 <tr>
-                    <td class="name">待发货订单：</td>
-                    <td class="munber"><a href="#">10</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">待结算订单：</td>
-                    <td class="munber"><a href="#">13</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">已成交订单数：</td>
-                    <td class="munber"><a href="#">26</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">交易失败：</td>
+                    <td class="name">未支付订单数：</td>
                     <td class="munber"><a href="#">26</a>&nbsp;个</td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="Order_Statistics">
-            <div class="title_name">商品统计信息</div>
+            <div class="title_name">礼品统计信息</div>
             <table class="table table-bordered">
                 <tbody>
                 <tr>
                     <td class="name">商品总数：</td>
                     <td class="munber"><a href="#">340</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">回收站商品：</td>
-                    <td class="munber"><a href="#">10</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">上架商品：</td>
-                    <td class="munber"><a href="#">13</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">下架商品：</td>
-                    <td class="munber"><a href="#">26</a>&nbsp;个</td>
-                </tr>
-                <tr>
-                    <td class="name">商品评论：</td>
-                    <td class="munber"><a href="#">21s6</a>&nbsp;条</td>
                 </tr>
 
                 </tbody>
@@ -145,14 +111,6 @@
                     <td class="munber"><a href="#">3240</a>&nbsp;次</td>
                 </tr>
                 <tr>
-                    <td class="name">新浪会员登录：</td>
-                    <td class="munber"><a href="#">1130</a>&nbsp;次</td>
-                </tr>
-                <tr>
-                    <td class="name">支付宝登录：</td>
-                    <td class="munber"><a href="#">1130</a>&nbsp;次</td>
-                </tr>
-                <tr>
                     <td class="name">QQ会员登录：</td>
                     <td class="munber"><a href="#">1130</a>&nbsp;次</td>
                 </tr>
@@ -162,47 +120,37 @@
         <!--<div class="t_Record">
           <div id="main" style="height:300px; overflow:hidden; width:100%; overflow:auto" ></div>
          </div> -->
-        <div class="news_style">
-            <div class="title_name">最新消息</div>
-            <ul class="list">
-                <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-                <li><i class="icon-bell red"></i><a href="#">6月共处理订单3451比，作废为...</a></li>
-                <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-                <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-                <li><i class="icon-bell red"></i><a href="#">后台系统找那个是开通了。</a></li>
-            </ul>
-        </div>
     </div>
     <!--记录-->
     <div class="clearfix">
         <div class="home_btn">
             <div>
                 <a href="../moban/picture-add.html" title="添加商品" class="btn  btn-info btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/icon-addp.png"/></i>
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-addp.png"/></i>
                     <h5 class="margin-top">添加商品</h5>
                 </a>
                 <a href="../moban/Category_Manage.html" title="产品分类" class="btn  btn-primary btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/icon-cpgl.png"/></i>
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-cpgl.png"/></i>
                     <h5 class="margin-top">产品分类</h5>
                 </a>
-                <a href="../administrator/admin_info.html" title="个人信息" class="btn  btn-success btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/icon-grxx.png"/></i>
+                <a href="/admin/administrator.html" title="个人信息" class="btn  btn-success btn-sm no-radius">
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-grxx.png"/></i>
                     <h5 class="margin-top">个人信息</h5>
                 </a>
                 <a href="../moban/Systems.html" title="系统设置" class="btn  btn-info btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/xtsz.png"/></i>
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/xtsz.png"/></i>
                     <h5 class="margin-top">系统设置</h5>
                 </a>
-                <a href="../moban/Order_handling.html" title="商品订单" class="btn  btn-purple btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/icon-gwcc.png"/></i>
+                <a href="../orderform/Order_handling.html" title="商品订单" class="btn  btn-purple btn-sm no-radius">
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-gwcc.png"/></i>
                     <h5 class="margin-top">商品订单</h5>
                 </a>
                 <a href="../moban/picture-add.html" title="添加广告" class="btn  btn-pink btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/icon-ad.png"/></i>
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-ad.png"/></i>
                     <h5 class="margin-top">添加广告</h5>
                 </a>
                 <a href="../moban/article_add.html" title="添加文章" class="btn  btn-info btn-sm no-radius">
-                    <i class="bigger-200"><img src="../../../../static/admin/images/icon-addwz.png"/></i>
+                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-addwz.png"/></i>
                     <h5 class="margin-top">添加文章</h5>
                 </a>
             </div>
