@@ -355,7 +355,8 @@ a {
     width: 120px;
     height: 120px;
 }
-.personal .personal-photo .update-personal-photo{
+
+.personal .personal-photo .update-personal-photo {
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -364,7 +365,8 @@ a {
     background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
-.personal .personal-photo .update-personal-photo:hover{
+
+.personal .personal-photo .update-personal-photo:hover {
     color: #fa3b4a;
 }
 
@@ -429,5 +431,50 @@ a {
     cursor: pointer;
 }
 
+
+.cont-main-box {
+    width: 940px;
+    float: left;
+}
+
+.payorder-step {
+    width: 910px;
+    float: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #F4F5F6;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.payorder-selcangku{
+    width: 100%;
+    float: left;
+    margin: 10px 0px;
+}
+.payorder-selcangku li{
+    display: inline-block;
+    float: left;
+    line-height: 36px;
+    padding: 0px 15px;
+    font-size: 14px;
+    background-color: #C1C1C1;
+    color: #ffffff;
+    margin: 10px;
+    cursor: pointer;
+}
+.payorder-selcangku li:hover{
+    background-color: #FF464E;
+}
+.payorder-sellipin{
+    width: 100%;
+    float: left;
+    margin: 10px 0px;
+}
+.payorder-sellipin select{
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+}
 
 
