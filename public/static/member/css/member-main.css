@@ -476,5 +476,76 @@ a {
     height: 30px;
     font-size: 14px;
 }
+.payorder-orderanli{
+    width: 100%;
+    float: left;
+    margin: 10px 0px;
+}
+.payorder-orderanli .orderanli-pic{
+    width: 100%;
+    float: left;
+    margin: 10px 0px;
+}
+.payorder-orderanli .orderanli-explain{
+    width: 100%;
+    float: left;
+}
+.payorder-orderanli .orderanli-explain p{
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FF464E;
+}
+.payorder-order-add{
+    width: 100%;
+    float: left;
+    margin: 10px 0px;
+}
+.payorder-order-add .order-add-lists{
+    width: 100%;
+}
+.payorder-order-add .order-add-lists textarea{
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ccc;
+}
+.payorder-order-add .order-add-btns{
+    width: 100%;
+    float: left;
+    margin: 10px 0px;
+}
+.payorder-order-add .order-add-btns .add-btn{
+    display: inline-block;
+    border: none;
+    border-radius: 3px;
+    line-height: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    color: #ffffff;
+    margin: 3px 8px;
+    background-color: #FF464E;
+    cursor: pointer;
+}
+.order-submit{
+    width: 100%;
+    margin: 10px 0px;
+    float: left;
+    text-align: center;
+}
+.order-submit button{
+    display: inline-block;
+    border: none;
+    line-height: 36px;
+    background-color: #FF464E;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 
 
