@@ -58,21 +58,21 @@
             });
             //初始化宽度、高度
 
-            $("#main-container").height($(window).height() - 76);
+            $("#main-container").height($(window).height() - 75);
             $("#iframe").height($(window).height() - 140);
 
-            $(".sidebar").height($(window).height() - 99);
-            var thisHeight = $("#nav_list").height($(window).outerHeight() - 173);
+            $(".sidebar").height($(window).height() - 75);
+            var thisHeight = $("#nav_list").height($(window).outerHeight() - 103);
             $(".submenu").height();
             $("#nav_list").children(".submenu").css("height", thisHeight);
 
             //当文档窗口发生改变时 触发
             $(window).resize(function () {
-                $("#main-container").height($(window).height() - 76);
+                $("#main-container").height($(window).height() - 75);
                 $("#iframe").height($(window).height() - 140);
-                $(".sidebar").height($(window).height() - 99);
+                $(".sidebar").height($(window).height() - 75);
 
-                var thisHeight = $("#nav_list").height($(window).outerHeight() - 173);
+                var thisHeight = $("#nav_list").height($(window).outerHeight() - 103);
                 $(".submenu").height();
                 $("#nav_list").children(".submenu").css("height", thisHeight);
             });
