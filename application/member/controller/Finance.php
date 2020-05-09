@@ -4,9 +4,11 @@
  */
 
 namespace app\member\controller;
+
 use app\common\controller\MemberBase;
 
-class Finance extends MemberBase{
+class Finance extends MemberBase
+{
     public function _initialize()
     {
         parent::_initialize();
@@ -16,6 +18,14 @@ class Finance extends MemberBase{
      * 充值记录
      */
     public function rechargeRecord()
+    {
+        return $this->fetch();
+    }
+
+    /**
+     * 资金明细
+     */
+    public function cashRecord()
     {
         return $this->fetch();
     }

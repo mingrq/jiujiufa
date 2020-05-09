@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>会员中心</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<!--HEADER-->
+{include file="public/header" /}
+<!--END HEADER-->
+<!--content-box-->
+<div class="content-box">
+    <div class="cont">
+        <!-- cont-side -->
+        {include file="public/left" /}
+        <!-- END cont-side -->
+        <!-- cont-main -->
+        <div class="cont-main">
+            <div class="title">升级代理</div>
+            <div class="cont-main-box">
+                <div class="upvip-explain">
+                    <p>一次性充值满50元，或充值累积满50元。可自动升级为永久VIP会员。</p>
+                    <p>一次性充值满50元，或充值累积满50元。可自动升级为永久VIP会员。</p>
+                </div>
+                <div class="upvip-upgrade">
+                    <table>
+                        <tr>
+                            <td class="td-title">用 户 名：</td>
+                            <td class="td-value">123456789123</td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">当前级别：</td>
+                            <td class="td-value">代理会员</td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">可用余额：</td>
+                            <td class="td-value">0.00 <span class="yue-util">元</span></td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">升级会员：</td>
+                            <td class="td-value">
+                                <select class="levels">
+                                    <option value="1">代理会员代理会员</option>
+                                    <option value="2">VIP会员</option>
+                                </select>
+                                <button class="upgrade-btn">升 级</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END cont-main -->
+    </div>
+    <div class="clear"></div>
+</div>
+<!--END content-box-->
+<!-- footer -->
+{include file="public/footer" /}
+<!-- END footer -->
+</body>
+</html>
