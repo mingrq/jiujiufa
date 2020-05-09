@@ -102,6 +102,26 @@ a {
     clear: both
 }
 
+.pagelist{
+    width: 90%;
+    margin: 16px auto;
+    float: left;
+    text-align: center;
+}
+
+.pagelist a{
+    display: inline-block;
+    line-height: 24px;
+    border: 1px solid #cccccc;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.pagelist a:hover{
+    color: #FF464E;
+    border: 1px solid #FF464E;
+}
 
 /**
  *  header
@@ -613,4 +633,77 @@ a {
     font-size: 12px;
     line-height: 36px;
     border-bottom: 1px solid #F4F5F6;
+}
+
+.spread-line{
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    line-height: 36px;
+    padding-left: 20px;
+}
+.spread-line .copymyline{
+    margin-left: 20px;
+    color: #FF464E;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/**
+ * 升级代理
+ */
+.upvip-explain{
+    width: 90%;
+    padding: 20px 3%;
+    margin: 10px 2%;
+    float: left;
+    background-color: #F4F5F6;
+}
+.upvip-explain p{
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.upvip-upgrade{
+    width: 96%;
+    padding: 10px 0px;
+    margin: 10px 2%;
+    float: left;
+}
+.upvip-upgrade table{
+    width: 100%;
+}
+.upvip-upgrade table tr td{
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.upvip-upgrade table .td-title{
+    width: 120px;
+    text-align: right;
+}
+.upvip-upgrade table .td-value{
+    text-align: left;
+    color: #FF464E;
+}
+.upvip-upgrade table .td-value .yue-util{
+    color: #333333;
+}
+.upvip-upgrade table .td-value .levels{
+    width: 200px;
+    height: 30px;
+    font-size: 14px;
+}
+.upvip-upgrade table .td-value .upgrade-btn{
+    display: inline-block;
+    border: none;
+    border-radius: 3px;
+    line-height: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-left: 10px;
+    background-color: #FF464E;
+    cursor: pointer;
 }

@@ -11,6 +11,9 @@ class Index extends MemberBase
         parent::_initialize();
     }
 
+    /**
+     * 会员中心 首页
+     */
     public function index()
     {
         return $this->fetch();

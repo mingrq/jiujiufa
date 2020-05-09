@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>会员中心</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<!--HEADER-->
+{include file="public/header" /}
+<!--END HEADER-->
+<!--content-box-->
+<div class="content-box">
+    <div class="cont">
+        <!-- cont-side -->
+        {include file="public/left" /}
+        <!-- END cont-side -->
+        <!-- cont-main -->
+        <div class="cont-main">
+            <div class="title">个人中心</div>
+            <div class="personal">
+                <div class="personal-photo">
+                    <img src="/static/member/images/default-photo.png"/>
+                </div>
+                <div class="personal-info">
+                    <div class="item">
+                        <div class="item-title">用户名：</div>
+                        <div class="item-value">赵大宝</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-title">用户名：</div>
+                        <div class="item-value">赵大宝</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-title">用户名：</div>
+                        <div class="item-value">赵大宝</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-title">用户名：</div>
+                        <div class="item-value">赵大宝</div>
+                    </div>
+                </div>
+                <div class="update-userinfo-button">
+                    <button onclick="javascript:window.location.href='{:url(\'member/account/updatePersonInfo\');}';">修 改</button>
+                </div>
+            </div>
+        </div>
+        <!-- END cont-main -->
+    </div>
+    <div class="clear"></div>
+</div>
+<!--END content-box-->
+<!-- footer -->
+{include file="public/footer" /}
+<!-- END footer -->
+</body>
+</html>
