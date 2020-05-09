@@ -5,71 +5,54 @@
 /* 引用全局定义 */
 require __DIR__ . '/common_global.php';
 
-/**
- * 写入缓存
- *
- * @param string $key 缓存键值
- * @param array $data 缓存数据
- * @param string $prefix 键值前缀
- * @param int $expire 缓存周期  单位分，0为永久缓存
- * @return bool 返回值
- */
-function wcache($key = null, $data = array(), $prefix='', $expire = 3600)
-{
-    if ($key === null || !is_array($data))
-        return;
 
-    if (!empty($prefix)) {
-        $name = $prefix . $key;
+/**
+ * KV缓存 读
+ *
+ * @param string $key 缓存名称
+ * @param boolean $callback 缓存读取失败时是否使用回调 true代表使用cache.model中预定义的缓存项 默认不使用回调
+ * @param callable $callback 传递非boolean值时 通过is_callable进行判断 失败抛出异常 成功则将$key作为参数进行回调
+ * @return mixed
+ */
+function rkcache($key, $callback = false)
+{
+    $value = cache($key);
+    if (empty($value) && $callback !== false) {
+        if ($callback === true) {
+            $callback = array(model('cache'), 'call');
+        }
+
+        if (!is_callable($callback)) {
+            exception('Invalid rkcache callback!');
+        }
+        $value = call_user_func($callback, $key);
+        wkcache($key, $value);
     }
-    else {
-        $name = $key;
-    }
-    $cache_info = cache($name, $data, $expire);
-    //如果设置成功返回true，否则返回false。
-    return $cache_info;
+    return $value;
 }
 
 /**
- * 读取缓存信息
+ * KV缓存 写
  *
- * @param string $key 要取得缓存键
- * @param string $prefix 键值前缀
- * @return array/bool
- */
-function rcache($key = null, $prefix = '')
-{
-    if ($key === null)
-        return array();
-    if (!empty($prefix)) {
-        $name = $prefix . $key;
-    }
-    else {
-        $name = $key;
-    }
-    $cache_info = cache($name);
-
-    //如果name值不存在，则默认返回 false。
-    return $cache_info;
-}
-
-/**
- * 删除缓存
- * @param string $key 缓存键值
- * @param string $prefix 键值前缀
+ * @param string $key 缓存名称
+ * @param mixed $value 缓存数据 若设为否 则下次读取该缓存时会触发回调（如果有）
+ * @param int $expire 缓存时间 单位秒 null代表不过期
  * @return boolean
  */
-function dcache($key = null, $prefix = '')
+function wkcache($key, $value, $expire = 7200)
 {
-    if ($key === null)
-        return true;
-    if (!empty($prefix)) {
-        $name = $prefix . $key;
-    }
-    else {
-        $name = $key;
-    }
-    return cache($name, NULL);
+    return cache($key, $value, $expire);
+}
+
+/**
+ * KV缓存 删
+ *
+ * @param string $key 缓存名称
+ * @return boolean
+ */
+function dkcache($key)
+{
+    return cache($key, NULL);
 }
 
 
