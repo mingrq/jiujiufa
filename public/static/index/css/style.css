@@ -1,0 +1,261 @@
+@charset "utf-8";
+a,
+body {
+    color: #333;
+}
+
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+legend,
+li,
+ol,
+p,
+td,
+textarea,
+th,
+ul {
+    margin: 0;
+    padding: 0
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font: 12px/1.5 arial, tahoma, \5b8b\4f53
+}
+
+body {
+    background-color: #f4f5f6;
+    font-family: 微软雅黑;
+    font-size: 12px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%
+}
+
+fieldset,
+img {
+    border: 0
+}
+
+li,
+ol,
+ul {
+    list-style: none
+}
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%;
+    outline: 0
+}
+
+textarea {
+    resize: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+input[type='text'],
+input[type='password'] {
+    display: inline-block;
+    width: 300px;
+    height: 30px;
+    padding: 0px 10px;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+}
+
+a {
+    text-decoration: none
+}
+
+.clear {
+    display: block;
+    height: 0;
+    clear: both
+}
+
+.pagelist {
+    width: 90%;
+    margin: 16px auto;
+    float: left;
+    text-align: center;
+}
+
+.pagelist a {
+    display: inline-block;
+    line-height: 24px;
+    border: 1px solid #cccccc;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.pagelist a:hover {
+    color: #FF464E;
+    border: 1px solid #FF464E;
+}
+
+
+/**
+ *  header
+ */
+.header-box {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+.header-box .header {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+.header-box .header .header-top {
+    width: 1200px;
+    margin: 0px auto;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+.header-box .header .header-top .login-info {
+    float: left;
+}
+
+.header-box .header .header-top .login-info .welcome {
+    display: inline-block;
+    padding-right: 6px;
+}
+
+.header-box .header .header-top .login-info .userinfo {
+    color: #FF464E;
+    padding-right: 16px;
+    font-weight: bold;
+}
+
+.header-box .header .header-top .login-info .user-exit {
+    display: inline-block;
+}
+
+.header-box .header .header-top .login-info a:hover {
+    color: #FF464E;
+}
+
+.header-box .header .header-top .list-nav {
+    float: right;
+}
+
+.header-box .header .header-top .list-nav li {
+    float: left;
+    padding-right: 20px;
+}
+
+.header-box .header .header-top .list-nav li a {
+    cursor: pointer;
+}
+
+.header-box .header .header-top .list-nav li a:hover {
+    color: #FF464E;
+}
+
+.header-box .header-nav {
+    width: 100%;
+    float: left;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.header-box .header-nav .header-nav-cont {
+    width: 1200px;
+    height: 80px;
+    margin: 0px auto;
+    position: relative;
+    padding: 20px 0px;
+    overflow: hidden;
+}
+
+.header-box .header-nav .header-nav-cont .header-logo {
+    width: 360px;
+    height: 80px;
+    float: left;
+    overflow: hidden;
+    padding-right: 40px;
+}
+
+.header-box .header-nav .header-nav-cont .header-logo img {
+    width: 200px;
+    height: 80px;
+}
+
+.header-box .header-nav .nav {
+    float: left;
+    position: relative;
+    height: 80px;
+}
+
+.header-box .header-nav .nav li {
+    float: left;
+    margin: 0px 10px;
+    line-height: 78px;
+}
+
+.header-box .header-nav .nav li a {
+    display: block;
+    height: 80px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0px 10px;
+}
+
+.header-box .header-nav .nav li:hover a {
+    color: #FF464E;
+    border-bottom: 2px solid #FF464E;
+}
+
+
+/**
+ * main body
+ */
+.content-box {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+.cont {
+    width: 1200px;
+    margin: 25px auto;
+    position: relative;
+}
+
+
