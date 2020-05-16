@@ -36,9 +36,9 @@ class Admin extends Model
      * @param string $field 字段
      * @return array
      */
-    public function getAdminInfo($condition)
+    public function getAdminInfo($condition,$field='*')
     {
-        $res = db('admin')->where($condition)->find();
+        $res = db('admin')->field($field)->where($condition)->find();
         return $res;
     }
 
