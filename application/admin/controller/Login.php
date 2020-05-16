@@ -23,7 +23,7 @@ class Login extends Controller
             $condition['admin_loginname'] = $admin_name;
             $condition['admin_pw'] = md5($admin_password);
 
-            $admin_mod = model('login');
+            $admin_mod = model('admin');
             $admin_info = $admin_mod->getAdminInfo($condition);
 
             if (is_array($admin_info) and !empty($admin_info)) {
