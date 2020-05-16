@@ -20,14 +20,6 @@ class AdminBaseController extends Controller
 
     public function _initialize() {
         $this->admin_info = $this->systemLogin();
-        $config_list = rkcache('config', true);
-        config($config_list);
-
-        if ($this->admin_info['admin_id'] != 1) {
-            // 验证权限
-            $this->checkPermission();
-        }
-        $this->setMenuList();
     }
 
     /**

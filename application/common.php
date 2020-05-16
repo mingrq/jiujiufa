@@ -115,7 +115,22 @@ function http_request($url, $method = "GET", $postfields = null, $headers = arra
 }
 
 
-
+/**
+ *
+ * @param type $code   100000表示为正确,其他为错误代码
+ * @param type $message  提示消息
+ * @param type $result  返回数据
+ */
+function ds_json_encode($code, $message="", $result = '')
+{
+    $data = array('code' => $code, 'message' => $message, 'result' => $result);
+    if (!empty($_GET['callback'])) {
+        echo $_GET['callback'] . '(' . json_encode($data) . ')';
+    } else {
+        echo json_encode($data);
+    }
+    exit;
+}
 
 /**
  * 取得随机数

@@ -6,7 +6,7 @@
  * Time: 13:17
  */
 
-namespace app\model;
+namespace app\common\model;
 use think\Model;
 
 
@@ -21,12 +21,26 @@ class Login extends Model
      * @param string $field 字段
      * @return array
      */
-    public function getMemberInfo($condition, $field = '*')
+    public function getMemberInfo($condition)
     {
-        $res = db('member')->field($field)->where($condition)->find();
+        $res = db('member')->where($condition)->find();
         return $res;
     }
 
+
+    /**
+     * 会员详细信息（查库）
+     * @access public
+     * @author csdeshang
+     * @param array $condition 条件
+     * @param string $field 字段
+     * @return array
+     */
+    public function getAdminInfo($condition)
+    {
+        $res = db('admin')->where($condition)->find();
+        return $res;
+    }
 
     /**
      * 取得会员详细信息（优先查询缓存）
