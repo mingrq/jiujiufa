@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<!--HEADER-->
+{include file="public/header" /}
+<!--END HEADER-->
+<div class="login-bg">
+    <div class="login-bg-box">
+        <img class="login-bg-img" src="/static/member/images/login-bg01.jpg" />
+        <div class="login-box">
+            <div class="ltitle">会员登录</div>
+            <form action="{:url('member/login/login')}" method="post">
+                <div class="login-input">
+                    <label><img src="/static/member/images/login-account-icon.png" /></label>
+                    <input type="text" name="muserid" placeholder="账号" />
+                </div>
+                <div class="login-input">
+                    <label><img src="/static/member/images/login-pwd-icon.png"></label>
+                    <input type="password" name="password" placeholder="密码" />
+                </div>
+                <div class="login-btn">
+                    <input type="submit" value="登 录" class="subbtn" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+{include file="public/footer" /}
+<!-- END footer -->
+</body>
+</html>

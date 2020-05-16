@@ -241,6 +241,102 @@ a {
 }
 
 
+
+/**
+ * footer 底部
+ */
+.footer-top{
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    padding: 30px 0px;
+    border-bottom: 2px solid #eeeeee;
+    background-color: #ffffff;
+}
+.footer-top-box{
+    width: 1200px;
+    margin: 0px auto;
+    position: relative;
+    overflow: hidden;
+}
+.footer-top-main{
+    width: 100%;
+    float: left;
+}
+.footer-top-main ul{
+    width: 100%;
+    float: left;
+}
+.footer-top-main ul .ft-single{
+    width: 270px;
+    float: left;
+    margin-right: 40px;
+    overflow: hidden;
+}
+.footer-top-main ul .ft-single.nom{
+    margin-right: 0px;
+}
+
+.footer-top-main ul .ft-single .footer-top-icon{
+    width: 50px;
+    height: 50px;
+    float: left;
+    overflow: hidden;
+}
+.footer-top-main ul .ft-single .footer-top-icon img{
+    width: 100%;
+    height: 100%;
+}
+.footer-top-main ul .ft-single .footer-top-info{
+    width: 200px;
+    float: left;
+    padding-left: 20px;
+}
+.footer-top-main ul .ft-single .footer-top-info .ftitle{
+    width: 100%;
+    line-height: 30px;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
+}
+.footer-top-main ul .ft-single .footer-top-info .fdev{
+    width: 100%;
+    line-height: 20px;
+    float: left;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+
+
+.footer-box {
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    padding: 30px 0px;
+    background-color: #ffffff;
+}
+.footer{
+    width: 1200px;
+    margin: 0px auto;
+    position: relative;
+    overflow: hidden;
+}
+.footer-main{
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+.footer-main p{
+    line-height: 30px;
+    font-size: 12px;
+}
+
+
+
 /**
  * main body
  */
@@ -437,6 +533,12 @@ a {
     margin-left: 22px;
     margin-top: 6px;
 }
+.personal .personal-info .item .item-value span{
+    line-height: 36px;
+    color: #999999;
+    font-size: 12px;
+    padding-left: 10px;
+}
 
 .personal .update-userinfo-button {
     width: 100%;
@@ -446,6 +548,17 @@ a {
 }
 
 .personal .update-userinfo-button button {
+    width: 100px;
+    text-align: center;
+    background-color: #FF464E;
+    color: #ffffff;
+    border: none;
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.personal .update-userinfo-button .insubbtn {
     width: 100px;
     text-align: center;
     background-color: #FF464E;
@@ -707,3 +820,84 @@ a {
     background-color: #FF464E;
     cursor: pointer;
 }
+
+
+/************* 登录 *****************/
+.login-bg{
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    background: rgb(57, 205, 235) none repeat scroll 0% 0%;
+}
+.login-bg-box{
+    width: 1200px;
+    margin: 0px auto;
+    position: relative;
+    overflow: hidden;
+}
+.login-bg-box .login-bg-img{
+    display: block;
+    width: 1200px;
+    height: 600px;
+    position: relative;
+}
+
+.login-box{
+    position: absolute;
+    width: 360px;
+    right: 0px;
+    top: 50px;
+    background-color: #ffffff;
+    padding: 30px;
+    box-sizing: border-box;
+}
+.login-box .ltitle{
+    text-align: center;
+    font-size: 20px;
+    color: #8c8c8c;
+    line-height: 40px;
+    margin-bottom: 30px;
+}
+.login-box .login-input{
+    margin-bottom: 15px;
+    border: 1px solid #e1e1e1;
+    height: 36px;
+}
+.login-box .login-input label{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    padding: 8px;
+    float: left;
+}
+.login-box .login-input label img{
+    width: 100%;
+    height: 100%;
+}
+.login-box .login-input input{
+    border: none;
+    color: #666666;
+    outline: none;
+    height: 36px;
+    font-size: 16px;
+    width: 250px;
+    padding: 0px;
+    margin: 0px;
+    float: left;
+}
+
+.login-box .login-btn .subbtn{
+    width: 100%;
+    border: none;
+    background-color: #FF464E;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 36px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+

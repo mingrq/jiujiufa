@@ -27,23 +27,34 @@
                 <div class="upvip-upgrade">
                     <table>
                         <tr>
-                            <td class="td-title">用 户 名：</td>
-                            <td class="td-value">123456789123</td>
+                            <td class="td-title">用户名：</td>
+                            <td class="td-value">{$member.member_login_name}</td>
                         </tr>
                         <tr>
                             <td class="td-title">当前级别：</td>
-                            <td class="td-value">代理会员</td>
+                            <td class="td-value">
+                                {if condition="$member.member_rank==1"}
+                                普通会员
+                                {elseif condition="$member.member_rank==2"}
+                                代理会员
+                                {/if}
+                            </td>
                         </tr>
                         <tr>
                             <td class="td-title">可用余额：</td>
-                            <td class="td-value">0.00 <span class="yue-util">元</span></td>
+                            <td class="td-value">{$member.member_balance} <span class="yue-util">元</span></td>
                         </tr>
                         <tr>
                             <td class="td-title">升级会员：</td>
                             <td class="td-value">
                                 <select class="levels">
-                                    <option value="1">代理会员代理会员</option>
-                                    <option value="2">VIP会员</option>
+                                    {empty name="$rankList"}
+                                    <option value="0">没有代理升级</option>
+                                    {else/}
+                                    {foreach $rankList as $value}
+                                    <option value="{$value.rank_id}">{$value.rank_name}</option>
+                                    {/foreach}
+                                    {/empty}
                                 </select>
                                 <button class="upgrade-btn">升 级</button>
                             </td>

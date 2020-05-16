@@ -3,8 +3,8 @@
         <div class="header-top">
             <div class="login-info">
                 <span class="welcome">你好，欢迎来到玖玖发网！</span>
-                <a href="" class="userinfo">玖玖发</a>
-                <a href="" class="user-exit">退出</a>
+                <a href="" class="userinfo">{$Think.session.MUserName}</a>
+                <a href="{:url('member/login/exitLogin')}" class="user-exit">退出</a>
             </div>
             <ul class="list-nav">
                 <li><a href="">邀请好友</a></li>

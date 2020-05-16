@@ -22,25 +22,31 @@
             <div class="personal">
                 <div class="personal-photo">
                     <img src="/static/member/images/default-photo.png"/>
-                    <div class="update-personal-photo">修改头像</div>
+                    <!--div class="update-personal-photo">修改头像</div-->
                 </div>
-                <form action="" method="">
+                <form action="{:url('member/account/updatePersonInfo')}" method="post">
                     <div class="personal-info">
                         <div class="item">
                             <div class="item-title">用户名：</div>
                             <div class="item-value">
-                                <input type="text" name="" value="赵大宝"/>
+                                <input type="text" value="{$member.member_login_name}" disabled />
                             </div>
                         </div>
                         <div class="item">
                             <div class="item-title">密码：</div>
                             <div class="item-value">
-                                <input type="password" name="" value="12345679"/>
+                                <input type="password" name="password" /> <span>不填写不修改密码</span>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">会员QQ：</div>
+                            <div class="item-value">
+                                <input type="text" name="qqnum" value="{$member.member_qq}" />
                             </div>
                         </div>
                     </div>
                     <div class="update-userinfo-button">
-                        <button>保存修改</button>
+                        <input type="submit" class="insubbtn" value="保存修改" />
                     </div>
                 </form>
             </div>
