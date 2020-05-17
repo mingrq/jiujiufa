@@ -14,4 +14,5 @@ define('BASE_SITE_ROOT', str_replace('/index.php', '', \think\Request::instance(
 define('ADMIN_SITE_ROOT', BASE_SITE_ROOT.'/static/admin');
 //---前端资源路径
 define('INDEX_SITE_ROOT', BASE_SITE_ROOT.'/static/index');
-
+//---公用资源路径
+define('COMMON_SITE_ROOT', BASE_SITE_ROOT.'/static/common');
