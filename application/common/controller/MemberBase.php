@@ -9,8 +9,16 @@ use think\Controller;
 
 class MemberBase extends Controller
 {
+    /**
+     *
+     */
     protected function _initialize()
     {
+        $MUserId = session('MUserId');
+        $MUserName = session('MUserName');
+        if (empty($MUserId) || empty($MUserName)){
+            $this->error("请先登录", url("member/login/login"));
+        }
     }
 
     /**

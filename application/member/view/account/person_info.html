@@ -26,19 +26,33 @@
                 <div class="personal-info">
                     <div class="item">
                         <div class="item-title">用户名：</div>
-                        <div class="item-value">赵大宝</div>
+                        <div class="item-value">{$member.member_login_name}</div>
                     </div>
                     <div class="item">
-                        <div class="item-title">用户名：</div>
-                        <div class="item-value">赵大宝</div>
+                        <div class="item-title">用户级别：</div>
+                        <div class="item-value">
+                            {if condition="$member.member_rank==1"}
+                            普通会员
+                            {elseif condition="$member.member_rank==2"}
+                            代理会员
+                            {/if}
+                        </div>
                     </div>
                     <div class="item">
-                        <div class="item-title">用户名：</div>
-                        <div class="item-value">赵大宝</div>
+                        <div class="item-title">手机号：</div>
+                        <div class="item-value">{$member.member_mobile}</div>
                     </div>
                     <div class="item">
-                        <div class="item-title">用户名：</div>
-                        <div class="item-value">赵大宝</div>
+                        <div class="item-title">会员QQ：</div>
+                        <div class="item-value">{$member.member_qq}</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-title">会员余额：</div>
+                        <div class="item-value">{$member.member_balance} 元</div>
+                    </div>
+                    <div class="item">
+                        <div class="item-title">创建时间：</div>
+                        <div class="item-value">{$member.member_addtime}</div>
                     </div>
                 </div>
                 <div class="update-userinfo-button">

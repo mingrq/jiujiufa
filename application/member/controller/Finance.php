@@ -19,6 +19,7 @@ class Finance extends MemberBase
      */
     public function rechargeRecord()
     {
+
         return $this->fetch();
     }
 
