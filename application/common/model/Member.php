@@ -40,11 +40,11 @@ class Member extends Model
     public function getMemberList($condition = array(), $field = '*', $page = 0, $order = 'member_id desc')
     {
         if ($page) {
-            $member_list = db('member')->field($field)->where($condition)->order($order)->paginate($page,false,['query' => request()->param()]);
+            $member_list = db('v_member')->field($field)->where($condition)->order($order)->paginate($page,false,['query' => request()->param()]);
             return $member_list;
         }
         else {
-            return db('member')->field($field)->where($condition)->order($order)->select();
+            return db('v_member')->field($field)->where($condition)->order($order)->select();
         }
     }
 
