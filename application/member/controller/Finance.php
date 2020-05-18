@@ -6,6 +6,7 @@
 namespace app\member\controller;
 
 use app\common\controller\MemberBase;
+use app\common\model\RechargeRecord;
 
 class Finance extends MemberBase
 {
@@ -19,7 +20,9 @@ class Finance extends MemberBase
      */
     public function rechargeRecord()
     {
-
+        $rechargeRecord = new RechargeRecord();
+        $recordList = $rechargeRecord->where('recharge_member_id', '=', session('MUserId'))->select();
+        $this->assign('recordList', $recordList);
         return $this->fetch();
     }
 
