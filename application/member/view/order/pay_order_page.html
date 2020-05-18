@@ -22,17 +22,9 @@
             <div class="cont-main-box">
                 <div class="payorder-step">第一步：选择仓库</div>
                 <ul class="payorder-selcangku">
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
-                    <li>广州圆通菜鸟仓</li>
+                    {foreach $warehouseList as $warehouse}
+                    <li>{$warehouse.wh_title}</li>
+                    {/foreach}
                 </ul>
                 <div class="payorder-step">第二步：选择快递类型</div>
                 <div class="payorder-sellipin">
