@@ -5,6 +5,10 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <link rel="stylesheet" href="/static/common/layui/css/layui.css">
+    <script type="text/javascript" src="/static/member/js/jquery-1.9.1.min.js"></script>
+    <script src="/static/common/layui/layui.js" type="text/javascript" ></script>
+    <script type="text/javascript" src="/static/member/js/payorder.js"></script>
 </head>
 <body>
 <!--HEADER-->
@@ -46,16 +50,42 @@
                         <p>收货地址格式：李四，15888888888，广东省 广州市 番禺区 岭南大道321号 ，330006 </p>
                     </div>
                 </div>
-                <div class="payorder-step">第四步：填写收货地址↓可批量购买单号，每行一个地址 最多个地址</div>
+                <div class="payorder-step">第四步：填写收货地址↓可批量购买单号，每行一个地址 最多2000个地址</div>
                 <div class="payorder-order-add">
                     <div class="order-add-lists">
                         <textarea></textarea>
                     </div>
                     <div class="order-add-btns">
-                        <button class="add-btn">检查收货地址</button>
+                        <button class="add-btn" onclick="checkAddress();">检查收货地址</button>
                         <button class="add-btn">检查收货地址</button>
                         <button class="add-btn">检查收货地址</button>
                     </div>
+                </div>
+                <div class="order-memb-info">
+                    余额：<span class="jine">0.00</span> 元，【 <span class="daili">代理会员</span> 】下单：<span>2.20元/单</span>
+                </div>
+                <div class="order-address-table">
+                   <table>
+                       <tr>
+                           <th>序号</th>
+                           <th>收货人</th>
+                           <th>收货电话</th>
+                           <th>收货地址</th>
+                           <th>邮编</th>
+                       </tr>
+                       <tr>
+                           <td>1</td>
+                           <td>李四</td>
+                           <td>15888888888</td>
+                           <td>广东省 广州市 番禺区 岭南大道321号</td>
+                           <td>330006</td>
+                       </tr>
+                       <tr>
+                           <td colspan="5" style="text-align: center; color: red;">
+                               2 X 2.20 = 4.4元
+                           </td>
+                       </tr>
+                   </table>
                 </div>
                 <div class="order-submit">
                     <button>确认购买</button>

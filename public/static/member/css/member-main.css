@@ -680,7 +680,46 @@ a {
     margin: 3px 8px;
     background-color: #FF464E;
     cursor: pointer;
+    font-weight: bold;
 }
+
+.order-memb-info{
+    width: 100%;
+    float: left;
+    font-size: 14px;
+    line-height: 36px;
+}
+.order-memb-info .jine{
+    color: #FF464E;
+    font-weight: bold;
+}
+.order-memb-info .daili{
+    color: #FF464E;
+    font-weight: bold;
+}
+
+.order-address-table{
+    width: 100%;
+    float: left;
+    margin: 10px auto;
+}
+.order-address-table table{
+    width: 95%;
+    border-collapse: collapse;
+    border: 1px solid #3C92C1;
+    text-align: center;
+    font-size: 12px;
+}
+.order-address-table table tr th{
+    background-color: #43e8c9;
+    border: 1px solid #3C92C1;
+    height: 28px;
+}
+.order-address-table table tr td{
+    height: 25px;
+    border: 1px solid #3C92C1;
+}
+
 
 .order-submit {
     width: 100%;
