@@ -9,12 +9,12 @@
 namespace app\admin\controller;
 
 
-class Product extends AdminBaseController
+class Goods extends AdminBaseController
 {
 
-    public function productslist()
+    public function index()
     {
-        return $this->fetch();
+        return $this->fetch('goods');
     }
 
 }
