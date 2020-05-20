@@ -29,11 +29,23 @@ class Membermanagement extends AdminBaseController
      */
     public function memberlist()
     {
-
         $member_mod = model('member');
         $memberList = $member_mod->getMemberList(null, '*', 100);
         ds_json_encode(10000, "获取会员列表成功", $memberList);
     }
 
+    /**
+     * 搜索用户
+     */
+    public function serachmemberlist()
+    {
+        $param_content = input('param.content');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $param_content = '%' .trim(str_replace($find, $replace, $param_content)) . '%';
+
+        $param_start_time = input('param.starttime');
+        $param_end_time = input('param.endtime');
+    }
 
 }
