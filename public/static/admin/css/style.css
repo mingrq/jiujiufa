@@ -162,7 +162,7 @@ body {
 .page-content {
     background: #fff;
     margin: 0;
-    padding: 0px 15px;
+    padding: 15px;
 }
 
 .Tips_content {
@@ -677,6 +677,15 @@ body {
 
 /*************************************************************待确认订单样式属性**********************************************************/
 .d_Confirm_Order_style {
+}
+
+.m-form-label {
+    float: left;
+    display: block;
+    padding: 9px 0px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
 }
 
 .d_Confirm_Order_style .title_name {
@@ -2161,7 +2170,7 @@ body {
 
 .notice_list {
     padding: 15px;
-   width: 100%;
+    width: 100%;
     float: right;
     position: absolute;
     overflow: auto;

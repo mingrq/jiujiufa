@@ -55,26 +55,31 @@
 
 <body>
 <div class="page-content clearfix">
-    <div id="Member_Ratings">
-        <div class="d_Confirm_Order_style">
-            <div class="search_style">
-
-                <ul class="search_content clearfix">
-                    <li><label class="l_f">查询</label><input name="" type="text" class="text_add"
-                                                            placeholder="手机号 / 快递单号 / 订单号 / 收货人" style=" width:230px"/>
-                    </li>
-                    <li><label class="l_f">订单时间</label><input class="inline laydate-icon" id="start"
-                                                              style=" margin-left:10px;"></li>
-                    <li style="width:90px;">
-                        <button type="button" class="btn_search"><i class="icon-search"></i>查询</button>
-                    </li>
-                </ul>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="m-form-label">查询</label>
+            <div class="layui-input-inline" style="width: 210px">
+                <input type="text" name="serachparam" placeholder="手机号/快递单号/订单号/收货人"
+                       autocomplete="off" class="layui-input">
             </div>
-
-            <!--表格-->
-            <table id="sample-table"></table>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">日期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="date_atart" id="date_atart" lay-verify="date" placeholder="开始日期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="m-form-label">~</label>
+            <div class="layui-input-inline">
+                <input type="text" name="date_end" id="date_end" lay-verify="url" placeholder="结束日期"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <button type="button" class="layui-inline layui-btn layui-btn-normal">搜索</button>
     </div>
+    <!--表格-->
+    <table id="sample-table"></table>
 </div>
 <script type="text/html" id="table_operation_toolbar">
     <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">取消订单</a>

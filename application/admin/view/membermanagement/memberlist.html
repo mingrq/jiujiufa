@@ -56,38 +56,44 @@
 
 <body>
 <div class="page-content clearfix">
-    <div id="Member_Ratings">
-        <div class="d_Confirm_Order_style">
-            <div class="search_style">
-
-                <ul class="search_content clearfix">
-                    <li><label class="l_f">查询</label><input name="" type="text" class="text_add"
-                                                            placeholder="手机号 / QQ / 用户等级 / 推荐人" style=" width:220px"/>
-                    </li>
-                    <li><label class="l_f">注册时间</label><input class="inline laydate-icon" id="start"
-                                                              style=" margin-left:10px;"></li>
-                    <li style="width:90px;">
-                        <button type="button" class="btn_search"><i class="icon-search"></i>查询</button>
-                    </li>
-                </ul>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="m-form-label">查询</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="number" placeholder="手机号/QQ/用户等级/推荐人" lay-verify="required|number"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-
-            <!--表格-->
-            <table id="sample-table"></table>
+            <div class="layui-inline">
+                <label class="layui-form-label">日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date_atart" id="date_atart" lay-verify="date" placeholder="开始日期" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="m-form-label">~</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date_end" id="date_end" lay-verify="url" placeholder="结束日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <button type="button" class="layui-inline layui-btn layui-btn-normal">搜索</button>
         </div>
-    </div>
+        <!--表格-->
+        <table id="sample-table" lay-filter="table_member"></table>
 </div>
 
 <script type="text/html" id="table_operation_toolbar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">特殊价格</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">奖罚</a>
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="del">充值记录</a>
-    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">修改密码</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="del">资金明细</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="special_price">特殊价格</a>
+    <a class="layui-btn layui-btn-xs" lay-event="reward_punish">奖罚</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="recharge_record">充值记录</a>
+    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="change_password">修改密码</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="financial_details">资金明细</a>
 </script>
 <script>
-    layui.use('table', function () {
+    layui.use(['table', 'laydate'], function () {
         var table = layui.table;
+        var laydate = layui.laydate;
         table.render({
             elem: '#sample-table'
             , url: '/admin/membermanagement/memberlist'
@@ -118,6 +124,37 @@
             }
             , page: {
                 layout: ['prev', 'page', 'next', 'skip', 'refresh']
+            }
+        });
+
+        laydate.render({
+            elem: '#date_atart'
+        });
+        laydate.render({
+            elem: '#date_end'
+        });
+
+        table.on('tool(table_member)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if(layEvent === 'special_price'){ //特殊价格
+                //do somehing
+            } else if(layEvent === 'reward_punish'){ //奖罚
+                layer.confirm('真的删除行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            } else if(layEvent === 'recharge_record'){ //充值记录
+                //do something
+
+
+            } else if(layEvent === 'change_password'){ //修改密码
+
+            }else if(layEvent === 'financial_details'){ //资金明细
+
             }
         });
     });
