@@ -9,6 +9,7 @@
 /**
  * 用户管理
  */
+
 namespace app\admin\controller;
 
 
@@ -17,10 +18,6 @@ class Membermanagement extends AdminBaseController
 
     public function index()
     {
-//        $member_mod = model('member');
-//        $field = ['member_id', 'member_login_name', 'member_balance', 'member_referrer', 'member_mobile', 'member_qq', 'member_invite_count', 'member_rank', 'member_addtime'];
-//        $memberList = $member_mod->getMemberList(null, $field, 100);
-//        $this->assign('memberlist', $memberList);
         return $this->fetch('memberlist');
     }
 
@@ -30,7 +27,7 @@ class Membermanagement extends AdminBaseController
     public function memberlist()
     {
         $member_mod = model('member');
-        $memberList = $member_mod->getMemberList(null, '*', 100);
+        $memberList = $member_mod->getMemberList();
         ds_json_encode(10000, "获取会员列表成功", $memberList);
     }
 
@@ -39,13 +36,61 @@ class Membermanagement extends AdminBaseController
      */
     public function serachmemberlist()
     {
-        $param_content = input('param.content');
+        $condition = array();
+        $accountorqq = input('param.accountorqq');
         $find = array('\\', '/', '%', '_', '&');
         $replace = array('\\\\', '\\/', '\%', '\_', '\&');
-        $param_content = '%' .trim(str_replace($find, $replace, $param_content)) . '%';
+        $accountorqq = '%' . trim(str_replace($find, $replace, $accountorqq)) . '%';
+        if ($accountorqq && trim($accountorqq) != "") {
+            $condition['member_mobile|member_qq'] = ['like', $accountorqq];
+        }
 
-        $param_start_time = input('param.starttime');
-        $param_end_time = input('param.endtime');
+        $referrer = input('param.referrer');
+        $member = db('member')->where("member_mobile", $referrer)->find();
+        if ($member) {
+            $condition["member_referrer"] = $member['member_id'];
+        }
+
+        $rank = input('param.rank');
+        if ($rank) {
+            $condition["member_rank"] = $rank;
+        }
+
+        $dateatart = input('param.dateatart');
+        if ($dateatart) {
+            $condition["member_addtime"] = ['EGT', $dateatart];
+        }
+
+        $dateend = input('param.dateend');
+        if ($dateend) {
+            $condition["member_addtime"] = ['ELT', $dateatart];
+        }
+
+        $query = db('v_member')
+            ->where($condition)
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索用户成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索用户失败");
+        }
     }
 
+    /**
+     * 用户修改密码
+     * @param $id
+     * @param $pw
+     */
+    public function update_password()
+    {
+        $id=input("param.memberid");
+        $pw=input("param.password");
+        $model = model('member');
+        $result = $model->update_password($id, $pw);
+        if ($result) {
+            ds_json_encode(10000, "密码修改成功");
+        } else {
+            ds_json_encode(10001, "密码修改失败");
+        }
+    }
 }

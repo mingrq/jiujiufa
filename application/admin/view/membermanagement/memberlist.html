@@ -6,13 +6,11 @@
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
-    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace.min.css"/>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome.min.css"/>
     <!--[if IE 7]>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace-ie.min.css"/>
     <![endif]-->
     <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
 
@@ -55,30 +53,50 @@
 
 <body>
 <div class="page-content clearfix">
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="m-form-label">查询</label>
-            <div class="layui-input-inline">
-                <input type="text" name="number" placeholder="手机号/QQ/用户等级/推荐人" lay-verify="required|number"
-                       autocomplete="off" class="layui-input">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="m-form-label">查询</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="手机号/QQ" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">日期</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date_atart" id="date_atart" lay-verify="date" placeholder="开始日期"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-inline">
+                <label class="m-form-label">推荐人</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="推荐人账号" id="search_user_level"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-inline">
-            <label class="m-form-label">~</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date_end" id="date_end" lay-verify="url" placeholder="结束日期"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-inline">
+                <label class="m-form-label">会员等级</label>
+                <div class="layui-input-inline" style="width: 120px">
+                    <select name="modules" id="serach_rank" lay-verify="required" lay-search="">
+                        <option value="">会员等级</option>
+                    </select>
+                </div>
             </div>
+
+            <div class="layui-inline" style="margin-right: -12px;">
+                <label class="m-form-label">日期</label>
+                <div class="layui-input-inline" style="width: 110px">
+                    <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
+                           placeholder="开始日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                <div class="layui-input-inline" style="width: 110px">
+                    <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url" placeholder="结束日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
         </div>
-        <button type="button" class="layui-inline layui-btn layui-btn-normal">搜索</button>
-    </div>
+    </form>
     <!--表格-->
     <table id="sample-table" lay-filter="table_member"></table>
 </div>
@@ -96,13 +114,13 @@
     <div style="padding: 20px">
         <div class="layui-form-item">
             <label class="m-form-label">奖罚用户:</label>
-            <label class="m-form-label">16630821566</label>
+            <label id="reward_mobile" class="m-form-label">16630821566</label>
         </div>
-        <form class="layui-form" action="" lay-filter="example" >
+        <form class="layui-form" id="serach_param_form" action="" lay-filter="example">
             <div class="layui-form-item">
                 <label class="m-form-label">奖罚金额:</label>
                 <div class="layui-input-block" style="margin-left: 20px;width: 300px">
-                    <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                    <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="奖罚金额，负数为惩罚金额"
                            class="layui-input" style="margin: 0px">
                 </div>
             </div>
@@ -110,7 +128,34 @@
             <div class="layui-form-item layui-form-text">
                 <label class="m-form-label">奖罚原因:</label>
                 <div class="layui-input-block" style="margin-left: 20px;width: 300px">
-                    <textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea>
+                    <textarea placeholder="请输入奖罚原因" class="layui-textarea" name="desc"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--修改密码布局-->
+<script type="text/html" id="alter_pw_html">
+    <div style="padding: 20px">
+        <div class="layui-form-item">
+            <label class="m-form-label">用户:</label>
+            <label id="alter_pw_mobile" class="m-form-label">16630821566</label>
+        </div>
+        <form class="layui-form" action="" lay-filter="example">
+            <div class="layui-form-item">
+                <label class="m-form-label">新密码:</label>
+                <div class="layui-input-block" style="margin-left: 20px;width: 300px">
+                    <input type="password" id="alter_password" lay-verify="title" autocomplete="off" placeholder="请输入密码"
+                           class="layui-input" style="margin: 0px">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="m-form-label">重复新密码:</label>
+                <div class="layui-input-block" style="margin-left: 20px;width: 300px">
+                    <input type="password" id="alter_password_again" lay-verify="title" autocomplete="off"
+                           placeholder="请再次输入密码"
+                           class="layui-input" style="margin: 0px">
                 </div>
             </div>
         </form>
@@ -118,14 +163,43 @@
 </script>
 
 <script>
+    /**设置等级下拉框数据*/
+    var table;
+    var laydate;
+    var form;
     layui.use(['table', 'laydate', 'form'], function () {
-        var table = layui.table;
-        var laydate = layui.laydate;
-        var form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+        form = layui.form;
+
+        $(function () {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/rank/getranklist",
+                success: function (result) {
+                    if (result.code == 10000) {
+                        //设置下拉框数据
+                        for (let i = 0; i < result.result.length; i++) {
+                            let rank = result.result[i];
+                            $("#serach_rank").append("<option value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
+                        }
+                        form.render('select');
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+
         table.render({
             elem: '#sample-table'
             , url: '/admin/membermanagement/memberlist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit: 100
+            , height: 'full-130'
             , cols: [[
                 {field: 'member_mobile', width: 120, align: 'center', title: '用户(手机)'}
                 , {field: 'member_qq', width: 120, align: 'center', title: 'QQ'}
@@ -136,6 +210,7 @@
                 , {field: 'operation', align: 'center', title: '操作', toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
+                console.log(res);
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -156,12 +231,14 @@
         });
 
         laydate.render({
-            elem: '#date_atart'
+            elem: '#serach_param_date_atart'
         });
         laydate.render({
-            elem: '#date_end'
+            elem: '#serach_param_date_end'
         });
-
+        // form.render({
+        //     elem: '#serach_param_form'
+        // });
         table.on('tool(table_member)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -170,13 +247,11 @@
             if (layEvent === 'special_price') { //特殊价格
                 //do somehing
             } else if (layEvent === 'reward_punish') { //奖罚
-                reward_punish();
+                reward_punish(data);
             } else if (layEvent === 'recharge_record') { //充值记录
                 //do something
-
-
             } else if (layEvent === 'change_password') { //修改密码
-
+                alter_password(data);
             } else if (layEvent === 'financial_details') { //资金明细
 
             }
@@ -184,12 +259,110 @@
     });
 
     /** 奖罚*/
-    function reward_punish() {
+    function reward_punish(data) {
         layer.open({
             type: 1,
             title: '奖罚',
             content: $('#reward_punish_html').html(),
             btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                let password = $("#alter_password").val().trim();
+                let passwordagain = $("#alter_password_again").val().trim();
+                if (password == '') {
+                    layer.msg("密码不能为空");
+                    return;
+                }
+                if (passwordagain == '') {
+                    layer.msg("请再次输入密码");
+                    return;
+                }
+                if (password != passwordagain) {
+                    layer.msg("两次输入密码不同");
+                    return;
+                }
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/membermanagement/update_password",
+                    data: {
+                        memberid: data.member_id,
+                        password: password,
+                    },
+                    success: function (result) {
+                        layer.msg(result.message);
+                        if (result.code == 10000) {
+                            layer.close(index);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('修改失败，请稍后再试');
+                    }
+                });
+
+            }
+        });
+        $('#reward_mobile').html(data.member_mobile);
+    }
+
+    /** 修改密码*/
+    function alter_password(data) {
+        layer.open({
+            type: 1,
+            title: '修改密码',
+            content: $('#alter_pw_html').html(),
+            btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                let password = $("#alter_password").val().trim();
+                let passwordagain = $("#alter_password_again").val().trim();
+                if (password == '') {
+                    layer.msg("密码不能为空");
+                    return;
+                }
+                if (passwordagain == '') {
+                    layer.msg("请再次输入密码");
+                    return;
+                }
+                if (password != passwordagain) {
+                    layer.msg("两次输入密码不同");
+                    return;
+                }
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/membermanagement/update_password",
+                    data: {
+                        memberid: data.member_id,
+                        password: password,
+                    },
+                    success: function (result) {
+                        layer.msg(result.message);
+                        if (result.code == 10000) {
+                            layer.close(index);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('修改失败，请稍后再试');
+                    }
+                });
+
+            }
+        });
+        $('#alter_pw_mobile').html(data.member_mobile);
+    }
+
+    /**搜索*/
+    function serach() {
+        table.reload('sample-table', {
+            url: '/admin/membermanagement/serachmemberlist'
+            , where: {
+                accountorqq: $('#serach_param').val(),
+                referrer: $('#search_user_level').val(),
+                rank: $('#serach_rank').val(),
+                dateatart: $('#serach_param_date_atart').val(),
+                dateend: $('#serach_param_date_end').val()
+            } //设定异步数据接口的额外参数
         });
     }
 
