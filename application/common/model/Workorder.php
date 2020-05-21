@@ -14,7 +14,7 @@ use think\Model;
  * 工单
  * @package app\common\model
  */
-class WorkOrder extends Model
+class Workorder extends Model
 {
 
     /**
@@ -25,7 +25,7 @@ class WorkOrder extends Model
      * @param string $order
      * @return mixed
      */
-    public function getOrderlist($condition = array(), $field = '*', $page = 0, $order = 'wo_state desc'){
+    public function getWorkOrderlist($condition = array(), $field = '*', $page = 100, $order = 'wo_state desc'){
         if ($page) {
             $member_list = db('workorder')->field($field)->where($condition)->order($order)->paginate($page,false,['query' => request()->param()]);
             return $member_list;

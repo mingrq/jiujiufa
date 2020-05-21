@@ -28,7 +28,12 @@ class Membermanagement extends AdminBaseController
     {
         $member_mod = model('member');
         $memberList = $member_mod->getMemberList();
-        ds_json_encode(10000, "获取会员列表成功", $memberList);
+        if ($memberList){
+            ds_json_encode(10000, "获取会员列表成功", $memberList);
+        }else{
+            ds_json_encode(10001, "获取会员列表失败");
+        }
+
     }
 
     /**
