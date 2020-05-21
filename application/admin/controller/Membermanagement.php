@@ -56,15 +56,22 @@ class Membermanagement extends AdminBaseController
             $condition["member_rank"] = $rank;
         }
 
+
         $dateatart = input('param.dateatart');
-        if ($dateatart) {
-            $condition["member_addtime"] = ['EGT', $dateatart];
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["member_addtime"] = ['between', [$dateatart,$dateend]];
+        }else{
+            if ($dateatart) {
+                $condition["member_addtime"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["member_addtime"] = ['<=', $dateend];
+            }
         }
 
-        $dateend = input('param.dateend');
-        if ($dateend) {
-            $condition["member_addtime"] = ['ELT', $dateatart];
-        }
 
         $query = db('v_member')
             ->where($condition)
@@ -81,16 +88,34 @@ class Membermanagement extends AdminBaseController
      * @param $id
      * @param $pw
      */
-    public function update_password()
+    public function updatepassword()
     {
-        $id=input("param.memberid");
-        $pw=input("param.password");
+        $id = input("param.memberid");
+        $pw = input("param.password");
         $model = model('member');
         $result = $model->update_password($id, $pw);
         if ($result) {
             ds_json_encode(10000, "密码修改成功");
         } else {
             ds_json_encode(10001, "密码修改失败");
+        }
+    }
+
+    /**
+     * 奖罚
+     *
+     */
+    public function rewardpunish()
+    {
+        $id = input("param.memberid");
+        $rewardsmoney = input("param.rewardsmoney");
+        $rewardscause = input("param.rewardscause");
+        $model = model('member');
+        $result = $model->money_change($id, $rewardsmoney, $rewardscause);
+        if ($result) {
+            ds_json_encode(10000, "奖罚成功");
+        } else {
+            ds_json_encode(10001, "奖罚失败");
         }
     }
 }

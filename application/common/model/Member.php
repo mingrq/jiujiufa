@@ -88,13 +88,32 @@ class Member extends Model
      * @param $id
      * @param $pw
      */
-    public function update_password($id,$pw)
+    public function update_password($id, $pw)
     {
-        $query=db('member')->where('member_id',$id)->setField('member_login_pw',md5($pw));
-        if ($query){
+        $query = db('member')->where('member_id', $id)->setField('member_login_pw', md5($pw));
+        if ($query) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+
+    /**
+     * 用户资金变更
+     * @param $id
+     * @param $changemoney 变更金额  负数为减
+     * @param $changescause 变更原因
+     */
+    public function money_change($id, $changemoney, $changescause)
+    {
+        $change_query = db('member')->where('member_id', $id)->setInc('member_balance', $changemoney);
+        if ($change_query) {
+            $data = ['member_id' => $id, 'change_money' => $changemoney, 'change_cause' => $changescause];
+            $query = db('moneychange_record')->insert($data);
+            if ($query){
+                return true;
+            }
+        }
+        return false;
     }
 }
