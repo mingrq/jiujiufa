@@ -124,4 +124,12 @@ class Membermanagement extends AdminBaseController
             ds_json_encode(10001, "奖罚失败");
         }
     }
+
+    /**
+     * 特殊价格
+     * @return mixed
+     */
+    public function specialprice(){
+        return $this->fetch();
+    }
 }

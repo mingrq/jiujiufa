@@ -246,21 +246,20 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if (layEvent === 'special_price') { //特殊价格
-                //do somehing
+                window.parent.link_operating("adsfasd","dsafsad");
+                window.location.href='/admin/membermanagement/specialprice.html'
             } else if (layEvent === 'reward_punish') { //奖罚
                 reward_punish(data, function (balance) {
-
                     obj.update({
                         member_balance: balance.toString()
                     });
-
                 });
             } else if (layEvent === 'recharge_record') { //充值记录
-                //do something
+                window.location.href='/admin/membermanagement/specialprice.html'
             } else if (layEvent === 'change_password') { //修改密码
                 alter_password(data);
             } else if (layEvent === 'financial_details') { //资金明细
-
+                window.location.href='/admin/membermanagement/specialprice.html'
             }
         });
     });

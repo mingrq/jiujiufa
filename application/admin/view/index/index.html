@@ -200,9 +200,7 @@
             });
         });
 
-        function link_operating(name, title) {
-            var cid = $(this).name;
-            var cname = $(this).title;
+        function link_operating(cid, cname) {
             $("#iframe").attr("src", cid).ready();
             $("#Bcrumbs").attr("href", cid).ready();
             $(".Current_page a").attr('href', cid).ready();
