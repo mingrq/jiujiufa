@@ -6,13 +6,11 @@
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
-    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace.min.css"/>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome.min.css"/>
     <!--[if IE 7]>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace-ie.min.css"/>
     <![endif]-->
     <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
 
@@ -48,7 +46,6 @@
     <script type="text/javascript" src="{$Think.ADMIN_SITE_ROOT}/js/H-ui.js"></script>
     <script type="text/javascript" src="{$Think.ADMIN_SITE_ROOT}/js/H-ui.admin.js"></script>
     <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript"></script>
-    <script src="{$Think.ADMIN_SITE_ROOT}/assets/laydate/laydate.js" type="text/javascript"></script>
     <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
     <style>
@@ -64,30 +61,28 @@
 
 <div class="page-content clearfix">
     <!--搜索-->
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="m-form-label">查询</label>
-            <div class="layui-input-inline">
-                <input type="text" name="number" placeholder="手机号/快递单号/订单号/收货人" lay-verify="required|number"
-                       autocomplete="off" class="layui-input">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="m-form-label">查询</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="商品标题" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">日期</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date_atart" id="date_atart" lay-verify="date" placeholder="开始日期"
-                       autocomplete="off" class="layui-input">
+
+            <div class="layui-inline">
+                <label class="m-form-label">仓库</label>
+                <div class="layui-input-inline" style="width: 170px">
+                    <select name="modules" id="serach_warehouse" lay-verify="required" lay-search="">
+                        <option value="">仓库</option>
+                    </select>
+                </div>
             </div>
+
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
         </div>
-        <div class="layui-inline">
-            <label class="m-form-label">~</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date_end" id="date_end" lay-verify="url" placeholder="结束日期"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <button type="button" class="layui-inline layui-btn layui-btn-normal">搜索</button>
-    </div>
+    </form>
     <!--表格-->
     <table id="sample-table" lay-filter="table_goods"></table>
 </div>
@@ -99,8 +94,35 @@
 </script>
 
 <script type="text/javascript">
-    layui.use('table', function () {
-        var table = layui.table;
+    var table;
+    var form;
+    layui.use(['table', 'form'], function () {
+         table = layui.table;
+         form = layui.form;
+
+        $(function () {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/goods/getwarehouselist",
+                success: function (result) {
+                    if (result.code == 10000) {
+                        //设置下拉框数据
+                        for (let i = 0; i < result.result.length; i++) {
+                            let warehouse = result.result[i];
+                            $("#serach_warehouse").append("<option value='" + warehouse.wh_id + "'>" + warehouse.wh_title + "</option>");
+                        }
+                        form.render('select');
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+
         table.render({
             elem: '#sample-table'
             , url: '/admin/goods/getgoodslist'
@@ -178,7 +200,19 @@
             console.log(obj.field); //当前编辑的字段名
             console.log(obj.data); //所在行的所有相关数据
         });
+
     })
+
+    /**搜索*/
+    function serach() {
+        table.reload('sample-table', {
+            url: '/admin/goods/serachgoodslist'
+            , where: {
+                goodtitle: $('#serach_param').val(),
+                warehouse: $('#serach_warehouse').val()
+            } //设定异步数据接口的额外参数
+        });
+    }
 </script>
 </body>
 </html>

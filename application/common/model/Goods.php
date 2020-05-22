@@ -26,7 +26,7 @@ class Goods extends Model
      * @param string $order
      * @return mixed
      */
-    public function getGoodsList($condition = array(), $field = '*', $page = 100, $order = 'good_id desc')
+    public function getGoodsList($condition = array(), $field = '*', $page = 100, $order = 'kdId desc')
     {
         return db('v_goods')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
     }
