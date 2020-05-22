@@ -24,10 +24,10 @@ class malipay
             'merchant_private_key' => "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCIrkC7FClgGnJNMqwyxjOrZGdE9MPtAzHk9/RNJjY1EKW11IecGOoxsb8oTUPjocBZYsljK54Wd2pVNgg0n7edEcLoVjzoZVXjkinnVo7JFJX0UMePmWG4nF5JME1karRsN83VwjE7If1gGoHueYCIZOMpb/6aQOfftkG8M1L8B6Syf+6CTgMAhAMK6nZMe02ASjWFfjdMHpw5yryE6c8KDzw+7sOHAfr8Bil8CZhVWjshd4Q1oQrVeK3c5NqCgHw5wUxieaMznaswSg4cvmjlCDa0rVNbG98pOp5TTm2szzVvys7YMiJqBrN+xkKdGE8jmFgQNMAfMssEr3KOddSrAgMBAAECggEAL+Ntxp5PyN47QhUJBFkxbVGmZSClLPu7lY/Sxt0mjP0iMk0ennCUTYkLguFfcfgQXsEf8mEr6I86cFSYF2gGez/n3GOqv3oR18Q0bluDd6yAxbMv2H5TIM2Ys2f7Fb3VLT14HvcFLMTB89QVxipIAIHonXIh8IXhOB6xdXE+GBNKaRmkzIxz8eWEd7ZTDSbZkotSFQiLVC2AvUFee8nBTrZgaFzZ0qKba3zDR8DNgoWXzkxBEh6yBjAPVlyu9Ey5OBpWW3q/DUOV3Qihk+nyqX1pfCqpjfoNEZ1KT27VXk+L48drDy05z4cADxneKVFwmSQnEKtVEeNl2/tYZKPzoQKBgQC9FJIj2kqDBcYAPKDARUme756it7sOihG527ci7Tn2Qt0M/v5Lk+sUhlrlWTDHNrWNmGbONheK3Tc8bjw2r0CKRJNTYaVVvo435TdtudrwBEdniZq1SCrk9rKHOI68WaLnADCucQ15ip/OPvBYz4o/UKD7s4GIgVI4J4QGEVon8wKBgQC5DhA+Ik16bGZPXMiktWg8fy3I+7X/4NWNrB4JyB1n0A0/QFOf2IzmKzFPuaU6asFfEixYRtkIwaAUcjQvxuaDr7Rx7P6NAXCLWHfZ7jtz2E0vTGJEm8OziihYQBWvnhVK/MEX972cZlxl3IW9LAjmnId39R9uUlmE7054uvVGaQKBgDDoeUS82jk57RVymUIiqgBqiuYcEE6aeCtTIfPu2OdSNEuASdbS1CPi/PAGOg/NnviZSz5bz4sj3X3MJdcfTdp2EoWm5FVhjPf4WnYPdQpQkQe/GD18BVxkU5mWj5U4umJ2MiFtLMcbjGqU7SaLyH7IJFv2+rKMgO/1iLjpFCDxAoGAWCKfj8gsmGr6S0AIe5G+pFl6B+gCJW0CqKfZ4pTBlIjdVkufyFiNuq3FnY/wZqMjl9EC98Q+Z9I4GKTPwBV+Aifzy/KwxZ1y6Zrn8g5pmGHjWOyLPNvm2CKr1mQnL+4dfApnOLAQSWXjCcx+kbtgPd09E9/V6WglJJAJEq0QVkkCgYAlVXST5XTVLhrWl2zwb4hPIK/vlK1IcOGQSTrSV22fhxU1DVRNXuZSARkgqQ3ADWHfXKo05bDh4gaCzhUpKaBVbQ3AECSf7yhDA0Zrj9IR8hG9DsF3Hx7ArMZZuX/f11kZ13h+l5nLQDZtGZxw0EU7QqNlYx7yhGWp1++ChpQ/2A==",
 
             //异步通知地址
-            'notify_url' => 'http://' . $_SERVER['HTTP_HOST'] . '/home/payment/alipaynotify',
+            'notify_url' => 'http://' . $_SERVER['HTTP_HOST'] . '/member/payment/alipaynotify',
 
             //同步跳转
-            'return_url' => 'http://' . $_SERVER['HTTP_HOST'] . '/home/payment/alipay_return',
+            'return_url' => 'http://' . $_SERVER['HTTP_HOST'] . '/member/payment/alipayreturn',
 
             //编码格式
             'charset' => "UTF-8",
