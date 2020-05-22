@@ -25,21 +25,17 @@ class Workorder extends Model
      * @param string $order
      * @return mixed
      */
-    public function getWorkOrderlist($condition = array(), $field = '*', $page = 100, $order = 'wo_state desc'){
-        if ($page) {
-            $member_list = db('workorder')->field($field)->where($condition)->order($order)->paginate($page,false,['query' => request()->param()]);
-            return $member_list;
-        }
-        else {
-            return db('workorder')->field($field)->where($condition)->order($order)->select();
-        }
+    public function getWorkOrderlist($condition = array(), $field = '*', $page = 100, $order = 'wo_state desc')
+    {
+        return db('workorder')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
     }
 
     /**
      * 处理订单
      * @param $workorder_id 工单id
      */
-   public function disposeWorkOrder($workorder_id){
-      return db('workorder')->where('wo_id',$workorder_id)->update(['wo_state'=> 1,'wo_dispose_time'=>time()]);
-   }
+    public function overWorkOrder($workorder_id,$time)
+    {
+        return db('workorder')->where('wo_id', $workorder_id)->update(['wo_state' => 1, 'wo_dispose_time' =>$time]);
+    }
 }

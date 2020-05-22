@@ -28,9 +28,9 @@ class Membermanagement extends AdminBaseController
     {
         $member_mod = model('member');
         $memberList = $member_mod->getMemberList();
-        if ($memberList){
+        if ($memberList) {
             ds_json_encode(10000, "获取会员列表成功", $memberList);
-        }else{
+        } else {
             ds_json_encode(10001, "获取会员列表失败");
         }
 
@@ -66,8 +66,8 @@ class Membermanagement extends AdminBaseController
         $dateend = input('param.dateend');
 
         if ($dateatart && $dateend) {
-            $condition["member_addtime"] = ['between', [$dateatart,$dateend]];
-        }else{
+            $condition["member_addtime"] = ['between', [$dateatart, $dateend]];
+        } else {
             if ($dateatart) {
                 $condition["member_addtime"] = ['>=', $dateatart];
             }
@@ -80,6 +80,7 @@ class Membermanagement extends AdminBaseController
 
         $query = db('v_member')
             ->where($condition)
+            ->order('member_id desc')
             ->paginate(100);
         if ($query) {
             ds_json_encode(10000, "搜索用户成功", $query);

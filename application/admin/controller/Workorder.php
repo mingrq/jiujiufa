@@ -20,25 +20,75 @@ class Workorder extends AdminBaseController
     /**
      * 获取工单列表
      */
-    public function getorderworklist(){
-        $model=model('workorder');
-        $query=$model->getWorkOrderlist();
-        if ($query){
+    public function getorderworklist()
+    {
+        $model = model('workorder');
+        $query = $model->getWorkOrderlist();
+        if ($query) {
             ds_json_encode(10000, "获取工单列表成功", $query);
-        }else{
+        } else {
             ds_json_encode(10001, "获取工单列表失败");
         }
     }
 
-
-
-
-
-    public function batchadd()
+    /**
+     * 结束工单
+     */
+    public function orderworkover()
     {
-        for ($i = 100; $i < 200; $i++) {
-            $data=['wo_title'=>'工单标题'.$i,'wo_content'=>'工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容工单内容'.$i,'wo_linkman'=>'测试人','wo_phone'=>'16630821566'];
-            db('workorder')->insert($data);
+        $time = date('Y-m-d H:i:s', time());
+        $model = model('workorder');
+        $query = $model->overWorkOrder(input('param.wo_id'), $time);
+        if ($query) {
+            ds_json_encode(10000, "工单操作成功", $time);
+        } else {
+            ds_json_encode(10001, "工单操作失败");
+        }
+    }
+
+
+    /**
+     * 搜索工单
+     */
+    public function serachworkorderlist()
+    {
+        $condition = array();
+        $workordertitle = input('param.workordertitle');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $workordertitle = '%' . trim(str_replace($find, $replace, $workordertitle)) . '%';
+        if ($workordertitle && trim($workordertitle) != "") {
+            $condition['wo_title'] = ['like', $workordertitle];
+        }
+
+        $workorderstate = input('param.workorderstate');
+        if ($workorderstate) {
+            $condition["wo_state"] = $workorderstate;
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["wo_create_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["wo_create_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["wo_create_time"] = ['<=', $dateend];
+            }
+        }
+
+        $query = db('workorder')
+            ->where($condition)
+            ->order('wo_state desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索工单成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索工单失败");
         }
     }
 }
