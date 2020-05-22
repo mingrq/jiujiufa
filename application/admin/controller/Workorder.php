@@ -83,7 +83,7 @@ class Workorder extends AdminBaseController
 
         $query = db('workorder')
             ->where($condition)
-            ->order('wo_state desc')
+            ->order('wo_state asc')
             ->paginate(100);
         if ($query) {
             ds_json_encode(10000, "搜索工单成功", $query);
