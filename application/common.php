@@ -7,6 +7,33 @@ require __DIR__ . '/common_global.php';
 
 
 /**
+ * php post请求
+ * @param string $url
+ * @param string $param
+ * @return bool|mixed
+ */
+
+function request_post($url, $data = array())
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0); //是否抓取跳转后的页面
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    // POST数据
+    curl_setopt($ch, CURLOPT_POST, 1);
+    // 把post的变量加上
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    $output = curl_exec($ch);
+    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    var_dump($status_code);
+    curl_close($ch);
+    return $output;
+}
+
+
+/**
  * KV缓存 读
  *
  * @param string $key 缓存名称
@@ -117,11 +144,11 @@ function http_request($url, $method = "GET", $postfields = null, $headers = arra
 
 /**
  *
- * @param type $code   100000表示为正确,其他为错误代码
- * @param type $message  提示消息
- * @param type $result  返回数据
+ * @param type $code 100000表示为正确,其他为错误代码
+ * @param type $message 提示消息
+ * @param type $result 返回数据
  */
-function ds_json_encode($code, $message="", $result = '')
+function ds_json_encode($code, $message = "", $result = '')
 {
     $data = array('code' => $code, 'message' => $message, 'result' => $result);
     if (!empty($_GET['callback'])) {

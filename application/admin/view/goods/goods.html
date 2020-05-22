@@ -51,10 +51,19 @@
     <script src="{$Think.ADMIN_SITE_ROOT}/assets/laydate/laydate.js" type="text/javascript"></script>
     <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+    <style>
+        .layui-table-cell {
+            height: 100%;
+            max-width: 100%;
+        }
+    </style>
+
     <title>产品列表</title>
 </head>
 <body>
+
 <div class="page-content clearfix">
+    <!--搜索-->
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="m-form-label">查询</label>
@@ -66,7 +75,8 @@
         <div class="layui-inline">
             <label class="layui-form-label">日期</label>
             <div class="layui-input-inline">
-                <input type="text" name="date_atart" id="date_atart" lay-verify="date" placeholder="开始日期" autocomplete="off" class="layui-input">
+                <input type="text" name="date_atart" id="date_atart" lay-verify="date" placeholder="开始日期"
+                       autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
@@ -79,28 +89,40 @@
         <button type="button" class="layui-inline layui-btn layui-btn-normal">搜索</button>
     </div>
     <!--表格-->
-    <table id="sample-table"></table>
+    <table id="sample-table" lay-filter="table_goods"></table>
 </div>
-<script type="text/html" id="table_operation_toolbar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+<!--主图显示-->
+<script type="text/html" id="table_main_pic">
+    <div class="layer-photos-demo">
+        <img src="{{ d.good_pic }}" alt="{{ d.kdName }}">
+    </div>
 </script>
+
 <script type="text/javascript">
     layui.use('table', function () {
         var table = layui.table;
         table.render({
             elem: '#sample-table'
-            , url: '/admin/membermanagement/memberlist'
+            , url: '/admin/goods/getgoodslist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit: 100
+            , height: 'full-130'
             , cols: [[
-                {field: 'member_mobile', width: 260, align: 'center', title: '商品标题'}
-                , {field: 'goodsTitle', width: 140, align: 'center', title: '主图'}
-                , {field: 'goodsTitle', width: 140, align: 'center', title: '快递名称'}
-                , {field: 'goodsTitle', width: 140, align: 'center', title: '仓库'}
-                , {field: 'order_pay', title: '成本', width: 110, align: 'center'}
-                , {field: 'tracking_number', title: '会员价', align: 'center', width: 110} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'express_name', align: 'center', title: '代理价', width: 110}
-                , {field: 'create_time', title: 'API价', align: 'center', width: 110}
-                , {field: 'operation', align: 'center', title: '操作', toolbar: '#table_operation_toolbar'}
+                {field: 'goodsTitle', width: 300, align: 'center', title: '商品标题'}
+                , {field: 'good_pic', width: 140, align: 'center', title: '主图', templet: '#table_main_pic'}
+                , {field: 'kdName', align: 'center', title: '快递名称'}
+                , {field: 'warehouse_name', width: 160, align: 'center', title: '仓库'}
+                , {field: 'cost_price', title: '成本', width: 100, align: 'center'}
+                , {field: 'good_price', title: '会员价(利润)', align: 'center', width: 110, edit: 'text', fixed: 'right'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'good_vip_price', align: 'center', title: '代理价(利润)', width: 110, edit: 'text', fixed: 'right'}
+                , {
+                    field: 'good_api_price',
+                    title: 'API价(利润)',
+                    align: 'center',
+                    width: 110,
+                    edit: 'text',
+                    fixed: 'right'
+                }
             ]]
             , parseData: function (res) {
                 return {
@@ -120,6 +142,41 @@
             , page: {
                 layout: ['prev', 'page', 'next', 'skip', 'refresh']
             }
+        });
+
+        table.on('edit(table_goods)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            if (obj.field == 'good_price') {
+                //会员价
+
+            } else if (obj.field == 'good_vip_price') {
+                //代理价
+
+            } else if (obj.field == 'good_api_price') {
+                //api价
+
+            }
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/good/editprice",
+                success: function (result) {
+                    if (result.code == 10000) {
+                        //设置下拉框数据
+                        for (let i = 0; i < result.result.length; i++) {
+                            let rank = result.result[i];
+                            $("#serach_rank").append("<option value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
+                        }
+                        form.render('select');
+                    }
+                },
+                error: function () {
+
+                }
+            });
+            console.log(obj.value); //得到修改后的值
+            console.log(obj.field); //当前编辑的字段名
+            console.log(obj.data); //所在行的所有相关数据
         });
     })
 </script>

@@ -26,14 +26,9 @@ class Goods extends Model
      * @param string $order
      * @return mixed
      */
-    public function getGoodsList($condition = array(), $field = '*', $page = 0, $order = 'good_id desc')
+    public function getGoodsList($condition = array(), $field = '*', $page = 100, $order = 'good_id desc')
     {
-        if ($page) {
-            $member_list = db('goods')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
-            return $member_list;
-        } else {
-            return db('goods')->field($field)->where($condition)->order($order)->select();
-        }
+        return db('v_goods')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
     }
 
 
