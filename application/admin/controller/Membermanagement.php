@@ -129,7 +129,20 @@ class Membermanagement extends AdminBaseController
      * 特殊价格
      * @return mixed
      */
-    public function specialprice(){
+    public function specialprice()
+    {
+        return $this->fetch();
+    }
+
+    /**充值记录*/
+    public function rechargerecord()
+    {
+        return $this->fetch();
+    }
+
+    /**充值记录*/
+    public function financialdetails()
+    {
         return $this->fetch();
     }
 }

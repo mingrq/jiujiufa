@@ -246,8 +246,8 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if (layEvent === 'special_price') { //特殊价格
-                window.parent.link_operating("adsfasd","dsafsad");
-                window.location.href='/admin/membermanagement/specialprice.html'
+                setnav('特殊价格');
+                window.location.href = '/admin/membermanagement/specialprice.html'
             } else if (layEvent === 'reward_punish') { //奖罚
                 reward_punish(data, function (balance) {
                     obj.update({
@@ -255,14 +255,30 @@
                     });
                 });
             } else if (layEvent === 'recharge_record') { //充值记录
-                window.location.href='/admin/membermanagement/specialprice.html'
+                setnav('充值记录');
+                window.location.href = '/admin/membermanagement/rechargerecord.html'
             } else if (layEvent === 'change_password') { //修改密码
                 alter_password(data);
             } else if (layEvent === 'financial_details') { //资金明细
-                window.location.href='/admin/membermanagement/specialprice.html'
+                setnav('资金明细');
+                window.location.href = '/admin/membermanagement/financialdetails.html'
             }
         });
     });
+
+    /**设置面包屑导航*/
+    function setnav(cname) {
+        var chref = window.location.href;
+        console.log(cname + "   " + chref)
+        var herf = parent.$("#iframe").attr("src");
+        parent.$('#parentIframe').html(cname);
+        parent.$('#iframe').attr("src", chref).ready();
+        parent.$('#parentIframe').css("display", "inline-block");
+        parent.$('.Current_page').attr({"name": herf, "href": "javascript:void(0)"}).css({
+            "color": "#4c8fbd",
+            "cursor": "pointer"
+        });
+    }
 
     /** 奖罚*/
     function reward_punish(data, callback) {
