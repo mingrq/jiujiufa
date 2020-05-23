@@ -42,9 +42,4 @@ class Login extends Controller
         }
     }
 
-    public function test(){
-        dkcache('16630821566');
-        $mode = model('sms');
-        $mode->sendverify('16630821566', $mode::FINDBACK);
-    }
 }
