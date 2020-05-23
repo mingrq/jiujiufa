@@ -18,30 +18,52 @@ use think\Model;
 class Sms extends Model
 {
 
-
     /**
-     * 发送短信验证码-----------发送函数，剪切到需要发送短信的地方，需要改
+     * 发送短信验证码
+     * @param $mobile
+     * @param $mode  SMSLOGIN | REGISTER | FINDBACK
      */
-    public function sendver()
+    const SMSLOGIN = 'login';//登录
+    const REGISTER = 'register';//注册
+    const FINDBACK = 'findback';//找回密码
+
+    public function sendverify($mobile, $mode)
     {
         if (!request()->isPost()) {
             ds_json_encode(10001, '请求格式不正确');
         } else {
-            $mobile = input('param.mobile');
-            if (Cache::get($mobile)) {
+            $templete = "";
+            if ($mode == 'login') {
+                $templete = rkcache('SMSLOGIN');
+                if (!$templete) {
+                    $templete = db('config')->where('config_code', 'ali_sms_temp_login')->value('config_value');
+                    wkcache('SMSLOGIN', $templete);
+                }
+            } else if ($mode == 'register') {
+                $templete = rkcache('REGISTER');
+                if (!$templete) {
+                    $templete = db('config')->where('config_code', 'ali_sms_temp_regiter')->value('config_value');
+                    wkcache('REGISTER', $templete);
+                }
+            } else if ($mode == 'findback') {
+                $templete = rkcache('FINDBACK');
+                if (!$templete) {
+                    $templete = db('config')->where('config_code', 'ali_sms_temp_pwback')->value('config_value');
+                    wkcache('FINDBACK', $templete);
+                }
+            }
+            if (rkcache($mobile)) {
                 ds_json_encode(10001, '验证码发送太频繁');
             } else {
-                $mode = input('param.mode');
                 $code = rand(1000, 9999);
-                Cache::set($mobile, $code, 58);
-                $result = alisendSms($mobile, $code, $mode);
+                $result = $this->alisendSms($mobile, $code, $templete);
                 if ($result->Code == 'OK') {
+                    wkcache($mobile, $code, 58);
                     ds_json_encode(10000, '验证码发送成功');
                 } else {
                     ds_json_encode(10001, '验证码发送失败');
                 }
             }
-
         }
     }
 
@@ -55,12 +77,23 @@ class Sms extends Model
      * @param $template
      * @return mixed|\SimpleXMLElement
      */
-    public function alisendSms($phone,$code,$template){
-
-
-        $keyid = 'LTAI4FiVu39DQa3riodQNeMu';
-        $keyserver = '7tqnVUWM6grOQEY4IEgh4DV4rAZgKv';
-        $sign = '邦管家';
+    public function alisendSms($phone, $code, $template)
+    {
+        $keyid = rkcache('smskeyid');
+        if (!$keyid) {
+            $keyid = db('config')->where('config_code', 'ali_sms_keyid')->value('config_value');
+            wkcache('smskeyid', $keyid);
+        }
+        $keyserver = rkcache('smsaccessKeySecret');
+        if (!$keyserver) {
+            $keyserver = db('config')->where('config_code', 'ali_sms_accessKeySecret')->value('config_value');
+            wkcache('smsaccessKeySecret', $keyserver);
+        }
+        $sign = rkcache('smssign');
+        if (!$sign) {
+            $sign = db('config')->where('config_code', 'ali_sms_sign')->value('config_value');
+            wkcache('smssign', $sign);
+        }
 
         //引进阿里的配置文件
         Vendor('api_sdk.vendor.autoload');
