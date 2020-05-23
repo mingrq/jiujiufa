@@ -36,6 +36,6 @@ class Workorder extends Model
      */
     public function overWorkOrder($workorder_id,$time)
     {
-        return db('workorder')->where('wo_id', $workorder_id)->update(['wo_state' => 1, 'wo_dispose_time' =>$time]);
+        return db('workorder')->where('wo_id', $workorder_id)->update(['wo_state' => 2, 'wo_dispose_time' =>$time]);
     }
 }
