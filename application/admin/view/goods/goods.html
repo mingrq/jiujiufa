@@ -89,26 +89,26 @@
             <div class="layui-inline">
                 <label class="m-form-label">会员价</label>
                 <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="会员价" id="serach_param"
+                    <input type="text" placeholder="会员价" id="good_price"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="m-form-label">代理价</label>
                 <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="代理价" id="serach_param"
+                    <input type="text" placeholder="代理价" id="good_vip_price"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="m-form-label">API价</label>
                 <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="API价" id="serach_param"
+                    <input type="text" placeholder="API价" id="good_api_price"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
 
-            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">设置</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="setprice()">设置</button>
         </div>
     </form>
     <!--表格-->
@@ -222,6 +222,31 @@
                 goodtitle: $('#serach_param').val(),
                 warehouse: $('#serach_warehouse').val()
             } //设定异步数据接口的额外参数
+        });
+    }
+
+    /**
+     * 批量设置价格
+     */
+    function setprice() {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/goods/batcheditprice",
+            data: {
+                good_price:$('#good_price').val(),
+                good_vip_price: $('#good_vip_price').val(),
+                good_api_price: $('#good_api_price').val()
+            },
+            success: function (result) {
+                if (result.code == 10000) {
+
+                }
+            },
+            error: function () {
+                layer.msg('修改失败，请稍后再试');
+            }
         });
     }
 </script>

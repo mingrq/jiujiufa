@@ -8,6 +8,7 @@
 
 namespace app\admin\controller;
 
+use think\Db;
 
 class Goods extends AdminBaseController
 {
@@ -41,13 +42,34 @@ class Goods extends AdminBaseController
         $field = input('param.field');
         $kdId = input('param.kdId');
         $price = input('param.price');
-        $qurey= db('goods')->where('kdId',$kdId)->setField($field,$price);
-       if ($qurey){
-           ds_json_encode(10000,"修改价格成功");
-       }
-       ds_json_encode(10001,"修改价格失败");
+        $qurey = db('goods')->where('kdId', $kdId)->setField($field, $price);
+        if ($qurey) {
+            ds_json_encode(10000, "修改价格成功");
+        }
+        ds_json_encode(10001, "修改价格失败");
     }
 
+    /**
+     * 批量设置价格
+     */
+
+    public function batcheditprice()
+    {
+
+        $good_price = input('param.good_price');
+        $good_vip_price = input('param.good_vip_price');
+        $good_api_price = input('param.good_api_price');
+
+        //$qurey = db('goods')->update(['good_price'=>$good_price,'good_vip_price'=>$good_vip_price,'good_api_price'=>$good_api_price]);
+        //$qurey = db('goods')->setField(['good_price'=>3,'good_vip_price'=>2,'good_api_price'=>1]);
+        // $qurey =Db::execute("UPDATE `lb_goods` SET `good_price` = ".$good_price.",`good_vip_price` = ".$good_vip_price.",`good_api_price` = ".$good_api_price);
+        $qurey = Db::execute("update `lb_goods` set `good_price` = 3,`good_vip_price` = 2,`good_api_price` = 1");
+
+        if ($qurey) {
+            ds_json_encode(10000, "修改价格成功");
+        }
+        ds_json_encode(10001, "修改价格失败");
+    }
 
     /**
      * 搜索礼品
@@ -95,7 +117,10 @@ class Goods extends AdminBaseController
     }
 
 
-    public function test()
+    /**
+     * 更新商品列表
+     */
+    public function goodsupdate()
     {
         $mod = model('goodsupdate');
         $mod->goods_update();
