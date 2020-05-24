@@ -3,8 +3,10 @@
         <div class="header-top">
             <div class="login-info">
                 <span class="welcome">你好，欢迎来到玖玖发网！</span>
-                <a href="" class="userinfo">{$Think.session.MUserName}</a>
+                {if condition="$Think.session.MUserName"}
+                <a href="{:url('member/index/index')}" class="userinfo">{$Think.session.MUserName}</a>
                 <a href="{:url('member/login/exitLogin')}" class="user-exit">退出</a>
+                {/if}
             </div>
             <ul class="list-nav">
                 <li><a href="">邀请好友</a></li>
@@ -20,7 +22,7 @@
                 </div>
                 <ul class="nav">
                     <li>
-                        <a href="">首 页</a>
+                        <a href="{:url('/')}">首 页</a>
                     </li>
                     <li>
                         <a href="">礼品商城</a>

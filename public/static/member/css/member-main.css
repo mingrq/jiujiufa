@@ -920,11 +920,19 @@ a {
     color: #666666;
     outline: none;
     height: 36px;
-    font-size: 16px;
+    font-size: 14px;
     width: 250px;
     padding: 0px;
     margin: 0px;
     float: left;
+}
+.login-box .login-input .sendsms{
+    width: 132px;
+    line-height: 36px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #e1e1e1;
+    cursor: pointer;
 }
 
 .login-box .login-btn .subbtn{
