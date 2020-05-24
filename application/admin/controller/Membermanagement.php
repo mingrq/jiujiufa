@@ -140,9 +140,21 @@ class Membermanagement extends AdminBaseController
         return $this->fetch();
     }
 
-    /**充值记录*/
+    /**资金明细*/
     public function financialdetails()
     {
         return $this->fetch();
+    }
+
+    /**获取资金明细列表*/
+    public function getfinancialdetailslist()
+    {
+        $member_id = input('param.member_id');
+        $financialdetailslist = db('member')->where('member_id0', $member_id)->select();
+        if ($financialdetailslist) {
+            ds_json_encode(10000, "获取资金明细成功", $financialdetailslist);
+        } else {
+            ds_json_encode(10001, "获取资金明细失败");
+        }
     }
 }

@@ -36,13 +36,21 @@ class Goods extends AdminBaseController
     /**
      * 设置价格
      */
-    public function editprice(){
-
+    public function editprice()
+    {
+        $field = input('param.field');
+        $kdId = input('param.kdId');
+        $price = input('param.price');
+        $qurey= db('goods')->where('kdId',$kdId)->setField($field,$price);
+       if ($qurey){
+           ds_json_encode(10000,"修改价格成功");
+       }
+       ds_json_encode(10001,"修改价格失败");
     }
 
 
     /**
-     * 搜索用户
+     * 搜索礼品
      */
     public function serachgoodslist()
     {
@@ -75,13 +83,14 @@ class Goods extends AdminBaseController
     /**
      * 获取仓库信息列表
      */
-    public function getwarehouselist(){
+    public function getwarehouselist()
+    {
         $model = model('warehouse');
-        $warehouses =$model->getWarehouselist();
-        if ($warehouses){
-            ds_json_encode(10000,"获取仓库列表成功",$warehouses);
-        }else{
-            ds_json_encode(10001,"获取仓库列表失败");
+        $warehouses = $model->getWarehouselist();
+        if ($warehouses) {
+            ds_json_encode(10000, "获取仓库列表成功", $warehouses);
+        } else {
+            ds_json_encode(10001, "获取仓库列表失败");
         }
     }
 

@@ -42,4 +42,9 @@ class Login extends Controller
         }
     }
 
+    public function loginout(){
+        session('admin_id', null);
+        session('admin_loginname', null);
+        $this->redirect('/admin/login.html');
+    }
 }

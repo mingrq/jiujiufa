@@ -83,8 +83,36 @@
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
         </div>
     </form>
+    <form class="layui-form" action="" style="margin-top: -20px">
+        <label class="m-form-label">批量设置价格</label>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="m-form-label">会员价</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="会员价" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="m-form-label">代理价</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="代理价" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="m-form-label">API价</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="API价" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">设置</button>
+        </div>
+    </form>
     <!--表格-->
-    <table id="sample-table" lay-filter="table_goods"></table>
+    <table id="sample-table" lay-filter="table_goods" style="margin-top: -15px"></table>
 </div>
 <!--主图显示-->
 <script type="text/html" id="table_main_pic">
@@ -97,8 +125,8 @@
     var table;
     var form;
     layui.use(['table', 'form'], function () {
-         table = layui.table;
-         form = layui.form;
+        table = layui.table;
+        form = layui.form;
 
         $(function () {
             $.ajax({
@@ -128,7 +156,7 @@
             , url: '/admin/goods/getgoodslist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
-            , height: 'full-130'
+            , height: 'full-170'
             , cols: [[
                 {field: 'goodsTitle', width: 300, align: 'center', title: '商品标题'}
                 , {field: 'good_pic', width: 140, align: 'center', title: '主图', templet: '#table_main_pic'}
@@ -167,38 +195,21 @@
         });
 
         table.on('edit(table_goods)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-            if (obj.field == 'good_price') {
-                //会员价
-
-            } else if (obj.field == 'good_vip_price') {
-                //代理价
-
-            } else if (obj.field == 'good_api_price') {
-                //api价
-
-            }
             $.ajax({
                 //几个参数需要注意一下
                 type: "GET",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/good/editprice",
+                url: "/admin/goods/editprice",
+                data: {
+                    field: obj.field,
+                    kdId: obj.data.kdId,
+                    price: obj.value
+                },
                 success: function (result) {
-                    if (result.code == 10000) {
-                        //设置下拉框数据
-                        for (let i = 0; i < result.result.length; i++) {
-                            let rank = result.result[i];
-                            $("#serach_rank").append("<option value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
-                        }
-                        form.render('select');
-                    }
                 },
                 error: function () {
-
                 }
             });
-            console.log(obj.value); //得到修改后的值
-            console.log(obj.field); //当前编辑的字段名
-            console.log(obj.data); //所在行的所有相关数据
         });
 
     })

@@ -14,5 +14,4 @@ class Advertising extends AdminBaseController
     public function index(){
         return $this->fetch('advertising');
     }
-
 }
