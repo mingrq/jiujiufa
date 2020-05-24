@@ -29,44 +29,39 @@ class Sms extends Model
 
     public function sendverify($mobile, $mode)
     {
-        if (!request()->isPost()) {
-            ds_json_encode(10001, '请求格式不正确');
-        } else {
-            $templete = "";
-            if ($mode == 'login') {
-                $templete = rkcache('SMSLOGIN');
-                if (!$templete) {
-                    $templete = db('config')->where('config_code', 'ali_sms_temp_login')->value('config_value');
-                    wkcache('SMSLOGIN', $templete);
-                }
-            } else if ($mode == 'register') {
-                $templete = rkcache('REGISTER');
-                if (!$templete) {
-                    $templete = db('config')->where('config_code', 'ali_sms_temp_regiter')->value('config_value');
-                    wkcache('REGISTER', $templete);
-                }
-            } else if ($mode == 'findback') {
-                $templete = rkcache('FINDBACK');
-                if (!$templete) {
-                    $templete = db('config')->where('config_code', 'ali_sms_temp_pwback')->value('config_value');
-                    wkcache('FINDBACK', $templete);
-                }
+        $templete = "";
+        if ($mode == 'login') {
+            $templete = rkcache('SMSLOGIN');
+            if (!$templete) {
+                $templete = db('config')->where('config_code', 'ali_sms_temp_login')->value('config_value');
+                wkcache('SMSLOGIN', $templete);
             }
-            if (rkcache($mobile)) {
-                ds_json_encode(10001, '验证码发送太频繁');
+        } else if ($mode == 'register') {
+            $templete = rkcache('REGISTER');
+            if (!$templete) {
+                $templete = db('config')->where('config_code', 'ali_sms_temp_regiter')->value('config_value');
+                wkcache('REGISTER', $templete);
+            }
+        } else if ($mode == 'findback') {
+            $templete = rkcache('FINDBACK');
+            if (!$templete) {
+                $templete = db('config')->where('config_code', 'ali_sms_temp_pwback')->value('config_value');
+                wkcache('FINDBACK', $templete);
+            }
+        }
+        if (rkcache($mobile)) {
+            ds_json_encode(10001, '验证码发送太频繁');
+        } else {
+            $code = rand(1000, 9999);
+            $result = $this->alisendSms($mobile, $code, $templete);
+            if ($result->Code == 'OK') {
+                wkcache($mobile, $code, 58);
+                ds_json_encode(10000, '验证码发送成功');
             } else {
-                $code = rand(1000, 9999);
-                $result = $this->alisendSms($mobile, $code, $templete);
-                if ($result->Code == 'OK') {
-                    wkcache($mobile, $code, 58);
-                    ds_json_encode(10000, '验证码发送成功');
-                } else {
-                    ds_json_encode(10001, '验证码发送失败');
-                }
+                ds_json_encode(10001, '验证码发送失败');
             }
         }
     }
-
 
 
     /**

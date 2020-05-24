@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <link rel="stylesheet" href="/static/common/layui/css/layui.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
+    <script type="text/javascript">
+        var layer;
+        var form;
+        $(function () {
+            layui.use(['layer', 'form'], function () {
+                form = layui.form;
+                layer = layui.layer;
+
+                form.on('submit(register)', function (data) {
+                    $.ajax({
+                        url: "{:url('/member/login/register')}",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            muserid: $("#muserid").val(),
+                            password: $("#password").val(),
+                            mobile: $("#userPhone").val(),
+                            vscode: $("#vscode").val()
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            if (data.code == 10000) {
+                                layer.msg(data.message, {
+                                    icon: 1,
+                                    time: 2000
+                                }, function () {
+                                    window.location.href = "{:url('/member/login/login')}";
+                                });
+                            } else {
+                                layer.msg(data.message, {
+                                    icon: 2,
+                                    time: 3000
+                                });
+                            }
+                        },
+                        error: function () {
+                            layer.msg('注册失败', {
+                                icon: 2,
+                                time: 3000
+                            });
+                        }
+                    });
+                    return false;
+                });
+            })
+        })
+    </script>
+</head>
+<body>
+<!--HEADER-->
+{include file="public/header" /}
+<!--END HEADER-->
+<div class="login-bg">
+    <div class="login-bg-box">
+        <img class="login-bg-img" src="/static/member/images/login-bg01.jpg"/>
+        <div class="login-box">
+            <div class="ltitle">会员注册</div>
+            <form action="" method="post">
+                <div class="login-input">
+                    <label><img src="/static/member/images/login-account-icon.png"/></label>
+                    <input type="text" name="muserid" id="muserid" placeholder="账号"/>
+                </div>
+                <div class="login-input">
+                    <label><img src="/static/member/images/login-pwd-icon.png"></label>
+                    <input type="password" name="password" id="password" placeholder="密码"/>
+                </div>
+                <div class="login-input">
+                    <label><img src="/static/member/images/login-mobile-icon.png"></label>
+                    <input type="text" name="mobile" id="userPhone" placeholder="手机号"/>
+                </div>
+                <div class="login-input">
+                    <label><img src="/static/member/images/login-verify-icon.png"></label>
+                    <input type="text" name="vscode" id="vscode" placeholder="短信验证码" style="width: 130px;"/>
+                    <button type="button" class="sendsms" id="sendsms">获取短信验证码</button>
+                </div>
+                <div class="login-btn">
+                    <button lay-submit lay-filter="register" class="subbtn"/>
+                    注 册</button>
+                </div>
+            </form>
+            <script type="text/javascript">
+                var countdown = 60;
+                $("#sendsms").click(function () {
+                    // 验证手机号格式 发送验证码
+                    var mobile = $("#userPhone").val();
+                    if (isPhoneNum(mobile)) {
+                        // 发送验证码
+                        $.ajax({
+                            url: "{:url('/member/login/sendSMS')}",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                mobile: $("#userPhone").val()
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                if (data.code == 10000) {
+                                    layer.msg(data.message, {
+                                        icon: 1,
+                                        time: 2000
+                                    });
+                                    // 开始倒计时
+                                    setTime($("#sendsms"));
+                                } else {
+                                    layer.msg(data.message, {
+                                        icon: 2,
+                                        time: 3000
+                                    });
+                                }
+                            },
+                            error: function () {
+                                layer.msg('发送失败', {
+                                    icon: 2,
+                                    time: 3000
+                                });
+                            }
+                        });
+                    }
+                });
+
+                function setTime(obj) {
+                    if (countdown == 0) {
+                        obj.prop('disabled', false);
+                        obj.text("获取短信验证码");
+                        countdown = 60;//60秒过后button上的文字初始化,计时器初始化;
+                        return;
+                    } else {
+                        obj.prop('disabled', true);
+                        obj.text("(" + countdown + "s)后重新发送");
+                        countdown--;
+                    }
+                    setTimeout(function () {
+                        setTime(obj)
+                    }, 1000) //每1000毫秒执行一次
+                }
+
+                //校验手机号是否合法
+                function isPhoneNum(phonenum) {
+                    // var phonenum = $("#userPhone").val();
+                    // var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                    var reg = /^1(3|4|5|6|7|8|9)\d{9}$/;
+                    if (!reg.test(phonenum)) {
+                        // alert('请输入有效的手机号码！');
+                        layer.open({
+                            content: "请输入有效的手机号码"
+                        });
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+{include file="public/footer" /}
+<!-- END footer -->
+</body>
+</html>
