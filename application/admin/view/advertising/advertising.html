@@ -72,60 +72,38 @@
     <table id="sample-table" lay-filter="table_adver"></table>
 </div>
 <!--添加广告样式-->
-<div id="add_ads_style" style="display:none">
-    <div class="add_adverts">
-        <ul>
-            <li>
-                <label class="label_name">所属分类</label>
-                <span class="cont_style">
-  <select class="form-control" id="form-field-select-1">
-    <option value="">选择分类</option>
-    <option value="AL">首页大幻灯片</option>
-    <option value="AK">首页小幻灯片</option>
-    <option value="AZ">单广告图</option>
-    <option value="AR">其他广告</option>
-    <option value="CA">板块栏目广告</option>
-  </select></span>
-            </li>
-            <li><label class="label_name">图片尺寸</label><span class="cont_style">
-  <input name="长" type="text" id="form-field-1" placeholder="0" class="col-xs-10 col-sm-5" style="width:80px">
-  <span class="l_f" style="margin-left:10px;">x</span><input name="宽" type="text" id="form-field-1" placeholder="0"
-                                                             class="col-xs-10 col-sm-5" style="width:80px"></span></li>
-            <li><label class="label_name">显示排序</label><span class="cont_style"><input name="排序" type="text"
-                                                                                      id="form-field-1" placeholder="0"
-                                                                                      class="col-xs-10 col-sm-5"
-                                                                                      style="width:50px"></span></li>
-            <li><label class="label_name">链接地址</label><span class="cont_style"><input name="地址" type="text"
-                                                                                      id="form-field-1" placeholder="地址"
-                                                                                      class="col-xs-10 col-sm-5"
-                                                                                      style="width:450px"></span></li>
-            <li><label class="label_name">状&nbsp;&nbsp;态：</label>
-                <span class="cont_style">
-     &nbsp;&nbsp;<label><input name="form-field-radio1" type="radio" checked="checked" class="ace"><span
-                        class="lbl">显示</span></label>&nbsp;&nbsp;&nbsp;
-     <label><input name="form-field-radio1" type="radio" class="ace"><span class="lbl">隐藏</span></label></span>
-                <div class="prompt r_f"></div>
-            </li>
-            <li><label class="label_name">图片</label><span class="cont_style">
- <div class="demo">
-	           <div class="logobox"><div class="resizebox"><img src="{$Think.ADMIN_SITE_ROOT}/images/image.png"
-                                                                width="100px" alt="" height="100px"/></div></div>
-               <div class="logoupload">
-                  <div class="btnbox"><a id="uploadBtnHolder" class="uploadbtn" href="javascript:;">上传替换</a></div>
-                  <div style="clear:both;height:0;overflow:hidden;"></div>
-                  <div class="progress-box" style="display:none;">
-                    <div class="progress-num">上传进度：<b>0%</b></div>
-                    <div class="progress-bar"><div style="width:0%;" class="bar-line"></div></div>
-                  </div>  <div class="prompt"><p>图片大小小于5MB,支持.jpg;.gif;.png;.jpeg格式的图片</p></div>
-              </div>
+<script type="text/html" id="adv_add">
+   <div style="padding: 20px">
+       <form class="layui-form" id="serach_param_form" action="" lay-filter="example">
+           <div class="layui-form-item">
+               <label class="m-form-label" >广告类型</label>
+               <div class="layui-input-inline" style="width: 120px">
+                   <select name="modules" id="adv_class" lay-verify="required" lay-search="">
+                       <option value="">广告分类</option>
+                   </select>
+               </div>
            </div>
-   </span>
-            </li>
+           <div class="layui-form-item">
+               <label class="m-form-label">广告链接</label>
+               <div class="layui-input-block" style="margin-left: 10px;width: 300px">
+                   <input type="text" name="pic_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？" placeholder="请输入广告链接" autocomplete="off" class="layui-input" >
+               </div>
+           </div>
+           <div class="layui-form-item">
+               <label class="m-form-label">广告图片</label>
+               <div class="layui-input-block" style="margin-left: 10px;width: 300px">
+                   <input id="pic_url" type="text" name="pic_url" lay-verify="required" lay-reqtext="广告图片是必填项，岂能为空？" placeholder="请输入广告图片" autocomplete="off" class="layui-input" >
+               </div>
+               <div class="layui-input-block" style="margin-left: 10px;margin-top: 5px">
+                   <button type="button" class="layui-btn layui-btn-normal" id="update_pic">选择文件</button>
+               </div>
+           </div>
+       </form>
+   </div>
+
+</script>
 
 
-        </ul>
-    </div>
-</div>
 <!--主图显示-->
 <script type="text/html" id="table_main_pic">
     <div class="layer-photos-demo">
@@ -141,10 +119,12 @@
     var table;
     var laydate;
     var form;
-    layui.use(['table', 'laydate', 'form'], function () {
+    var upload;
+    layui.use(['upload','table', 'laydate', 'form'], function () {
         table = layui.table;
         laydate = layui.laydate;
         form = layui.form;
+        upload = layui.upload;
 
         $(function () {
             $.ajax({
@@ -158,6 +138,7 @@
                         for (let i = 0; i < result.result.length; i++) {
                             let adclass = result.result[i];
                             $("#serach_class").append("<option value='" + adclass.ad_class_id + "'>" + adclass.ad_class_name + "</option>");
+                            $("#adv_class").append("<option value='" + adclass.ad_class_id + "'>" + adclass.ad_class_name + "</option>");
                         }
                         form.render('select');
                     }
@@ -238,11 +219,67 @@
 
             }
         });
+
+        //选完文件后不自动上传
+        upload.render({
+            elem: '#update_pic'
+            ,auto: false
+            //,multiple: true
+            ,bindAction: '#update_pic'
+            ,done: function(res){
+                layer.msg('上传成功');
+                console.log(res)
+            }
+        });
     });
+
 
     /**添加*/
     function add() {
+        layer.open({
+            type: 1,
+            title: '添加广告',
+            content: $('#adv_add').html(),
+            btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                let alipay_app_id = $("#alipay_app_id").val();
+                let alipay_merchant_private_key = $("#alipay_merchant_private_key").val();
+                let alipay_public_key = $("#alipay_public_key").val();
+                if (alipay_app_id == '') {
+                    layer.msg("支付宝APP_ID不能为空");
+                    return;
+                }
+                if (alipay_merchant_private_key == '') {
+                    layer.msg("支付宝商户私钥不能为空");
+                    return;
+                }
+                if (alipay_public_key == '') {
+                    layer.msg("支付宝公钥不能为空");
+                    return;
+                }
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/paymentconfigure/setalipayconfigure",
+                    data: {
+                        alipay_app_id: alipay_app_id,
+                        alipay_merchant_private_key: alipay_merchant_private_key,
+                        alipay_public_key: alipay_public_key
+                    },
+                    success: function (result) {
+                        layer.msg(result.message);
+                        if (result.code == 10000) {
+                            layer.close(index);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('支付宝支付配置失败，请稍后再试');
+                    }
+                });
 
+            }
+        });
     }
 
 
