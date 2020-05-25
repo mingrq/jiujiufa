@@ -65,11 +65,11 @@
 
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
 
-            <button type="button" class="layui-inline layui-btn layui-btn-warm " onclick="serach()">添加广告</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-warm " onclick="add()">添加广告</button>
         </div>
     </form>
     <!--表格-->
-    <table id="sample-table" lay-filter="table_member"></table>
+    <table id="sample-table" lay-filter="table_adver"></table>
 </div>
 <!--添加广告样式-->
 <div id="add_ads_style" style="display:none">
@@ -208,64 +208,50 @@
         laydate.render({
             elem: '#serach_param_date_end'
         });
-    });
+        table.on('tool(table_adver)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            let data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
-
-    /** 修改密码*/
-    function del(data) {
-        layer.open({
-            type: 1,
-            title: '修改密码',
-            content: $('#alter_pw_html').html(),
-            btn: ['确定', '取消']
-            , yes: function (index, layero) {
-                let password = $("#alter_password").val().trim();
-                let passwordagain = $("#alter_password_again").val().trim();
-                if (password == '') {
-                    layer.msg("密码不能为空");
-                    return;
-                }
-                if (passwordagain == '') {
-                    layer.msg("请再次输入密码");
-                    return;
-                }
-                if (password != passwordagain) {
-                    layer.msg("两次输入密码不同");
-                    return;
-                }
-                $.ajax({
-                    //几个参数需要注意一下
-                    type: "POST",//方法类型
-                    dataType: "json",//预期服务器返回的数据类型
-                    url: "/admin/membermanagement/updatepassword",
-                    data: {
-                        memberid: data.member_id,
-                        password: password,
-                    },
-                    success: function (result) {
-                        layer.msg(result.message);
-                        if (result.code == 10000) {
-                            layer.close(index);
+            if (layEvent === 'advertising_del') { //删除
+                layer.confirm('这个广告确定要删除吗', function (index) {
+                    $.ajax({
+                        //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: "json",//预期服务器返回的数据类型
+                        url: "/admin/advertising/deladver",
+                        data: {
+                            ad_id: data.ad_id
+                        },
+                        success: function (result) {
+                            layer.msg(result.message);
+                            if (result.code == 10000) {
+                                obj.del();
+                                layer.close(index);
+                            }
+                        },
+                        error: function () {
+                            layer.msg('删除失败，请稍后再试');
                         }
-                    },
-                    error: function () {
-                        layer.msg('修改失败，请稍后再试');
-                    }
+                    });
                 });
 
             }
         });
-        $('#alter_pw_mobile').html(data.member_mobile);
+    });
+
+    /**添加*/
+    function add() {
+
     }
+
 
     /**搜索*/
     function serach() {
         table.reload('sample-table', {
-            url: '/admin/membermanagement/serachmemberlist'
+            url: '/admin/advertising/serachadverlist'
             , where: {
-                accountorqq: $('#serach_param').val(),
-                referrer: $('#search_user_level').val(),
-                rank: $('#serach_rank').val(),
+                adclass: $('#serach_class').val(),
                 dateatart: $('#serach_param_date_atart').val(),
                 dateend: $('#serach_param_date_end').val()
             } //设定异步数据接口的额外参数

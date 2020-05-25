@@ -42,4 +42,55 @@ class Advertising extends AdminBaseController
             ds_json_encode(10000, "获取广告分类失败");
         }
     }
+
+    /**
+     * 搜索广告
+     */
+    public function serachadverlist()
+    {
+        $condition = array();
+
+        $serach_class = input('param.serach_class');
+        if ($serach_class) {
+            $condition["ad_class"] = $serach_class;
+        }
+
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["ad_add_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["ad_add_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["ad_add_time"] = ['<=', $dateend];
+            }
+        }
+
+
+        $query = db('v_advertising')
+            ->where($condition)
+            ->order('ad_id desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索广告成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索广告失败");
+        }
+    }
+
+    /**
+     * 删除广告
+     */
+    public function deladver(){
+        $query=db('advertising')->where('ad_id',input('ad_id'))->delete();
+        if ($query){
+            ds_json_encode(10000, "删除广告成功");
+        }
+        ds_json_encode(10001, "删除广告失败");
+    }
 }
