@@ -90,21 +90,21 @@
                 <label class="m-form-label">会员价</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" placeholder="会员价" id="good_price"
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" value="{$goods_mem_defult_price}">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="m-form-label">代理价</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" placeholder="代理价" id="good_vip_price"
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" value="{$goods_vip_defult_price}">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="m-form-label">API价</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" placeholder="API价" id="good_api_price"
-                           autocomplete="off" class="layui-input">
+                           autocomplete="off" class="layui-input" value="{$goods_api_defult_price}">
                 </div>
             </div>
 
@@ -241,7 +241,7 @@
             },
             success: function (result) {
                 if (result.code == 10000) {
-
+                    table.reload('sample-table');
                 }
             },
             error: function () {

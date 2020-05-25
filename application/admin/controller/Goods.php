@@ -15,6 +15,12 @@ class Goods extends AdminBaseController
 
     public function index()
     {
+        $goods_mem_defult_price = db('config')->where('config_id', '6')->value('config_value');
+        $goods_vip_defult_price = db('config')->where('config_id', '7')->value('config_value');
+        $goods_api_defult_price = db('config')->where('config_id', '8')->value('config_value');
+        $this->assign('goods_mem_defult_price', $goods_mem_defult_price);
+        $this->assign('goods_vip_defult_price', $goods_vip_defult_price);
+        $this->assign('goods_api_defult_price', $goods_api_defult_price);
         return $this->fetch('goods');
     }
 
@@ -23,6 +29,7 @@ class Goods extends AdminBaseController
      */
     public function getgoodslist()
     {
+
         $mode = model('goods');
         $condition = array("good_state" => 1);
         $query = $mode->getGoodsList($condition);
@@ -55,16 +62,13 @@ class Goods extends AdminBaseController
 
     public function batcheditprice()
     {
-
         $good_price = input('param.good_price');
         $good_vip_price = input('param.good_vip_price');
         $good_api_price = input('param.good_api_price');
-
-        //$qurey = db('goods')->update(['good_price'=>$good_price,'good_vip_price'=>$good_vip_price,'good_api_price'=>$good_api_price]);
-        //$qurey = db('goods')->setField(['good_price'=>3,'good_vip_price'=>2,'good_api_price'=>1]);
-        // $qurey =Db::execute("UPDATE `lb_goods` SET `good_price` = ".$good_price.",`good_vip_price` = ".$good_vip_price.",`good_api_price` = ".$good_api_price);
-        $qurey = Db::execute("update `lb_goods` set `good_price` = 3,`good_vip_price` = 2,`good_api_price` = 1");
-
+        db('config')->update(['config_value' => $good_price, 'config_id' => 6]);
+        db('config')->update(['config_value' => $good_vip_price, 'config_id' => 7]);
+        db('config')->update(['config_value' => $good_api_price, 'config_id' => 8]);
+        $qurey = db('goods')->where('kdId', '>', '0')->update(['good_price' => $good_price, 'good_vip_price' => $good_vip_price, 'good_api_price' => $good_api_price]);
         if ($qurey) {
             ds_json_encode(10000, "修改价格成功");
         }
@@ -126,5 +130,11 @@ class Goods extends AdminBaseController
         $mod->goods_update();
     }
 
-
+    /**
+     * 获取默认价格
+     */
+    public function getdefultprice()
+    {
+        return db('config')->where('config_id', 'in', [6, 7, 8])->select();
+    }
 }
