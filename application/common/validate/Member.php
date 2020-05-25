@@ -22,6 +22,7 @@ class Member extends Validate
     protected $scene = [
         'register' => ['member_login_name', 'member_login_pw', 'member_mobile'],
         'login' => ['member_login_name', 'member_login_pw'],
+        'findpwd' => ['member_login_pw'],
         'edit_pwd' =>['member_login_pw','member_qq'],
         'edit' =>['member_qq']
     ];
