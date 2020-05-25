@@ -39,10 +39,15 @@ class Login extends Controller
             $value = rkcache($mobile);
             if (empty($value)) {
                 // 验证码错误
-                ds_json_encode(10002, "验证码错误", $data);
+                ds_json_encode(10002, "验证码错误", null);
             }
             if ($vscode != $value) {
-                ds_json_encode(10002, "验证码错误", $data);
+                ds_json_encode(10002, "验证码错误", null);
+            }
+            // 判断手机号唯一性
+            $memberMobi = Member::get(['member_mobile' => $mobile]);
+            if (!empty($memberMobi) && $memberMobi['member_mobile'] == $mobile) {
+                ds_json_encode(10002, "此手机号已使用，请更换其它手机号注册", null);
             }
 
             $ndata = [
@@ -118,6 +123,57 @@ class Login extends Controller
                 $this->error("账号或密码错误", url("member/login/login"));
             }
         } else {
+            return $this->fetch();
+        }
+    }
+
+    /**
+     * 找回密码
+     */
+    public function findPwd()
+    {
+        if ($this->request->isPost()) {
+            $member_login_pw = trim($this->request->post("password"));
+            $mobile = trim($this->request->post("mobile"));
+            $vscode = trim($this->request->post("vscode"));
+
+            // 首先判断是否有这个手机号
+            $memberMobi = Member::get(['member_mobile' => $mobile]);
+            if (!empty($memberMobi) && $memberMobi['member_mobile'] == $mobile && $memberMobi['member_id']) {
+                $data = [
+                    'member_login_pw' => $member_login_pw
+                ];
+                $validate = Loader::validate("Member");
+                $result = $validate->scene('findpwd')->check($data);
+                if ($result !== true) {
+                    // $this->error($validate->getError(), url("member/login/login"));
+                    ds_json_encode(10002, $validate->getError());
+                }
+                // 验证 验证码
+                $value = rkcache($mobile);
+                if (empty($value)) {
+                    // 验证码错误
+                    ds_json_encode(10002, "验证码错误", null);
+                }
+                if ($vscode != $value) {
+                    ds_json_encode(10002, "验证码错误", null);
+                }
+                //更新数据库密码
+                $res = $memberMobi->save([
+                    'member_login_pw' => substr(md5($member_login_pw), 8, 16)
+                ], ['member_id' => $memberMobi['member_id']]);
+                if ($res > 0) {
+                    // 成功
+                    ds_json_encode(10000, "更新成功");
+                } else {
+                    // 失败
+                    ds_json_encode(10001, "更新失败");
+                }
+            } else {
+                // 没有这个手机号
+                ds_json_encode(10002, "此手机号未注册");
+            }
+        }else{
             return $this->fetch();
         }
     }

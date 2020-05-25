@@ -948,4 +948,12 @@ a {
     cursor: pointer;
 }
 
+.login-box .jump-link{
+    line-height: 30px;
+    text-align: right;
+    font-size: 12px;
+}
+.login-box .jump-link a:hover{
+    color: #FF464E;
+}
 
