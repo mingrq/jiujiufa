@@ -7,9 +7,11 @@
  */
 
 namespace app\admin\controller;
-use malipay\malipay;
 
-class Myest extends AdminBaseController
+use malipay\malipay;
+use think\Controller;
+
+class Myest extends Controller
 {
 
     /**
@@ -18,24 +20,26 @@ class Myest extends AdminBaseController
     public function batchadduser()
     {
         for ($i = 0; $i < 100; $i++) {
-            if ($i<10){
-                $mm = $i."2";
-            }else{
+            if ($i < 10) {
+                $mm = $i . "2";
+            } else {
                 $mm = $i;
             }
-            $data =["member_login_name"=>"133212".$mm."354","member_login_pw"=>"96e79218965eb72c92a549dd5a330112","member_mobile"=>"133212".$mm."354","member_qq"=>"123456".$i."478","member_rank"=>"1"];
+            $data = ["member_login_name" => "133212" . $mm . "354", "member_login_pw" => "96e79218965eb72c92a549dd5a330112", "member_mobile" => "133212" . $mm . "354", "member_qq" => "123456" . $i . "478", "member_rank" => "1"];
             $mod = model('register');
             $mod->register_member($data);
         }
-        ds_json_encode(10000,"");
+        ds_json_encode(10000, "");
     }
 
 
     /**
      * 支付测试
      */
-    public function paytest(){
-            $pay = new malipay();
-
+    public function paytest()
+    {
+        $m = model('alipay');
+        $return=  $m->payform('123645789952',525,'测试订单','订单描述');
+        ds_json_encode(10000, "safas", $return);
     }
 }

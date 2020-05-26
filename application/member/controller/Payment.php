@@ -27,6 +27,6 @@ class Payment extends MemberBase
      * 跳转页面
      */
     public function alipayreturn(){
-
+        return $this->fetch();
     }
 }
