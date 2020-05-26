@@ -43,6 +43,9 @@
                 <div class="layui-input-inline" style="width: 120px">
                     <select name="modules" id="serach_class" lay-verify="required" lay-search="">
                         <option value="">广告分类</option>
+                        {foreach $data as $adclass}
+                        <option value="{$adclass.ad_class_id}">{$adclass.ad_class_name}</option>
+                        {/foreach}
                     </select>
                 </div>
             </div>
@@ -73,33 +76,6 @@
 </div>
 <!--添加广告样式-->
 <script type="text/html" id="adv_add">
-   <div style="padding: 20px">
-       <form class="layui-form" id="serach_param_form" action="" lay-filter="example">
-           <div class="layui-form-item">
-               <label class="m-form-label" >广告类型</label>
-               <div class="layui-input-inline" style="width: 120px">
-                   <select name="modules" id="adv_class" lay-verify="required" lay-search="">
-                       <option value="">广告分类</option>
-                   </select>
-               </div>
-           </div>
-           <div class="layui-form-item">
-               <label class="m-form-label">广告链接</label>
-               <div class="layui-input-block" style="margin-left: 10px;width: 300px">
-                   <input type="text" name="pic_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？" placeholder="请输入广告链接" autocomplete="off" class="layui-input" >
-               </div>
-           </div>
-           <div class="layui-form-item">
-               <label class="m-form-label">广告图片</label>
-               <div class="layui-input-block" style="margin-left: 10px;width: 300px">
-                   <input id="pic_url" type="text" name="pic_url" lay-verify="required" lay-reqtext="广告图片是必填项，岂能为空？" placeholder="请输入广告图片" autocomplete="off" class="layui-input" >
-               </div>
-               <div class="layui-input-block" style="margin-left: 10px;margin-top: 5px">
-                   <button type="button" class="layui-btn layui-btn-normal" id="update_pic">选择文件</button>
-               </div>
-           </div>
-       </form>
-   </div>
 
 </script>
 
@@ -119,35 +95,10 @@
     var table;
     var laydate;
     var form;
-    var upload;
-    layui.use(['upload','table', 'laydate', 'form'], function () {
+    layui.use(['table', 'laydate', 'form'], function () {
         table = layui.table;
         laydate = layui.laydate;
         form = layui.form;
-        upload = layui.upload;
-
-        $(function () {
-            $.ajax({
-                //几个参数需要注意一下
-                type: "GET",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/advertising/getaddverisingclass",
-                success: function (result) {
-                    if (result.code == 10000) {
-                        //设置下拉框数据
-                        for (let i = 0; i < result.result.length; i++) {
-                            let adclass = result.result[i];
-                            $("#serach_class").append("<option value='" + adclass.ad_class_id + "'>" + adclass.ad_class_name + "</option>");
-                            $("#adv_class").append("<option value='" + adclass.ad_class_id + "'>" + adclass.ad_class_name + "</option>");
-                        }
-                        form.render('select');
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        });
 
         table.render({
             elem: '#sample-table'
@@ -219,66 +170,19 @@
 
             }
         });
-
-        //选完文件后不自动上传
-        upload.render({
-            elem: '#update_pic'
-            ,auto: false
-            //,multiple: true
-            ,bindAction: '#update_pic'
-            ,done: function(res){
-                layer.msg('上传成功');
-                console.log(res)
-            }
-        });
     });
 
 
     /**添加*/
     function add() {
         layer.open({
-            type: 1,
-            title: '添加广告',
-            content: $('#adv_add').html(),
-            btn: ['确定', '取消']
-            , yes: function (index, layero) {
-                let alipay_app_id = $("#alipay_app_id").val();
-                let alipay_merchant_private_key = $("#alipay_merchant_private_key").val();
-                let alipay_public_key = $("#alipay_public_key").val();
-                if (alipay_app_id == '') {
-                    layer.msg("支付宝APP_ID不能为空");
-                    return;
-                }
-                if (alipay_merchant_private_key == '') {
-                    layer.msg("支付宝商户私钥不能为空");
-                    return;
-                }
-                if (alipay_public_key == '') {
-                    layer.msg("支付宝公钥不能为空");
-                    return;
-                }
-                $.ajax({
-                    //几个参数需要注意一下
-                    type: "POST",//方法类型
-                    dataType: "json",//预期服务器返回的数据类型
-                    url: "/admin/paymentconfigure/setalipayconfigure",
-                    data: {
-                        alipay_app_id: alipay_app_id,
-                        alipay_merchant_private_key: alipay_merchant_private_key,
-                        alipay_public_key: alipay_public_key
-                    },
-                    success: function (result) {
-                        layer.msg(result.message);
-                        if (result.code == 10000) {
-                            layer.close(index);
-                        }
-                    },
-                    error: function () {
-                        layer.msg('支付宝支付配置失败，请稍后再试');
-                    }
-                });
-
-            }
+            type: 2,
+            title: '很多时候，我们想最大化看，比如像这个页面。',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: '/admin/advertising/addadvertising.html'
         });
     }
 

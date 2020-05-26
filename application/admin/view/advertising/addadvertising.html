@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加广告</title>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+</head>
+<body>
+
+<div style="padding: 20px">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告类型</label>
+            <div class="layui-input-block">
+                <select name="adv_class" id="adv_class" lay-verify="required" lay-search="">
+                    {foreach $data as $adclass}
+                    <option value="{$adclass.ad_class_id}">{$adclass.ad_class_name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="adv_link" id="adv_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？" placeholder="请输入广告链接" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告图片</label>
+
+            <div class="layui-input-inline" style="display: flex;width: 240px">
+                <input name="site_logowx" type="file"style="position:absolute; top:0px; right:0px; height:34px; width:286px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;" id="adv_pic_sel" size="30" hidefocus="true" ds_type="change_site_logowx">
+                <input type="text" name="adv_pic" id="adv_pic" lay-verify="required" lay-reqtext="广告图片是必填项，岂能为空？" placeholder="请输入广告图片地址"  class="layui-input">
+                <input type='button' name='button' id='button1' value='上传' style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;" />
+            </div>
+            <div class="layui-input-inline">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="btn_sub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $("#adv_pic_sel").change(function () {
+        $("#adv_pic").val($("#adv_pic_sel").val());
+    });
+    /**设置等级下拉框数据*/
+    var form;
+    var upload;
+    layui.use(['upload', 'form'], function () {
+        form = layui.form;
+        upload = layui.upload;
+
+        //选完文件后不自动上传
+        upload.render({
+            elem: '#update_pic'
+            ,auto: false
+            //,multiple: true
+            , exts: 'jpg|png|'
+            ,bindAction: '#adv_pic'
+            ,done: function(res){
+                layer.msg('上传成功');
+                console.log(res)
+            }
+        });
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

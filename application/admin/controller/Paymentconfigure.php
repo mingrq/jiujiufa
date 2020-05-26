@@ -39,4 +39,5 @@ class Paymentconfigure extends AdminBaseController
         ds_json_encode(10000,"支付宝支付配置成功");
     }
 
+
 }

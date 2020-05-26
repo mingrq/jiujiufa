@@ -7,11 +7,15 @@
  */
 
 namespace app\admin\controller;
-
+use malipay\malipay;
 
 class Myest extends AdminBaseController
 {
-    public function batchadd()
+
+    /**
+     * 批量添加用户
+     */
+    public function batchadduser()
     {
         for ($i = 0; $i < 100; $i++) {
             if ($i<10){
@@ -24,5 +28,14 @@ class Myest extends AdminBaseController
             $mod->register_member($data);
         }
         ds_json_encode(10000,"");
+    }
+
+
+    /**
+     * 支付测试
+     */
+    public function paytest(){
+            $pay = new malipay();
+
     }
 }

@@ -9,6 +9,7 @@ require_once dirname(__FILE__) . '/pagepay/service/AlipayTradeService.php';
 require_once dirname(__FILE__) . '/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php';
 require_once dirname(__FILE__) . '/pagepay/buildermodel/AlipayTradeQueryContentBuilder.php';
 require_once dirname(__FILE__) . '/pagepay/buildermodel/AlipayTradeRefundContentBuilder.php';
+
 class malipay
 {
 

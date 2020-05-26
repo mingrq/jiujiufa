@@ -13,6 +13,9 @@ class Advertising extends AdminBaseController
 {
     public function index()
     {
+        $model = model('advertising');
+        $query = $model->getaddverisingclass();
+        $this->assign('data',$query);
         return $this->fetch('advertising');
     }
 
@@ -93,4 +96,15 @@ class Advertising extends AdminBaseController
         }
         ds_json_encode(10001, "删除广告失败");
     }
+
+    /**
+     * 添加广告
+     */
+    public function addadvertising(){
+        $model = model('advertising');
+        $query = $model->getaddverisingclass();
+        $this->assign('data',$query);
+        return $this->fetch();
+    }
+
 }
