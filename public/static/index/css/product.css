@@ -1,0 +1,313 @@
+@charset "utf8";
+
+.prodict-con-box {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    background-color: #F4F5F6;
+    border-top: 2px solid #FF464E;
+}
+
+.prodict-con {
+    width: 1200px;
+    margin: 25px auto;
+    position: relative;
+}
+
+.prodict-con .cangku {
+    width: 1198px;
+    float: left;
+    border: 1px solid #DDDDDD;
+}
+
+.prodict-con .cangku .pck-title {
+    width: 130px;
+    float: left;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.prodict-con .cangku ul {
+    width: 1038px;
+    padding-left: 15px;
+    padding-right: 15px;
+    float: left;
+    background-color: #ffffff;
+}
+
+.prodict-con .cangku ul li {
+    display: inline-block;
+    line-height: 50px;
+    font-size: 14px;
+    padding: 0px 15px;
+    cursor: pointer;
+}
+
+.prodict-con .cangku ul li:hover {
+    color: #FF464E;
+}
+
+.prodict-con .paixu {
+    width: 1198px;
+    float: left;
+    border: 1px solid #DDDDDD;
+    border-top: none;
+}
+
+
+.prodict-con .paixu .px-title {
+    width: 130px;
+    float: left;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.prodict-con .paixu ul {
+    width: 1038px;
+    padding-left: 15px;
+    padding-right: 15px;
+    float: left;
+    background-color: #ffffff;
+}
+
+.prodict-con .paixu ul li {
+    display: inline-block;
+    line-height: 50px;
+    font-size: 14px;
+    padding: 0px 15px;
+    cursor: pointer;
+}
+
+.prodict-con .paixu ul li:hover {
+    color: #FF464E;
+}
+
+.newproduct-box {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.newproduct {
+    width: 1200px;
+    margin: 25px auto;
+    position: relative;
+}
+
+.newproduct .newproduct-top {
+    width: 100%;
+    border-bottom: 1px solid #efefef;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.newproduct .newproduct-top .nptitle {
+    font-size: 20px;
+    line-height: 28px;
+    border-left: 5px solid #ff464e;
+    padding-left: 15px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.newproduct .newproduct-top .npmore {
+    display: inline-block;
+    line-height: 28px;
+    float: right;
+    color: #999999;
+}
+
+.newproduct .newproduct-top .npmore:hover {
+    color: #ff464e;
+}
+
+.newproduct .newproduct-list {
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.newproduct .newproduct-list li {
+    width: 180px;
+    padding: 9px;
+    float: left;
+    overflow: hidden;
+    border: 1px solid #efefef;
+    margin: 10px 20px;
+}
+
+.newproduct .newproduct-list li:hover {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+.newproduct .newproduct-list li .newproduct-pic {
+    width: 180px;
+    height: 180px;
+    float: left;
+    overflow: hidden;
+}
+
+.newproduct .newproduct-list li .newproduct-pic img {
+    width: 100%;
+    height: 100%;
+}
+
+.newproduct .newproduct-list li .nwpro-title {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    font-size: 12px;
+    color: #999999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.newproduct .newproduct-list li .nwpro-price {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-bottom: 6px;
+}
+
+.newproduct .newproduct-list li .nwpro-price .price {
+    color: #FF464E;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.newproduct .newproduct-list li .nwpro-price .util {
+    font-size: 14px;
+    color: #333333;
+}
+
+.newproduct .newproduct-list li .nwpro-buy-btn {
+    width: 100%;
+    text-align: center;
+}
+
+.newproduct .newproduct-list li .nwpro-buy-btn button {
+    display: inline-block;
+    line-height: 28px;
+    border: 1px solid #FF464E;
+    margin-top: 5px;
+    color: #FF464E;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.newproduct .newproduct-list li .nwpro-buy-btn button:hover {
+    background-color: #FF464E;
+    color: #ffffff;
+}
+
+
+.news-box {
+    width: 100%;
+    float: left;
+    background-color: #F4F5F6;
+    overflow: hidden;
+    position: relative;
+}
+
+.news {
+    width: 1200px;
+    margin: 0px auto;
+    position: relative;
+}
+
+.news .news-main {
+    width: 100%;
+    float: left;
+    margin: 25px auto;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.news-single {
+    width: 360px;
+    float: left;
+    margin: 10px 20px;
+    overflow: hidden;
+}
+
+.news-single .news-single-top {
+    width: 100%;
+    float: left;
+    border-bottom: 2px solid #FF464E;
+    padding: 10px 0px;
+}
+
+.news-single .news-single-top .nstitle {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 28px;
+}
+
+.news-single .news-single-top .nsmore {
+    display: inline-block;
+    float: right;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.news-single .news-single-top .nsmore:hover {
+    color: #FF464E;
+}
+
+.news-single .news-single-list {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+}
+
+.news-single .news-single-list li {
+    width: 100%;
+    float: left;
+    line-height: 28px;
+    margin: 8px 0px;
+}
+
+.news-single .news-single-list li .nslinum {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    float: left;
+    background-color: #C9CACA;
+    border-radius: 100%;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.news-single .news-single-list li .nstitle {
+    display: inline-block;
+    width: 320px;
+    float: left;
+    padding-left: 12px;
+    color: #333333;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.news-single .news-single-list li .nstitle:hover {
+    color: #FF464E;
+}
+

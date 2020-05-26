@@ -136,178 +136,58 @@
             <div id="wrapBoxb" class="wrapBoxb">
                 <ul id="countb" class="countb">
                     <li>
-                        <div class="hotproduct-single">
+                        {foreach $hotProductOne as $key=>$product}
+                        <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
                             <a href="">
                                 <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
+                                    <img src="{$product.good_pic}"/>
                                 </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
+                                <p class="hpro-title">{$product.goodsTitle}</p>
                                 <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
+                                    <span class="price">￥ {$product.good_price} </span><span class="util">元/单</span>
                                 </p>
                                 <p class="hpro-buy-btn">
                                     <button>立即购买</button>
                                 </p>
                             </a>
                         </div>
-                        <div class="hotproduct-single">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="hotproduct-single">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="hotproduct-single nom">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
+                        {/foreach}
                     </li>
                     <li>
-                        <div class="hotproduct-single">
+                        {foreach $hotProductTwo as $key=>$product}
+                        <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
                             <a href="">
                                 <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
+                                    <img src="{$product.good_pic}"/>
                                 </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
+                                <p class="hpro-title">{$product.goodsTitle}</p>
                                 <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
+                                    <span class="price">￥ {$product.good_price} </span><span class="util">元/单</span>
                                 </p>
                                 <p class="hpro-buy-btn">
                                     <button>立即购买</button>
                                 </p>
                             </a>
                         </div>
-                        <div class="hotproduct-single">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="hotproduct-single">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="hotproduct-single nom">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
+                        {/foreach}
                     </li>
                     <li>
-                        <div class="hotproduct-single">
+                        {foreach $hotProductTwo as $key=>$product}
+                        <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
                             <a href="">
                                 <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
+                                    <img src="{$product.good_pic}"/>
                                 </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
+                                <p class="hpro-title">{$product.goodsTitle}</p>
                                 <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
+                                    <span class="price">￥ {$product.good_price} </span><span class="util">元/单</span>
                                 </p>
                                 <p class="hpro-buy-btn">
                                     <button>立即购买</button>
                                 </p>
                             </a>
                         </div>
-                        <div class="hotproduct-single">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="hotproduct-single">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="hotproduct-single nom">
-                            <a href="">
-                                <div class="hpro-pic">
-                                    <img src="/static/index/images/product.jpg"/>
-                                </div>
-                                <p class="hpro-title">家用封口夹5个装家用封口夹5家用封口夹5个装家用封口夹5</p>
-                                <p class="hpro-price">
-                                    <span class="price">￥ 1.88 </span><span class="util">元/单</span>
-                                </p>
-                                <p class="hpro-buy-btn">
-                                    <button>立即购买</button>
-                                </p>
-                            </a>
-                        </div>
+                        {/foreach}
                     </li>
                 </ul>
             </div>
