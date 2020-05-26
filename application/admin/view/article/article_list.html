@@ -1,31 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="Cache-Control" content="no-siteapp" />
- <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
-        <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
-        <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace.min.css" />
-        <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/font/css/font-awesome.min.css" />
-        <!--[if lte IE 8]>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
+    <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/font/css/font-awesome.min.css"/>
+    <!--[if lte IE 8]>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace-ie.min.css"/>
     <![endif]-->
-		<script src="{$Think.ADMIN_SITE_ROOT}/js/jquery-1.9.1.min.js"></script>
-        <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/bootstrap.min.js"></script>
-		<script src="{$Think.ADMIN_SITE_ROOT}/assets/js/typeahead-bs2.min.js"></script>
-        <script src="{$Think.ADMIN_SITE_ROOT}/js/lrtk.js" type="text/javascript" ></script>
-		<script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.dataTables.min.js"></script>
-		<script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.dataTables.bootstrap.js"></script>
-        <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript" ></script>
-        <script src="{$Think.ADMIN_SITE_ROOT}/assets/laydate/laydate.js" type="text/javascript"></script>
-        <script src="{$Think.ADMIN_SITE_ROOT}/js/H-ui.js" type="text/javascript"></script>
-        <script src="{$Think.ADMIN_SITE_ROOT}/js/displayPart.js" type="text/javascript"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/jquery-1.9.1.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/bootstrap.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/typeahead-bs2.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/lrtk.js" type="text/javascript"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.dataTables.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/laydate/laydate.js" type="text/javascript"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/H-ui.js" type="text/javascript"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/displayPart.js" type="text/javascript"></script>
     <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
-<title>文章管理</title>
+    <title>文章管理</title>
 </head>
 
 <body>
@@ -33,31 +34,17 @@
     <form class="layui-form" action="">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="m-form-label">查询</label>
-                <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="手机号/QQ" id="serach_param"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="m-form-label">推荐人</label>
-                <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="推荐人账号" id="search_user_level"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="m-form-label">会员等级</label>
+                <label class="m-form-label">资讯分类</label>
                 <div class="layui-input-inline" style="width: 120px">
                     <select name="modules" id="serach_rank" lay-verify="required" lay-search="">
-                        <option value="">会员等级</option>
+                        <option value="">资讯分类</option>
                     </select>
                 </div>
             </div>
 
-            <div class="layui-inline" style="margin-right: -12px;">
+            <div class="layui-inline" >
                 <label class="m-form-label">日期</label>
-                <div class="layui-input-inline" style="width: 110px">
+                <div class="layui-input-inline" style="width: 110px;margin-right: -4px">
                     <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
                            placeholder="开始日期"
                            autocomplete="off" class="layui-input">
@@ -65,18 +52,24 @@
             </div>
             <div class="layui-inline">
                 <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
-                <div class="layui-input-inline" style="width: 110px">
+                <div class="layui-input-inline" style="width: 110px;margin-left: -10px;">
                     <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url" placeholder="结束日期"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
 
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
+
+            <a class="layui-inline layui-btn layui-btn-warm" href="/admin/article/addarticle.html">添加资讯</a>
         </div>
     </form>
     <!--表格-->
     <table id="sample-table" lay-filter="table_member"></table>
 </div>
+<!--表格item工具-->
+<script type="text/html" id="table_operation_toolbar">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" style="margin-top: 3px" lay-event="advertising_del">删除</a>
+</script>
 <script>
     /**设置等级下拉框数据*/
     var table;
@@ -87,45 +80,42 @@
         laydate = layui.laydate;
         form = layui.form;
 
-        $(function () {
-            $.ajax({
-                //几个参数需要注意一下
-                type: "GET",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/rank/getranklist",
-                success: function (result) {
-                    if (result.code == 10000) {
-                        //设置下拉框数据
-                        for (let i = 0; i < result.result.length; i++) {
-                            let rank = result.result[i];
-                            $("#serach_rank").append("<option value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
-                        }
-                        form.render('select');
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        });
+        // $(function () {
+        //     $.ajax({
+        //         //几个参数需要注意一下
+        //         type: "GET",//方法类型
+        //         dataType: "json",//预期服务器返回的数据类型
+        //         url: "/admin/rank/getranklist",
+        //         success: function (result) {
+        //             if (result.code == 10000) {
+        //                 //设置下拉框数据
+        //                 for (let i = 0; i < result.result.length; i++) {
+        //                     let rank = result.result[i];
+        //                     $("#serach_rank").append("<option value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
+        //                 }
+        //                 form.render('select');
+        //             }
+        //         },
+        //         error: function () {
+        //
+        //         }
+        //     });
+        // });
 
         table.render({
             elem: '#sample-table'
-            , url: '/admin/membermanagement/memberlist'
+            , url: '/admin/article/articlelist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
             , height: 'full-110'
             , cols: [[
-                {field: 'member_mobile', width: 120, align: 'center', title: '用户(手机)'}
-                , {field: 'member_qq', width: 120, align: 'center', title: 'QQ'}
-                , {field: 'rank_name', title: '等级', align: 'center', width: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'referrer_name', align: 'center', title: '推荐人(手机)', width: 120}
-                , {field: 'member_balance', title: '余额(元)', align: 'center', width: 120, sort: true,}
-                , {field: 'member_addtime', title: '注册时间', width: 160, align: 'center', sort: true}
-                , {field: 'operation', align: 'center', title: '操作', toolbar: '#table_operation_toolbar'}
+                {field: 'article_title', align: 'center', title: '资讯标题'}
+                , {field: 'ac_name', align: 'center', title: '资讯分类', width: 160}
+                , {field: 'article_description',  align: 'center', title: '资讯描述'}
+                , {field: 'article_time', title: '添加时间', align: 'center', width: 160} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'operation', align: 'center', title: '操作', width: 120, toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
-                console.log(res);
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -151,224 +141,258 @@
         laydate.render({
             elem: '#serach_param_date_end'
         });
-        // form.render({
-        //     elem: '#serach_param_form'
-        // });
+
         table.on('tool(table_member)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             let data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
-            if (layEvent === 'special_price') { //特殊价格
-                setnav('特殊价格');
-                window.location.href = '/admin/membermanagement/specialprice.html'
-            } else if (layEvent === 'reward_punish') { //奖罚
-                reward_punish(data, function (balance) {
-                    obj.update({
-                        member_balance: balance.toString()
+            if (layEvent === 'advertising_del') { //删除
+                layer.confirm('这个资讯确定要删除吗', function (index) {
+                    $.ajax({
+                        //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: "json",//预期服务器返回的数据类型
+                        url: "/admin/article/delarticle",
+                        data: {
+                            article_id: data.article_id
+                        },
+                        success: function (result) {
+                            layer.msg(result.message);
+                            if (result.code == 10000) {
+                                obj.del();
+                                layer.close(index);
+                            }
+                        },
+                        error: function () {
+                            layer.msg('删除失败，请稍后再试');
+                        }
                     });
                 });
-            } else if (layEvent === 'recharge_record') { //充值记录
-                setnav('充值记录');
-                window.location.href = '/admin/membermanagement/rechargerecord.html'
-            } else if (layEvent === 'change_password') { //修改密码
-                alter_password(data);
-            } else if (layEvent === 'financial_details') { //资金明细
-                setnav('资金明细');
-                window.location.href = '/admin/membermanagement/financialdetails.html'
+
             }
         });
+
+
+
+        // form.render({
+        //     elem: '#serach_param_form'
+        // });
+        // table.on('tool(table_member)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        //     let data = obj.data; //获得当前行数据
+        //     var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        //     var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+        //
+        //     if (layEvent === 'special_price') { //特殊价格
+        //         setnav('特殊价格');
+        //         window.location.href = '/admin/membermanagement/specialprice.html'
+        //     } else if (layEvent === 'reward_punish') { //奖罚
+        //         reward_punish(data, function (balance) {
+        //             obj.update({
+        //                 member_balance: balance.toString()
+        //             });
+        //         });
+        //     } else if (layEvent === 'recharge_record') { //充值记录
+        //         setnav('充值记录');
+        //         window.location.href = '/admin/membermanagement/rechargerecord.html'
+        //     } else if (layEvent === 'change_password') { //修改密码
+        //         alter_password(data);
+        //     } else if (layEvent === 'financial_details') { //资金明细
+        //         setnav('资金明细');
+        //         window.location.href = '/admin/membermanagement/financialdetails.html'
+        //     }
+        // });
     });
 
-    /**设置面包屑导航*/
-    function setnav(cname) {
-        var chref = window.location.href;
-        console.log(cname + "   " + chref)
-        var herf = parent.$("#iframe").attr("src");
-        parent.$('#parentIframe').html(cname);
-        parent.$('#iframe').attr("src", chref).ready();
-        parent.$('#parentIframe').css("display", "inline-block");
-        parent.$('.Current_page').attr({"name": herf, "href": "javascript:void(0)"}).css({
-            "color": "#4c8fbd",
-            "cursor": "pointer"
-        });
-    }
-
-    /** 奖罚*/
-    function reward_punish(data, callback) {
-        layer.open({
-            type: 1,
-            title: '奖罚',
-            content: $('#reward_punish_html').html(),
-            btn: ['确定', '取消']
-            , yes: function (index, layero) {
-                let rewardsmoney = $("#rewards_money").val();
-                let rewardscause = $("#rewards_cause").val();
-                if (rewardsmoney == '') {
-                    layer.msg("奖罚金额不能为空");
-                    return;
-                }
-                if (rewardscause == '') {
-                    layer.msg("奖罚原因不能为空");
-                    return;
-                }
-                $.ajax({
-                    //几个参数需要注意一下
-                    type: "POST",//方法类型
-                    dataType: "json",//预期服务器返回的数据类型
-                    url: "/admin/membermanagement/rewardpunish",
-                    data: {
-                        memberid: data.member_id,
-                        rewardsmoney: rewardsmoney,
-                        rewardscause: rewardscause
-                    },
-                    success: function (result) {
-                        layer.msg(result.message);
-                        if (result.code == 10000) {
-                            layer.close(index);
-                            callback(parseFloat(rewardsmoney) + parseFloat(data.member_balance));
-                        }
-                    },
-                    error: function () {
-                        layer.msg('奖罚失败，请稍后再试');
-                    }
-                });
-
-            }
-        });
-        $('#reward_mobile').html(data.member_mobile);
-    }
-
-    /** 修改密码*/
-    function alter_password(data) {
-        layer.open({
-            type: 1,
-            title: '修改密码',
-            content: $('#alter_pw_html').html(),
-            btn: ['确定', '取消']
-            , yes: function (index, layero) {
-                let password = $("#alter_password").val().trim();
-                let passwordagain = $("#alter_password_again").val().trim();
-                if (password == '') {
-                    layer.msg("密码不能为空");
-                    return;
-                }
-                if (passwordagain == '') {
-                    layer.msg("请再次输入密码");
-                    return;
-                }
-                if (password != passwordagain) {
-                    layer.msg("两次输入密码不同");
-                    return;
-                }
-                $.ajax({
-                    //几个参数需要注意一下
-                    type: "POST",//方法类型
-                    dataType: "json",//预期服务器返回的数据类型
-                    url: "/admin/membermanagement/updatepassword",
-                    data: {
-                        memberid: data.member_id,
-                        password: password,
-                    },
-                    success: function (result) {
-                        layer.msg(result.message);
-                        if (result.code == 10000) {
-                            layer.close(index);
-                        }
-                    },
-                    error: function () {
-                        layer.msg('修改失败，请稍后再试');
-                    }
-                });
-
-            }
-        });
-        $('#alter_pw_mobile').html(data.member_mobile);
-    }
-
-    /**搜索*/
-    function serach() {
-        table.reload('sample-table', {
-            url: '/admin/membermanagement/serachmemberlist'
-            , where: {
-                accountorqq: $('#serach_param').val(),
-                referrer: $('#search_user_level').val(),
-                rank: $('#serach_rank').val(),
-                dateatart: $('#serach_param_date_atart').val(),
-                dateend: $('#serach_param_date_end').val()
-            } //设定异步数据接口的额外参数
-        });
-    }
+    // /**设置面包屑导航*/
+    // function setnav(cname) {
+    //     var chref = window.location.href;
+    //     console.log(cname + "   " + chref)
+    //     var herf = parent.$("#iframe").attr("src");
+    //     parent.$('#parentIframe').html(cname);
+    //     parent.$('#iframe').attr("src", chref).ready();
+    //     parent.$('#parentIframe').css("display", "inline-block");
+    //     parent.$('.Current_page').attr({"name": herf, "href": "javascript:void(0)"}).css({
+    //         "color": "#4c8fbd",
+    //         "cursor": "pointer"
+    //     });
+    // }
+    //
+    // /** 奖罚*/
+    // function reward_punish(data, callback) {
+    //     layer.open({
+    //         type: 1,
+    //         title: '奖罚',
+    //         content: $('#reward_punish_html').html(),
+    //         btn: ['确定', '取消']
+    //         , yes: function (index, layero) {
+    //             let rewardsmoney = $("#rewards_money").val();
+    //             let rewardscause = $("#rewards_cause").val();
+    //             if (rewardsmoney == '') {
+    //                 layer.msg("奖罚金额不能为空");
+    //                 return;
+    //             }
+    //             if (rewardscause == '') {
+    //                 layer.msg("奖罚原因不能为空");
+    //                 return;
+    //             }
+    //             $.ajax({
+    //                 //几个参数需要注意一下
+    //                 type: "POST",//方法类型
+    //                 dataType: "json",//预期服务器返回的数据类型
+    //                 url: "/admin/membermanagement/rewardpunish",
+    //                 data: {
+    //                     memberid: data.member_id,
+    //                     rewardsmoney: rewardsmoney,
+    //                     rewardscause: rewardscause
+    //                 },
+    //                 success: function (result) {
+    //                     layer.msg(result.message);
+    //                     if (result.code == 10000) {
+    //                         layer.close(index);
+    //                         callback(parseFloat(rewardsmoney) + parseFloat(data.member_balance));
+    //                     }
+    //                 },
+    //                 error: function () {
+    //                     layer.msg('奖罚失败，请稍后再试');
+    //                 }
+    //             });
+    //
+    //         }
+    //     });
+    //     $('#reward_mobile').html(data.member_mobile);
+    // }
+    //
+    // /** 修改密码*/
+    // function alter_password(data) {
+    //     layer.open({
+    //         type: 1,
+    //         title: '修改密码',
+    //         content: $('#alter_pw_html').html(),
+    //         btn: ['确定', '取消']
+    //         , yes: function (index, layero) {
+    //             let password = $("#alter_password").val().trim();
+    //             let passwordagain = $("#alter_password_again").val().trim();
+    //             if (password == '') {
+    //                 layer.msg("密码不能为空");
+    //                 return;
+    //             }
+    //             if (passwordagain == '') {
+    //                 layer.msg("请再次输入密码");
+    //                 return;
+    //             }
+    //             if (password != passwordagain) {
+    //                 layer.msg("两次输入密码不同");
+    //                 return;
+    //             }
+    //             $.ajax({
+    //                 //几个参数需要注意一下
+    //                 type: "POST",//方法类型
+    //                 dataType: "json",//预期服务器返回的数据类型
+    //                 url: "/admin/membermanagement/updatepassword",
+    //                 data: {
+    //                     memberid: data.member_id,
+    //                     password: password,
+    //                 },
+    //                 success: function (result) {
+    //                     layer.msg(result.message);
+    //                     if (result.code == 10000) {
+    //                         layer.close(index);
+    //                     }
+    //                 },
+    //                 error: function () {
+    //                     layer.msg('修改失败，请稍后再试');
+    //                 }
+    //             });
+    //
+    //         }
+    //     });
+    //     $('#alter_pw_mobile').html(data.member_mobile);
+    // }
+    //
+    // /**搜索*/
+    // function serach() {
+    //     table.reload('sample-table', {
+    //         url: '/admin/membermanagement/serachmemberlist'
+    //         , where: {
+    //             accountorqq: $('#serach_param').val(),
+    //             referrer: $('#search_user_level').val(),
+    //             rank: $('#serach_rank').val(),
+    //             dateatart: $('#serach_param_date_atart').val(),
+    //             dateend: $('#serach_param_date_end').val()
+    //         } //设定异步数据接口的额外参数
+    //     });
+    // }
 
 </script>
 </body>
 </html>
 <!--<script>-->
 <!--$(function () {  -->
-        <!--$(".displayPart").displayPart();  -->
-   <!--});-->
- <!--//面包屑返回值-->
+<!--$(".displayPart").displayPart();  -->
+<!--});-->
+<!--//面包屑返回值-->
 <!--var index = parent.layer.getFrameIndex(window.name);-->
 <!--parent.layer.iframeAuto(index);-->
 <!--$('#add_page').on('click', function(){-->
-	<!--var cname = $(this).attr("title");-->
-	<!--var chref = $(this).attr("href");-->
-	<!--var cnames = parent.$('.Current_page').html();-->
-	<!--var herf = parent.$("#iframe").attr("src");-->
-    <!--parent.$('#parentIframe').html(cname);-->
-    <!--parent.$('#iframe').attr("src",chref).ready();;-->
-	<!--parent.$('#parentIframe').css("display","inline-block");-->
-	<!--parent.$('.Current_page').attr({"name":herf,"href":"javascript:void(0)"}).css({"color":"#4c8fbd","cursor":"pointer"});-->
-    <!--parent.layer.close(index);-->
-	<!---->
+<!--var cname = $(this).attr("title");-->
+<!--var chref = $(this).attr("href");-->
+<!--var cnames = parent.$('.Current_page').html();-->
+<!--var herf = parent.$("#iframe").attr("src");-->
+<!--parent.$('#parentIframe').html(cname);-->
+<!--parent.$('#iframe').attr("src",chref).ready();;-->
+<!--parent.$('#parentIframe').css("display","inline-block");-->
+<!--parent.$('.Current_page').attr({"name":herf,"href":"javascript:void(0)"}).css({"color":"#4c8fbd","cursor":"pointer"});-->
+<!--parent.layer.close(index);-->
+<!---->
 <!--}); -->
 <!--$(function() {-->
-		<!--var oTable1 = $('#sample-table').dataTable( {-->
-		<!--"aaSorting": [[ 1, "desc" ]],//默认第几个排序-->
-		<!--"bStateSave": true,//状态保存-->
-		<!--"aoColumnDefs": [-->
-		  <!--//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示-->
-		  <!--{"orderable":false,"aTargets":[0,2,3,4,5,7,]}// 制定列不参与排序-->
-		<!--] } );-->
-				<!--$('table th input:checkbox').on('click' , function(){-->
-					<!--var that = this;-->
-					<!--$(this).closest('table').find('tr > td:first-child input:checkbox')-->
-					<!--.each(function(){-->
-						<!--this.checked = that.checked;-->
-						<!--$(this).closest('tr').toggleClass('selected');-->
-					<!--});-->
-						<!---->
-				<!--});-->
+<!--var oTable1 = $('#sample-table').dataTable( {-->
+<!--"aaSorting": [[ 1, "desc" ]],//默认第几个排序-->
+<!--"bStateSave": true,//状态保存-->
+<!--"aoColumnDefs": [-->
+<!--//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示-->
+<!--{"orderable":false,"aTargets":[0,2,3,4,5,7,]}// 制定列不参与排序-->
+<!--] } );-->
+<!--$('table th input:checkbox').on('click' , function(){-->
+<!--var that = this;-->
+<!--$(this).closest('table').find('tr > td:first-child input:checkbox')-->
+<!--.each(function(){-->
+<!--this.checked = that.checked;-->
+<!--$(this).closest('tr').toggleClass('selected');-->
+<!--});-->
+<!---->
+<!--});-->
 <!--})-->
 
- <!--$(function() { -->
-	<!--$("#article_style").fix({-->
-		<!--float : 'left',-->
-		<!--//minStatue : true,-->
-		<!--skin : 'green',	-->
-		<!--durationTime :false,-->
-		<!--stylewidth:'220',-->
-		<!--spacingw:30,//设置隐藏时的距离-->
-	    <!--spacingh:250,//设置显示时间距-->
-		<!--set_scrollsidebar:'.Ads_style',-->
-		<!--table_menu:'.Ads_list'-->
-	<!--});-->
+<!--$(function() { -->
+<!--$("#article_style").fix({-->
+<!--float : 'left',-->
+<!--//minStatue : true,-->
+<!--skin : 'green',	-->
+<!--durationTime :false,-->
+<!--stylewidth:'220',-->
+<!--spacingw:30,//设置隐藏时的距离-->
+<!--spacingh:250,//设置显示时间距-->
+<!--set_scrollsidebar:'.Ads_style',-->
+<!--table_menu:'.Ads_list'-->
+<!--});-->
 <!--});-->
 <!--//初始化宽度、高度  -->
- <!--$(".widget-box").height($(window).height()); -->
- <!--$(".Ads_list").width($(window).width()-220);-->
-  <!--//当文档窗口发生改变时 触发  -->
-    <!--$(window).resize(function(){-->
-	<!--$(".widget-box").height($(window).height());-->
-	 <!--$(".Ads_list").width($(window).width()-220);-->
+<!--$(".widget-box").height($(window).height()); -->
+<!--$(".Ads_list").width($(window).width()-220);-->
+<!--//当文档窗口发生改变时 触发  -->
+<!--$(window).resize(function(){-->
+<!--$(".widget-box").height($(window).height());-->
+<!--$(".Ads_list").width($(window).width()-220);-->
 <!--});-->
 
 <!--/*文章-删除*/-->
 <!--function member_del(obj,id){-->
-	<!--layer.confirm('确认要删除吗？',{icon:0,},function(index){-->
-		<!--$(obj).parents("tr").remove();-->
-		<!--layer.msg('已删除!',{icon:1,time:1000});-->
-	<!--});-->
+<!--layer.confirm('确认要删除吗？',{icon:0,},function(index){-->
+<!--$(obj).parents("tr").remove();-->
+<!--layer.msg('已删除!',{icon:1,time:1000});-->
+<!--});-->
 <!--}-->
 
 <!--</script>-->

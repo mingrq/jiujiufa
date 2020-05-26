@@ -20,10 +20,10 @@ class Article extends Model
     public function articlelist($condition = array(), $field = '*', $page = 100, $order = 'article_id desc')
     {
         if ($page) {
-            $member_list = db('v_member')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
+            $member_list = db('v_article')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
             return $member_list;
         } else {
-            return db('v_member')->field($field)->where($condition)->order($order)->select();
+            return db('v_article')->field($field)->where($condition)->order($order)->select();
         }
     }
 }
