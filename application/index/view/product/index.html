@@ -1,0 +1,148 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>玖玖网</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/static/index/css/style.css">
+    <link rel="stylesheet" href="/static/index/css/product.css">
+</head>
+<body>
+{include file="public/header" /}
+<div class="prodict-con-box">
+    <div class="prodict-con">
+        <div class="cangku">
+            <div class="pck-title">仓库：</div>
+            <ul>
+                {foreach $warehouselist as $warehouse}
+                <li>{$warehouse.wh_title}</li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class="paixu">
+            <div class="px-title">排序：</div>
+            <ul>
+                <li>仓库1</li>
+                <li>仓库2</li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="newproduct-box">
+    <div class="newproduct">
+        <ul class="newproduct-list">
+            {foreach $newGoodsList as $goods}
+            <li>
+                <a href="">
+                    <div class="newproduct-pic">
+                        <img src="{$goods.good_pic}"/>
+                    </div>
+                    <p class="nwpro-title">{$goods.goodsTitle}</p>
+                    <p class="nwpro-price">
+                        <span class="price">￥ {$goods.good_price} </span><span class="util">元/单</span>
+                    </p>
+                    <p class="nwpro-buy-btn">
+                        <button>立即购买</button>
+                    </p>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="news-box">
+    <div class="news">
+        <div class="news-main">
+            <div class="news-single">
+                <div class="news-single-top">
+                    <span class="nstitle">电商资讯</span>
+                    <a href="" class="nsmore">MORE</a>
+                </div>
+                <ul class="news-single-list">
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="news-single">
+                <div class="news-single-top">
+                    <span class="nstitle">礼品资讯</span>
+                    <a href="" class="nsmore">MORE</a>
+                </div>
+                <ul class="news-single-list">
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="news-single">
+                <div class="news-single-top">
+                    <span class="nstitle">常见问题</span>
+                    <a href="" class="nsmore">MORE</a>
+                </div>
+                <ul class="news-single-list">
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                    <li>
+                        <span class="nslinum">01</span>
+                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{include file="public/footer" /}
+</body>
+</html>
