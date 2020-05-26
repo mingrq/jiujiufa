@@ -114,7 +114,6 @@
                 , {field: 'operation', align: 'center', title: '操作', width: 100, toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
-                console.log(res);
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -177,11 +176,11 @@
     function add() {
         layer.open({
             type: 2,
-            title: '很多时候，我们想最大化看，比如像这个页面。',
+            title: '添加广告',
             shadeClose: true,
             shade: false,
             maxmin: true, //开启最大化最小化按钮
-            area: ['893px', '600px'],
+            area: ['600px', '400px'],
             content: '/admin/advertising/addadvertising.html'
         });
     }
