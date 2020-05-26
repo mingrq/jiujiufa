@@ -19,6 +19,9 @@ class Goodsupdate
         $url = 'http://www.681kb.com/API/GetLp';
         $username = db('config')->where('config_code', 'goods_api_acc')->value('config_value');
         $pwd = db('config')->where('config_code', 'goods_api_pw')->value('config_value');
+        $goods_mem_defult_price = db('config')->where('config_code', 'goods_mem_defult_price')->value('config_value');
+        $goods_vip_defult_price = db('config')->where('config_code', 'goods_vip_defult_price')->value('config_value');
+        $goods_api_defult_price = db('config')->where('config_code', 'goods_api_defult_price')->value('config_value');
         $sid = time() . '123456369876';
         $pwd16 = substr(md5($pwd), 8, 16);
         $sign = strtolower(md5($username . $pwd16 . $sid));
@@ -76,6 +79,9 @@ class Goodsupdate
             } else {
                 //商品不存在
                 $param ["kdId"] = $kdId;
+                $param ["good_price"] = $goods_mem_defult_price;
+                $param ["good_vip_price"] = $goods_vip_defult_price;
+                $param ["good_api_price"] = $goods_api_defult_price;
                 db('goods')->insert($param);
             }
         }
