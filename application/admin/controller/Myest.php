@@ -7,13 +7,10 @@
  */
 
 namespace app\admin\controller;
-
-use malipay\malipay;
 use think\Controller;
 
 class Myest extends Controller
 {
-
     /**
      * 批量添加用户
      */
@@ -39,7 +36,7 @@ class Myest extends Controller
     public function paytest()
     {
         $m = model('alipay');
-        $return=  $m->payform('123645789952',525,'测试订单','订单描述');
+        $return=  $m->payform('545555455',525,'测试订单','订单描述');
         ds_json_encode(10000, "safas", $return);
     }
 }

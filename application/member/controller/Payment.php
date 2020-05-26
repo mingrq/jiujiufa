@@ -10,11 +10,9 @@
  * 支付回调
  */
 namespace app\member\controller;
-
-
-use app\common\controller\MemberBase;
-
-class Payment extends MemberBase
+use think\Controller;
+use malipay\malipay;
+class Payment extends Controller
 {
     /**
      * 异步通知地址
@@ -27,6 +25,7 @@ class Payment extends MemberBase
      * 跳转页面
      */
     public function alipayreturn(){
+
         return $this->fetch();
     }
 }

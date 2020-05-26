@@ -43,18 +43,18 @@ class malipay
      */
     public function pay($order_info)
     {
-        require_once dirname(__FILE__) . '/aop/AopCertClient.php';
+        require_once dirname(__FILE__) . '/aop/AopClient.php';
         require_once dirname(__FILE__) . '/aop/request/AlipayTradePagePayRequest.php';
-        $aop = new AopCertClient();
-        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop = new \AopClient();
+        $aop->gatewayUrl = $this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $aop->getPublicKey($this->config['alipay_public_key']);
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
         $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset = 'utf-8';
         $aop->format = 'json';
-        $request = new AlipayTradePagePayRequest();
+        $request = new \AlipayTradePagePayRequest();
         $request->setNotifyUrl($this->config['notify_url']);
         $request->setReturnUrl($this->config['return_url']);
         $request->setBizContent("{" .
@@ -70,15 +70,13 @@ class malipay
     }
 
 
-    public function paytest()
-    {
-        return "success";
-    }
-
-
+    /**
+     * 同步返回验证
+     * @return array
+     */
     public function return_verify()
     {
-        require_once dirname(__FILE__) . '/aop/AopCertClient.php';
+        require_once dirname(__FILE__) . '/aop/AopClient.php';
         $arr = $_GET;
         $return_result = array(
             'trade_status' => '0',
@@ -88,12 +86,11 @@ class malipay
         $out_trade_no = $temp['1'];  //返回的支付单号
         $order_type = $temp['0'];
 
-        $aop = new AopCertClient ();
-
-        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop = new \AopClient();
+        $aop->gatewayUrl = $this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $aop->getPublicKey($this->config['alipay_public_key']);
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
         $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset = 'utf-8';
@@ -112,19 +109,23 @@ class malipay
         return $return_result;
     }
 
+    /**
+     * 异步通知验证
+     * @return array
+     */
     public function verify_notify()
     {
-        require_once dirname(__FILE__) . '/aop/AopCertClient.php';
+        require_once dirname(__FILE__) . '/aop/AopClient.php';
         $arr = $_POST;
         $notify_result = array(
             'trade_status' => '0',
         );
-        $aop = new AopCertClient ();
+        $aop = new \AopClient();
 
-        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop->gatewayUrl =$this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $aop->getPublicKey($this->config['alipay_public_key']);
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
         $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset = 'utf-8';
@@ -151,14 +152,14 @@ class malipay
      */
     public function trade_refund($order_info, $refund_amount)
     {
-        require_once dirname(__FILE__) . '/aop/AopCertClient.php';
+        require_once dirname(__FILE__) . '/aop/AopClient.php';
         require_once dirname(__FILE__) . '/aop/request/AlipayTradeRefundRequest.php';
-        $aop = new AopCertClient ();
+        $aop = new \AopClient();
 
-        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop->gatewayUrl = $this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $aop->getPublicKey($this->config['alipay_public_key']);
+        $aop->alipayrsaPublicKey =$this->config['alipay_public_key'];
         $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset = 'utf-8';
@@ -191,7 +192,7 @@ class malipay
      */
     public function close($out_trade_no, $trade_no)
     {
-        require_once dirname(__FILE__) . '/aop/AopCertClient.php';
+        require_once dirname(__FILE__) . '/aop/AopClient.php';
         require_once dirname(__FILE__) . '/aop/request/AlipayTradeCloseRequest.php';
         //构造参数
         $bizContentarr = array();
@@ -203,11 +204,11 @@ class malipay
         $biz_content = json_encode($bizContentarr, JSON_UNESCAPED_UNICODE);
         $request = new AlipayTradeCloseRequest();
         $request->setBizContent($biz_content);
-        $aop = new AopClient ();
-        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop = new \AopClient();
+        $aop->gatewayUrl =$this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $aop->getPublicKey($this->config['alipay_public_key']);
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
         $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset = 'utf-8';
