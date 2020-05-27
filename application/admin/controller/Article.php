@@ -12,9 +12,10 @@ namespace app\admin\controller;
 class Article extends AdminBaseController
 {
 
-    public function index(){
-       $query= db('article_class')->select();
-       $this->assign('artclass',$query);
+    public function index()
+    {
+        $query = db('article_class')->select();
+        $this->assign('artclass', $query);
         return $this->fetch('article_list');
     }
 
@@ -22,11 +23,26 @@ class Article extends AdminBaseController
      * 添加文章
      * @return mixed
      */
-    public function addarticle(){
-        $query= db('article_class')->select();
-        $this->assign('artclass',$query);
-        return $this->fetch('article_add');
+    public function addarticle()
+    {
+        if (!request()->isPost()) {
+            $query = db('article_class')->select();
+            $this->assign('artclass', $query);
+            return $this->fetch('article_add');
+        } else {
+            $title = input("param.title");
+            $description = input("param.description");
+            $adclass = input("param.adclass");
+            $ueval = input("param.ueval");
+           $query= db('article')->insert(["article_title"=>$title,"article_description"=>$description,"ac_id"=>$adclass,"article_content"=>$ueval]);
+            if ($query) {
+                ds_json_encode(10000, "资讯添加成功");
+            } else {
+                ds_json_encode(10001, "资讯添加失败");
+            }
+        }
     }
+
 
     /**
      * 获取文章列表
@@ -45,9 +61,10 @@ class Article extends AdminBaseController
     /**
      * 删除文章
      */
-    public function delarticle(){
-        $query=db('article')->where('article_id',input('article_id'))->delete();
-        if ($query){
+    public function delarticle()
+    {
+        $query = db('article')->where('article_id', input('article_id'))->delete();
+        if ($query) {
             ds_json_encode(10000, "删除资讯成功");
         }
         ds_json_encode(10001, "删除资讯失败");
@@ -67,7 +84,7 @@ class Article extends AdminBaseController
             $condition['article_title'] = ['like', $serachtitle];
         }
 
-        $ac_id= input('param.serachclass');
+        $ac_id = input('param.serachclass');
         if ($ac_id) {
             $condition["ac_id"] = $ac_id;
         }

@@ -32,13 +32,13 @@
         <div class="add_content" id="form-article-add">
             <ul>
                 <li class="clearfix Mandatory">
-                    <label class="label_name"><i>*</i>公告标题</label><span class="formControls col-10"><input name="文章标题"
+                    <label class="label_name"><i>*</i>公告标题</label><span class="formControls col-10"><input name="公告标题"
                                                                                                            type="text"
-                                                                                                           id="form-field-1"
+                                                                                                           id="title"
                                                                                                            class="col-xs-10 col-sm-5 "></span>
                 </li>
                 <li class="clearfix Mandatory"><label class="label_name"><i>*</i>公告描述</label>
-                    <span class="formControls col-10"><input name="文章简介" type="text" id="form-field-1"
+                    <span class="formControls col-10"><input name="公告描述" type="text" id="description"
                                                              class="col-xs-10 col-sm-6 "></span>
                 </li>
 
@@ -49,7 +49,7 @@
                     </li>
                     </ul>
                     <div class="Button_operation">
-                        <button onclick="article_save_submit();" class="btn btn-primary radius" type="submit">保存并提交</button>
+                        <button onclick="notice_save_submit()" class="btn btn-primary radius" type="submit">保存并提交</button>
                         <button onclick="layer_close();" class="btn btn-default radius" type="button">
                         &nbsp;&nbsp;取消&nbsp;&nbsp;
                     </button>
@@ -58,71 +58,64 @@
                     </div>
                     </div>
                     <script type="text/javascript">
-                        /**提交操作**/
-                        function article_save_submit() {
-                            var num = 0;
-                            var str = "";
-                            $(".Mandatory input[type$='text']").each(function (n) {
-                                if ($(this).val() == "") {
+                    var ue = UE.getEditor('editor');
+                    /**提交操作**/
+                    function notice_save_submit() {
+                        var num = 0;
+                        var str = "";
+                        $(".Mandatory input[type$='text']").each(function (n) {
+                            if ($(this).val() == "") {
 
-                                    layer.alert(str += "" + $(this).attr("name") + "不能为空！\r\n", {
-                                        title: '提示框',
-                                        icon: 0,
-                                    });
-                                    num++;
-                                    return false;
+                                layer.alert(str += "" + $(this).attr("name") + "不能为空！\r\n", {
+                                    title: '提示框',
+                                    icon: 0,
+                                });
+                                num++;
+                                return false;
+                            }
+                        });
+                        if (num > 0) {
+                            return false;
+                        } else {
+                            let content =  ue.getContent();
+                            if (!content.trim()) {
+                                layer.alert("公告内容不能为空！", {
+                                    title: '提示框',
+                                    icon: 0,
+                                });
+                                return;
+                            }
+                            $.ajax({
+                                //几个参数需要注意一下
+                                type: "POST",//方法类型
+                                dataType: "json",//预期服务器返回的数据类型
+                                url: "/admin/notice/addnotice",
+                                data:{
+                                    title:$("#title").val(),
+                                    description:$("#description").val(),
+                                    ueval:ue.getContent()
+                                },
+                                success: function (result) {
+                                    if (result.code == 10000) {
+                                        layer.alert('添加成功！', {
+                                            title: '提示框',
+                                            icon: 1,
+                                            yes:function(){
+                                                window.location.href="/admin/notice.html";
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function () {
+
                                 }
                             });
-                            if (num > 0) {
-                                return false;
-                            } else {
-                                layer.alert('添加成功！', {
-                                    title: '提示框',
-                                    icon: 1,
-                                });
-                                layer.close(index);
-                            }
+
                         }
-
-                    $(function () {
-                        var ue = UE.getEditor('editor');
-                    });
-
-                    /*radio激发事件*/
-                    function Enable() {
-                        $('.date_Select').css('display', 'block');
                     }
-
-                    function closes() {
-                        $('.date_Select').css('display', 'none')
+                    function layer_close() {
+                        window.location.href="/admin/notice.html";
                     }
-
-                    /**日期选择**/
-                    var start = {
-                        elem: '#start',
-                        format: 'YYYY/MM/DD',
-                        min: laydate.now(), //设定最小日期为当前日期
-                        max: '2099-06-16', //最大日期
-                        istime: true,
-                        istoday: false,
-                        choose: function (datas) {
-                            end.min = datas; //开始日选好后，重置结束日的最小日期
-                            end.start = datas //将结束日的初始值设定为开始日
-                        }
-                    };
-                    var end = {
-                        elem: '#end',
-                        format: 'YYYY/MM/DD',
-                        min: laydate.now(),
-                        max: '2099-06-16 ',
-                        istime: true,
-                        istoday: false,
-                        choose: function (datas) {
-                            start.max = datas; //结束日选好后，重置开始日的最大日期
-                        }
-                    };
-                    laydate(start);
-                    laydate(end);
                         </script>
 </body>
 </html>

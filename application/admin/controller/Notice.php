@@ -21,7 +21,19 @@ class Notice extends AdminBaseController
      * @return mixed
      */
     public function addnotice(){
-        return $this->fetch('addnotice');
+        if (!request()->isPost()) {
+            return $this->fetch('addnotice');
+        } else {
+            $title = input("param.title");
+            $description = input("param.description");
+            $ueval = input("param.ueval");
+            $query= db('notice')->insert(["notice_title"=>$title,"notice_description"=>$description,"notice_content"=>$ueval]);
+            if ($query) {
+                ds_json_encode(10000, "资讯添加成功");
+            } else {
+                ds_json_encode(10001, "资讯添加失败");
+            }
+        }
     }
 
 
