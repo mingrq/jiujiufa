@@ -13,7 +13,7 @@ class Article extends AdminBaseController
 {
 
     public function index(){
-       $query= db('advertising_class')->select();
+       $query= db('article_class')->select();
        $this->assign('artclass',$query);
         return $this->fetch('article_list');
     }
@@ -23,6 +23,8 @@ class Article extends AdminBaseController
      * @return mixed
      */
     public function addarticle(){
+        $query= db('article_class')->select();
+        $this->assign('artclass',$query);
         return $this->fetch('article_add');
     }
 
@@ -57,6 +59,14 @@ class Article extends AdminBaseController
     public function seracharticlelist()
     {
         $condition = array();
+        $serachtitle = input('param.serachtitle');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serachtitle = '%' . trim(str_replace($find, $replace, $serachtitle)) . '%';
+        if ($serachtitle && trim($serachtitle) != "") {
+            $condition['article_title'] = ['like', $serachtitle];
+        }
+
         $ac_id= input('param.serachclass');
         if ($ac_id) {
             $condition["ac_id"] = $ac_id;
