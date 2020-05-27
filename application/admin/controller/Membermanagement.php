@@ -157,4 +157,16 @@ class Membermanagement extends AdminBaseController
             ds_json_encode(10001, "获取资金明细失败");
         }
     }
+
+    /**
+     * 会员配置
+     */
+    public function memberconfigure(){
+        if (!request()->isPost()){
+
+            return $this->fetch();
+        }else{
+
+        }
+    }
 }
