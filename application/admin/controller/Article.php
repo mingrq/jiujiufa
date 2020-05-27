@@ -52,10 +52,11 @@ class Article extends AdminBaseController
     }
 
     /**
-     * 搜索礼品
+     * 搜索资讯
      */
     public function seracharticlelist()
     {
+        $condition = array();
         $ac_id= input('param.serachclass');
         if ($ac_id) {
             $condition["ac_id"] = $ac_id;

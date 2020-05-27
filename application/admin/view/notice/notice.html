@@ -32,7 +32,13 @@
 <div class="page-content clearfix">
     <form class="layui-form" action="">
         <div class="layui-form-item">
-
+            <div class="layui-inline">
+                <label class="m-form-label">查询</label>
+                <div class="layui-input-inline" style="width: 200px">
+                    <input type="text" placeholder="公告标题" id="serach_title"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
             <div class="layui-inline" style="margin-right: -12px;">
                 <label class="m-form-label">日期</label>
                 <div class="layui-input-inline" style="width: 110px">
@@ -51,7 +57,7 @@
 
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
 
-            <a class="layui-inline layui-btn layui-btn-warm" href="/admin/article/addnotice.html">添加公告</a>
+            <a class="layui-inline layui-btn layui-btn-warm" href="/admin/notice/addnotice.html">添加公告</a>
         </div>
     </form>
     <!--表格-->
@@ -59,7 +65,7 @@
 </div>
 <!--表格item工具-->
 <script type="text/html" id="table_operation_toolbar">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" style="margin-top: 3px" lay-event="advertising_del">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" style="margin-top: 3px" lay-event="notice_del">删除</a>
 </script>
 <script>
     /**设置等级下拉框数据*/
@@ -115,15 +121,15 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
-            if (layEvent === 'advertising_del') { //删除
-                layer.confirm('这个资讯确定要删除吗', function (index) {
+            if (layEvent === 'notice_del') { //删除
+                layer.confirm('这个公告确定要删除吗', function (index) {
                     $.ajax({
                         //几个参数需要注意一下
                         type: "POST",//方法类型
                         dataType: "json",//预期服务器返回的数据类型
-                        url: "/admin/article/delarticle",
+                        url: "/admin/notice/delnotice",
                         data: {
-                            article_id: data.article_id
+                            notice_id: data.notice_id
                         },
                         success: function (result) {
                             layer.msg(result.message);
@@ -146,9 +152,9 @@
     /**搜索*/
     function serach() {
         table.reload('sample-table', {
-            url: '/admin/article/seracharticlelist'
+            url: '/admin/notice/serachnoticelist'
             , where: {
-                serachclass: $('#serach_class').val(),
+                serachtitle: $('#serach_title').val(),
                 dateatart: $('#serach_param_date_atart').val(),
                 dateend: $('#serach_param_date_end').val()
             } //设定异步数据接口的额外参数

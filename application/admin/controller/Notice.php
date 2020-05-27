@@ -39,5 +39,56 @@ class Notice extends AdminBaseController
         }
     }
 
+    /**
+     * 删除公告
+     */
+    public function delnotice(){
+        $query=db('notice')->where('notice_id',input('notice_id'))->delete();
+        if ($query){
+            ds_json_encode(10000, "删除公告成功");
+        }
+        ds_json_encode(10001, "删除公告失败");
+    }
 
+    /**
+     * 搜索公告
+     */
+    public function serachnoticelist()
+    {
+
+        $condition = array();
+        $serachtitle = input('param.serachtitle');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serachtitle = '%' . trim(str_replace($find, $replace, $serachtitle)) . '%';
+        if ($serachtitle && trim($serachtitle) != "") {
+            $condition['notice_title'] = ['like', $serachtitle];
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["notice_create_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["notice_create_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["notice_create_time"] = ['<=', $dateend];
+            }
+        }
+
+
+        $query = db('notice')
+            ->where($condition)
+            ->order('notice_id desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索公告成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索公告失败");
+        }
+    }
 }
