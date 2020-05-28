@@ -22,7 +22,9 @@ class Orderform extends AdminBaseController
     public function orderlist()
     {
         $order_mod = model('order');
-        $orderList = $order_mod->getOrderlist(null, '*', 100);
+        $orderList = $order_mod->getOrderlist();
         ds_json_encode(10000, "获取订单列表成功", $orderList);
     }
+
+
 }

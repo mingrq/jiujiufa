@@ -163,10 +163,46 @@ class Membermanagement extends AdminBaseController
      */
     public function memberconfigure(){
         if (!request()->isPost()){
-
             return $this->fetch();
         }else{
 
+        }
+    }
+
+    /**
+     * 会员等级
+     */
+    public function memberrank(){
+        $member_mod = model('member');
+        $rankList = $member_mod->getmemberrank();
+        if ($rankList) {
+            ds_json_encode(10000, "获取会员等级列表成功", $rankList);
+        } else {
+            ds_json_encode(10001, "获取会员等级列表失败");
+        }
+    }
+
+    /**
+     * 搜索会员等级
+     */
+    public function serachmemberrank(){
+        $condition = array();
+        $serachtitle = input('param.serachtitle');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serachtitle = '%' . trim(str_replace($find, $replace, $serachtitle)) . '%';
+        if ($serachtitle && trim($serachtitle) != "") {
+            $condition['rank_id|rank_name'] = ['like', $serachtitle];
+        }
+
+        $query = db('rank')
+            ->where($condition)
+            ->order('rank_id')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索会员等级成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索会员等级失败");
         }
     }
 }

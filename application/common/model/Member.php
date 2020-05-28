@@ -116,4 +116,16 @@ class Member extends Model
         }
         return false;
     }
+
+    /**
+     * 获取会员等级
+     */
+    public function getmemberrank($condition = array(), $field = '*', $page = 100, $order = 'rank_id'){
+        if ($page) {
+            $member_list = db('rank')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
+            return $member_list;
+        } else {
+            return db('rank')->field($field)->where($condition)->order($order)->select();
+        }
+    }
 }
