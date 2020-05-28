@@ -11,7 +11,7 @@
 <body>
 
 <div style="padding: 20px">
-    <form class="layui-form" action="">
+    <form class="layui-form" id="adv_form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">广告类型</label>
             <div class="layui-input-block">
@@ -25,7 +25,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">广告链接</label>
             <div class="layui-input-block">
-                <input type="text" id="adv_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？"
+                <input type="text" name="adv_link" id="adv_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？"
                        placeholder="请输入广告链接" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -35,10 +35,10 @@
             <div class="layui-input-inline" style="display: flex;width: 240px">
                 <input type="file"
                        style="position:absolute; top:0px; right:0px; height:34px; width:286px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
-                       id="adv_pic_sel" hidefocus="true">
+                       name="adv_pic_sel" id="adv_pic_sel" hidefocus="true">
                 <input type="text" id="adv_pic" lay-verify="required" lay-reqtext="广告图片是必填项，岂能为空？"
                        placeholder="请输入广告图片地址" class="layui-input">
-                <input type='button' name='button' id='button1' value='上传'
+                <input type='button' value='上传'
                        style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
             </div>
             <div class="layui-input-inline">
@@ -46,7 +46,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button onclick="btnsub()" class="layui-btn" lay-submit="" lay-filter="btn_sub">立即提交</button>
+                <button type="submit" class="layui-btn" onclick="btnsub()" >立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -65,10 +65,23 @@
 
     /*提交广告*/
     function btnsub() {
-        $classid = $('#set_adv_class').val();
-        $advlink = $('#adv_link').val();
-        $advpic = $('#adv_pic_sel').val();
-        alert($advlink)
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/advertising/addadvertising",
+            data: $('#adv_form').serialize(),
+            success: function (result) {
+                console.log(result)
+                layer.msg(result.message);
+                // if (result.code == 10000) {
+                //     layer.close(index);
+                // }
+            },
+            error: function () {
+                layer.msg('完成工单失败，请稍后再试');
+            }
+        });
     }
 
 </script>
