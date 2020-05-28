@@ -10,8 +10,23 @@ $(function () {
     $("#selcangku li").click(function () {
         var ckid = $(this).attr("data-ckid");
         // 获取商品数据 并填充
-
+        $.ajax({
+            url: "{:url('/member/order/getGoodsByCkId')}",
+            type: "POST",
+            dataType: "json",
+            data: {
+                ckid: ckid
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
+                console.log('error');
+            }
+        });
         // 仓库样式
+        $("#selcangku li").removeClass('action');
+        $(this).addClass('action');
     });
 
 })
