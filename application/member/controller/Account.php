@@ -45,7 +45,8 @@ class Account extends MemberBase
                 $memeber = new Member;
                 $memeber->save($data,['member_id'=>session('MUserId')]);
 
-                return $this->success("更新成功", 'member/account/personinfo');
+                ds_json_encode(10000, "更新成功");
+                // return $this->success("更新成功", 'member/account/personinfo');
             }else{
                 // 修改密码
                 $data = [
@@ -62,7 +63,8 @@ class Account extends MemberBase
                 $member->member_login_pw = substr(md5($password), 8, 16);
                 $member->save();
 
-                return $this->success("更新成功", 'member/account/personinfo');
+                ds_json_encode(10000, "更新成功");
+                //return $this->success("更新成功", 'member/account/personinfo');
             }
         }else{
             $member = Member::get(session('MUserId'));

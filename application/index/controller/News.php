@@ -21,4 +21,9 @@ class News extends FrontendBase
     {
         return $this->fetch();
     }
+
+    public function detail()
+    {
+        return $this->fetch();
+    }
 }

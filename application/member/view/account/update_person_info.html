@@ -5,6 +5,54 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <link rel="stylesheet" href="/static/common/layui/css/layui.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
+    <script type="text/javascript">
+        var layer;
+        var form;
+        $(function () {
+            layui.use(['layer', 'form'], function () {
+                form = layui.form;
+                layer = layui.layer;
+
+                form.on('submit(updateuserinfo)', function (data) {
+                    $.ajax({
+                        url: "{:url('member/account/updatePersonInfo')}",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            password: $("#password").val(),
+                            qqnum: $("#qqnum").val()
+                        },
+                        success: function (data) {
+                            // console.log(data);
+                            if (data.code == 10000) {
+                                layer.msg(data.message, {
+                                    icon: 1,
+                                    time: 2000
+                                }, function () {
+                                    window.location.href = "{:url('/member/account/personinfo')}";
+                                });
+                            } else {
+                                layer.msg(data.message, {
+                                    icon: 2,
+                                    time: 3000
+                                });
+                            }
+                        },
+                        error: function () {
+                            layer.msg('更新失败', {
+                                icon: 2,
+                                time: 3000
+                            });
+                        }
+                    });
+                    return false;
+                });
+            })
+        })
+    </script>
 </head>
 <body>
 <!--HEADER-->
@@ -24,7 +72,7 @@
                     <img src="/static/member/images/default-photo.png"/>
                     <!--div class="update-personal-photo">修改头像</div-->
                 </div>
-                <form action="{:url('member/account/updatePersonInfo')}" method="post">
+                <form action="" method="post">
                     <div class="personal-info">
                         <div class="item">
                             <div class="item-title">用户名：</div>
@@ -35,18 +83,18 @@
                         <div class="item">
                             <div class="item-title">密码：</div>
                             <div class="item-value">
-                                <input type="password" name="password" /> <span>不填写不修改密码</span>
+                                <input type="password" name="password" id="password" /> <span>不填写不修改密码</span>
                             </div>
                         </div>
                         <div class="item">
                             <div class="item-title">会员QQ：</div>
                             <div class="item-value">
-                                <input type="text" name="qqnum" value="{$member.member_qq}" />
+                                <input type="text" name="qqnum" id="qqnum" value="{$member.member_qq}" />
                             </div>
                         </div>
                     </div>
                     <div class="update-userinfo-button">
-                        <input type="submit" class="insubbtn" value="保存修改" />
+                        <input type="submit" lay-submit lay-filter="updateuserinfo" class="insubbtn" value="保存修改" />
                     </div>
                 </form>
             </div>

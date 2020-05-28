@@ -9,6 +9,7 @@
 /**
  * 仓库
  */
+
 namespace app\common\model;
 
 
@@ -17,10 +18,13 @@ use think\Model;
 class Warehouse extends Model
 {
 
+    protected $pk = 'wh_id';
+
     /**
      * 获取仓库信息列表
      */
-    public function getWarehouselist(){
+    public function getWarehouselist()
+    {
         return db('warehouse')->select();
     }
 }

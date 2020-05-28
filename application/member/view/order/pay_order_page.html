@@ -33,12 +33,13 @@
                 <div class="payorder-step">第二步：选择快递类型</div>
                 <div class="payorder-sellipin">
                     <select id="selproduct">
-                        <option value="0">0</option>
-                        <option value="123">123</option>
-                        <option value="123">123</option>
-                        <option value="123">123</option>
-                        <option value="123">123</option>
-                        <option value="123">123</option>
+                        {if condition="empty($goodsList) eq true"}
+                            <option value="0">0</option>
+                        {else /}
+                            {foreach $goodsList as $goods}
+                            <option value="{$goods.kdId}">{$goods.goodsTitle}</option>
+                            {/foreach}
+                        {/if}
                     </select>
                 </div>
                 <div class="payorder-step">第三步：请严格按样式图去复制地址提交，否则无法购买单号</div>
