@@ -3,6 +3,7 @@
 namespace app\member\controller;
 use app\common\controller\MemberBase;
 use app\common\model\Goods;
+use app\common\model\Member;
 use app\common\model\Warehouse;
 use think\Db;
 
@@ -23,11 +24,17 @@ class Order extends MemberBase{
         if (!empty($warehouse) && !empty($warehouse['wh_id'])){
             // 调用仓库快递数据
             $goods = new Goods();
-            $goodsList = $goods->where('classId', '=', $classid)->select();
+            $whereGoods['classId'] = $classid;
+            $whereGoods['good_state'] = 1;
+            $goodsList = $goods->where($whereGoods)->select();
         }
         // 所有仓库
         $warehouseList = \db('warehouse')->select();
 
+        $member = Member::get(session('MUserId'));
+
+        $this->assign('classid', $classid);
+        $this->assign('memberrank', $member['member_rank']);// 代理级别
         $this->assign('goodsList', $goodsList);
         $this->assign('warehouseList', $warehouseList);
 

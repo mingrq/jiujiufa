@@ -3,6 +3,17 @@ $(function () {
     layui.use('layer', function () {
         layer = layui.layer;
     })
+
+    /**
+     * 选择仓库
+     */
+    $("#selcangku li").click(function () {
+        var ckid = $(this).attr("data-ckid");
+        // 获取商品数据 并填充
+
+        // 仓库样式
+    });
+
 })
 
 // 检查收获地址
@@ -64,3 +75,4 @@ function checkAddress() {
     // 关闭
     layer.close(load_index);
 }
+
