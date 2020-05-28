@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/member/css/member-main.css">
     <link rel="stylesheet" href="/static/common/layui/css/layui.css">
     <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
+    <script type="text/javascript" src="/static/common/layui/layui.js"></script>
     <script type="text/javascript" src="/static/member/js/payorder.js"></script>
 </head>
 <body>
@@ -25,19 +25,19 @@
             <div class="title">礼品下单</div>
             <div class="cont-main-box">
                 <div class="payorder-step">第一步：选择仓库</div>
-                <ul class="payorder-selcangku">
+                <ul class="payorder-selcangku" id="selcangku">
                     {foreach $warehouseList as $warehouse}
-                    <li>{$warehouse.wh_title}</li>
+                    <li data-ckid="{$warehouse.wh_id}" {if condition="$classid==$warehouse.wh_id"} class="action"{/if}>{$warehouse.wh_title}</li>
                     {/foreach}
                 </ul>
                 <div class="payorder-step">第二步：选择快递类型</div>
                 <div class="payorder-sellipin">
                     <select id="selproduct">
                         {if condition="empty($goodsList) eq true"}
-                            <option value="0">0</option>
+                            <option value="0">请选择需要购买的快递公司物流</option>
                         {else /}
                             {foreach $goodsList as $goods}
-                            <option value="{$goods.kdId}">{$goods.goodsTitle}</option>
+                            <option value="{$goods.kdId}">{$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{$goods.cost_price + $goods.good_price}{else if condition="$memberrank==2"}{$goods.cost_price + $goods.good_vip_price}{/if}</option>
                             {/foreach}
                         {/if}
                     </select>

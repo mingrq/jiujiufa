@@ -102,14 +102,14 @@ a {
     clear: both
 }
 
-.pagelist{
+.pagelist {
     width: 90%;
     margin: 16px auto;
     float: left;
     text-align: center;
 }
 
-.pagelist a{
+.pagelist a {
     display: inline-block;
     line-height: 24px;
     border: 1px solid #cccccc;
@@ -118,7 +118,8 @@ a {
     margin-left: 3px;
     margin-right: 3px;
 }
-.pagelist a:hover{
+
+.pagelist a:hover {
     color: #FF464E;
     border: 1px solid #FF464E;
 }
@@ -241,11 +242,10 @@ a {
 }
 
 
-
 /**
  * footer 底部
  */
-.footer-top{
+.footer-top {
     width: 100%;
     float: left;
     position: relative;
@@ -254,46 +254,54 @@ a {
     border-bottom: 2px solid #eeeeee;
     background-color: #ffffff;
 }
-.footer-top-box{
+
+.footer-top-box {
     width: 1200px;
     margin: 0px auto;
     position: relative;
     overflow: hidden;
 }
-.footer-top-main{
+
+.footer-top-main {
     width: 100%;
     float: left;
 }
-.footer-top-main ul{
+
+.footer-top-main ul {
     width: 100%;
     float: left;
 }
-.footer-top-main ul .ft-single{
+
+.footer-top-main ul .ft-single {
     width: 270px;
     float: left;
     margin-right: 40px;
     overflow: hidden;
 }
-.footer-top-main ul .ft-single.nom{
+
+.footer-top-main ul .ft-single.nom {
     margin-right: 0px;
 }
 
-.footer-top-main ul .ft-single .footer-top-icon{
+.footer-top-main ul .ft-single .footer-top-icon {
     width: 50px;
     height: 50px;
     float: left;
     overflow: hidden;
 }
-.footer-top-main ul .ft-single .footer-top-icon img{
+
+.footer-top-main ul .ft-single .footer-top-icon img {
     width: 100%;
     height: 100%;
 }
-.footer-top-main ul .ft-single .footer-top-info{
+
+.footer-top-main ul .ft-single .footer-top-info {
     width: 200px;
     float: left;
     padding-left: 20px;
 }
-.footer-top-main ul .ft-single .footer-top-info .ftitle{
+
+.footer-top-main ul .ft-single .footer-top-info .ftitle {
     width: 100%;
     line-height: 30px;
     float: left;
@@ -301,14 +309,14 @@ a {
     font-weight: bold;
     overflow: hidden;
 }
-.footer-top-main ul .ft-single .footer-top-info .fdev{
+
+.footer-top-main ul .ft-single .footer-top-info .fdev {
     width: 100%;
     line-height: 20px;
     float: left;
     font-size: 14px;
     overflow: hidden;
 }
-
 
 
 .footer-box {
@@ -319,22 +327,24 @@ a {
     padding: 30px 0px;
     background-color: #ffffff;
 }
-.footer{
+
+.footer {
     width: 1200px;
     margin: 0px auto;
     position: relative;
     overflow: hidden;
 }
-.footer-main{
+
+.footer-main {
     width: 100%;
     float: left;
     text-align: center;
 }
-.footer-main p{
+
+.footer-main p {
     line-height: 30px;
     font-size: 12px;
 }
-
 
 
 /**
@@ -534,7 +544,8 @@ a {
     margin-left: 22px;
     margin-top: 6px;
 }
-.personal .personal-info .item .item-value span{
+
+.personal .personal-info .item .item-value span {
     line-height: 36px;
     color: #999999;
     font-size: 12px;
@@ -559,6 +570,7 @@ a {
     font-weight: bold;
     cursor: pointer;
 }
+
 .personal .update-userinfo-button .insubbtn {
     width: 100px;
     text-align: center;
@@ -607,6 +619,10 @@ a {
 }
 
 .payorder-selcangku li:hover {
+    background-color: #FF464E;
+}
+
+.payorder-selcangku li.action {
     background-color: #FF464E;
 }
 
@@ -683,39 +699,44 @@ a {
     font-weight: bold;
 }
 
-.order-memb-info{
+.order-memb-info {
     width: 100%;
     float: left;
     font-size: 14px;
     line-height: 36px;
 }
-.order-memb-info .jine{
-    color: #FF464E;
-    font-weight: bold;
-}
-.order-memb-info .daili{
+
+.order-memb-info .jine {
     color: #FF464E;
     font-weight: bold;
 }
 
-.order-address-table{
+.order-memb-info .daili {
+    color: #FF464E;
+    font-weight: bold;
+}
+
+.order-address-table {
     width: 100%;
     float: left;
     margin: 10px auto;
 }
-.order-address-table table{
+
+.order-address-table table {
     width: 95%;
     border-collapse: collapse;
     border: 1px solid #3C92C1;
     text-align: center;
     font-size: 12px;
 }
-.order-address-table table tr th{
+
+.order-address-table table tr th {
     background-color: #43e8c9;
     border: 1px solid #3C92C1;
     height: 28px;
 }
-.order-address-table table tr td{
+
+.order-address-table table tr td {
     height: 25px;
     border: 1px solid #3C92C1;
 }
@@ -767,20 +788,23 @@ a {
     cursor: pointer;
 }
 
-.finance-record-table{
+.finance-record-table {
     width: 100%;
     float: left;
     position: relative;
     margin: 16px 0px;
 }
-.finance-record-table .record-table{
+
+.finance-record-table .record-table {
     width: 100%;
 }
-.finance-record-table .record-table th{
+
+.finance-record-table .record-table th {
     background-color: #F4F5F6;
     font-size: 14px;
     line-height: 36px;
 }
+
 .finance-record-table .record-table td {
     text-align: center;
     font-size: 12px;
@@ -788,13 +812,14 @@ a {
     border-bottom: 1px solid #F4F5F6;
 }
 
-.spread-line{
+.spread-line {
     font-size: 14px;
     border: 1px solid #cccccc;
     line-height: 36px;
     padding-left: 20px;
 }
-.spread-line .copymyline{
+
+.spread-line .copymyline {
     margin-left: 20px;
     color: #FF464E;
     font-size: 14px;
@@ -804,49 +829,58 @@ a {
 /**
  * 升级代理
  */
-.upvip-explain{
+.upvip-explain {
     width: 90%;
     padding: 20px 3%;
     margin: 10px 2%;
     float: left;
     background-color: #F4F5F6;
 }
-.upvip-explain p{
+
+.upvip-explain p {
     line-height: 36px;
     font-size: 16px;
     font-weight: bold;
 }
-.upvip-upgrade{
+
+.upvip-upgrade {
     width: 96%;
     padding: 10px 0px;
     margin: 10px 2%;
     float: left;
 }
-.upvip-upgrade table{
+
+.upvip-upgrade table {
     width: 100%;
 }
-.upvip-upgrade table tr td{
+
+.upvip-upgrade table tr td {
     line-height: 36px;
     font-size: 14px;
     font-weight: bold;
 }
-.upvip-upgrade table .td-title{
+
+.upvip-upgrade table .td-title {
     width: 120px;
     text-align: right;
 }
-.upvip-upgrade table .td-value{
+
+.upvip-upgrade table .td-value {
     text-align: left;
     color: #FF464E;
 }
-.upvip-upgrade table .td-value .yue-util{
+
+.upvip-upgrade table .td-value .yue-util {
     color: #333333;
 }
-.upvip-upgrade table .td-value .levels{
+
+.upvip-upgrade table .td-value .levels {
     width: 200px;
     height: 30px;
     font-size: 14px;
 }
-.upvip-upgrade table .td-value .upgrade-btn{
+
+.upvip-upgrade table .td-value .upgrade-btn {
     display: inline-block;
     border: none;
     border-radius: 3px;
@@ -863,27 +897,29 @@ a {
 
 
 /************* 登录 *****************/
-.login-bg{
+.login-bg {
     width: 100%;
     float: left;
     position: relative;
     overflow: hidden;
     background: rgb(57, 205, 235) none repeat scroll 0% 0%;
 }
-.login-bg-box{
+
+.login-bg-box {
     width: 1200px;
     margin: 0px auto;
     position: relative;
     overflow: hidden;
 }
-.login-bg-box .login-bg-img{
+
+.login-bg-box .login-bg-img {
     display: block;
     width: 1200px;
     height: 600px;
     position: relative;
 }
 
-.login-box{
+.login-box {
     position: absolute;
     width: 360px;
     right: 0px;
@@ -892,30 +928,35 @@ a {
     padding: 30px;
     box-sizing: border-box;
 }
-.login-box .ltitle{
+
+.login-box .ltitle {
     text-align: center;
     font-size: 20px;
     color: #8c8c8c;
     line-height: 40px;
     margin-bottom: 30px;
 }
-.login-box .login-input{
+
+.login-box .login-input {
     margin-bottom: 15px;
     border: 1px solid #e1e1e1;
     height: 36px;
 }
-.login-box .login-input label{
+
+.login-box .login-input label {
     display: inline-block;
     width: 20px;
     height: 20px;
     padding: 8px;
     float: left;
 }
-.login-box .login-input label img{
+
+.login-box .login-input label img {
     width: 100%;
     height: 100%;
 }
-.login-box .login-input input{
+
+.login-box .login-input input {
     border: none;
     color: #666666;
     outline: none;
@@ -926,7 +967,8 @@ a {
     margin: 0px;
     float: left;
 }
-.login-box .login-input .sendsms{
+
+.login-box .login-input .sendsms {
     width: 132px;
     line-height: 36px;
     text-align: center;
@@ -935,7 +977,7 @@ a {
     cursor: pointer;
 }
 
-.login-box .login-btn .subbtn{
+.login-box .login-btn .subbtn {
     width: 100%;
     border: none;
     background-color: #FF464E;
@@ -948,12 +990,13 @@ a {
     cursor: pointer;
 }
 
-.login-box .jump-link{
+.login-box .jump-link {
     line-height: 30px;
     text-align: right;
     font-size: 12px;
 }
-.login-box .jump-link a:hover{
+
+.login-box .jump-link a:hover {
     color: #FF464E;
 }
 
