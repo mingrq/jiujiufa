@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>短信设置</title>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
     <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
 </head>
@@ -74,12 +75,30 @@
 </form>
 <script>
     layui.use(['form'], function () {
-        var form = layui.form
+        var form = layui.form;
         //监听提交
         form.on('submit(smsconfig)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
+            $(function () {
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/smssetting/altersmssetting",
+                    data:data.field,
+                    success: function (result) {
+                        console.log(result);
+                        if (result.code == 10000) {
+                            layer.alert(result.message, {
+                                title: '提示'
+                            });
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
             });
+
             return false;
         });
     });

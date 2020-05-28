@@ -32,5 +32,25 @@ class Smssetting extends AdminBaseController
         //ds_json_encode(10000,"adsfas",$query);
     }
 
+    /**
+     *
+     * 修改短信配置
+     */
+    public function altersmssetting()
+    {
+        $ali_sms_keyid = input('param.ali_sms_keyid');
+        $ali_sms_accessKeySecret = input('param.ali_sms_accessKeySecret');
+        $ali_sms_sign = input('param.ali_sms_sign');
+        $ali_sms_temp_regiter = input('param.ali_sms_temp_regiter');
+        $ali_sms_temp_login = input('param.ali_sms_temp_login');
+        $ali_sms_temp_pwback = input('param.ali_sms_temp_pwback');
+        db('config')->where('config_id', '9')->setField('config_value',$ali_sms_keyid);
+        db('config')->where('config_id', '10')->setField('config_value',$ali_sms_accessKeySecret);
+        db('config')->where('config_id', '11')->setField('config_value',$ali_sms_sign);
+        db('config')->where('config_id', '12')->setField('config_value',$ali_sms_temp_regiter);
+        db('config')->where('config_id', '13')->setField('config_value',$ali_sms_temp_login);
+        db('config')->where('config_id', '14')->setField('config_value',$ali_sms_temp_pwback);
+        ds_json_encode(10000,"修改成功");
+    }
 
 }
