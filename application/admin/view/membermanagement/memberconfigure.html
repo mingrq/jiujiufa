@@ -56,27 +56,19 @@
     <div style="padding: 20px">
         <form class="layui-form" id="serach_param_form" action="" lay-filter="example">
             <div class="layui-form-item">
-                <label class="m-form-label">要求人数:</label>
+                <label class="m-form-label">晋级邀请人数:</label>
                 <div class="layui-input-block" style="margin-left: 20px;width: 300px">
-                    <input type="text" id="alipay_app_id" lay-verify="title" autocomplete="off"
-                           placeholder="支付宝APP_ID"
-                           class="layui-input" style="margin: 0px" value="{$alipay_app_id}">
+                    <input type="text" id="rank_invite" lay-verify="title" autocomplete="off"
+                           placeholder="晋级邀请人数"
+                           class="layui-input" style="margin: 0px" value="">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="m-form-label">支付宝商户私钥:</label>
+                <label class="m-form-label">晋级充值金额:</label>
                 <div class="layui-input-block" style="margin-left: 20px;width: 300px">
-                    <input type="text" id="alipay_merchant_private_key" lay-verify="title" autocomplete="off"
-                           placeholder="支付宝商户私钥"
-                           class="layui-input" style="margin: 0px" value="{$alipay_merchant_private_key}">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="m-form-label">支付宝公钥:</label>
-                <div class="layui-input-block" style="margin-left: 20px;width: 300px">
-                    <input type="text" id="alipay_public_key" lay-verify="title" autocomplete="off"
-                           placeholder="支付宝公钥"
-                           class="layui-input" style="margin: 0px" value="{$alipay_public_key}">
+                    <input type="text" id="rank_paymoney" lay-verify="title" autocomplete="off"
+                           placeholder="晋级充值金额"
+                           class="layui-input" style="margin: 0px" value="">
                 </div>
             </div>
         </form>
@@ -126,45 +118,58 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
             if (layEvent === 'rank_edit') { //完成工单
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/membermanagement/getrankinfo",
+                    data: {
+                        rankid: obj.data.rank_id
+                    },
+                    success: function (result) {
+                        if (result.code == 10000) {
+                            $("#rank_invite").val(result.result.invite_upgrade);
+                            $("#rank_paymoney").val(result.result.recharge_upgrade);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('支付宝支付配置失败，请稍后再试');
+                    }
+                });
+
                 layer.open({
                     type: 1,
-                    title: '会员等级配置',
+                    title:obj.data.rank_name+"参数配置",
                     content: $('#configure_html').html(),
                     btn: ['确定', '取消']
                     , yes: function (index, layero) {
-                        let alipay_app_id = $("#alipay_app_id").val();
-                        let alipay_merchant_private_key = $("#alipay_merchant_private_key").val();
-                        let alipay_public_key = $("#alipay_public_key").val();
-                        if (alipay_app_id == '') {
-                            layer.msg("支付宝APP_ID不能为空");
-                            return;
+                        let invite_upgrade = $("#rank_invite").val();
+                        let recharge_upgrade = $("#rank_paymoney").val();
+                        if (invite_upgrade == '') {
+                            invite_upgrade=0;
                         }
-                        if (alipay_merchant_private_key == '') {
-                            layer.msg("支付宝商户私钥不能为空");
-                            return;
-                        }
-                        if (alipay_public_key == '') {
-                            layer.msg("支付宝公钥不能为空");
-                            return;
+                        if (recharge_upgrade == '') {
+                            recharge_upgrade=0;
                         }
                         $.ajax({
                             //几个参数需要注意一下
                             type: "POST",//方法类型
                             dataType: "json",//预期服务器返回的数据类型
-                            url: "/admin/paymentconfigure/setalipayconfigure",
+                            url: "/admin/membermanagement/setrankinfo",
                             data: {
-                                alipay_app_id: alipay_app_id,
-                                alipay_merchant_private_key: alipay_merchant_private_key,
-                                alipay_public_key: alipay_public_key
+                                invite_upgrade: invite_upgrade,
+                                recharge_upgrade: recharge_upgrade,
+                                rankid: obj.data.rank_id
                             },
                             success: function (result) {
                                 layer.msg(result.message);
                                 if (result.code == 10000) {
                                     layer.close(index);
+                                    table.reload('sample-table');
                                 }
                             },
                             error: function () {
-                                layer.msg('支付宝支付配置失败，请稍后再试');
+                                layer.msg('配置失败，请稍后再试');
                             }
                         });
 

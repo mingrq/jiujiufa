@@ -161,10 +161,11 @@ class Membermanagement extends AdminBaseController
     /**
      * 会员配置
      */
-    public function memberconfigure(){
-        if (!request()->isPost()){
+    public function memberconfigure()
+    {
+        if (!request()->isPost()) {
             return $this->fetch();
-        }else{
+        } else {
 
         }
     }
@@ -172,7 +173,8 @@ class Membermanagement extends AdminBaseController
     /**
      * 会员等级
      */
-    public function memberrank(){
+    public function memberrank()
+    {
         $member_mod = model('member');
         $rankList = $member_mod->getmemberrank();
         if ($rankList) {
@@ -185,7 +187,8 @@ class Membermanagement extends AdminBaseController
     /**
      * 搜索会员等级
      */
-    public function serachmemberrank(){
+    public function serachmemberrank()
+    {
         $condition = array();
         $serachtitle = input('param.serachtitle');
         $find = array('\\', '/', '%', '_', '&');
@@ -203,6 +206,38 @@ class Membermanagement extends AdminBaseController
             ds_json_encode(10000, "搜索会员等级成功", $query);
         } else {
             ds_json_encode(10001, "搜索会员等级失败");
+        }
+    }
+
+    /**
+     * 查询会员等级
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getrankinfo()
+    {
+        $query=db('rank')->where('rank_id',input('param.rankid'))->find();
+        if ($query) {
+            ds_json_encode(10000, "搜索会员等级成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索会员等级失败");
+        }
+    }
+
+    /**
+     * 设置会员等级
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function setrankinfo()
+    {
+        $query=db('rank')->where('rank_id',input('param.rankid'))->update(["invite_upgrade"=>input('param.invite_upgrade'),"recharge_upgrade"=>input('param.recharge_upgrade')]);
+        if ($query) {
+            ds_json_encode(10000, "设置会员等级配置成功");
+        } else {
+            ds_json_encode(10001, "设置会员等级配置失败");
         }
     }
 }
