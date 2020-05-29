@@ -58,6 +58,15 @@ class Order extends MemberBase
                 $goodsList = $goods->where($whereGoods)->select();
             }
         }
-        ds_json_encode(10000, '获取成功', $goodsList);
+        $member = Member::get(session('MUserId'));
+        if (empty($member) || empty($member['member_rank'])){
+            ds_json_encode(10001, "获取错误");
+        }else{
+            $result = array(
+                "mrank" => $member['member_rank'],
+                "goodsList" => $goodsList
+            );
+            ds_json_encode(10000, "商品获取成功", $result);
+        }
     }
 }

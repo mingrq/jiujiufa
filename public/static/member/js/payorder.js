@@ -9,26 +9,47 @@ $(function () {
      */
     $("#selcangku li").click(function () {
         var ckid = $(this).attr("data-ckid");
+        $("#selproduct").empty();
+        $("#selproduct").append($("<option>").val(0).text("请选择需要购买的快递公司物流"));
         // 获取商品数据 并填充
         $.ajax({
-            url: "{:url('/member/order/getGoodsByCkId')}",
+            url: "/member/order/getGoodsByCkId",
             type: "POST",
             dataType: "json",
             data: {
                 ckid: ckid
             },
             success: function (data) {
-                console.log(data);
+                if (data.code == 10000) {
+                    $mrank = data.result.mrank;
+                    $goods = data.result.goodsList;
+                    if ($mrank == 1) {
+                        for (let i = 0; i < $goods.length; i++) {
+                            $("#selproduct").append($("<option>").val($goods[i].kdId).text($goods[i].kdName + "普通会员价:" + $goods[i].cost_price + $goods[i].good_price + " / 代理会员价:" + $goods[i].cost_price + $goods[i].good_vip_price + " / 我的价格:" + $goods[i].cost_price + $goods[i].good_price));
+                        }
+                    } else if ($mrank == 2) {
+                        for (let i = 0; i < $goods.length; i++) {
+                            $("#selproduct").append($("<option>").val($goods[i].kdId).text($goods[i].kdName + "普通会员价:" + $goods[i].cost_price + $goods[i].good_price + " / 代理会员价:" + $goods[i].cost_price + $goods[i].good_vip_price + " / 我的价格:" + $goods[i].cost_price + $goods[i].good_vip_price));
+                        }
+                    }
+                }
             },
             error: function () {
                 console.log('error');
             }
+            /*
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest.readyState);
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.responseText);
+                console.log(textStatus)
+            }
+            */
         });
         // 仓库样式
         $("#selcangku li").removeClass('action');
         $(this).addClass('action');
     });
-
 })
 
 // 检查收获地址
