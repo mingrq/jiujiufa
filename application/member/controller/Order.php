@@ -20,22 +20,34 @@ class Order extends MemberBase
      */
     public function payOrderPage()
     {
-        $classid = $this->request->param('classid') ? preg_replace('/[^0-9]/', '', $this->request->param('classid')) : 0;
-        $warehouse = Warehouse::get($classid);
+        $kdId = $this->request->param('gid') ? preg_replace('/[^0-9]/', '', $this->request->param('gid')) : 0;
+        $goods = Goods::get($kdId);
         $goodsList = array();
-        if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
-            // 调用仓库快递数据
-            $goods = new Goods();
-            $whereGoods['classId'] = $classid;
-            $whereGoods['good_state'] = 1;
-            $goodsList = $goods->where($whereGoods)->select();
+        $classid = 0;
+        if (!empty($goods) && !empty($goods['classId'])) {
+            // $classid = $this->request->param('classid') ? preg_replace('/[^0-9]/', '', $this->request->param('classid')) : 0;
+            $classid = $goods['classId'];
+            $warehouse = Warehouse::get($classid);
+            if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
+                // 调用仓库快递数据
+                $goodsT = new Goods();
+                $whereGoods['classId'] = $classid;
+                $whereGoods['good_state'] = 1;
+                $goodsList = $goodsT->where($whereGoods)->select();
+            }else{
+
+            }
+        }else{
+            $kdId = 0;
         }
+
         // 所有仓库
         $warehouseList = \db('warehouse')->select();
 
         $member = Member::get(session('MUserId'));
 
         $this->assign('classid', $classid);
+        $this->assign('kdId', $kdId);
         $this->assign('memberrank', $member['member_rank']);// 代理级别
         $this->assign('goodsList', $goodsList);
         $this->assign('warehouseList', $warehouseList);

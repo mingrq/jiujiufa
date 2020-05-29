@@ -34,7 +34,7 @@
         <ul class="newproduct-list">
             {foreach $newGoodsList as $goods}
             <li>
-                <a href="">
+                <a href="/member/order/payOrderPage?gid={$goods.kdId}">
                     <div class="newproduct-pic">
                         <img src="{$goods.good_pic}"/>
                     </div>
