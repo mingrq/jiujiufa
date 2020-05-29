@@ -198,6 +198,10 @@
         });
     }
 
+    function serachwin() {
+        table.reload('sample-table');
+        layer.close(layer.index); //它获取的始终是最新弹出的某个层，值是由layer内部动态递增计算的
+    }
 </script>
 </body>
 </html>

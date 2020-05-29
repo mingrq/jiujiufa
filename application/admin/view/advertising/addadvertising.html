@@ -11,7 +11,7 @@
 <body>
 
 <div style="padding: 20px">
-    <form class="layui-form" id="adv_form" action="">
+    <form class="layui-form" id="adv_form" action="##" onsubmit="return false">
         <div class="layui-form-item">
             <label class="layui-form-label">广告类型</label>
             <div class="layui-input-block">
@@ -46,7 +46,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn" onclick="btnsub()" >立即提交</button>
+                <button type="button" class="layui-btn" onclick="btnsub()" >立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -65,21 +65,36 @@
 
     /*提交广告*/
     function btnsub() {
+        let adv_link =$('#adv_link').val();
+        if (!$.trim(adv_link)) {
+            layer.msg("广告链接不能为空");
+            return;
+        }
+        if (!$.trim($('#adv_pic').val())) {
+            layer.msg("请选择广告图片");
+             return;
+        }
+        var file_obj =document.getElementById('adv_pic_sel').files[0];
+        var fd = new FormData();
+        fd.append('set_adv_class', $('#set_adv_class').val());
+        fd.append('file', file_obj);
+        fd.append('adv_link', $.trim(adv_link));
         $.ajax({
             //几个参数需要注意一下
             type: "POST",//方法类型
             dataType: "json",//预期服务器返回的数据类型
             url: "/admin/advertising/addadvertising",
-            data: $('#adv_form').serialize(),
+            data: fd,
+            processData: false,  //tell jQuery not to process the data
+            contentType: false,  //tell jQuery not to set contentType
             success: function (result) {
-                console.log(result)
-                layer.msg(result.message);
-                // if (result.code == 10000) {
-                //     layer.close(index);
-                // }
+               layer.msg(result.message);
+                if (result.code == 10000) {
+                    parent.serachwin();
+                }
             },
             error: function () {
-                layer.msg('完成工单失败，请稍后再试');
+                layer.msg('广告添加失败，请稍后再试');
             }
         });
     }

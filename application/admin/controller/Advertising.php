@@ -113,21 +113,17 @@ class Advertising extends AdminBaseController
             $ad_class = input('param.set_adv_class');
             $ad_link = input('param.adv_link');
             //$ad_pic = input('param.adv_pic_sel');
-            $file = request()->file('adv_pic_sel');
-            if (!$file){
-                ds_json_encode(10001, "请上传广告图片");
-            }
-            ds_json_encode(10001, "请上传广告图片",$ad_class."  ".$ad_link);
+            $file = request()->file('file');
             // 移动到框架应用根目录/public/uploads/ 目录下
-            $info = $file->move(ROOT_PATH.'public'.DS.'upload');
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'upload');
             //如果不清楚文件上传的具体键名，可以直接打印$info来查看
-            //获取文件（文件名），$info->getFilename()  ***********不同之处，笔记笔记哦
-            //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+            -            //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
             $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
-            if($ad_pic){
+            $ad_pic = DS . 'upload' . DS . $ad_pic;
+            if ($ad_pic) {
                 $query = db('advertising')->insert(['ad_class' => $ad_class, 'ad_pic' => $ad_pic, 'ad_link' => $ad_link]);
                 if ($query) {
-                    ds_json_encode(10000, "添加广告成功");
+                    ds_json_encode(10000, "添加广告成功", $info);
                 }
             }
             ds_json_encode(10001, "添加广告失败");
