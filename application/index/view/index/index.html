@@ -138,7 +138,7 @@
                     <li>
                         {foreach $hotProductOne as $key=>$product}
                         <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
-                            <a href="">
+                            <a href="/member/order/payOrderPage?gid={$product.kdId}">
                                 <div class="hpro-pic">
                                     <img src="{$product.good_pic}"/>
                                 </div>
@@ -156,7 +156,7 @@
                     <li>
                         {foreach $hotProductTwo as $key=>$product}
                         <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
-                            <a href="">
+                            <a href="/member/order/payOrderPage?gid={$product.kdId}">
                                 <div class="hpro-pic">
                                     <img src="{$product.good_pic}"/>
                                 </div>
@@ -174,7 +174,7 @@
                     <li>
                         {foreach $hotProductTwo as $key=>$product}
                         <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
-                            <a href="">
+                            <a href="/member/order/payOrderPage?gid={$product.kdId}">
                                 <div class="hpro-pic">
                                     <img src="{$product.good_pic}"/>
                                 </div>
@@ -206,12 +206,12 @@
     <div class="newproduct">
         <div class="newproduct-top">
             <span class="nptitle">新品上架</span>
-            <a href="" class="npmore">更多 >></a>
+            <a href="{:url('/index/product/index')}" class="npmore">更多 >></a>
         </div>
         <ul class="newproduct-list">
             {foreach $newGoodsList as $goods}
             <li>
-                <a href="">
+                <a href="/member/order/payOrderPage?gid={$goods.kdId}">
                     <div class="newproduct-pic">
                         <img src="{$goods.good_pic}"/>
                     </div>

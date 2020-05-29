@@ -37,7 +37,7 @@
                             <option value="0">请选择需要购买的快递公司物流</option>
                         {else /}
                             {foreach $goodsList as $goods}
-                            <option value="{$goods.kdId}">{$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{$goods.cost_price + $goods.good_price}{else if condition="$memberrank==2"}{$goods.cost_price + $goods.good_vip_price}{/if}</option>
+                            <option value="{$goods.kdId}"{if condition="$goods.kdId==$kdId"} selected{/if}>{$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{$goods.cost_price + $goods.good_price}{else if condition="$memberrank==2"}{$goods.cost_price + $goods.good_vip_price}{/if}</option>
                             {/foreach}
                         {/if}
                     </select>
