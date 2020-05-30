@@ -134,10 +134,83 @@ class Membermanagement extends AdminBaseController
         return $this->fetch();
     }
 
+    /**
+     * 获取特殊价格商品列表
+     */
+    public function getgoodslist()
+    {
+
+        $mode = model('goods');
+        $condition = array("good_state" => 1);
+        $query = $mode->getGoodsList($condition);
+        if ($query) {
+            ds_json_encode(10000, "获取商品列表成功", $query);
+        } else {
+            ds_json_encode(10001, "获取商品列表失败");
+        }
+    }
+
+
     /**充值记录*/
     public function rechargerecord()
     {
-        return $this->fetch();
+        $member_id = input('param.mid');
+        if (request()->isPost()) {
+            $condition = array();
+            $condition['recharge_member_id'] = $member_id;
+            $member_mode = model('member');
+            $query = $member_mode->getRechargeRecord($condition);
+            if ($query) {
+                ds_json_encode(10000, "获取充值记录成功", $query);
+            } else {
+                ds_json_encode(10001, "获取充值记录失败");
+            }
+        } else {
+
+            $this->assign("mid", $member_id);
+            return $this->fetch();
+        }
+    }
+
+    /**
+     * 搜索充值记录
+     */
+    public function serachrechargerecord(){
+        $condition = array();
+        $condition['recharge_member_id'] = input('param.mid');
+
+        $serach_param = input('param.serach_param');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
+        if ($serach_param && trim($serach_param) != "") {
+            $condition['recharge_trade_no'] = ['like', $serach_param];
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["recharge_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["recharge_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["recharge_time"] = ['<=', $dateend];
+            }
+        }
+
+        $query = db('recharge_record')
+            ->where($condition)
+            ->order('recharge_time desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索充值记录成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索充值记录失败");
+        }
     }
 
     /**资金明细*/
@@ -217,7 +290,7 @@ class Membermanagement extends AdminBaseController
      */
     public function getrankinfo()
     {
-        $query=db('rank')->where('rank_id',input('param.rankid'))->find();
+        $query = db('rank')->where('rank_id', input('param.rankid'))->find();
         if ($query) {
             ds_json_encode(10000, "搜索会员等级成功", $query);
         } else {
@@ -233,7 +306,7 @@ class Membermanagement extends AdminBaseController
      */
     public function setrankinfo()
     {
-        $query=db('rank')->where('rank_id',input('param.rankid'))->update(["invite_upgrade"=>input('param.invite_upgrade'),"recharge_upgrade"=>input('param.recharge_upgrade')]);
+        $query = db('rank')->where('rank_id', input('param.rankid'))->update(["invite_upgrade" => input('param.invite_upgrade'), "recharge_upgrade" => input('param.recharge_upgrade')]);
         if ($query) {
             ds_json_encode(10000, "设置会员等级配置成功");
         } else {

@@ -41,8 +41,17 @@
                     <span class="formControls col-10"><input name="公告描述" type="text" id="description"
                                                              class="col-xs-10 col-sm-6 "></span>
                 </li>
-
-       </span>
+                <li class="clearfix Mandatory"><label class="label_name"><i>*</i>资讯主图</label>
+                    <span class="formControls col-10"><div class="layui-input-inline" style="display: flex;width: 240px">
+                <input type="file"
+                       style="position:absolute; top:0px; right:0px; height:34px; width:286px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
+                       name="adv_pic_sel" id="adv_pic_sel" hidefocus="true">
+                <input type="text" id="adv_pic" lay-verify="required"
+                       placeholder="公告主图" name="公告主图" class="layui-input">
+                <input type='button' value='上传'
+                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div></span>
+                </li>
                 </li>
                 <li class="clearfix"><label class="label_name">公告内容</label>
                     <span class="formControls col-10"><script id="editor" type="text/plain" style="width:100%;height:500px; margin-left:10px;"></script> </span>
@@ -85,16 +94,21 @@
                                 });
                                 return;
                             }
+                            var file_obj =document.getElementById('adv_pic_sel').files[0];
+                            var fd = new FormData();
+                            fd.append('title', $('#title').val());
+                            fd.append('description', $('#description').val());
+                            fd.append('adclass', $('#adclass').val());
+                            fd.append('file', file_obj);
+                            fd.append('ueval', ue.getContent());
                             $.ajax({
                                 //几个参数需要注意一下
                                 type: "POST",//方法类型
                                 dataType: "json",//预期服务器返回的数据类型
                                 url: "/admin/notice/addnotice",
-                                data:{
-                                    title:$("#title").val(),
-                                    description:$("#description").val(),
-                                    ueval:ue.getContent()
-                                },
+                                data:fd,
+                                processData: false,  //tell jQuery not to process the data
+                                contentType: false,  //tell jQuery not to set contentType
                                 success: function (result) {
                                     if (result.code == 10000) {
                                         layer.alert('添加成功！', {
@@ -116,6 +130,9 @@
                     function layer_close() {
                         window.location.href="/admin/notice.html";
                     }
+                    $("#adv_pic_sel").change(function () {
+                        $("#adv_pic").val($("#adv_pic_sel").val());
+                    });
                         </script>
 </body>
 </html>

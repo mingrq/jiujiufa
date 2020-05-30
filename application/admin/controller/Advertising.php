@@ -117,7 +117,7 @@ class Advertising extends AdminBaseController
             // 移动到框架应用根目录/public/uploads/ 目录下
             $info = $file->move(ROOT_PATH . 'public' . DS . 'upload');
             //如果不清楚文件上传的具体键名，可以直接打印$info来查看
-            -            //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+            //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
             $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
             $ad_pic = DS . 'upload' . DS . $ad_pic;
             if ($ad_pic) {

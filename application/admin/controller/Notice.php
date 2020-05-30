@@ -27,7 +27,14 @@ class Notice extends AdminBaseController
             $title = input("param.title");
             $description = input("param.description");
             $ueval = input("param.ueval");
-            $query= db('notice')->insert(["notice_title"=>$title,"notice_description"=>$description,"notice_content"=>$ueval]);
+            $file = request()->file('file');
+            // 移动到框架应用根目录/public/uploads/ 目录下
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'upload');
+            //如果不清楚文件上传的具体键名，可以直接打印$info来查看
+            //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+            $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
+            $ad_pic = DS . 'upload' . DS . $ad_pic;
+            $query= db('notice')->insert(["notice_pic"=>$ad_pic,"notice_title"=>$title,"notice_description"=>$description,"notice_content"=>$ueval]);
             if ($query) {
                 ds_json_encode(10000, "资讯添加成功");
             } else {
