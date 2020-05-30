@@ -82,4 +82,18 @@ class Order extends MemberBase
             ds_json_encode(10000, "商品获取成功", $result);
         }
     }
+
+    /**
+     * 订单列表
+     */
+    public function orderList()
+    {
+        $order = new \app\common\model\Order();
+        $orderList = $order->paginate(20);
+        $page = $orderList->render();
+
+        $this->assign('orderList', $orderList);
+        $this->assign('page', $page);
+        return $this->fetch();
+    }
 }
