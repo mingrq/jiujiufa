@@ -46,7 +46,7 @@
                 </div>
                 <div class="value">
                     <h1>140</h1>
-                    <p>API调用次数</p>
+                    <p>未处理工单</p>
                 </div>
             </section>
         </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="value">
                     <h1>￥34,500</h1>
-                    <p>交易记录</p>
+                    <p>充值记录</p>
                 </div>
             </section>
         </div>
@@ -80,8 +80,12 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <td class="name">已成交订单数：</td>
+                    <td class="name">已发货订单数：</td>
                     <td class="munber"><a href="#">0</a>&nbsp;个</td>
+                </tr>
+                <tr>
+                    <td class="name">已支付订单数：</td>
+                    <td class="munber"><a href="#">26</a>&nbsp;个</td>
                 </tr>
                 <tr>
                     <td class="name">未支付订单数：</td>
@@ -95,10 +99,17 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
+                    <td class="name">仓库总数：</td>
+                    <td class="munber"><a href="#">340</a>&nbsp;个</td>
+                </tr>
+                <tr>
                     <td class="name">礼品总数：</td>
                     <td class="munber"><a href="#">340</a>&nbsp;个</td>
                 </tr>
-
+                <tr>
+                    <td class="name">在售礼品数：</td>
+                    <td class="munber"><a href="#">340</a>&nbsp;个</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -125,33 +136,21 @@
     <div class="clearfix">
         <div class="home_btn">
             <div>
-                <a href="../moban/picture-add.html" title="添加商品" class="btn  btn-info btn-sm no-radius">
-                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-addp.png"/></i>
-                    <h5 class="margin-top">添加商品</h5>
-                </a>
-                <a href="../moban/Category_Manage.html" title="产品分类" class="btn  btn-primary btn-sm no-radius">
-                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-cpgl.png"/></i>
-                    <h5 class="margin-top">产品分类</h5>
-                </a>
                 <a href="/admin/administrator.html" title="个人信息" class="btn  btn-success btn-sm no-radius">
                     <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-grxx.png"/></i>
                     <h5 class="margin-top">个人信息</h5>
                 </a>
-                <a href="../moban/Systems.html" title="系统设置" class="btn  btn-info btn-sm no-radius">
-                    <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/xtsz.png"/></i>
-                    <h5 class="margin-top">系统设置</h5>
-                </a>
-                <a href="../orderform/Order_handling.html" title="商品订单" class="btn  btn-purple btn-sm no-radius">
+                <a href="/admin/orderform.html" title="商品订单" class="btn  btn-purple btn-sm no-radius">
                     <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-gwcc.png"/></i>
                     <h5 class="margin-top">商品订单</h5>
                 </a>
-                <a href="../moban/picture-add.html" title="添加广告" class="btn  btn-pink btn-sm no-radius">
+                <a href="/admin/advertising.html" title="添加广告" class="btn  btn-pink btn-sm no-radius">
                     <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-ad.png"/></i>
                     <h5 class="margin-top">添加广告</h5>
                 </a>
-                <a href="../notice/article_add.html" title="添加文章" class="btn  btn-info btn-sm no-radius">
+                <a href="/admin/article.html" title="添加资讯" class="btn  btn-info btn-sm no-radius">
                     <i class="bigger-200"><img src="{$Think.ADMIN_SITE_ROOT}/images/icon-addwz.png"/></i>
-                    <h5 class="margin-top">添加文章</h5>
+                    <h5 class="margin-top">添加资讯</h5>
                 </a>
             </div>
         </div>
