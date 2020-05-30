@@ -34,10 +34,10 @@ class Order extends MemberBase
                 $whereGoods['classId'] = $classid;
                 $whereGoods['good_state'] = 1;
                 $goodsList = $goodsT->where($whereGoods)->select();
-            }else{
+            } else {
 
             }
-        }else{
+        } else {
             $kdId = 0;
         }
 
@@ -48,6 +48,7 @@ class Order extends MemberBase
 
         $this->assign('classid', $classid);
         $this->assign('kdId', $kdId);
+        $this->assign('memberBalance', $member['member_balance']);
         $this->assign('memberrank', $member['member_rank']);// 代理级别
         $this->assign('goodsList', $goodsList);
         $this->assign('warehouseList', $warehouseList);
@@ -71,9 +72,9 @@ class Order extends MemberBase
             }
         }
         $member = Member::get(session('MUserId'));
-        if (empty($member) || empty($member['member_rank'])){
+        if (empty($member) || empty($member['member_rank'])) {
             ds_json_encode(10001, "获取错误");
-        }else{
+        } else {
             $result = array(
                 "mrank" => $member['member_rank'],
                 "goodsList" => $goodsList

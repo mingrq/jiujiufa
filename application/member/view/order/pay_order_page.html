@@ -34,10 +34,11 @@
                 <div class="payorder-sellipin">
                     <select id="selproduct">
                         {if condition="empty($goodsList) eq true"}
-                            <option value="0">请选择需要购买的快递公司物流</option>
+                            <option value="0" data-myprice="0">请选择需要购买的快递公司物流</option>
                         {else /}
+                            <option value="0" data-myprice="0" selected>请选择需要购买的快递公司物流</option>
                             {foreach $goodsList as $goods}
-                            <option value="{$goods.kdId}"{if condition="$goods.kdId==$kdId"} selected{/if}>{$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{$goods.cost_price + $goods.good_price}{else if condition="$memberrank==2"}{$goods.cost_price + $goods.good_vip_price}{/if}</option>
+                            <option value="{$goods.kdId}" data-myprice="{if condition='$memberrank==1'}{$goods.cost_price + $goods.good_price}{else if condition='$memberrank==2'}{$goods.cost_price + $goods.good_vip_price}{/if}"{if condition="$goods.kdId==$kdId"} selected{/if}>{$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{$goods.cost_price + $goods.good_price}{else if condition="$memberrank==2"}{$goods.cost_price + $goods.good_vip_price}{/if}</option>
                             {/foreach}
                         {/if}
                     </select>
@@ -58,12 +59,12 @@
                     </div>
                     <div class="order-add-btns">
                         <button class="add-btn" onclick="checkAddress();">检查收货地址</button>
-                        <button class="add-btn">检查收货地址</button>
-                        <button class="add-btn">检查收货地址</button>
+                        <!--button class="add-btn">检查收货地址</button>
+                        <button class="add-btn">检查收货地址</button-->
                     </div>
                 </div>
                 <div class="order-memb-info">
-                    余额：<span class="jine">0.00</span> 元，【 <span class="daili">代理会员</span> 】下单：<span id="">2.20元/单</span>
+                    余额：<span class="jine">{$memberBalance}</span> 元，【 <span class="daili">{if condition="$memberrank==1"}普通会员{else if condition="$memberrank==2"}代理会员{/if}</span> 】下单：<span id="curgoodsprice">0</span>元/单
                 </div>
                 <div class="order-address-table">
                    <table id="tb_addrs">
@@ -77,7 +78,7 @@
                    </table>
                 </div>
                 <div class="order-submit">
-                    <button>确认购买</button>
+                    <button onclick="buyGoods();">确认购买</button>
                 </div>
             </div>
         </div>

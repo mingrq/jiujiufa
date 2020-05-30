@@ -10,7 +10,8 @@ $(function () {
     $("#selcangku li").click(function () {
         var ckid = $(this).attr("data-ckid");
         $("#selproduct").empty();
-        $("#selproduct").append($("<option>").val(0).text("请选择需要购买的快递公司物流"));
+        $("#selproduct").append($("<option>").val(0).attr("data-myprice", 0).text("请选择需要购买的快递公司物流"));
+        $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
         // 获取商品数据 并填充
         $.ajax({
             url: "/member/order/getGoodsByCkId",
@@ -25,11 +26,11 @@ $(function () {
                     $goods = data.result.goodsList;
                     if ($mrank == 1) {
                         for (let i = 0; i < $goods.length; i++) {
-                            $("#selproduct").append($("<option>").val($goods[i].kdId).text($goods[i].kdName + "普通会员价:" + $goods[i].cost_price + $goods[i].good_price + " / 代理会员价:" + $goods[i].cost_price + $goods[i].good_vip_price + " / 我的价格:" + $goods[i].cost_price + $goods[i].good_price));
+                            $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))));
                         }
                     } else if ($mrank == 2) {
                         for (let i = 0; i < $goods.length; i++) {
-                            $("#selproduct").append($("<option>").val($goods[i].kdId).text($goods[i].kdName + "普通会员价:" + $goods[i].cost_price + $goods[i].good_price + " / 代理会员价:" + $goods[i].cost_price + $goods[i].good_vip_price + " / 我的价格:" + $goods[i].cost_price + $goods[i].good_vip_price));
+                            $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))));
                         }
                     }
                 }
@@ -49,6 +50,12 @@ $(function () {
         // 仓库样式
         $("#selcangku li").removeClass('action');
         $(this).addClass('action');
+    });
+
+    // 选择商品改变价格
+    $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
+    $("#selproduct").change(function () {
+        $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
     });
 })
 
@@ -104,11 +111,31 @@ function checkAddress() {
         }
         $("#tb_addrs").append($tr);
     }
+    var price = $('#selproduct').find("option:selected").attr("data-myprice");
+    var accont = contentArr.length * Number(price);
     var $tr_bottom = $("<tr>" +
-        "<td colspan=\"5\" style=\"text-align: center; color: red;\">" + contentArr.length + " X 2.20 = 4.4元</td>" +
+        "<td colspan=\"5\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
         "</tr>");
     $("#tb_addrs").append($tr_bottom);
     // 关闭
     layer.close(load_index);
 }
 
+function toDecimal(x) {
+    var val = Number(x)
+    if (!isNaN(parseFloat(val))) {
+        val = val.toFixed(2);
+    }
+    return val;
+}
+
+/**
+ * 确认购买
+ */
+function buyGoods() {
+    // 判断单价
+    // 判断数量
+    // 判断总金额
+    // 判断是否有格式错误的
+
+}
