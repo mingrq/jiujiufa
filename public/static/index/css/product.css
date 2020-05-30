@@ -85,6 +85,11 @@
     color: #FF464E;
 }
 
+.prodict-con ul li.action {
+    color: #FF464E;
+    font-weight: bold;
+}
+
 .newproduct-box {
     width: 100%;
     float: left;

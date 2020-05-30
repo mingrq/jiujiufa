@@ -16,8 +16,9 @@ class MemberBase extends Controller
     {
         $MUserId = session('MUserId');
         $MUserName = session('MUserName');
-        if (empty($MUserId) || empty($MUserName)){
-            $this->error("请先登录", url("member/login/login"));
+        if (empty($MUserId) || empty($MUserName)) {
+//            $this->error("请先登录", url("member/login/login"));
+            $this->redirect(url("member/login/login"));
         }
     }
 

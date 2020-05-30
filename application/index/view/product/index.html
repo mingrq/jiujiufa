@@ -6,27 +6,46 @@
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/index/css/style.css">
     <link rel="stylesheet" href="/static/index/css/product.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
 </head>
 <body>
 {include file="public/header" /}
 <div class="prodict-con-box">
     <div class="prodict-con">
         <div class="cangku">
+            <input type="hidden" id="yckid" value="{$ckid}"/>
             <div class="pck-title">仓库：</div>
-            <ul>
+            <ul id="pselcangku">
+                <li data-ckid="0" {if condition="$ckid==0" } class="action" {/if}>全部仓库</li>
                 {foreach $warehouselist as $warehouse}
-                <li>{$warehouse.wh_title}</li>
+                <li data-ckid="{$warehouse.wh_id}" {if condition="$ckid==$warehouse.wh_id" } class="action" {/if}>{$warehouse.wh_title}</li>
                 {/foreach}
             </ul>
         </div>
         <div class="paixu">
+            <input type="hidden" id="yoby" value="{$oby}"/>
             <div class="px-title">排序：</div>
-            <ul>
-                <li>仓库1</li>
-                <li>仓库2</li>
+            <ul id="pselorderby">
+                <li data-oby="0" {if condition="$oby==0" } class="action" {/if}>默认排序</li>
+                <li data-oby="1" {if condition="$oby==1" } class="action" {/if}>价格最低</li>
+                <li data-oby="2" {if condition="$oby==2" } class="action" {/if}>价格最高</li>
             </ul>
         </div>
         <div class="clear"></div>
+        <script type="text/javascript">
+            $(function () {
+                $("#pselcangku li").click(function () {
+                    var ckid = $(this).attr("data-ckid");
+                    var yoby = $("#yoby").val();
+                    window.location.href = "/index/product/index/ckid/" + ckid + "/oby/" + yoby;
+                });
+                $("#pselorderby li").click(function () {
+                    var oby = $(this).attr("data-oby");
+                    var yckid = $("#yckid").val();
+                    window.location.href = "/index/product/index/ckid/" + yckid + "/oby/" + oby;
+                });
+            })
+        </script>
     </div>
 </div>
 <div class="newproduct-box">
