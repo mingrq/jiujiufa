@@ -55,7 +55,7 @@ class Member extends Model
      * @param string $order
      * @return mixed
      */
-    public function getRechargeRecord($condition = array(), $field = '*', $page = 0, $order = 'recharge_time desc')
+    public function getRechargeRecord($condition = array(), $field = '*', $page = 100, $order = 'recharge_time desc')
     {
         if ($page) {
             $recharge_record = db('recharge_record')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
@@ -73,7 +73,7 @@ class Member extends Model
      * @param string $order
      * @return mixed
      */
-    public function getMoneychangeRecord($condition = array(), $field = '*', $page = 0, $order = 'change_time desc')
+    public function getMoneychangeRecord($condition = array(), $field = '*', $page = 100, $order = 'change_time desc')
     {
         if ($page) {
             $recharge_record = db('moneychange_record')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);

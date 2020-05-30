@@ -27,11 +27,11 @@ class Order extends Model
      */
    public function getOrderlist($condition = array(), $field = '*', $page = 100, $order = 'create_time desc'){
        if ($page) {
-           $member_list = db('order')->field($field)->where($condition)->order($order)->paginate($page,false,['query' => request()->param()]);
+           $member_list = db('v_order')->field($field)->where($condition)->order($order)->paginate($page,false,['query' => request()->param()]);
            return $member_list;
        }
        else {
-           return db('order')->field($field)->where($condition)->order($order)->select();
+           return db('v_order')->field($field)->where($condition)->order($order)->select();
        }
    }
 }

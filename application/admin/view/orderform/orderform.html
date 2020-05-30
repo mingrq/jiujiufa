@@ -92,10 +92,12 @@
             , url: '/admin/orderform/orderlist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-                {field: 'member_mobile', width: 120, align: 'center', title: '会员名'}
-                , {field: 'goodsTitle', width: 250, align: 'center', title: '商品名称'}
-                , {field: 'tracking_number', title: '快递单号', align: 'center', width: 250} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                {field: 'order_no', width: 260, align: 'center', title: '订单号'}
+                ,{field: 'member_mobile', width: 120, align: 'center', title: '会员名'}
+                , {field: 'goodsTitle', minWidth: 160, align: 'center', title: '商品名称'}
+                , {field: 'tracking_number', title: '快递单号', align: 'center', width: 260} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'express_name', align: 'center', title: '快递公司', width: 120}
+                , {field: 'consignee_name', align: 'center', title: '收货人', width: 150}
                 , {field: 'create_time', title: '下单时间', align: 'center', width: 160, sort: true,}
                 , {field: 'order_pay', title: '下单金额', width: 110, align: 'center', sort: true}
                 , {field: 'operation', align: 'center', title: '操作', toolbar: '#table_operation_toolbar'}

@@ -23,8 +23,20 @@ class Orderform extends AdminBaseController
     {
         $order_mod = model('order');
         $orderList = $order_mod->getOrderlist();
-        ds_json_encode(10000, "获取订单列表成功", $orderList);
+
+        if ($orderList){
+            ds_json_encode(10000, "获取订单列表成功", $orderList);
+        }else{
+            ds_json_encode(10001, "获取订单列表失败");
+        }
     }
 
+    /**
+     * 获取订单列表
+     */
+    public function searchorderlist()
+    {
+
+    }
 
 }
