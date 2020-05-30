@@ -2,35 +2,107 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>资金明细</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
+    <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome.min.css"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <![endif]-->
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <![endif]-->
+
+    <!--[if !IE]> -->
+
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='{$Think.ADMIN_SITE_ROOT}/assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/bootstrap.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/typeahead-bs2.min.js"></script>
+
+    <script type="text/javascript" src="{$Think.ADMIN_SITE_ROOT}/js/H-ui.js"></script>
+    <script type="text/javascript" src="{$Think.ADMIN_SITE_ROOT}/js/H-ui.admin.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript"></script>
     <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+    <title>资金明细</title>
 </head>
 <body>
 <div class="page-content clearfix">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="m-form-label">查询</label>
+                <div class="layui-input-inline" style="width: 150px">
+                    <input type="text" placeholder="变更原因" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
 
+            <div class="layui-inline" style="margin-right: -12px;">
+                <label class="m-form-label">日期</label>
+                <div class="layui-input-inline" style="width: 110px">
+                    <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
+                           placeholder="开始日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                <div class="layui-input-inline" style="width: 110px">
+                    <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url" placeholder="结束日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
+        </div>
+    </form>
     <!--表格-->
     <table id="sample-table" lay-filter="table_member"></table>
 </div>
 <script>
     /**设置等级下拉框数据*/
     var table;
-    layui.use(['table'], function () {
+    var laydate;
+    var form;
+    layui.use(['table', 'laydate', 'form'], function () {
         table = layui.table;
+        laydate = layui.laydate;
+        form = layui.form;
 
         table.render({
-             elem: '#sample-table'
-            ,type: 'post'
-            ,where:{'member_id',{$}}
-            , url: '/admin/membermanagement/getfinancialdetailslist'
+            elem: '#sample-table'
+            ,method:'post'
+            , url: "/admin/membermanagement/financialdetails?mid={$mid}"
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
-            , height: 'full-130'
+            , height: 'full-110'
             , cols: [[
-                {field: 'member_mobile', width: 120, align: 'center', title: '用户(手机)'}
-                , {field: 'change_money', width: 120, align: 'center', title: '金额'}
-                , {field: 'change_time', title: '注册时间', width: 160, align: 'center', sort: true}
-                , {field: 'change_cause', align: 'center', title: '资金变更原因'}
+                {field: 'change_money',  align: 'center', title: '变更金额'}
+                , {field: 'change_cause', align: 'center', title: '变更原因'}
+                , {field: 'change_time', title: '变更时间',  align: 'center', sort: true}
             ]]
             , parseData: function (res) {
                 console.log(res);
@@ -52,7 +124,31 @@
                 layout: ['prev', 'page', 'next', 'skip', 'refresh']
             }
         });
+
+        laydate.render({
+            elem: '#serach_param_date_atart'
+        });
+        laydate.render({
+            elem: '#serach_param_date_end'
+        });
+
+
     });
+
+
+    /**搜索*/
+    function serach() {
+        table.reload('sample-table', {
+            url: '/admin/membermanagement/serachfinancialdetailslist'
+            , where: {
+                mid:{$mid},
+                serach_param: $('#serach_param').val(),
+                dateatart: $('#serach_param_date_atart').val(),
+                dateend: $('#serach_param_date_end').val()
+            } //设定异步数据接口的额外参数
+        });
+    }
+
 </script>
 </body>
 </html>

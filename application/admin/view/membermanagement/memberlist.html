@@ -246,7 +246,7 @@
 
             if (layEvent === 'special_price') { //特殊价格
                 setnav('特殊价格');
-                window.location.href = '/admin/membermanagement/specialprice.html'
+                window.location.href = '/admin/membermanagement/specialprice.html?mid='+data.member_id;
             } else if (layEvent === 'reward_punish') { //奖罚
                 reward_punish(data, function (balance) {
                     obj.update({
@@ -260,7 +260,7 @@
                 alter_password(data);
             } else if (layEvent === 'financial_details') { //资金明细
                 setnav('资金明细');
-                window.location.href = '/admin/membermanagement/financialdetails.html'
+                window.location.href = '/admin/membermanagement/financialdetails.html?mid='+data.member_id;
             }
         });
     });

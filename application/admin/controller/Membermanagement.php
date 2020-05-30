@@ -216,18 +216,61 @@ class Membermanagement extends AdminBaseController
     /**资金明细*/
     public function financialdetails()
     {
-        return $this->fetch();
+        $member_id = input('param.mid');
+        if (request()->isPost()){
+            $condition = array();
+            $condition['member_id'] = $member_id;
+            $member_mode = model('member');
+            $query = $member_mode->getMoneychangeRecord($condition);
+            if ($query) {
+                ds_json_encode(10000, "获取资金明细成功", $query);
+            } else {
+                ds_json_encode(10001, "获取资金明细失败");
+            }
+        }else{
+            $this->assign("mid", $member_id);
+            return $this->fetch();
+        }
+
     }
 
-    /**获取资金明细列表*/
-    public function getfinancialdetailslist()
+    /**搜索资金明细列表*/
+    public function serachfinancialdetailslist()
     {
-        $member_id = input('param.member_id');
-        $financialdetailslist = db('member')->where('member_id0', $member_id)->select();
-        if ($financialdetailslist) {
-            ds_json_encode(10000, "获取资金明细成功", $financialdetailslist);
+        $condition = array();
+        $condition['member_id'] = input('param.mid');
+
+        $serach_param = input('param.serach_param');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
+        if ($serach_param && trim($serach_param) != "") {
+            $condition['change_cause'] = ['like', $serach_param];
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["change_time"] = ['between', [$dateatart, $dateend]];
         } else {
-            ds_json_encode(10001, "获取资金明细失败");
+            if ($dateatart) {
+                $condition["change_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["change_time"] = ['<=', $dateend];
+            }
+        }
+
+        $query = db('moneychange_record')
+            ->where($condition)
+            ->order('change_time desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索变更明细成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索变更明细失败");
         }
     }
 
