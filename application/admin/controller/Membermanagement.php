@@ -126,11 +126,13 @@ class Membermanagement extends AdminBaseController
     }
 
     /**
-     * 特殊价格
+     * 特殊价格页面
      * @return mixed
      */
     public function specialprice()
     {
+        $id = input("param.mid");
+        $this->assign("mid", $id);
         return $this->fetch();
     }
 
@@ -150,6 +152,30 @@ class Membermanagement extends AdminBaseController
         }
     }
 
+    /**
+     * 设置特殊价格
+     */
+    public function editspecialprice()
+    {
+        $mid = input('param.mid');
+        $field = input('param.field');
+        $kdId = input('param.kdId');
+        $price = input('param.price');
+        $qurey = db('goods')->where('kdId', $kdId)->value($field);
+        if ($qurey != $price) {
+            //需要设置特殊价格
+            //1、查询特殊价格表中是否有这个商品
+            //2、有：修改  无：新增
+            $ishasspecial =db('special_price')->where('member_id',$mid)->where('kd_id',$kdId)->find();
+           if ($ishasspecial){
+               //修改特殊价格
+           }else{
+               //新增特殊价格
+           }
+            ds_json_encode(10000, "修改价格成功");
+        }
+        ds_json_encode(10001, "修改价格失败");
+    }
 
     /**充值记录*/
     public function rechargerecord()
@@ -175,7 +201,8 @@ class Membermanagement extends AdminBaseController
     /**
      * 搜索充值记录
      */
-    public function serachrechargerecord(){
+    public function serachrechargerecord()
+    {
         $condition = array();
         $condition['recharge_member_id'] = input('param.mid');
 
@@ -217,7 +244,7 @@ class Membermanagement extends AdminBaseController
     public function financialdetails()
     {
         $member_id = input('param.mid');
-        if (request()->isPost()){
+        if (request()->isPost()) {
             $condition = array();
             $condition['member_id'] = $member_id;
             $member_mode = model('member');
@@ -227,7 +254,7 @@ class Membermanagement extends AdminBaseController
             } else {
                 ds_json_encode(10001, "获取资金明细失败");
             }
-        }else{
+        } else {
             $this->assign("mid", $member_id);
             return $this->fetch();
         }

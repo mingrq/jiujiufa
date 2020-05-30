@@ -198,13 +198,14 @@
                 //几个参数需要注意一下
                 type: "GET",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/goods/editprice",
+                url: "/admin/membermanagement/editspecialprice",
                 data: {
                     field: obj.field,
                     kdId: obj.data.kdId,
                     price: obj.value
                 },
                 success: function (result) {
+                    console.log(result)
                 },
                 error: function () {
                 }
@@ -225,7 +226,7 @@
     }
 
     /**
-     * 批量设置价格
+     * 批量设置特殊价格
      */
     function setprice() {
         $.ajax({
