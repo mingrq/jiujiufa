@@ -5,6 +5,7 @@ namespace app\member\controller;
 use app\common\controller\MemberBase;
 use app\common\model\Goods;
 use app\common\model\Member;
+use app\common\model\MoneychangeRecord;
 use app\common\model\Warehouse;
 use think\Db;
 
@@ -84,16 +85,154 @@ class Order extends MemberBase
     }
 
     /**
+     * 下订单
+     */
+    public function buyOrder()
+    {
+        //if ($this->request->isPost()) {
+            $kdid = $this->request->param("kdid") ? preg_replace('/[^0-9]/', '', $this->request->param('kdid')) : 0;
+            $ckid = $this->request->param("ckid") ? preg_replace('/[^0-9]/', '', $this->request->param('ckid')) : 0;
+            $content = trim($this->request->param("content"));
+            $whereGoods['gd.kdId'] = $kdid;
+            $whereGoods['gd.classId'] = $ckid;
+            $whereGoods['gd.good_state'] = 1;
+            // 获取商品  判断商品信息否错误
+            $goodsObj = new Goods();
+            //$goods = $goodsObj->where($whereGoods)->find();
+            $goods = $goodsObj->alias('gd')->field("gd.*, wh.wh_title as whTitle")->join("warehouse wh", "gd.classId=wh.wh_id", "left")->where($whereGoods)->find();
+            if (empty($goods) || empty($goods['kdId'])) {
+                // 商品ID错误
+                ds_json_encode(10001, "商品信息错误", null);
+            }
+            // 获取用户级别
+            $mUserId = session('MUserId');
+            $member = Member::get($mUserId);
+            if (empty($member) || empty($member['member_rank'])) {
+                ds_json_encode(10004, "用户信息错误，请重新登录");
+            }
+            $mrank = $member['member_rank'];
+            // 获取商品价格
+            if ($mrank == 2) {
+                $price = $goods['cost_price'] + $goods['good_vip_price'];
+            } else {
+                $price = $goods['cost_price'] + $goods['good_price'];
+            }
+            // 判断内容是否错误
+            $param = array();
+            if (empty($content)) {
+                ds_json_encode(10002, "收货地址错误", null);
+            }
+            $contentArr = explode(PHP_EOL, $content);
+            $errorNum = 0;
+            foreach ($contentArr as $address) {
+                $addressArr = explode("，", $address);
+                if (count($addressArr) != 4) {
+                    $errorNum++;
+                }
+                array_push($param, array(
+                    'pid' => time() . rand(10000000, 99999999),
+                    'msg' => $address,
+                    'address' => trim($addressArr[2])
+                ));
+            }
+            if ($errorNum > 0) {
+                ds_json_encode(10003, "收货地址错误", $errorNum);
+            }
+            // 判断账号余额是否还够支付
+            if ((count($contentArr) * $price) > $member['member_balance']) {
+                ds_json_encode(10005, "账号余额不足", null);
+            }
+            // 提交订单
+            $orderData = array();
+            $mchRecordData = array();
+            $order = new \app\common\model\Order();
+            $result = $order->unifiedOrder($param);
+            if ($result['status'] == 'ok') {
+                // 下单成功
+                $kddhs = $result['kddhs'];
+                $nowTime = date("Y-m-d H:i:s", time());
+
+                // 订单全部
+                for ($i = 0; $i < count($kddhs); $i++) {
+                    $orderData[$i] = array(
+                        'order_no' => $kddhs[$i]['pid'],
+                        'member_id' => $mUserId,
+                        'tracking_number' => $kddhs[$i]['num'],
+                        'consignee_name' => $kddhs[$i]['takeName'],
+                        'shipping_address' => $param[$i]['address'],
+                        'express_name' => $goods['whTitle'],
+                        'create_time' => $nowTime,
+                        'order_pay' => $kddhs[$i]['price'],
+                        'order_state' => 2,
+                        'goodsTitle' => $goods['kdName'],
+                        'consignee_phone' => $kddhs[$i]['takePhone']
+                    );
+                    $mchRecordData[$i] = array(
+                        'member_id' => $mUserId,
+                        'change_money' => (-1 * $kddhs[$i]['price']),
+                        'change_time' => $nowTime,
+                        'change_cause' => '购买小礼品：' . $goods['kdName']
+                    );
+                }
+                //$orderT = new \app\common\model\Order();
+                $res = $order->saveAll($orderData);
+                if ($res > 0) {
+                    // 资金变更记录
+                    $moneychangeRecord = new MoneychangeRecord();
+                    $moneychangeRecord->saveAll($mchRecordData);
+                    // 更新余额
+                    $nowMBalance = $member['member_balance'] - (count($contentArr) * $price);
+                    //$member->member_balance = $nowMBalance;
+                    $member->save([
+                        'member_balance' => $nowMBalance
+                    ], ['member_id' => $member['member_id']]);
+                    ds_json_encode(10000, "下单成功");
+                } else {
+                    ds_json_encode(10007, "下单失败");
+                }
+            } else {
+                ds_json_encode(10006, $result['status']);
+            }
+            //ds_json_encode(10000, "订单提交成功");
+        /*} else {
+            ds_json_encode(10010, "数据错误", null);
+        }*/
+    }
+
+    /**
      * 订单列表
      */
     public function orderList()
     {
         $order = new \app\common\model\Order();
-        $orderList = $order->paginate(20);
+
+        $orderList = $order->where('member_id', '=', session("MUserId"))->paginate(20);
         $page = $orderList->render();
 
         $this->assign('orderList', $orderList);
         $this->assign('page', $page);
         return $this->fetch();
+    }
+
+    public function testorder(){
+        for ($i = 0; $i < 3; $i++) {
+            $orderData[$i] = array(
+                'order_no' => time() . rand(10000000, 99999999),
+                'member_id' => 3,
+                'tracking_number' => 123456,
+                'consignee_name' => '',
+                'shipping_address' => '',
+                'express_name' => '',
+                'create_time' => time(),
+                'order_pay' => 3.0,
+                'order_state' => 2,
+                'goodsTitle' => '',
+                'consignee_phone' => 12345678
+            );
+        }
+        //$orderT = new \app\common\model\Order();
+        $orderT = model("Order");
+        $res = $orderT->saveAll($orderData);
+        dump($res);
     }
 }
