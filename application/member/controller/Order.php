@@ -7,7 +7,6 @@ use app\common\model\Goods;
 use app\common\model\Member;
 use app\common\model\MoneychangeRecord;
 use app\common\model\Warehouse;
-use think\Db;
 
 class Order extends MemberBase
 {
@@ -89,10 +88,10 @@ class Order extends MemberBase
      */
     public function buyOrder()
     {
-        //if ($this->request->isPost()) {
-            $kdid = $this->request->param("kdid") ? preg_replace('/[^0-9]/', '', $this->request->param('kdid')) : 0;
-            $ckid = $this->request->param("ckid") ? preg_replace('/[^0-9]/', '', $this->request->param('ckid')) : 0;
-            $content = trim($this->request->param("content"));
+        if ($this->request->isPost()) {
+            $kdid = $this->request->post("kdid") ? preg_replace('/[^0-9]/', '', $this->request->post('kdid')) : 0;
+            $ckid = $this->request->post("ckid") ? preg_replace('/[^0-9]/', '', $this->request->post('ckid')) : 0;
+            $content = trim($this->request->post("content"));
             $whereGoods['gd.kdId'] = $kdid;
             $whereGoods['gd.classId'] = $ckid;
             $whereGoods['gd.good_state'] = 1;
@@ -194,9 +193,9 @@ class Order extends MemberBase
                 ds_json_encode(10006, $result['status']);
             }
             //ds_json_encode(10000, "订单提交成功");
-        /*} else {
+        } else {
             ds_json_encode(10010, "数据错误", null);
-        }*/
+        }
     }
 
     /**
@@ -212,27 +211,5 @@ class Order extends MemberBase
         $this->assign('orderList', $orderList);
         $this->assign('page', $page);
         return $this->fetch();
-    }
-
-    public function testorder(){
-        for ($i = 0; $i < 3; $i++) {
-            $orderData[$i] = array(
-                'order_no' => time() . rand(10000000, 99999999),
-                'member_id' => 3,
-                'tracking_number' => 123456,
-                'consignee_name' => '',
-                'shipping_address' => '',
-                'express_name' => '',
-                'create_time' => time(),
-                'order_pay' => 3.0,
-                'order_state' => 2,
-                'goodsTitle' => '',
-                'consignee_phone' => 12345678
-            );
-        }
-        //$orderT = new \app\common\model\Order();
-        $orderT = model("Order");
-        $res = $orderT->saveAll($orderData);
-        dump($res);
     }
 }

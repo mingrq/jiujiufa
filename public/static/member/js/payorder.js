@@ -229,8 +229,11 @@ function buyGoods() {
             success: function (data) {
                 console.log(data);
             },
-            error: function () {
-                console.log('error');
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.readyState);
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.responseText);
+                console.log(textStatus);
             },
             complete: function () {
                 // 关闭

@@ -17,7 +17,7 @@ use think\Model;
  */
 class Order extends Model
 {
-    protected $pk = 'order_no';
+    protected $pk = 'order_id';
 
     /**
      * 获取订单列表
