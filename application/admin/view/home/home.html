@@ -24,7 +24,7 @@
     <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="page-content clearfix" >
+<div class="page-content clearfix">
     <div class="state-overview clearfix">
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
@@ -56,7 +56,7 @@
                     <i class="icon-shopping-cart"></i>
                 </div>
                 <div class="value">
-                    <h1>345</h1>
+                    <h1>{$orderpaycount}</h1>
                     <p>礼品订单</p>
                 </div>
             </section>
@@ -67,7 +67,7 @@
                     <i class="icon-bar-chart"></i>
                 </div>
                 <div class="value">
-                    <h1>￥34,500</h1>
+                    <h1>￥{$paysum}</h1>
                     <p>充值记录</p>
                 </div>
             </section>
@@ -81,15 +81,15 @@
                 <tbody>
                 <tr>
                     <td class="name">已发货订单数：</td>
-                    <td class="munber"><a href="#">0</a>&nbsp;个</td>
+                    <td class="munber"><a href="#">{$orderdeliverpaycount}</a>&nbsp;个</td>
                 </tr>
                 <tr>
                     <td class="name">已支付订单数：</td>
-                    <td class="munber"><a href="#">26</a>&nbsp;个</td>
+                    <td class="munber"><a href="#">{$orderpaycount}</a>&nbsp;个</td>
                 </tr>
                 <tr>
                     <td class="name">未支付订单数：</td>
-                    <td class="munber"><a href="#">26</a>&nbsp;个</td>
+                    <td class="munber"><a href="#">{$ordernotpaycount}</a>&nbsp;个</td>
                 </tr>
                 </tbody>
             </table>
@@ -104,26 +104,26 @@
                 </tr>
                 <tr>
                     <td class="name">礼品总数：</td>
-                    <td class="munber"><a href="#">340</a>&nbsp;个</td>
+                    <td class="munber"><a href="#">{$goodscount}</a>&nbsp;个</td>
                 </tr>
                 <tr>
                     <td class="name">在售礼品数：</td>
-                    <td class="munber"><a href="#">340</a>&nbsp;个</td>
+                    <td class="munber"><a href="#">{$goodsasalecount}</a>&nbsp;个</td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="Order_Statistics">
-            <div class="title_name">会员登录统计信息</div>
+            <div class="title_name">资讯信息统计</div>
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <td class="name">注册会员登录：</td>
-                    <td class="munber"><a href="#">3240</a>&nbsp;次</td>
+                    <td class="name">代发资讯：</td>
+                    <td class="munber"><a href="#">{$articlecount}</a>&nbsp;篇</td>
                 </tr>
                 <tr>
-                    <td class="name">QQ会员登录：</td>
-                    <td class="munber"><a href="#">1130</a>&nbsp;次</td>
+                    <td class="name">网站公告：</td>
+                    <td class="munber"><a href="#">{$noticecount}</a>&nbsp;篇</td>
                 </tr>
                 </tbody>
             </table>
