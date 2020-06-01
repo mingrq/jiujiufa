@@ -152,7 +152,7 @@
 
         table.render({
             elem: '#sample-table'
-            , url: '/admin/goods/getgoodslist'
+            , url: '/admin/membermanagement/getspecialgoodslist?mid='+{$mid}
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
             , height: 'full-170'
@@ -194,15 +194,19 @@
         });
 
         table.on('edit(table_goods)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj);
+            console.log(obj.value)
             $.ajax({
                 //几个参数需要注意一下
                 type: "GET",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
                 url: "/admin/membermanagement/editspecialprice",
                 data: {
-                    field: obj.field,
+                    good_price: obj.data.good_price,
+                    good_vip_price:obj.data.good_vip_price,
+                    good_api_price: obj.data.good_api_price,
                     kdId: obj.data.kdId,
-                    price: obj.value
+                    mid: {$mid}
                 },
                 success: function (result) {
                     console.log(result)

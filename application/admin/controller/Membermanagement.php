@@ -113,15 +113,23 @@ class Membermanagement extends AdminBaseController
      */
     public function rewardpunish()
     {
-        $id = input("param.memberid");
-        $rewardsmoney = input("param.rewardsmoney");
-        $rewardscause = input("param.rewardscause");
-        $model = model('member');
-        $result = $model->money_change($id, $rewardsmoney, $rewardscause);
-        if ($result) {
-            ds_json_encode(10000, "奖罚成功");
+        if (request()->isPost()) {
+            $id = input("param.memberid");
+            $rewardsmoney = input("param.rewardsmoney");
+            $rewardscause = input("param.rewardscause");
+            if (session('admin_id')) {
+                $model = model('member');
+                $result = $model->money_change($id, $rewardsmoney, $rewardscause);
+                if ($result) {
+                    ds_json_encode(10000, "奖罚成功");
+                } else {
+                    ds_json_encode(10001, "奖罚失败");
+                }
+            } else {
+                ds_json_encode(10001, "不允许操作");
+            }
         } else {
-            ds_json_encode(10001, "奖罚失败");
+            ds_json_encode(10001, "不允许操作");
         }
     }
 
@@ -139,12 +147,13 @@ class Membermanagement extends AdminBaseController
     /**
      * 获取特殊价格商品列表
      */
-    public function getgoodslist()
+    public function getspecialgoodslist()
     {
-
+        $mid = input('param.mid');
         $mode = model('goods');
         $condition = array("good_state" => 1);
-        $query = $mode->getGoodsList($condition);
+        $query = $mode->getSpecialGoodsList($mid,$condition);
+
         if ($query) {
             ds_json_encode(10000, "获取商品列表成功", $query);
         } else {
@@ -157,24 +166,35 @@ class Membermanagement extends AdminBaseController
      */
     public function editspecialprice()
     {
+        $good_price = input('param.good_price');
+        $good_vip_price = input('param.good_vip_price');
+        $good_api_price = input('param.good_api_price');
         $mid = input('param.mid');
-        $field = input('param.field');
         $kdId = input('param.kdId');
-        $price = input('param.price');
-        $qurey = db('goods')->where('kdId', $kdId)->value($field);
-        if ($qurey != $price) {
-            //需要设置特殊价格
-            //1、查询特殊价格表中是否有这个商品
-            //2、有：修改  无：新增
-            $ishasspecial =db('special_price')->where('member_id',$mid)->where('kd_id',$kdId)->find();
-           if ($ishasspecial){
-               //修改特殊价格
-           }else{
-               //新增特殊价格
-           }
-            ds_json_encode(10000, "修改价格成功");
+        //获取商品表中的商品价格信息
+        $goodsprice = db('goods')->where('kdId', $kdId)->find();
+        $goodsprice_g = $goodsprice['good_price'];
+        $good_vip_price_g = $goodsprice['good_vip_price'];
+        $good_api_price_g = $goodsprice['good_api_price'];
+
+        //判断特殊价格表中是否有该记录
+        $ishasspecial = db('special_price')->where('kd_id', $kdId)->where('member_id', $mid)->find();
+        if ($goodsprice_g == $good_price && $good_vip_price_g == $good_vip_price && $good_api_price_g == $good_api_price) {
+            if ($ishasspecial){
+               db('special_price')->where('kd_id', $kdId)->where('member_id', $mid)->delete();
+            }
+            ds_json_encode(10000, "设置特殊价格成功");
+        } else {
+            if ($ishasspecial) {
+                $query = db('special_price')->where('kd_id', $kdId)->where('member_id', $mid)->update(['good_special_price' => $good_price, 'good_special_vip_price' => $good_vip_price, 'good_special_api_price' => $good_api_price]);
+            } else {
+                $query = db('special_price')->insert(['member_id' => $mid, 'kd_id' => $kdId, 'good_special_price' => $good_price, 'good_special_vip_price' => $good_vip_price, 'good_special_api_price' => $good_api_price]);
+            }
+            if ($query) {
+                ds_json_encode(10000, "设置特殊价格成功");
+            }
+            ds_json_encode(10001, "设置特殊价格失败");
         }
-        ds_json_encode(10001, "修改价格失败");
     }
 
     /**充值记录*/
