@@ -163,12 +163,53 @@ class Membermanagement extends AdminBaseController
     /**
      * 批量设置特殊价格
      */
-    public function batcheditspecialprice(){
-        $good_price = input('param.good_price');
-        $good_vip_price = input('param.good_vip_price');
-        $good_api_price = input('param.good_api_price');
+    public function batcheditspecialprice()
+    {
+        $good_price_in = input('param.good_price');
+        $good_vip_price_in = input('param.good_vip_price');
+        $good_api_price_in = input('param.good_api_price');
+        $mid = input('param.mid');
+        $goodsprice = db('goods')->select();
+        for ($i = 0; $i < count($goodsprice); $i++) {
+            //获取商品表中的商品价格信息
+            $good = $goodsprice[$i];
+            if ($good['good_state'] == 1) {
+                $good_price = $good['good_price'];
+                $good_vip_price = $good['good_vip_price'];
+                $good_api_price = $good['good_api_price'];
+                $condition = array();
+                if ($good_price_in) {
+                    $condition['good_special_price'] = $good_price_in;
+                }
+                if ($good_vip_price_in) {
+                    $condition['good_special_vip_price'] = $good_vip_price_in;
+                }
+                if ($good_api_price_in) {
+                    $condition['good_special_api_price'] = $good_api_price_in;
+                }
 
+                $ishasspecial = db('special_price')->where('kd_id', $good['kdId'])->where('member_id', $mid)->find();
+
+                if ($good_price_in == $good_price && $good_vip_price_in == $good_vip_price && $good_api_price_in == $good_api_price) {
+                    if ($ishasspecial) {
+                        db('special_price')->where('kd_id', $good['kdId'])->where('member_id', $mid)->delete();
+                    }
+                    ds_json_encode(10000, "设置特殊价格成功");
+                } else {
+                    if ($ishasspecial) {
+                        db('special_price')->where('kd_id', $good['kdId'])->where('member_id', $mid)->update($condition);
+                    } else {
+                        $condition['member_id'] = $mid;
+                        $condition['kd_id'] = $good['kdId'];
+                        db('special_price')->insert($condition);
+                    }
+                }
+            }
+
+        }
+        ds_json_encode(10000, "设置特殊价格成功");
     }
+
     /**
      * 设置特殊价格
      */
@@ -188,8 +229,8 @@ class Membermanagement extends AdminBaseController
         //判断特殊价格表中是否有该记录
         $ishasspecial = db('special_price')->where('kd_id', $kdId)->where('member_id', $mid)->find();
         if ($goodsprice_g == $good_price && $good_vip_price_g == $good_vip_price && $good_api_price_g == $good_api_price) {
-            if ($ishasspecial){
-               db('special_price')->where('kd_id', $kdId)->where('member_id', $mid)->delete();
+            if ($ishasspecial) {
+                db('special_price')->where('kd_id', $kdId)->where('member_id', $mid)->delete();
             }
             ds_json_encode(10000, "设置特殊价格成功");
         } else {
