@@ -22,7 +22,6 @@
             <div class="cont-main-box">
                 <div class="finance-schcz-record">
                     <form action="" method="post">
-                        订单号：<input type="text" name="" class="finance-schcz-orderno" />
                         交易时间：<input type="text" name="" class="finance-schcz-orderno" /> <input type="text" name="" class="finance-schcz-orderno" />
                         <input type="submit" value="查 询" class="search-btn" />
                     </form>
@@ -30,13 +29,13 @@
                 <div class="finance-record-table">
                     <table class="record-table">
                         <tr>
-                            <th>类型</th>
-                            <th>充值金额</th>
-                            <th>交易时间</th>
+                            <th>变更原因</th>
+                            <th>变更金额</th>
+                            <th>变更时间</th>
                         </tr>
                         {foreach $recordList as $record}
                         <tr>
-                            <td>{$record.change_type}</td>
+                            <td>{$record.change_cause}</td>
                             <td>{$record.change_money}</td>
                             <td>{$record.change_time}</td>
                         </tr>
