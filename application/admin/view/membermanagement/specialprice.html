@@ -89,25 +89,25 @@
                 <label class="m-form-label">会员价</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" placeholder="会员价" id="good_price"
-                           autocomplete="off" class="layui-input" >
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="m-form-label">代理价</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" placeholder="代理价" id="good_vip_price"
-                           autocomplete="off" class="layui-input" >
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="m-form-label">API价</label>
                 <div class="layui-input-inline" style="width: 150px">
                     <input type="text" placeholder="API价" id="good_api_price"
-                           autocomplete="off" class="layui-input" >
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
 
-            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="setprice()">设置</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="setspecialprice()">设置</button>
         </div>
     </form>
     <!--表格-->
@@ -152,7 +152,7 @@
 
         table.render({
             elem: '#sample-table'
-            , url: '/admin/membermanagement/getspecialgoodslist?mid='+{$mid}
+            , url: '/admin/membermanagement/getspecialgoodslist?mid=' + {$mid}
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
             , height: 'full-170'
@@ -162,15 +162,50 @@
                 , {field: 'kdName', align: 'center', title: '快递名称'}
                 , {field: 'warehouse_name', width: 160, align: 'center', title: '仓库'}
                 , {field: 'cost_price', title: '成本', width: 100, align: 'center'}
-                , {field: 'good_price', title: '会员价(利润)', align: 'center', width: 110, edit: 'text', fixed: 'right'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'good_vip_price', align: 'center', title: '代理价(利润)', width: 110, edit: 'text', fixed: 'right'}
                 , {
-                    field: 'good_api_price',
+                    field: 'good_special_price',
+                    title: '会员价(利润)',
+                    align: 'center',
+                    width: 110,
+                    edit: 'text',
+                    fixed: 'right',
+                    templet: function (d) {
+                        let goodspecialprice = d.good_special_price;
+                        if (!goodspecialprice) {
+                            return d.good_price;
+                        }
+                        return goodspecialprice;
+                    }
+                } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {
+                    field: 'good_special_vip_price',
+                    align: 'center',
+                    title: '代理价(利润)',
+                    width: 110,
+                    edit: 'text',
+                    fixed: 'right',
+                    templet: function (d) {
+                        let goodspecialvipprice = d.good_special_vip_price;
+                        if (!goodspecialvipprice) {
+                            return d.good_vip_price
+                        }
+                        return goodspecialvipprice;
+                    }
+                }
+                , {
+                    field: 'good_special_api_price',
                     title: 'API价(利润)',
                     align: 'center',
                     width: 110,
                     edit: 'text',
-                    fixed: 'right'
+                    fixed: 'right',
+                    templet: function (d) {
+                        let goodspecialapiprice = d.good_special_api_price;
+                        if (!goodspecialapiprice) {
+                            return d.good_api_price;
+                        }
+                        return goodspecialapiprice;
+                    }
                 }
             ]]
             , parseData: function (res) {
@@ -194,17 +229,29 @@
         });
 
         table.on('edit(table_goods)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-            console.log(obj);
-            console.log(obj.value)
+
+            let special_price = obj.data.good_special_price;
+            if (!special_price) {
+                special_price = obj.data.good_price;
+            }
+            let special_vip_price = obj.data.good_special_vip_price;
+            if (!special_vip_price) {
+                special_vip_price = obj.data.good_vip_price;
+            }
+            let special_api_price = obj.data.good_special_api_price;
+            if (!special_api_price) {
+                special_api_price = obj.data.good_api_price;
+            }
+
             $.ajax({
                 //几个参数需要注意一下
                 type: "GET",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
                 url: "/admin/membermanagement/editspecialprice",
                 data: {
-                    good_price: obj.data.good_price,
-                    good_vip_price:obj.data.good_vip_price,
-                    good_api_price: obj.data.good_api_price,
+                    good_price: special_price,
+                    good_vip_price: special_vip_price,
+                    good_api_price: special_api_price,
                     kdId: obj.data.kdId,
                     mid: {$mid}
                 },
@@ -215,8 +262,7 @@
                 }
             });
         });
-
-    })
+    });
 
     /**搜索*/
     function serach() {
@@ -232,14 +278,14 @@
     /**
      * 批量设置特殊价格
      */
-    function setprice() {
+    function setspecialprice() {
         $.ajax({
             //几个参数需要注意一下
             type: "POST",//方法类型
             dataType: "json",//预期服务器返回的数据类型
-            url: "/admin/goods/batcheditprice",
+            url: "/admin/membermanagement/batcheditspecialprice",
             data: {
-                good_price:$('#good_price').val(),
+                good_price: $('#good_price').val(),
                 good_vip_price: $('#good_vip_price').val(),
                 good_api_price: $('#good_api_price').val()
             },

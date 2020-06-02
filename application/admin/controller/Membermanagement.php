@@ -151,8 +151,7 @@ class Membermanagement extends AdminBaseController
     {
         $mid = input('param.mid');
         $mode = model('goods');
-        $condition = array("good_state" => 1);
-        $query = $mode->getSpecialGoodsList($mid,$condition);
+        $query = $mode->getSpecialGoodsList($mid);
 
         if ($query) {
             ds_json_encode(10000, "获取商品列表成功", $query);
@@ -161,6 +160,15 @@ class Membermanagement extends AdminBaseController
         }
     }
 
+    /**
+     * 批量设置特殊价格
+     */
+    public function batcheditspecialprice(){
+        $good_price = input('param.good_price');
+        $good_vip_price = input('param.good_vip_price');
+        $good_api_price = input('param.good_api_price');
+
+    }
     /**
      * 设置特殊价格
      */
