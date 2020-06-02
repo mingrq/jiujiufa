@@ -227,26 +227,25 @@ function buyGoods() {
                 content: content
             },
             success: function (data) {
-                console.log(data);
+                // console.log(data);
+                if (data.code == 10000) {
+                    window.location.href="/member/order/orderList";
+                }else {
+                    layer.open({
+                        content: data.message,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                    return false;
+                }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest.readyState);
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.responseText);
-                console.log(textStatus);
+            error: function(){
+                console.log('error');
             },
             complete: function () {
                 // 关闭
                 layer.close(load_index);
             }
-            /*
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest.readyState);
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.responseText);
-                console.log(textStatus);
-            }
-            */
         });
     }
 }

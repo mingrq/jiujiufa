@@ -40,7 +40,7 @@ class Order extends Model
     /**
      * 小礼品单号下单地址
      */
-    public function unifiedOrder($param)
+    public function unifiedOrder($kdid, $param)
     {
         $url = 'http://www.681kb.com/API/BuyLpdh';
         $username = db('config')->where('config_code', 'goods_api_acc')->value('config_value');
@@ -63,10 +63,38 @@ class Order extends Model
         );
         $data = array(
             'info' => $info,
-            'kdid' => 1,
+            'kdid' => $kdid,
             'postAddrItem' => $postAddrItem,
             'num' => 1,
             'items' => $param
+        );
+
+        $json_str = request_post($url, $data);
+        $json = json_decode($json_str, true);
+        return $json;
+    }
+
+    /**
+     * 删除已购买小礼品
+     */
+    public function delOrder($kddh)
+    {
+        $url = 'http://www.681kb.com/API/DelLpdh';
+        $username = db('config')->where('config_code', 'goods_api_acc')->value('config_value');
+        $pwd = db('config')->where('config_code', 'goods_api_pw')->value('config_value');
+
+        $sid = time() . rand(10000000, 99999999);
+        $pwd16 = substr(md5($pwd), 8, 16);
+        $sign = strtolower(md5($username . $pwd16 . $sid));
+        $info = array(
+            'sid' => $sid,
+            'sign' => $sign,
+            'username' => $username
+        );
+
+        $data = array(
+            'info' => $info,
+            'kddh' => $kddh
         );
 
         $json_str = request_post($url, $data);

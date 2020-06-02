@@ -5,6 +5,10 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <link rel="stylesheet" href="/static/common/layui/css/layui.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/common/layui/layui.js"></script>
+    <script type="text/javascript" src="/static/member/js/order.js"></script>
 </head>
 <body>
 <!--HEADER-->
@@ -43,6 +47,8 @@
                                 <p>收货信息：{$order.tracking_number}</p>
                             </td>
                             <td>{$order.create_time}</td>
+                            <td>{$order.order_state}</td>
+                            <td><button onclick="delOrder({$order.order_id});" class="delbtn">删除</button></td>
                         </tr>
                         {/foreach}
                     </table>

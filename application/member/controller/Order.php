@@ -145,7 +145,7 @@ class Order extends MemberBase
             $orderData = array();
             $mchRecordData = array();
             $order = new \app\common\model\Order();
-            $result = $order->unifiedOrder($param);
+            $result = $order->unifiedOrder($kdid, $param);
             if ($result['status'] == 'ok') {
                 // 下单成功
                 $kddhs = $result['kddhs'];
@@ -205,11 +205,39 @@ class Order extends MemberBase
     {
         $order = new \app\common\model\Order();
 
-        $orderList = $order->where('member_id', '=', session("MUserId"))->paginate(20);
+        $orderList = $order->where('member_id', '=', session("MUserId"))->order("order_id", "desc")->paginate(20);
         $page = $orderList->render();
 
         $this->assign('orderList', $orderList);
         $this->assign('page', $page);
         return $this->fetch();
+    }
+
+    /**
+     * 删除已购买小礼品订单
+     */
+    public function delLpdh()
+    {
+        if ($this->request->isPost()) {
+            $oid = $this->request->post("oid") ? preg_replace('/[^0-9]/', '', $this->request->post('oid')) : 0;
+            $order = \app\common\model\Order::get($oid);
+            if (empty($order) || empty($order['order_no'])) {
+                ds_json_encode(10001, "订单信息错误", null);
+            }
+            $orderT = new \app\common\model\Order();
+            $result = $orderT->delOrder($order['tracking_number']);
+            if ($result['status'] == 'ok') {
+                // 删除成功
+                // 将这个订单状态修改成 4：已取消
+                $order->order_state = 4;
+                $order->save();
+                ds_json_encode(10000, "删除成功");
+            } else {
+                // 删除失败
+                ds_json_encode(10004, $result['status']);
+            }
+        } else {
+            ds_json_encode(10010, "数据错误", null);
+        }
     }
 }

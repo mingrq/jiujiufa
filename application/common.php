@@ -27,7 +27,7 @@ function request_post($url, $data = array())
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     $output = curl_exec($ch);
     $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    var_dump($status_code);
+    //var_dump($status_code);
     curl_close($ch);
     return $output;
 }
