@@ -100,4 +100,11 @@ class Account extends MemberBase
         $this->assign('rankList', $rankList);
         return $this->fetch();
     }
+
+    /**
+     * 余额充值
+     */
+    public function recharge(){
+        return $this->fetch();
+    }
 }
