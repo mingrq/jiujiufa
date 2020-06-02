@@ -1,18 +1,27 @@
+<script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" href="/static/common/layui/css/layui.css">
+<script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
+<script>
+    var layer;
+    layui.use('layer',function () {
+        layer = layui.layer;;
+    })
+</script>
 <div class="header-box">
     <div class="header">
         <div class="header-top">
             <div class="login-info">
                 <span class="welcome">你好，欢迎来到玖玖发网！</span>
                 {if condition="$Think.session.MUserName"}
-                <a href="{:url('member/index/index')}" class="userinfo">{$Think.session.MUserName}</a>
+                <a href="{:url('member/account/personinfo')}" class="userinfo">{$Think.session.MUserName}</a>
                 <a href="{:url('member/login/exitLogin')}" class="user-exit">退出</a>
                 {/if}
             </div>
             <ul class="list-nav">
-                <li><a href="">邀请好友</a></li>
-                <li><a href="">代发指南</a></li>
+                <li><a href="{:url('member/account/myspreadline')}">邀请好友</a></li>
+                <li><a href="{:url('index/news/lipin')}">礼品资讯</a></li>
                 <li><a href="">API开放</a></li>
-                <li><a href="">收藏本站</a></li>
+                <li><a href="#">Ctrl+D 收藏本站</a></li>
             </ul>
         </div>
         <div class="header-nav">
@@ -25,19 +34,19 @@
                         <a href="/">首 页</a>
                     </li>
                     <li>
-                        <a href="/index/product/index">礼品商城</a>
+                        <a href="{:url('/index/product/index')}">礼品商城</a>
                     </li>
                     <li>
-                        <a href="/index/news/lipin">礼品资讯</a>
+                        <a href="{:url('/index/news/lipin')}">礼品资讯</a>
                     </li>
                     <li>
-                        <a href="/index/news/retailer">电商资讯</a>
+                        <a href="{:url('/index/news/retailer')}">电商资讯</a>
                     </li>
                     <li>
-                        <a href="/index/news/problem">常见问题</a>
+                        <a href="{:url('/index/news/problem')}">常见问题</a>
                     </li>
                     <li>
-                        <a href="/index/news/notice">网站公告</a>
+                        <a href="{:url('/index/news/notice')}">网站公告</a>
                     </li>
                 </ul>
             </div>

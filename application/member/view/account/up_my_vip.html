@@ -20,10 +20,18 @@
         <div class="cont-main">
             <div class="title">升级代理</div>
             <div class="cont-main-box">
+                {empty name="$rankList"}
+
+                {else/}
                 <div class="upvip-explain">
-                    <p>一次性充值满50元，或充值累积满50元。可自动升级为永久VIP会员。</p>
-                    <p>一次性充值满50元，或充值累积满50元。可自动升级为永久VIP会员。</p>
+                    {foreach $rankList as $value}
+                    <p>充值累积满<span style="color:#FF464E">{$value.recharge_upgrade}</span>元，可自动升级为永久<span style="color:#FF464E">{$value.rank_name}</span></p>
+                    <p>邀请<span style="color:#FF464E">{$value.invite_upgrade}</span>个好友注册成功，可自动升级为永久<span style="color:#FF464E">{$value.rank_name}</span>
+                        <a href="{:url('member/account/myspreadline')}" class="upgrade-btn capylink">复制链接</a>
+                    </p>
+                    {/foreach}
                 </div>
+                {/empty}
                 <div class="upvip-upgrade">
                     <table>
                         <tr>

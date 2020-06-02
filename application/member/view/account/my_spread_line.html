@@ -20,13 +20,27 @@
         <div class="cont-main">
             <div class="title">邀请链接</div>
             <div class="cont-main-box">
-                <div class="spread-line">链接地址：http://www.681kb.com/Index/R/745875 <span class="copymyline">复制</span></div>
+                <div class="spread-line">链接地址：<span id="invitation_link">{$domain}{:url('member/login/register')}?m={$member.member_id}</span> <span class="copymyline" onclick="copyUrl()">复制</span></div>
             </div>
         </div>
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
 </div>
+<script>
+    function copyUrl()
+    {
+        var Url2=document.getElementById("invitation_link").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = Url2;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display='none';
+        layer.msg("复制成功")
+    }
+</script>
 <!--END content-box-->
 <!-- footer -->
 {include file="public/footer" /}

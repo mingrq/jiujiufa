@@ -1011,3 +1011,17 @@ a {
     color: #FF464E;
 }
 
+.capylink{
+    display: inline-block;
+    border: none;
+    border-radius: 3px;
+    line-height: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-left: 10px;
+    background-color: #FF464E;
+    cursor: pointer;
+}

@@ -90,6 +90,9 @@ class Login extends Controller
      */
     public function login()
     {
+        if (session('MUserId')){
+            return $this->redirect("member/account/personinfo");
+        }
         if ($this->request->isPost()) {
 
             $muserid = trim($this->request->post('muserid'));

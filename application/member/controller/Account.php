@@ -6,7 +6,7 @@ use app\common\controller\MemberBase;
 use app\common\model\Member;
 use app\common\model\Rank;
 use think\Loader;
-
+use think\Request;
 class Account extends MemberBase
 {
     public function _initialize()
@@ -78,6 +78,11 @@ class Account extends MemberBase
      */
     public function mySpreadLine()
     {
+        $request = Request::instance();
+        $domain = $request->domain();
+        $member = Member::get(session('MUserId'));
+        $this->assign('member', $member);
+        $this->assign('domain', $domain);
         return $this->fetch();
     }
 
