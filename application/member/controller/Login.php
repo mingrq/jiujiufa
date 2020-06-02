@@ -112,15 +112,15 @@ class Login extends Controller
                     if ($pwd == $memberInfo['member_login_pw']) {
                         session('MUserId', $memberInfo['member_id']);
                         session('MUserName', $muserid);
-                        return $this->redirect('member/index/index');
+                        ds_json_encode(10000,"登录成功");
                     } else {
-                        $this->error("账号或密码错误", url("member/login/login"));
+                        ds_json_encode(10001,"账号或密码错误");
                     }
                 } else {
-                    $this->error("账号或密码错误", url("member/login/login"));
+                    ds_json_encode(10001,"账号或密码错误");
                 }
             } else {
-                $this->error("账号或密码错误", url("member/login/login"));
+                ds_json_encode(10001,"账号或密码错误");
             }
         } else {
             return $this->fetch();
@@ -183,7 +183,8 @@ class Login extends Controller
      */
     public function exitLogin()
     {
-        session(null);
+        session('MUserId', null);
+        session('MUserName', null);
         return $this->redirect("member/login/login");
     }
 }

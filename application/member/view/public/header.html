@@ -4,7 +4,7 @@
             <div class="login-info">
                 <span class="welcome">你好，欢迎来到玖玖发网！</span>
                 {if condition="$Think.session.MUserName"}
-                <a href="{:url('member/index/index')}" class="userinfo">{$Think.session.MUserName}</a>
+                <a href="{:url('member/account/personinfo')}" class="userinfo">{$Think.session.MUserName}</a>
                 <a href="{:url('member/login/exitLogin')}" class="user-exit">退出</a>
                 {/if}
             </div>

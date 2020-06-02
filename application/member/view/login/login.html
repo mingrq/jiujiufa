@@ -5,6 +5,8 @@
     <title>用户登录</title>
     <link rel="stylesheet" href="/static/member/css/member-main.css">
     <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="/static/common/layui/css/layui.css">
+    <script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
 </head>
 <body>
 <!--HEADER-->
@@ -12,20 +14,20 @@
 <!--END HEADER-->
 <div class="login-bg">
     <div class="login-bg-box">
-        <img class="login-bg-img" src="/static/member/images/login-bg01.jpg" />
+        <img class="login-bg-img" src="/static/member/images/login-bg01.jpg"/>
         <div class="login-box">
             <div class="ltitle">会员登录</div>
-            <form action="{:url('member/login/login')}" method="post">
+            <form onsubmit="return false">
                 <div class="login-input">
-                    <label><img src="/static/member/images/login-account-icon.png" /></label>
-                    <input type="text" name="muserid" placeholder="账号" />
+                    <label><img src="/static/member/images/login-account-icon.png"/></label>
+                    <input id="muserid" type="text" name="muserid" placeholder="账号"/>
                 </div>
                 <div class="login-input">
                     <label><img src="/static/member/images/login-pwd-icon.png"></label>
-                    <input type="password" name="password" placeholder="密码" />
+                    <input id="password" type="password" name="password" placeholder="密码"/>
                 </div>
                 <div class="login-btn">
-                    <input type="submit" value="登 录" class="subbtn" />
+                    <input type="button" onclick="login()" value="登 录" class="subbtn"/>
                 </div>
             </form>
             <div class="jump-link">
@@ -35,6 +37,57 @@
         </div>
     </div>
 </div>
+<script>
+    var layer;
+    layui.use('layer', function () {
+        layer = layui.layer;
+    });
+
+    function login() {
+        if (!$('#muserid').val()) {
+            layer.msg("用户名不能为空", {
+                icon: 2,
+                time: 3000
+            });
+            return;
+        }
+        if (!$('#password').val()) {
+            layer.msg("密码不能为空", {
+                icon: 2,
+                time: 3000
+            });
+            return;
+        }
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/member/login/login')}",
+            data: {
+                muserid: $('#muserid').val(),
+                password: $('#password').val()
+            },
+            success: function (result) {
+                if (result.code == 10000) {
+                    window.location.href = "{:url('/member/account/personinfo')}";
+                }else {
+                    layer.msg(result.message, {
+                        icon: 2,
+                        time: 3000
+                    });
+                }
+            },
+            error: function () {
+                layer.msg("网络连接失败，请稍后再试", {
+                    icon: 2,
+                    time: 3000
+                });
+            }
+        });
+    }
+
+
+</script>
 <!-- footer -->
 {include file="public/footer" /}
 <!-- END footer -->
