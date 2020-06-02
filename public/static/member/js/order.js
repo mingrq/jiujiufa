@@ -18,7 +18,7 @@ function delOrder(id) {
             oid: id
         },
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             if (data.code == 10000) {
                 layer.open({
                     content: data.message,
