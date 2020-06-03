@@ -108,6 +108,19 @@ a {
     text-align: center;
 }
 
+.pagelist ul li {
+    display: inline-block;
+}
+
+.pagelist span {
+    display: inline-block;
+    line-height: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
 .pagelist a {
     display: inline-block;
     line-height: 24px;
@@ -261,7 +274,7 @@ a {
 /**
  * footer 底部
  */
-.footer-top{
+.footer-top {
     width: 100%;
     float: left;
     position: relative;
@@ -269,46 +282,54 @@ a {
     padding: 30px 0px;
     border-bottom: 2px solid #eeeeee;
 }
-.footer-top-box{
+
+.footer-top-box {
     width: 1200px;
     margin: 0px auto;
     position: relative;
     overflow: hidden;
 }
-.footer-top-main{
+
+.footer-top-main {
     width: 100%;
     float: left;
 }
-.footer-top-main ul{
+
+.footer-top-main ul {
     width: 100%;
     float: left;
 }
-.footer-top-main ul .ft-single{
+
+.footer-top-main ul .ft-single {
     width: 270px;
     float: left;
     margin-right: 40px;
     overflow: hidden;
 }
-.footer-top-main ul .ft-single.nom{
+
+.footer-top-main ul .ft-single.nom {
     margin-right: 0px;
 }
 
-.footer-top-main ul .ft-single .footer-top-icon{
+.footer-top-main ul .ft-single .footer-top-icon {
     width: 50px;
     height: 50px;
     float: left;
     overflow: hidden;
 }
-.footer-top-main ul .ft-single .footer-top-icon img{
+
+.footer-top-main ul .ft-single .footer-top-icon img {
     width: 100%;
     height: 100%;
 }
-.footer-top-main ul .ft-single .footer-top-info{
+
+.footer-top-main ul .ft-single .footer-top-info {
     width: 200px;
     float: left;
     padding-left: 20px;
 }
-.footer-top-main ul .ft-single .footer-top-info .ftitle{
+
+.footer-top-main ul .ft-single .footer-top-info .ftitle {
     width: 100%;
     line-height: 30px;
     float: left;
@@ -316,14 +337,14 @@ a {
     font-weight: bold;
     overflow: hidden;
 }
-.footer-top-main ul .ft-single .footer-top-info .fdev{
+
+.footer-top-main ul .ft-single .footer-top-info .fdev {
     width: 100%;
     line-height: 20px;
     float: left;
     font-size: 14px;
     overflow: hidden;
 }
-
 
 
 .footer-box {
@@ -333,18 +354,21 @@ a {
     overflow: hidden;
     padding: 30px 0px;
 }
-.footer{
+
+.footer {
     width: 1200px;
     margin: 0px auto;
     position: relative;
     overflow: hidden;
 }
-.footer-main{
+
+.footer-main {
     width: 100%;
     float: left;
     text-align: center;
 }
-.footer-main p{
+
+.footer-main p {
     line-height: 30px;
     font-size: 12px;
 }
