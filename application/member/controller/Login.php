@@ -6,6 +6,7 @@
 namespace app\member\controller;
 
 use app\common\model\Member;
+use app\common\model\Rank;
 use app\common\model\Sms;
 use think\Controller;
 use think\Loader;
@@ -18,12 +19,15 @@ class Login extends Controller
      */
     public function register()
     {
+        // 邀请的会员ID
+        $inviteUserId = preg_replace('/[^0-9]/', '', $this->request->param("m"));
         if ($this->request->isPost()) {
             // 验证账号，密码，手机号格式
             $member_login_name = trim($this->request->post("muserid"));
             $member_login_pw = trim($this->request->post("password"));
             $mobile = trim($this->request->post("mobile"));
             $vscode = trim($this->request->post("vscode"));
+
             $data = [
                 'member_login_name' => $member_login_name,
                 'member_login_pw' => $member_login_pw,
@@ -48,6 +52,7 @@ class Login extends Controller
             $memberMobi = Member::get(['member_mobile' => $mobile]);
             if (!empty($memberMobi) && $memberMobi['member_mobile'] == $mobile) {
                 ds_json_encode(10002, "此手机号已使用，请更换其它手机号注册", null);
+                exit();
             }
 
             $ndata = [
@@ -63,6 +68,22 @@ class Login extends Controller
                 ds_json_encode(10001, "注册失败");
             } else {
                 // 成功
+                // 判断是否是邀请的会员 是 则 更新会员信息
+                $inviteMember = Member::get($inviteUserId);
+                if (!empty($inviteMember) && !empty($inviteMember['member_login_name'])) {
+                    $imemberRank = $inviteMember['member_rank'];
+                    $invite_count = $inviteMember['member_invite_count'] + 1;
+                    // 判断下一个代理级别的人数 如果大于等于了则升级代理级别
+                    $rank = Rank::get(($imemberRank + 1));
+                    if (!empty($rank) && !empty($rank['rank_id']) && !empty($rank['rank_name'])) {
+                        if ($invite_count >= $rank['invite_upgrade']) {
+                            $inviteMember->member_rank = $rank['rank_id'];
+                        }
+                    }
+                    // 将邀请人数更新
+                    $inviteMember->member_invite_count = $invite_count;
+                    $inviteMember->save();
+                }
                 ds_json_encode(10000, "注册成功");
             }
         } else {
@@ -90,7 +111,7 @@ class Login extends Controller
      */
     public function login()
     {
-        if (session('MUserId')){
+        if (session('MUserId')) {
             return $this->redirect("member/account/personinfo");
         }
         if ($this->request->isPost()) {
@@ -115,15 +136,15 @@ class Login extends Controller
                     if ($pwd == $memberInfo['member_login_pw']) {
                         session('MUserId', $memberInfo['member_id']);
                         session('MUserName', $muserid);
-                        ds_json_encode(10000,"登录成功");
+                        ds_json_encode(10000, "登录成功");
                     } else {
-                        ds_json_encode(10001,"账号或密码错误");
+                        ds_json_encode(10001, "账号或密码错误");
                     }
                 } else {
-                    ds_json_encode(10001,"账号或密码错误");
+                    ds_json_encode(10001, "账号或密码错误");
                 }
             } else {
-                ds_json_encode(10001,"账号或密码错误");
+                ds_json_encode(10001, "账号或密码错误");
             }
         } else {
             return $this->fetch();
@@ -176,7 +197,7 @@ class Login extends Controller
                 // 没有这个手机号
                 ds_json_encode(10002, "此手机号未注册");
             }
-        }else{
+        } else {
             return $this->fetch();
         }
     }

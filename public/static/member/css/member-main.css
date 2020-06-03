@@ -109,6 +109,19 @@ a {
     text-align: center;
 }
 
+.pagelist ul li {
+    display: inline-block;
+}
+
+.pagelist span {
+    display: inline-block;
+    line-height: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
 .pagelist a {
     display: inline-block;
     line-height: 24px;
@@ -1011,7 +1024,7 @@ a {
     color: #FF464E;
 }
 
-.capylink{
+.capylink {
     display: inline-block;
     border: none;
     border-radius: 3px;
