@@ -345,7 +345,7 @@
     overflow: hidden;
 }
 
-.hotproduct .hotproduct-poster img {
+.hotproduct .hotproduct-poster a img {
     width: 100%;
     height: 100%;
 }

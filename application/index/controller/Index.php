@@ -49,6 +49,15 @@ class Index extends FrontendBase
         $noticemode = model('notice');
         $noticelist = $noticemode->noticelist(null, '*', 4, 'notice_create_time desc');
         $this->assign('noticelist', $noticelist);
+
+        //轮播图
+        $advertmodel = model('advertising');
+        $banner = $advertmodel->getadvertislist(['ad_class' => 1], '*', 4, 'ad_add_time desc');
+        $this->assign('banner', $banner);
+
+        //爆款
+        $faddish = $advertmodel->getadvertislist(['ad_class' => 2], '*', 1, 'ad_add_time desc');
+        $this->assign('faddish', $faddish);
         return $this->fetch();
     }
 }

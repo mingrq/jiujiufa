@@ -17,7 +17,7 @@
             <div class="layui-input-block">
                 <select name="set_adv_class" id="set_adv_class" lay-verify="required" lay-search="">
                     {foreach $data as $adclass}
-                    <option value="{$adclass.ad_class_id}">{$adclass.ad_class_name}</option>
+                    <option value="{$adclass.ad_class_id}">{$adclass.ad_class_name}({$adclass.ad_size})</option>
                     {/foreach}
                 </select>
             </div>
@@ -26,7 +26,7 @@
             <label class="layui-form-label">广告链接</label>
             <div class="layui-input-block">
                 <input type="text" name="adv_link" id="adv_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？"
-                       placeholder="请输入广告链接" autocomplete="off" class="layui-input">
+                       placeholder="请输入广告链接 ps:http://www.xxx.com" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -46,7 +46,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="button" class="layui-btn" onclick="btnsub()" >立即提交</button>
+                <button type="button" class="layui-btn" onclick="btnsub()">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -65,20 +65,25 @@
 
     /*提交广告*/
     function btnsub() {
-        let adv_link =$('#adv_link').val();
+        let adv_link = $('#adv_link').val();
         if (!$.trim(adv_link)) {
             layer.msg("广告链接不能为空");
             return;
         }
         if (!$.trim($('#adv_pic').val())) {
             layer.msg("请选择广告图片");
-             return;
+            return;
         }
-        var file_obj =document.getElementById('adv_pic_sel').files[0];
+        let link = $.trim(adv_link);
+        if (!IsURL(link)) {
+            layer.msg("请输入正确链接");
+            return;
+        }
+        var file_obj = document.getElementById('adv_pic_sel').files[0];
         var fd = new FormData();
         fd.append('set_adv_class', $('#set_adv_class').val());
         fd.append('file', file_obj);
-        fd.append('adv_link', $.trim(adv_link));
+        fd.append('adv_link', link);
         $.ajax({
             //几个参数需要注意一下
             type: "POST",//方法类型
@@ -88,7 +93,7 @@
             processData: false,  //tell jQuery not to process the data
             contentType: false,  //tell jQuery not to set contentType
             success: function (result) {
-               layer.msg(result.message);
+                layer.msg(result.message);
                 if (result.code == 10000) {
                     parent.serachwin();
                 }
@@ -99,6 +104,21 @@
         });
     }
 
+    /**
+     * 判断链接格式
+     * @param value
+     * @returns {boolean}
+     * @constructor
+     */
+    function IsURL(value) {
+        var strRegex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/|www\.)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+        var re = new RegExp(strRegex);
+        if (!re.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>
 </body>
 </html>

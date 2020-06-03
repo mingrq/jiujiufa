@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>站点设置</title>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+</head>
+<body>
+<div style="padding: 20px">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">网站名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="website_name" id="website_name" required  lay-verify="required" placeholder="请输入网站名称" autocomplete="off" style="width: 400px" class="layui-input" value="{$website_name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">网站LOGO</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="file"
+                       style="position:absolute; top:0px; right:0px; height:34px; width:400px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
+                       name="website_logo_sel" id="website_logo_sel" hidefocus="true">
+                <input type="text" id="website_logo" lay-verify="required"
+                       placeholder="请输入网站LOGO" class="layui-input" value="{$website_logo}">
+                <input type='button' value='上传'
+                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div>
+            <div class="layui-input-inline">
+
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text" >
+            <label class="layui-form-label">网站关键词</label>
+            <div class="layui-input-block" >
+                <textarea name="website_keyword" id="website_keyword" placeholder="请输入网站关键词" class="layui-textarea" style="width: 400px" >{$website_keyword}</textarea>
+                <div class="layui-form-mid layui-word-aux">多个关键词以逗号隔开</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">ICP证书号</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$website_icp}" name="website_icp" id="website_icp" required  lay-verify="required" placeholder="请输入ICP证书号" autocomplete="off" style="width: 400px" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">版权信息</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$website_copyright}" id="website_copyright" name="website_copyright" required  lay-verify="required" placeholder="请输入版权信息" autocomplete="off" style="width: 400px" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text" >
+            <label class="layui-form-label">统计代码</label>
+            <div class="layui-input-block" >
+                <textarea name="website_statistics" id="website_statistics" placeholder="请输入统计代码" class="layui-textarea" style="width: 400px">{$website_statistics}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formsub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var form;
+    layui.use('form', function(){
+        form = layui.form;
+        //监听提交
+        form.on('submit(formsub)', function(data){
+            var file_obj = document.getElementById('website_logo_sel').files[0];
+            var fd = new FormData();
+            fd.append('website_name', $('#website_name').val());
+            fd.append('website_logo', file_obj);
+            fd.append('website_logo_url', $('#website_logo').val());
+            fd.append('website_keyword', $('#website_keyword').val());
+            fd.append('website_icp', $('#website_icp').val());
+            fd.append('website_copyright', $('#website_copyright').val());
+            fd.append('website_statistics', $('#website_statistics').val());
+            $.ajax({
+                //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/websitesetting",
+                data: fd,
+                processData: false,  //tell jQuery not to process the data
+                contentType: false,  //tell jQuery not to set contentType
+                success: function (result) {
+                    console.log(result)
+                    layer.msg(result.message);
+                },
+                error: function () {
+                    layer.msg('站点信息设置失败，请稍后再试');
+                }
+            });
+            return false;
+        });
+    });
+    $("#website_logo_sel").change(function () {
+        $("#website_logo").val($("#website_logo_sel").val());
+    });
+</script>
+</body>
+</html>
