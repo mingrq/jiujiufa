@@ -9,6 +9,9 @@
 namespace app\api\controller;
 
 /**
+ *
+ *  获取小礼品接口
+ *
  * Class Getlp
  * @package app\api\controller
  */

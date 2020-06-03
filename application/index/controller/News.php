@@ -77,6 +77,17 @@ class News extends FrontendBase
 
     public function detail()
     {
+        $article_id = input('id');
+        $articledetail = db('article')->where('article_id', $article_id)->find();
+        $this->assign("articledetail", $articledetail);
+        return $this->fetch();
+    }
+
+    public function noticedetail()
+    {
+        $notice_id = input('id');
+        $noticedetail = db('notice')->where('notice_id', $notice_id)->find();
+        $this->assign("noticedetail", $noticedetail);
         return $this->fetch();
     }
 }
