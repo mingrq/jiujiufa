@@ -34,8 +34,9 @@ class Finance extends MemberBase
      */
     public function cashRecord()
     {
+        
         $moneychangeRecord = new MoneychangeRecord();
-        $recordList = $moneychangeRecord->where("member_id", '=', session('MUserId'))->paginate(20);
+        $recordList = $moneychangeRecord->where("member_id", '=', session('MUserId'))->order('change_time desc')->paginate(20);
         $page = $recordList->render();
 
         $this->assign('recordList', $recordList);
