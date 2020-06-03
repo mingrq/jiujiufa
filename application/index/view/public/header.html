@@ -3,15 +3,16 @@
 <script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
 <script>
     var layer;
-    layui.use('layer',function () {
-        layer = layui.layer;;
+    layui.use('layer', function () {
+        layer = layui.layer;
+        ;
     })
 </script>
 <div class="header-box">
     <div class="header">
         <div class="header-top">
             <div class="login-info">
-                <span class="welcome">你好，欢迎来到玖玖发网！</span>
+                <span class="welcome">你好，欢迎来到{$website_name}！</span>
                 {if condition="$Think.session.MUserName"}
                 <a href="{:url('member/account/personinfo')}" class="userinfo">{$Think.session.MUserName}</a>
                 <a href="{:url('member/login/exitLogin')}" class="user-exit">退出</a>
@@ -27,7 +28,7 @@
         <div class="header-nav">
             <div class="header-nav-cont">
                 <div class="header-logo">
-                    <img src="/static/common/images/logo.png" title="玖玖发网" alt="玖玖发网"/>
+                    <label style="width: 200px;height: 80px;line-height: 80px;font-size: 30px;color: red;font-weight: bold;">{$website_name}</label>
                 </div>
                 <ul class="nav">
                     <li>
