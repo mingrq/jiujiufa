@@ -14,7 +14,7 @@ use think\Model;
 class Notice extends Model
 {
     /**
-     * 获取文章列表
+     * 获取公告列表
      */
     public function noticelist($condition = array(), $field = '*', $page = 100, $order = 'notice_id desc')
     {

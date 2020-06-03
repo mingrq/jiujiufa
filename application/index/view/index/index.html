@@ -48,16 +48,15 @@
             </div>
             {else /}
             <div class="persion-member">
-                <div class="mb-name"><a href="{:url('/member/index/index')}">{$Think.session.MUserName}</a></div>
+                <div class="mb-name"><a href="{:url('/member/account/personinfo')}">{$Think.session.MUserName}</a></div>
             </div>
             {/empty}
             <div class="notice">
                 <div class="notice-title">公告</div>
                 <ul class="notice-list">
-                    <li><a href="">111111111111111111111111111111111111</a></li>
-                    <li><a href="">111111111111111111111111111111111111</a></li>
-                    <li><a href="">111111111111111111111111111111111111</a></li>
-                    <li><a href="">111111111111111111111111111111111111</a></li>
+                    {foreach $noticelist as $item}
+                    <li><a href="/index/news/noticedetail/id/{$item.notice_id}">{$item.notice_title}</a></li>
+                    {/foreach}
                 </ul>
             </div>
         </div>
@@ -229,55 +228,7 @@
         <div class="clear"></div>
     </div>
 </div>
-<div class="news-box">
-    <div class="news">
-        <div class="news-main">
-            <div class="news-single">
-                <div class="news-single-top">
-                    <span class="nstitle">电商资讯</span>
-                    <a href="{:url('index/news/retailer')}" class="nsmore">MORE</a>
-                </div>
-                <ul class="news-single-list">
-                    {for start="0" end="5"}
-                    <li>
-                        <span class="nslinum">{$i+1}</span>
-                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
-                    </li>
-                    {/for}
-                </ul>
-            </div>
-            <div class="news-single">
-                <div class="news-single-top">
-                    <span class="nstitle">礼品资讯</span>
-                    <a href="{:url('index/news/lipin')}" class="nsmore">MORE</a>
-                </div>
-                <ul class="news-single-list">
-                    {for start="0" end="5"}
-                    <li>
-                        <span class="nslinum">{$i+1}</span>
-                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
-                    </li>
-                    {/for}
-                </ul>
-            </div>
-            <div class="news-single">
-                <div class="news-single-top">
-                    <span class="nstitle">常见问题</span>
-                    <a href="{:url('index/news/problem')}" class="nsmore">MORE</a>
-                </div>
-                <ul class="news-single-list">
-                    {for start="0" end="5"}
-                    <li>
-                        <span class="nslinum">{$i+1}</span>
-                        <a href="" class="nstitle">刷单礼品代发值得客户选择的理由是什么刷单礼品代发值得客户选择的理由是什么</a>
-                    </li>
-                    {/for}
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="clear"></div>
-</div>
+{include file="public/footer_information" /}
 {include file="public/footer" /}
 </body>
 </html>

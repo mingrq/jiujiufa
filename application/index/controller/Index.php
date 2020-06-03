@@ -33,6 +33,22 @@ class Index extends FrontendBase
         $this->assign('hotProductThree', $hotProductThree);
 
         $this->assign('newGoodsList', $newGoodsList);
+
+        $articlemode = model('article');
+        //礼品资讯
+        $present = $articlemode->articlelist(['ac_id' => 1], '*', 5, 'article_time desc');
+        $this->assign('present', $present);
+        //电商资讯
+        $commerce = $articlemode->articlelist(['ac_id' => 2], '*', 5, 'article_time desc');
+        $this->assign('commerce', $commerce);
+        //常见问题
+        $question = $articlemode->articlelist(['ac_id' => 3], '*', 5, 'article_time desc');
+        $this->assign('question', $question);
+
+        //公告
+        $noticemode = model('notice');
+        $noticelist = $noticemode->noticelist(null, '*', 4, 'notice_create_time desc');
+        $this->assign('noticelist', $noticelist);
         return $this->fetch();
     }
 }

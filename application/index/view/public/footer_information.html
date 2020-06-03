@@ -1,0 +1,49 @@
+<div class="news-box">
+    <div class="news">
+        <div class="news-main">
+            <div class="news-single">
+                <div class="news-single-top">
+                    <span class="nstitle">电商资讯</span>
+                    <a href="{:url('index/news/retailer')}" class="nsmore">MORE</a>
+                </div>
+                <ul class="news-single-list">
+                    {foreach name="commerce" item="item" key="k"}
+                    <li>
+                        <span class="nslinum">0{$k+1}</span>
+                        <a href="/index/news/detail/id/{$item.article_id}" class="nstitle">{$item.article_title}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <div class="news-single">
+                <div class="news-single-top">
+                    <span class="nstitle">礼品资讯</span>
+                    <a href="{:url('index/news/lipin')}" class="nsmore">MORE</a>
+                </div>
+                <ul class="news-single-list">
+                    {foreach name="present" item="item" key="k"}
+                    <li>
+                        <span class="nslinum">0{$k+1}</span>
+                        <a href="/index/news/detail/id/{$item.article_id}" class="nstitle">{$item.article_title}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <div class="news-single">
+                <div class="news-single-top">
+                    <span class="nstitle">常见问题</span>
+                    <a href="{:url('index/news/problem')}" class="nsmore">MORE</a>
+                </div>
+                <ul class="news-single-list">
+                    {foreach name="question" item="item" key="k"}
+                    <li>
+                        <span class="nslinum">0{$k+1}</span>
+                        <a href="/index/news/detail/id/{$item.article_id}" class="nstitle">{$item.article_title}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
