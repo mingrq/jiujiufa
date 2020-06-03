@@ -111,9 +111,8 @@
      * @constructor
      */
     function IsURL(value) {
-        var strRegex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/|www\.)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-        var re = new RegExp(strRegex);
-        if (!re.test(value)) {
+        var strRegex = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
+        if (!strRegex.test(value)) {
             return false;
         } else {
             return true;

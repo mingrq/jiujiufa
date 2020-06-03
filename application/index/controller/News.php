@@ -75,6 +75,13 @@ class News extends FrontendBase
         return $this->fetch();
     }
 
+    /**
+     * 资讯详情
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function detail()
     {
         $article_id = input('id');
@@ -83,6 +90,13 @@ class News extends FrontendBase
         return $this->fetch();
     }
 
+    /**
+     * 公告详情
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function noticedetail()
     {
         $notice_id = input('id');
