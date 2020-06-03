@@ -13,12 +13,36 @@ use think\Loader;
 
 class Login extends Controller
 {
-
+private function getwebsiteinfo(){
+    $mode = model('websiteinfo');
+    $query = $mode->getWebsiteInfo();
+    foreach ($query as $info) {
+        if ($info['config_code'] == 'website_name') {
+            $this->assign('website_name', $info['config_value']);
+        }
+        if ($info['config_code'] == 'website_logo') {
+            $this->assign('website_logo', $info['config_value']);
+        }
+        if ($info['config_code'] == 'website_keyword') {
+            $this->assign('website_keyword', $info['config_value']);
+        }
+        if ($info['config_code'] == 'website_icp') {
+            $this->assign('website_icp', $info['config_value']);
+        }
+        if ($info['config_code'] == 'website_copyright') {
+            $this->assign('website_copyright', $info['config_value']);
+        }
+        if ($info['config_code'] == 'website_statistics') {
+            $this->assign('website_statistics', $info['config_value']);
+        }
+    }
+}
     /**
      * 会员注册
      */
     public function register()
     {
+
         // 邀请的会员ID
         $inviteUserId = preg_replace('/[^0-9]/', '', $this->request->param("m"));
         if ($this->request->isPost()) {
@@ -87,6 +111,7 @@ class Login extends Controller
                 ds_json_encode(10000, "注册成功");
             }
         } else {
+            $this->getwebsiteinfo();
             return $this->fetch();
         }
     }
@@ -111,6 +136,7 @@ class Login extends Controller
      */
     public function login()
     {
+
         if (session('MUserId')) {
             return $this->redirect("member/account/personinfo");
         }
@@ -147,6 +173,7 @@ class Login extends Controller
                 ds_json_encode(10001, "账号或密码错误");
             }
         } else {
+            $this-> getwebsiteinfo();
             return $this->fetch();
         }
     }

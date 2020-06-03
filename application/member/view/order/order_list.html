@@ -68,3 +68,99 @@
 <!-- END footer -->
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<html>-->
+<!--<head>-->
+    <!--<meta charset="utf-8">-->
+    <!--<title>会员中心</title>-->
+    <!--<meta name="keywords" content="">-->
+    <!--<meta name="description" content="">-->
+    <!--<link rel="stylesheet" href="/static/member/css/member-main.css">-->
+    <!--<link rel="stylesheet" href="/static/common/layui/css/layui.css">-->
+    <!--<script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>-->
+    <!--<script type="text/javascript" src="/static/common/layui/layui.js"></script>-->
+    <!--<script type="text/javascript" src="/static/member/js/order.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash;HEADER&ndash;&gt;-->
+<!--{include file="public/header" /}-->
+<!--&lt;!&ndash;END HEADER&ndash;&gt;-->
+<!--&lt;!&ndash;content-box&ndash;&gt;-->
+<!--<div class="content-box">-->
+    <!--<div class="cont">-->
+        <!--&lt;!&ndash; cont-side &ndash;&gt;-->
+        <!--{include file="public/left" /}-->
+        <!--&lt;!&ndash; END cont-side &ndash;&gt;-->
+        <!--&lt;!&ndash; cont-main &ndash;&gt;-->
+        <!--<div class="cont-main">-->
+            <!--<div class="title">订单列表</div>-->
+            <!--<div class="cont-main-box">-->
+                <!--<div class="finance-schcz-record">-->
+                    <!--<form action="" method="post">-->
+                        <!--订单号：<input type="text" name="" class="finance-schcz-orderno" />-->
+                        <!--<input type="submit" value="查 询" class="search-btn" />-->
+                    <!--</form>-->
+                <!--</div>-->
+                <!--<div class="finance-record-table">-->
+                    <!--<table class="record-table">-->
+                        <!--<tr>-->
+                            <!--<th>订单号</th>-->
+                            <!--<th>收货信息</th>-->
+                            <!--<th>购买时间</th>-->
+                            <!--<th>状态</th>-->
+                            <!--<th>删除</th>-->
+                        <!--</tr>-->
+                        <!--{foreach $orderList as $order}-->
+                        <!--<tr>-->
+                            <!--<td>{$order.order_no}</td>-->
+                            <!--<td>-->
+                                <!--<p>快递单号：{$order.tracking_number}</p>-->
+                                <!--<p>收货信息：{$order.tracking_number}</p>-->
+                            <!--</td>-->
+                            <!--<td>{$order.create_time}</td>-->
+                            <!--<td>{$order.order_state}</td>-->
+                            <!--<td><button onclick="delOrder({$order.order_id});" class="delbtn">删除</button></td>-->
+                        <!--</tr>-->
+                        <!--{/foreach}-->
+                    <!--</table>-->
+                    <!--<div class="pagelist">-->
+                        <!--{$page}-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; END cont-main &ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="clear"></div>-->
+<!--</div>-->
+<!--&lt;!&ndash;END content-box&ndash;&gt;-->
+<!--&lt;!&ndash; footer &ndash;&gt;-->
+<!--{include file="public/footer" /}-->
+<!--&lt;!&ndash; END footer &ndash;&gt;-->
+<!--</body>-->
+<!--</html>-->

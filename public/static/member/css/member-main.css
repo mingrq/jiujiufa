@@ -800,6 +800,18 @@ a {
     font-weight: bold;
     cursor: pointer;
 }
+.apply-for-btn {
+    margin-left: 16px;
+    background-color: #FF464E;
+    line-height: 30px;
+    color: #ffffff;
+    padding: 0px 15px;
+    font-size: 14px;
+    border: none;
+    margin-top: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 .finance-record-table {
     width: 100%;
