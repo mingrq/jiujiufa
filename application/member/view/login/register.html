@@ -16,6 +16,11 @@
                 layer = layui.layer;
 
                 form.on('submit(register)', function (data) {
+                    let muserqq = $("#muserqq").val();
+                    let password = $("#password").val();
+                    let mobile = $("#userPhone").val();
+                    let vscode = $("#vscode").val();
+
                     $.ajax({
                         url: "{:url('/member/login/register')}",
                         type: "POST",
