@@ -1,4 +1,4 @@
-<html>
+<!doctype html>
 <head>
     <meta charset="utf-8">
     <title>会员中心</title>
@@ -15,7 +15,21 @@
 {include file="public/header" /}
 <!--END HEADER-->
 <!--content-box-->
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+    }
 
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .layui-btn-danger {
+        background-color: #FF464E;
+    }
+</style>
 <div class="content-box">
     <div class="cont">
         <!-- cont-side -->
@@ -24,42 +38,104 @@
         <!-- cont-main -->
         <div class="cont-main">
             <div class="title">售后工单</div>
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <div style="margin-right: -12px;">
-                        <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
-                                   placeholder="开始日期"
-                                   autocomplete="off" class="layui-input"
-                                   style="width: 200px !important;height: 30px !important;margin-top: 4px !important;">
+            <div class="cont-main-box">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">查询</label>
+                            <div class="layui-input-inline" style="width: 200px">
+                                <input type="text" placeholder="工单标题" id="serach_param"
+                                       autocomplete="off" class="layui-input"
+                                       style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label style="float: left;display: block;padding: 9px 9px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url"
-                                   placeholder="结束日期"
-                                   autocomplete="off" class="layui-input"
-                                   style="width: 200px !important;height: 30px !important;margin-top: 4px !important;">
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
+                                       placeholder="开始日期"
+                                       autocomplete="off" class="layui-input"
+                                       style="width: 100px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
                         </div>
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 9px;margin-left:-5px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url"
+                                       placeholder="结束日期"
+                                       autocomplete="off" class="layui-input"
+                                       style="width: 100px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
+                        </div>
+                        <button type="button" class="apply-for-btn" onclick="serach()">搜索</button>
+
+                        <button type="button" style="background-color:#77c066" class="apply-for-btn"
+                                onclick="addworkorder()">写工单
+                        </button>
+
                     </div>
-
-                    <button type="button" class="apply-for-btn" onclick="applyfor()">申请底单</button>
-
-                </div>
-            </form>
+                </form>
+                <!--表格-->
+                <table id="sample-table" lay-filter="table_workorder" lay-skin="nob" style="margin-top: -15px"></table>
+            </div>
         </div>
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
 </div>
 <script>
+    /**设置等级下拉框数据*/
+    var table;
     var laydate;
     var form;
-    layui.use(['laydate', 'form'], function () {
+    layui.use(['table', 'laydate', 'form'], function () {
+        table = layui.table;
         laydate = layui.laydate;
         form = layui.form;
+
+        table.render({
+            elem: '#sample-table'
+            , method: 'post'
+            , url: "/member/aftersale/workorder"
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit: 100
+            , height: 'full-240'
+            , cols: [[
+                {field: 'wo_title', align: 'center', title: '工单标题'}
+                , {
+                    field: 'wo_state', title: '状态', align: 'center', width: 80, sort: true,
+                    templet: function (d) {
+                        if (d.wo_state == 1) {
+                            return '未处理';
+                        } else if (d.wo_state == 2) {
+                            return '已处理';
+                        } else {
+                            return d.wo_state;
+                        }
+                    }
+                }
+                , {field: 'wo_create_time', title: '创建时间', width: 180, align: 'center', sort: true}
+                , {field: 'wo_dispose_time', align: 'center', title: '处理时间', width: 180, sort: true}
+            ]]
+            , parseData: function (res) {
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.result.total, //解析数据长度
+                    "data": res.result.data //解析数据列表
+                }
+            }
+            , response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                , statusCode: 10000 //规定成功的状态码，默认：0
+                , msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                , countName: 'count' //规定数据总数的字段名称，默认：count
+                , dataName: 'data' //规定数据列表的字段名称，默认：data
+            }
+            , page: {
+                layout: ['prev', 'page', 'next', 'skip', 'refresh']
+            }
+        });
 
         laydate.render({
             elem: '#serach_param_date_atart'
@@ -67,50 +143,41 @@
         laydate.render({
             elem: '#serach_param_date_end'
         });
+
+
     });
 
     /**
-     * 申请底单
+     *写工单
      */
-    function applyfor() {
-        let starttime = $('#serach_param_date_atart').val();
-        let endtime = $('#serach_param_date_end').val();
-        if (!starttime) {
-            layer.msg("开始日期不能为空");
-            return;
-        }
-        if (!endtime) {
-            layer.msg("结束日期不能为空");
-            return;
-        }
-        $.ajax({
-            //几个参数需要注意一下
-            type: "POST",//方法类型
-            dataType: "json",//预期服务器返回的数据类型
-            url: "/member/aftersale/didan",
-            data: {
-                dateatart: starttime,
-                dateend: endtime
-            },
-            success: function (result) {
-                let title = ["订单号",
-                    "快递单号",
-                    "收货人姓名",
-                    "配送地址",
-                    "快递公司名称",
-                    "下单时间",
-                    "订单金额",
-                    "订单状态",
-                    "商品标题",
-                    "收货人手机号码"];
-                JSONToExcelConvertor(result.result, starttime + '至' + endtime + '底单', title)
-            },
-            error: function () {
-                layer.msg('申请底单失败，请稍后再试');
-            }
+    function addworkorder() {
+        layer.open({
+            type: 2,
+            title: '提工单',
+            shadeClose: true,
+            shade: false,
+            maxmin: false, //开启最大化最小化按钮
+            area: ['600px', '420px'],
+            content: '/member/aftersale/addworkorder.html'
         });
     }
 
+    /**搜索*/
+    function serach() {
+        table.reload('sample-table', {
+            url: '/member/aftersale/serachworkorderlist'
+            , where: {
+                workordertitle: $('#serach_param').val(),
+                dateatart: $('#serach_param_date_atart').val(),
+                dateend: $('#serach_param_date_end').val()
+            } //设定异步数据接口的额外参数
+        });
+    }
+
+    function serachwin() {
+        table.reload('sample-table');
+        layer.close(layer.index); //它获取的始终是最新弹出的某个层，值是由layer内部动态递增计算的
+    }
 </script>
 <!--END content-box-->
 <!-- footer -->

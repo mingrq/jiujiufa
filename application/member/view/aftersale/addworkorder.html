@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提工单</title>
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/jquery-1.9.1.min.js"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div style="padding: 20px">
+    <form class="layui-form" id="adv_form" action="##" onsubmit="return false">
+        <div class="layui-form-item">
+            <label class="layui-form-label">工单标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="workorder_tit" id="workorder_tit" lay-verify="required"
+                       placeholder="请输入工单标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人</label>
+            <div class="layui-input-block">
+                <input type="text" name="wo_linkman" id="wo_linkman" lay-verify="required"
+                       placeholder="请输入联系人" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="wo_phone" id="wo_phone" lay-verify="required"
+                       placeholder="请输入联系电话" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">工单内容</label>
+            <div class="layui-input-block">
+                <textarea name="workorder_content" id="workorder_content" placeholder="请输入工单内容"
+                          class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" onclick="btnsub()">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    /*提交广告*/
+    function btnsub() {
+        let workorder_tit = $('#workorder_tit').val();
+        if (!$.trim(workorder_tit)) {
+            layer.msg("工单标题不能为空");
+            return;
+        }
+        let workorder_content = $('#workorder_content').val();
+        if (!$.trim(workorder_content)) {
+            layer.msg("工单内容不能为空");
+            return;
+        }
+        let wolinkman = $('#wo_linkman').val();
+        if (!$.trim(wolinkman)) {
+            layer.msg("联系人不能为空");
+            return;
+        }
+        let wophone = $('#wo_phone').val();
+        if (!$.trim(wophone)) {
+            layer.msg("联系电话不能为空");
+            return;
+        }
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/member/aftersale/addworkorder",
+            data: {
+                workordertit: workorder_tit,
+                wolinkman: wolinkman,
+                wophone: wophone,
+                workordercontent: workorder_content
+            },
+            success: function (result) {
+                layer.msg(result.message);
+                if (result.code == 10000) {
+                    parent.serachwin();
+                }
+            },
+            error: function () {
+                layer.msg('工单提交失败，请稍后再试');
+            }
+        });
+    }
+
+    /**
+     * 判断链接格式
+     * @param value
+     * @returns {boolean}
+     * @constructor
+     */
+    function IsURL(value) {
+        var strRegex = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
+        if (!strRegex.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+</body>
+</html>
