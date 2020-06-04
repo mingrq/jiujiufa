@@ -201,22 +201,20 @@ class Order extends MemberBase
     /**
      * 订单列表
      */
-//    public function orderList()
-//    {
-//        $order = new \app\common\model\Order();
-//
-//        $orderList = $order->where('member_id', '=', session("MUserId"))->order("order_id", "desc")->paginate(20);
-//        $page = $orderList->render();
-//
-//        $this->assign('orderList', $orderList);
-//        $this->assign('page', $page);
-//        return $this->fetch();
-//    }
 
     public function orderList()
     {
         if (request()->isPost()){
+            $condition = array();
+            $condition['member_id']=session("MUserId");
+            $order_mod = model('order');
+            $orderList = $order_mod->getOrderlist($condition);
 
+            if ($orderList){
+                ds_json_encode(10000, "获取订单列表成功", $orderList);
+            }else{
+                ds_json_encode(10001, "获取订单列表失败");
+            }
         }else{
             return $this->fetch();
         }
@@ -224,7 +222,47 @@ class Order extends MemberBase
 
 
 
+    /**
+     * 搜索订单列表
+     */
+    public function searchorderlist()
+    {
+        $condition = array();
+        $condition['member_id']=session("MUserId");
 
+        $serach_param = input('param.searchparam');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
+        if ($serach_param && trim($serach_param) != "") {
+            $condition['order_no|tracking_number|consignee_name'] = ['like', $serach_param];
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["create_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["create_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["create_time"] = ['<=', $dateend];
+            }
+        }
+
+        $query = db('v_order')
+            ->where($condition)
+            ->order('create_time desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索订单列表成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索订单列表失败");
+        }
+    }
 
 
     /**

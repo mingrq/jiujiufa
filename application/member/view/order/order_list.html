@@ -15,6 +15,21 @@
 {include file="public/header" /}
 <!--END HEADER-->
 <!--content-box-->
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+    }
+
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .layui-btn-danger {
+        background-color: #FF464E;
+    }
+</style>
 <div class="content-box">
     <div class="cont">
         <!-- cont-side -->
@@ -24,143 +39,171 @@
         <div class="cont-main">
             <div class="title">订单列表</div>
             <div class="cont-main-box">
-                <div class="finance-schcz-record">
-                    <form action="" method="post">
-                        订单号：<input type="text" name="" class="finance-schcz-orderno" />
-                        <input type="submit" value="查 询" class="search-btn" />
-                    </form>
-                </div>
-                <div class="finance-record-table">
-                    <table class="record-table">
-                        <tr>
-                            <th>订单号</th>
-                            <th>收货信息</th>
-                            <th>购买时间</th>
-                            <th>状态</th>
-                            <th>删除</th>
-                        </tr>
-                        {foreach $orderList as $order}
-                        <tr>
-                            <td>{$order.order_no}</td>
-                            <td>
-                                <p>快递单号：{$order.tracking_number}</p>
-                                <p>收货信息：{$order.tracking_number}</p>
-                            </td>
-                            <td>{$order.create_time}</td>
-                            <td>{$order.order_state}</td>
-                            <td><button onclick="delOrder({$order.order_id});" class="delbtn">删除</button></td>
-                        </tr>
-                        {/foreach}
-                    </table>
-                    <div class="pagelist">
-                        {$page}
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">查询</label>
+                            <div class="layui-input-inline" style="width: 200px">
+                                <input type="text" placeholder="快递单号/订单号/收货人" id="serach_param"
+                                       autocomplete="off" class="layui-input"
+                                       style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
+                                       placeholder="开始日期"
+                                       autocomplete="off" class="layui-input"
+                                       style="width: 100px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 9px;margin-left:-5px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url"
+                                       placeholder="结束日期"
+                                       autocomplete="off" class="layui-input"
+                                       style="width: 100px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
+                        </div>
+                        <button type="button" class="apply-for-btn" onclick="search()">搜索</button>
+
                     </div>
-                </div>
+                </form>
+                <!--表格-->
+                <table id="sample-table" lay-filter="table_order" lay-skin="nob" style="margin-top: -15px"></table>
             </div>
         </div>
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
 </div>
+<script type="text/html" id="goods_receiving_information">
+    <div style="line-height: 25px;text-align: left">
+        <div>订单号:&nbsp;&nbsp;{{d.order_no}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 快递号:&nbsp;&nbsp;{{d.tracking_number}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 下单时间:&nbsp;&nbsp;{{d.create_time}}
+        </div>
+        <div style="white-space:normal; word-break:break-all;overflow:hidden;margin-top: 5px">收货信息:&nbsp;&nbsp;{{d.consignee_name}},{{d.consignee_phone}},{{d.shipping_address}}
+            {{# if(d.postcode){ }},{{d.postcode}} {{# } }}
+        </div>
+    </div>
+</script>
+<script type="text/html" id="table_operation_toolbar">
+    {{# if(d.order_state==2){ }}
+    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">取消</a>
+    {{# } }}
+</script>
+<script>
+    var laydate;
+    var form;
+    var table;
+    layui.use(['laydate', 'table', 'form'], function () {
+        laydate = layui.laydate;
+        table = layui.table;
+        form = layui.form;
+
+        laydate.render({
+            elem: '#serach_param_date_atart'
+        });
+        laydate.render({
+            elem: '#serach_param_date_end'
+        });
+        table.render({
+            elem: '#sample-table'
+            , url: '/member/order/orderList'
+            , method: 'POST'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit: 100
+            , height: 'full-240'
+            , cols: [[
+                {field: 'order_no', align: 'center', title: '订单信息', templet: '#goods_receiving_information'}
+                , {field: 'order_pay', title: '金额', width: 90, align: 'center', sort: true}
+                , {field: 'operation', align: 'center', title: '操作', width: 90, toolbar: '#table_operation_toolbar'}
+            ]]
+            , parseData: function (res) {
+                console.log(res);
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.result.total, //解析数据长度
+                    "data": res.result.data //解析数据列表
+                }
+            }
+            , response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                , statusCode: 10000 //规定成功的状态码，默认：0
+                , msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                , countName: 'count' //规定数据总数的字段名称，默认：count
+                , dataName: 'data' //规定数据列表的字段名称，默认：data
+            }
+            , page: {
+                layout: ['prev', 'page', 'next', 'skip', 'refresh']
+            }
+        });
+
+        table.on('tool(table_order)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            let data = obj.data; //获得当前行数据
+            console.log(data);
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if (layEvent === 'del') { //取消订单
+                console.log(data);
+                $.ajax({
+                    url: "/member/order/delLpdh",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        oid: tr.order_id
+                    },
+                    success: function (data) {
+                        if (data.code == 10000) {
+                            layer.open({
+                                content: data.message,
+                                btnAlign: "c",
+                                offset: "300px",
+                                yes: function(index, layero){
+                                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    window.location.href="/member/order/orderList";
+                                }
+                            });
+                        }else {
+                            layer.open({
+                                content: data.message,
+                                btnAlign: "c",
+                                offset: "300px"
+                            });
+                            return false;
+                        }
+                    },
+                    error: function(){
+                        console.log('error');
+                    }
+                });
+            }
+        });
+    });
+
+    /**
+     * 搜索订单列表
+     */
+    function search() {
+        table.reload('sample-table', {
+            url: '/member/order/searchorderlist'
+            , method: 'post'
+            , where: {
+                searchparam: $('#serach_param').val(),
+                dateatart: $('#serach_param_date_atart').val(),
+                dateend: $('#serach_param_date_end').val()
+            } //设定异步数据接口的额外参数
+        });
+    }
+
+</script>
 <!--END content-box-->
 <!-- footer -->
 {include file="public/footer" /}
 <!-- END footer -->
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<html>-->
-<!--<head>-->
-    <!--<meta charset="utf-8">-->
-    <!--<title>会员中心</title>-->
-    <!--<meta name="keywords" content="">-->
-    <!--<meta name="description" content="">-->
-    <!--<link rel="stylesheet" href="/static/member/css/member-main.css">-->
-    <!--<link rel="stylesheet" href="/static/common/layui/css/layui.css">-->
-    <!--<script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>-->
-    <!--<script type="text/javascript" src="/static/common/layui/layui.js"></script>-->
-    <!--<script type="text/javascript" src="/static/member/js/order.js"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--&lt;!&ndash;HEADER&ndash;&gt;-->
-<!--{include file="public/header" /}-->
-<!--&lt;!&ndash;END HEADER&ndash;&gt;-->
-<!--&lt;!&ndash;content-box&ndash;&gt;-->
-<!--<div class="content-box">-->
-    <!--<div class="cont">-->
-        <!--&lt;!&ndash; cont-side &ndash;&gt;-->
-        <!--{include file="public/left" /}-->
-        <!--&lt;!&ndash; END cont-side &ndash;&gt;-->
-        <!--&lt;!&ndash; cont-main &ndash;&gt;-->
-        <!--<div class="cont-main">-->
-            <!--<div class="title">订单列表</div>-->
-            <!--<div class="cont-main-box">-->
-                <!--<div class="finance-schcz-record">-->
-                    <!--<form action="" method="post">-->
-                        <!--订单号：<input type="text" name="" class="finance-schcz-orderno" />-->
-                        <!--<input type="submit" value="查 询" class="search-btn" />-->
-                    <!--</form>-->
-                <!--</div>-->
-                <!--<div class="finance-record-table">-->
-                    <!--<table class="record-table">-->
-                        <!--<tr>-->
-                            <!--<th>订单号</th>-->
-                            <!--<th>收货信息</th>-->
-                            <!--<th>购买时间</th>-->
-                            <!--<th>状态</th>-->
-                            <!--<th>删除</th>-->
-                        <!--</tr>-->
-                        <!--{foreach $orderList as $order}-->
-                        <!--<tr>-->
-                            <!--<td>{$order.order_no}</td>-->
-                            <!--<td>-->
-                                <!--<p>快递单号：{$order.tracking_number}</p>-->
-                                <!--<p>收货信息：{$order.tracking_number}</p>-->
-                            <!--</td>-->
-                            <!--<td>{$order.create_time}</td>-->
-                            <!--<td>{$order.order_state}</td>-->
-                            <!--<td><button onclick="delOrder({$order.order_id});" class="delbtn">删除</button></td>-->
-                        <!--</tr>-->
-                        <!--{/foreach}-->
-                    <!--</table>-->
-                    <!--<div class="pagelist">-->
-                        <!--{$page}-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash; END cont-main &ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="clear"></div>-->
-<!--</div>-->
-<!--&lt;!&ndash;END content-box&ndash;&gt;-->
-<!--&lt;!&ndash; footer &ndash;&gt;-->
-<!--{include file="public/footer" /}-->
-<!--&lt;!&ndash; END footer &ndash;&gt;-->
-<!--</body>-->
-<!--</html>-->
