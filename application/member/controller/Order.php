@@ -201,17 +201,31 @@ class Order extends MemberBase
     /**
      * 订单列表
      */
+//    public function orderList()
+//    {
+//        $order = new \app\common\model\Order();
+//
+//        $orderList = $order->where('member_id', '=', session("MUserId"))->order("order_id", "desc")->paginate(20);
+//        $page = $orderList->render();
+//
+//        $this->assign('orderList', $orderList);
+//        $this->assign('page', $page);
+//        return $this->fetch();
+//    }
+
     public function orderList()
     {
-        $order = new \app\common\model\Order();
+        if (request()->isPost()){
 
-        $orderList = $order->where('member_id', '=', session("MUserId"))->order("order_id", "desc")->paginate(20);
-        $page = $orderList->render();
-
-        $this->assign('orderList', $orderList);
-        $this->assign('page', $page);
-        return $this->fetch();
+        }else{
+            return $this->fetch();
+        }
     }
+
+
+
+
+
 
     /**
      * 删除已购买小礼品订单
