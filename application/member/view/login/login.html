@@ -19,8 +19,8 @@
             <div class="ltitle">会员登录</div>
             <form onsubmit="return false">
                 <div class="login-input">
-                    <label><img src="/static/member/images/login-account-icon.png"/></label>
-                    <input id="muserid" type="text" name="muserid" placeholder="账号"/>
+                    <label><img src="/static/member/images/login-mobile-icon.png"/></label>
+                    <input id="muserid" type="text" name="muserid" placeholder="手机号"/>
                 </div>
                 <div class="login-input">
                     <label><img src="/static/member/images/login-pwd-icon.png"></label>
@@ -45,7 +45,7 @@
 
     function login() {
         if (!$('#muserid').val()) {
-            layer.msg("用户名不能为空", {
+            layer.msg("手机号不能为空", {
                 icon: 2,
                 time: 3000
             });

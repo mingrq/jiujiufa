@@ -47,15 +47,15 @@ private function getwebsiteinfo(){
         $inviteUserId = preg_replace('/[^0-9]/', '', $this->request->param("m"));
         if ($this->request->isPost()) {
             // 验证账号，密码，手机号格式
-            $member_login_name = trim($this->request->post("muserid"));
+            $member_qq = trim($this->request->post("muserqq"));
             $member_login_pw = trim($this->request->post("password"));
             $mobile = trim($this->request->post("mobile"));
             $vscode = trim($this->request->post("vscode"));
 
             $data = [
-                'member_login_name' => $member_login_name,
-                'member_login_pw' => $member_login_pw,
-                'member_mobile' => $mobile
+                'member_mobile' => $mobile,
+                'member_qq' => $member_qq,
+                'member_login_pw' => $member_login_pw
             ];
             $validate = Loader::validate("Member");
             $result = $validate->scene('register')->check($data);
@@ -80,7 +80,7 @@ private function getwebsiteinfo(){
             }
 
             $ndata = [
-                'member_login_name' => $member_login_name,
+                'member_qq' => $member_qq,
                 'member_login_pw' => substr(md5($member_login_pw), 8, 16),
                 'member_mobile' => $mobile,
                 'member_rank' => 1,
@@ -225,6 +225,7 @@ private function getwebsiteinfo(){
                 ds_json_encode(10002, "此手机号未注册");
             }
         } else {
+            $this-> getwebsiteinfo();
             return $this->fetch();
         }
     }
