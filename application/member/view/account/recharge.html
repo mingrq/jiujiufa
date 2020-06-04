@@ -19,12 +19,73 @@
         <!-- cont-main -->
         <div class="cont-main">
             <div class="title">余额充值</div>
+            <div class="cont-main-box">
+                <form class="layui-form" action="##">
+                    <div class="layui-form-item">
+                        <div>
+                            <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">充值金额</label>
+                            <div class="layui-input-inline" style="width: 200px">
+                                <input type="text" placeholder="请输入充值金额" id="recharge_money"
+                                       autocomplete="off" class="layui-input" lay-verify="double"
+                                       style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
+                            </div>
+                        </div>
+                        <button type="button" class="apply-for-btn" onclick="recharge()">充值</button>
 
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
 </div>
+<script>
+    var form;
+    layui.use('form', function () {
+        form = layui.form;
+    });
+
+    /**
+     * 充值
+     */
+    function recharge() {
+        let recharge_money = $('#recharge_money').val();
+        if (!isMoney(recharge_money)) {
+            layer.msg("请输入正确金额");
+            return;
+        }
+       //调用充值接口
+        $.ajax({
+            url: "/member/account/recharge",
+            type: "POST",
+            dataType: "json",
+            data: {
+                money: recharge_money
+            },
+            success: function (data) {
+
+            },
+            error: function(){
+                console.log('网络繁忙,请稍后再试');
+            }
+        });
+    }
+
+    /**
+     * 判断输入的是否是金额
+     * @param money
+     * @returns {boolean}
+     */
+    function isMoney(money) {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if (reg.test(money)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 <!--END content-box-->
 <!-- footer -->
 {include file="public/footer" /}

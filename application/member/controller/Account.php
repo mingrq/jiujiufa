@@ -7,6 +7,7 @@ use app\common\model\Member;
 use app\common\model\Rank;
 use think\Loader;
 use think\Request;
+
 class Account extends MemberBase
 {
     public function _initialize()
@@ -29,25 +30,25 @@ class Account extends MemberBase
      */
     public function updatePersonInfo()
     {
-        if ($this->request->isPost()){
+        if ($this->request->isPost()) {
             $password = trim($this->request->post('password'));
             $qqnum = trim($this->request->post('qqnum'));
-            if (empty($password)){
+            if (empty($password)) {
                 // 不修改密码
                 $data = [
                     'member_qq' => $qqnum
                 ];
                 $validate = Loader::validate("Member");
                 $result = $validate->scene('edit')->check($data);
-                if ($result !== true){
+                if ($result !== true) {
                     $this->error($validate->getError(), url("member/account/personinfo"));
                 }
                 $memeber = new Member;
-                $memeber->save($data,['member_id'=>session('MUserId')]);
+                $memeber->save($data, ['member_id' => session('MUserId')]);
 
                 ds_json_encode(10000, "更新成功");
                 // return $this->success("更新成功", 'member/account/personinfo');
-            }else{
+            } else {
                 // 修改密码
                 $data = [
                     'member_login_pw' => $password,
@@ -55,7 +56,7 @@ class Account extends MemberBase
                 ];
                 $validate = Loader::validate('Member');
                 $result = $validate->scene('edit_pwd')->check($data);
-                if ($result !== true){
+                if ($result !== true) {
                     $this->error($validate->getError(), url("member/account/personinfo"));
                 }
                 $member = Member::get(session('MUserId'));
@@ -66,7 +67,7 @@ class Account extends MemberBase
                 ds_json_encode(10000, "更新成功");
                 //return $this->success("更新成功", 'member/account/personinfo');
             }
-        }else{
+        } else {
             $member = Member::get(session('MUserId'));
             $this->assign('member', $member);
             return $this->fetch();
@@ -91,7 +92,7 @@ class Account extends MemberBase
      */
     public function upMyVip()
     {
-        $member = Member::get(session('MUserId'));
+        $member = db('v_member')->where('member_id', session('MUserId'))->find();
         //等级列表
         $rank = new Rank();
         $rankList = $rank->where('rank_id', '>', $member['member_rank'])->order('rank_id', 'asc')->select();
@@ -104,7 +105,14 @@ class Account extends MemberBase
     /**
      * 余额充值
      */
-    public function recharge(){
-        return $this->fetch();
+    public function recharge()
+    {
+        if (request()->isPost()) {
+            $money = input('post.money');
+
+            $alipaymode = model('alipayMode');
+        } else {
+            return $this->fetch();
+        }
     }
 }

@@ -16,7 +16,7 @@ use think\Model;
  * Class Alipay 阿里支付
  * @package app\common\model
  */
-class Alipay extends Model
+class AlipayModel extends Model
 {
 
 

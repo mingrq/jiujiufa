@@ -40,13 +40,7 @@
                         </tr>
                         <tr>
                             <td class="td-title">当前级别：</td>
-                            <td class="td-value">
-                                {if condition="$member.member_rank==1"}
-                                普通会员
-                                {elseif condition="$member.member_rank==2"}
-                                代理会员
-                                {/if}
-                            </td>
+                            <td class="td-value">{$member.rank_name}</td>
                         </tr>
                         <tr>
                             <td class="td-title">可用余额：</td>
@@ -55,7 +49,7 @@
                         <tr>
                             <td class="td-title">升级会员：</td>
                             <td class="td-value">
-                                <select class="levels">
+                                <select class="levels" id="member_update">
                                     {empty name="$rankList"}
                                     <option value="0">没有代理升级</option>
                                     {else/}
@@ -64,7 +58,7 @@
                                     {/foreach}
                                     {/empty}
                                 </select>
-                                <button class="upgrade-btn">升 级</button>
+                                <a href="recharge.html" class="upgrade-btn">升 级</a>
                             </td>
                         </tr>
                     </table>
