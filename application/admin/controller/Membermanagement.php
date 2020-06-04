@@ -252,6 +252,7 @@ class Membermanagement extends AdminBaseController
         $member_id = input('param.mid');
         if (request()->isPost()) {
             $condition = array();
+            $condition['recharge_state'] = 2;
             $condition['recharge_member_id'] = $member_id;
             $member_mode = model('member');
             $query = $member_mode->getRechargeRecord($condition);
@@ -273,6 +274,7 @@ class Membermanagement extends AdminBaseController
     public function serachrechargerecord()
     {
         $condition = array();
+        $condition['recharge_state'] = 2;
         $condition['recharge_member_id'] = input('param.mid');
 
         $serach_param = input('param.serach_param');
