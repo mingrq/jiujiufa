@@ -33,9 +33,21 @@ class Payment extends Controller
                 $time = date('Y-m-d H:i:s', time());
                 $query = db('recharge_record')->where('recharge_trade_no', $out_trade_no)->update(['trade_no' => $trade_no, 'trade_body' => $order_type, 'recharge_state' => 2, 'recharge_time' => $time]);
                 if ($query) {
-                    //获取用户信息，添加用户余额，记录资金明细
-                    $memberid = db('recharge_record')->where('recharge_trade_no', $out_trade_no)->value('recharge_member_id');
+                    //获取用户信息，添加用户余额
+                    $member = db('recharge_record')->where('recharge_trade_no', $out_trade_no)->find();
+                    $memberid = $member['recharge_member_id'];
                     db('member')->where('member_id', $memberid)->setInc('member_balance', $total_fee);
+                    //判断是否需要升级
+                    $recharge_money = db('recharge_record')->where('recharge_member_id', $memberid)->sum('recharge_money');
+                    $rankid = db('member')->where('member_id', $memberid)->value('member_rank');
+                    $ranklist = db('rank')->where('rank_id', '>', $rankid)->select();
+                    for ($i = 0; $i < count($ranklist); $i++) {
+                        $rank = $ranklist[$i];
+                        if ($recharge_money > $rank['recharge_upgrade']) {
+                            db('member')->where('member_id', $memberid)->update(['member_rank' => $rank['rank_id']]);
+                        }
+                    }
+                    //记录资金明细
                     db('moneychange_record')->insert(['member_id' => $memberid, 'change_money' => $total_fee, 'change_cause' => $order_type]);
                 }
             }
