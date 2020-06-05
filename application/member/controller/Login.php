@@ -13,30 +13,32 @@ use think\Loader;
 
 class Login extends Controller
 {
-private function getwebsiteinfo(){
-    $mode = model('websiteinfo');
-    $query = $mode->getWebsiteInfo();
-    foreach ($query as $info) {
-        if ($info['config_code'] == 'website_name') {
-            $this->assign('website_name', $info['config_value']);
-        }
-        if ($info['config_code'] == 'website_logo') {
-            $this->assign('website_logo', $info['config_value']);
-        }
-        if ($info['config_code'] == 'website_keyword') {
-            $this->assign('website_keyword', $info['config_value']);
-        }
-        if ($info['config_code'] == 'website_icp') {
-            $this->assign('website_icp', $info['config_value']);
-        }
-        if ($info['config_code'] == 'website_copyright') {
-            $this->assign('website_copyright', $info['config_value']);
-        }
-        if ($info['config_code'] == 'website_statistics') {
-            $this->assign('website_statistics', $info['config_value']);
+    private function getwebsiteinfo()
+    {
+        $mode = model('websiteinfo');
+        $query = $mode->getWebsiteInfo();
+        foreach ($query as $info) {
+            if ($info['config_code'] == 'website_name') {
+                $this->assign('website_name', $info['config_value']);
+            }
+            if ($info['config_code'] == 'website_logo') {
+                $this->assign('website_logo', $info['config_value']);
+            }
+            if ($info['config_code'] == 'website_keyword') {
+                $this->assign('website_keyword', $info['config_value']);
+            }
+            if ($info['config_code'] == 'website_icp') {
+                $this->assign('website_icp', $info['config_value']);
+            }
+            if ($info['config_code'] == 'website_copyright') {
+                $this->assign('website_copyright', $info['config_value']);
+            }
+            if ($info['config_code'] == 'website_statistics') {
+                $this->assign('website_statistics', $info['config_value']);
+            }
         }
     }
-}
+
     /**
      * 会员注册
      */
@@ -70,22 +72,25 @@ private function getwebsiteinfo(){
                 ds_json_encode(10002, "验证码错误", null);
             }
             if ($vscode != $value) {
-                ds_json_encode(10002, "验证码错误", null);
+                ds_json_encode(10002, "验证码错误222", null);
             }
             // 判断手机号唯一性
             $memberMobi = Member::get(['member_mobile' => $mobile]);
-            if (!empty($memberMobi) && $memberMobi['member_mobile'] == $mobile) {
+            // $memberMobi = new Member();
+            // $memberMobi->where("member_mobile", '=', $mobile)->find();
+            if (!empty($memberMobi['member_mobile']) && $memberMobi['member_mobile'] == $mobile && !empty($memberMobi['member_id'])) {
                 ds_json_encode(10002, "此手机号已使用，请更换其它手机号注册", null);
-                exit();
             }
 
             $ndata = [
-                'member_qq' => $member_qq,
+                'member_login_name' => $mobile,
                 'member_login_pw' => substr(md5($member_login_pw), 8, 16),
                 'member_mobile' => $mobile,
+                'member_qq' => $member_qq,
                 'member_rank' => 1,
                 'member_addtime' => date("Y-m-d H:i:s", time())
             ];
+            // $member = Member::create($ndata);
             $member = Member::create($ndata);
             if (empty($member['member_id'])) {
                 // 失败
@@ -93,20 +98,22 @@ private function getwebsiteinfo(){
             } else {
                 // 成功
                 // 判断是否是邀请的会员 是 则 更新会员信息
-                $inviteMember = Member::get($inviteUserId);
-                if (!empty($inviteMember) && !empty($inviteMember['member_login_name'])) {
-                    $imemberRank = $inviteMember['member_rank'];
-                    $invite_count = $inviteMember['member_invite_count'] + 1;
-                    // 判断下一个代理级别的人数 如果大于等于了则升级代理级别
-                    $rank = Rank::get(($imemberRank + 1));
-                    if (!empty($rank) && !empty($rank['rank_id']) && !empty($rank['rank_name'])) {
-                        if ($invite_count >= $rank['invite_upgrade']) {
-                            $inviteMember->member_rank = $rank['rank_id'];
+                if (!empty($inviteUserId)) {
+                    $inviteMember = Member::get($inviteUserId);
+                    if (!empty($inviteMember) && !empty($inviteMember['member_login_name'])) {
+                        $imemberRank = $inviteMember['member_rank'];
+                        $invite_count = $inviteMember['member_invite_count'] + 1;
+                        // 判断下一个代理级别的人数 如果大于等于了则升级代理级别
+                        $rank = Rank::get(($imemberRank + 1));
+                        if (!empty($rank) && !empty($rank['rank_id']) && !empty($rank['rank_name'])) {
+                            if ($invite_count >= $rank['invite_upgrade']) {
+                                $inviteMember->member_rank = $rank['rank_id'];
+                            }
                         }
+                        // 将邀请人数更新
+                        $inviteMember->member_invite_count = $invite_count;
+                        $inviteMember->save();
                     }
-                    // 将邀请人数更新
-                    $inviteMember->member_invite_count = $invite_count;
-                    $inviteMember->save();
                 }
                 ds_json_encode(10000, "注册成功");
             }
@@ -173,7 +180,7 @@ private function getwebsiteinfo(){
                 ds_json_encode(10001, "账号或密码错误");
             }
         } else {
-            $this-> getwebsiteinfo();
+            $this->getwebsiteinfo();
             return $this->fetch();
         }
     }
@@ -189,8 +196,10 @@ private function getwebsiteinfo(){
             $vscode = trim($this->request->post("vscode"));
 
             // 首先判断是否有这个手机号
-            $memberMobi = Member::get(['member_mobile' => $mobile]);
-            if (!empty($memberMobi) && $memberMobi['member_mobile'] == $mobile && $memberMobi['member_id']) {
+            // $memberMobi = Member::get(['member_mobile' => $mobile]);
+            $memberMobi = new Member();
+            $memberMobi->where("member_mobile", '=', $mobile)->find();
+            if ($memberMobi['member_mobile'] == $mobile && $memberMobi['member_id'] > 0) {
                 $data = [
                     'member_login_pw' => $member_login_pw
                 ];
@@ -225,7 +234,7 @@ private function getwebsiteinfo(){
                 ds_json_encode(10002, "此手机号未注册");
             }
         } else {
-            $this-> getwebsiteinfo();
+            $this->getwebsiteinfo();
             return $this->fetch();
         }
     }
