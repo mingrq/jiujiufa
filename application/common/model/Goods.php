@@ -33,7 +33,8 @@ class Goods extends Model
 
     /**
      *
-     * 获取特殊商品列表
+     * 获取特殊价格商品列表
+     * @param int $mid  用户id
      * @param int $page
      * @param string $order
      * @return mixed
