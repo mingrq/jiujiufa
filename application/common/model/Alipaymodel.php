@@ -20,6 +20,20 @@ use think\Model;
 class AlipayModel extends Model
 {
 
+    protected function getalipayinfo()
+    {
+        $payment_info = array();
+        $app_id = db('config')->where('config_code', 'alipay_app_id')->value('config_value');
+        $merchant_private_key = db('config')->where('config_code', 'alipay_merchant_private_key')->value('config_value');
+        $alipay_public_key = db('config')->where('config_code', 'alipay_public_key')->value('config_value');
+        if (!$app_id || !$merchant_private_key || !$alipay_public_key) {
+            return 10003;
+        }
+        $payment_info['app_id'] = $app_id;
+        $payment_info['merchant_private_key'] = $merchant_private_key;
+        $payment_info['alipay_public_key'] = $alipay_public_key;
+        return $payment_info;
+    }
 
     /**
      * 支付的请求地址
@@ -39,17 +53,7 @@ class AlipayModel extends Model
         $order_info['api_pay_amount'] = $api_pay_amount;
         $order_info['subject'] = $subject;
         $order_info['order_type'] = $order_type;
-        $payment_info = array();
-        $app_id = db('config')->where('config_code', 'alipay_app_id')->value('config_value');
-        $merchant_private_key = db('config')->where('config_code', 'alipay_merchant_private_key')->value('config_value');
-        $alipay_public_key = db('config')->where('config_code', 'alipay_public_key')->value('config_value');
-        if (!$app_id || !$merchant_private_key || !$alipay_public_key) {
-            return 10003;
-        }
-        $payment_info['app_id'] = $app_id;
-        $payment_info['merchant_private_key'] = $merchant_private_key;
-        $payment_info['alipay_public_key'] = $alipay_public_key;
-        $malipay = new malipay($payment_info);
+        $malipay = new malipay($this->getalipayinfo());
         $malipay->pay($order_info);
     }
 
@@ -60,6 +64,18 @@ class AlipayModel extends Model
      */
     public function return_verify()
     {
-
+        $malipay = new malipay($this->getalipayinfo());
+        return $malipay->return_verify();
     }
+
+    /**
+     * 异步通知验证
+     * @return array
+     */
+    public function verify_notify()
+    {
+        $malipay = new malipay($this->getalipayinfo());
+        return $malipay->verify_notify();
+    }
+
 }

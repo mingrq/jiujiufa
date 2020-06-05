@@ -115,13 +115,16 @@ class Account extends MemberBase
             $condition['recharge_trade_no'] = $orderno;
             $condition['recharge_member_id'] = $memberid;
             $condition['recharge_money'] = $money;
-            $alipaymode = model('alipaymodel');
-            $alipaymode->payform($orderno,$money,'余额充值','账号余额充值');
-            //$query = db('recharge_record')->insert($condition);
-//            if ($query) {
-//                $alipaymode = model('alipaymodel');
-//                $alipaymode->payform($orderno,$money,'余额充值','账号余额充值');
-//            }
+
+//            $alipaymode = model('alipaymodel');
+//            $alipaymode->payform($orderno,$money,'余额充值','账号余额充值');
+
+
+            $query = db('recharge_record')->insert($condition);
+            if ($query) {
+                $alipaymode = model('alipaymodel');
+                $alipaymode->payform($orderno,$money,'余额充值','账号余额充值');
+            }
            // ds_json_encode(10000, "asdf", chr(rand(65, 90)) . $memberid . time() . random(3, [111, 999]));
 
         } else {
@@ -129,16 +132,4 @@ class Account extends MemberBase
         }
     }
 
-
-    public function rr(){
-        $money = input('post.money');
-        $memberid = session('MUserId');
-        $orderno = 'C' . chr(rand(65, 90)) . $memberid . time() . random(3, [111, 999]);
-        $condition = array();
-        $condition['recharge_trade_no'] = $orderno;
-        $condition['recharge_member_id'] = $memberid;
-        $condition['recharge_money'] = $money;
-        $alipaymode = model('alipaymodel');
-        $alipaymode->payform($orderno,$money,'余额充值','账号余额充值');
-    }
 }

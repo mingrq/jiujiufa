@@ -20,17 +20,17 @@
         <div class="cont-main">
             <div class="title">余额充值</div>
             <div class="cont-main-box">
-                <form class="layui-form" action="##">
+                <form class="layui-form" action="/member/account/recharge.html" onsubmit="return rechargecheck()" target="_blank" method="post">
                     <div class="layui-form-item">
                         <div>
                             <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">充值金额</label>
                             <div class="layui-input-inline" style="width: 200px">
                                 <input type="text" placeholder="请输入充值金额" id="recharge_money"
-                                       autocomplete="off" class="layui-input" lay-verify="double"
+                                       autocomplete="off" class="layui-input" lay-verify="double" name="money"
                                        style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
                             </div>
                         </div>
-                        <button type="button" class="apply-for-btn" onclick="recharge()">充值</button>
+                        <button  type="submit" class="apply-for-btn">充值</button>
 
                     </div>
                 </form>
@@ -47,30 +47,15 @@
     });
 
     /**
-     * 充值
+     * 充值验证
      */
-    function recharge() {
+    function rechargecheck() {
         let recharge_money = $('#recharge_money').val();
         if (!isMoney(recharge_money)) {
             layer.msg("请输入正确金额");
-            return;
+            return false;
         }
-        //调用充值接口
-        $.ajax({
-            url: "/member/account/recharge",
-            type: "GET",
-            dataType: "json",
-            cache: false,
-            data: {
-                money: recharge_money
-            },
-            // success: function (data) {
-            //     console.log(data);
-            // },
-            error: function () {
-                console.log('网络繁忙,请稍后再试');
-            }
-        });
+        return true;
     }
 
 

@@ -78,34 +78,23 @@ class malipay
     {
         require_once dirname(__FILE__) . '/aop/AopClient.php';
         $arr = $_GET;
+
+        $aop = new \AopClient();
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
+        $result = $aop->rsaCheckV1($arr, $this->config['alipay_public_key'], $this->config['sign_type']);
+
         $return_result = array(
             'trade_status' => '0',
         );
-
-        $temp = explode('-', input('param.out_trade_no'));
-        $out_trade_no = $temp['1'];  //返回的支付单号
-        $order_type = $temp['0'];
-
-        $aop = new \AopClient();
-        $aop->gatewayUrl = $this->config['gatewayUrl'];
-        $aop->appId = $this->config['app_id'];
-        $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
-        $aop->apiVersion = '1.0';
-        $aop->signType = 'RSA2';
-        $aop->postCharset = 'utf-8';
-        $aop->format = 'json';
-        $result = $aop->rsaCheckV1($arr, $aop->alipayrsaPublicKey, $aop->signType);
         if ($result) {
             $return_result = array(
-                'out_trade_no' => $out_trade_no, #商户订单号
+                'out_trade_no' => input('param.out_trade_no'), #商户订单号
                 'trade_no' => input('param.trade_no'), #交易凭据单号
                 'total_fee' => input('param.total_amount'), #涉及金额
-                'order_type' => $order_type,
+                'order_type' => input('param.out_trade_no'),
                 'trade_status' => '1',
             );
         }
-
         return $return_result;
     }
 
@@ -117,29 +106,21 @@ class malipay
     {
         require_once dirname(__FILE__) . '/aop/AopClient.php';
         $arr = $_POST;
+
+        $aop = new \AopClient();
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
+        $result = $aop->rsaCheckV1($arr, $this->config['alipay_public_key'], $this->config['sign_type']);
+
         $notify_result = array(
             'trade_status' => '0',
         );
-        $aop = new \AopClient();
-
-        $aop->gatewayUrl =$this->config['gatewayUrl'];
-        $aop->appId = $this->config['app_id'];
-        $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
-        $aop->apiVersion = '1.0';
-        $aop->signType = 'RSA2';
-        $aop->postCharset = 'utf-8';
-        $aop->format = 'json';
-        $result = $aop->rsaCheckV1($arr, $aop->alipayrsaPublicKey, $aop->signType);
-        if ($result) {
+        if ($result) {//验证成功
             if ($arr['trade_status'] == 'TRADE_SUCCESS') {
-                $out_trade_no = explode('-', input('param.out_trade_no'));
-                $out_trade_no = $out_trade_no['1'];
                 $notify_result = array(
-                    'out_trade_no' => $out_trade_no, #商户订单号
-                    'trade_no' => input('param.trade_no'), #交易凭据单号
-                    'total_fee' => input('param.total_amount'), #涉及金额
-                    'order_type' => input('param.body'),
+                    'out_trade_no' => input('post.out_trade_no'), #商户订单号
+                    'trade_no' => input('post.trade_no'), #交易凭据单号
+                    'total_fee' => input('post.total_amount'), #涉及金额
+                    'order_type' => input('post.body'),
                     'trade_status' => '1',
                 );
             }
@@ -159,7 +140,7 @@ class malipay
         $aop->gatewayUrl = $this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
-        $aop->alipayrsaPublicKey =$this->config['alipay_public_key'];
+        $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
         $aop->apiVersion = '1.0';
         $aop->signType = 'RSA2';
         $aop->postCharset = 'utf-8';
@@ -205,7 +186,7 @@ class malipay
         $request = new AlipayTradeCloseRequest();
         $request->setBizContent($biz_content);
         $aop = new \AopClient();
-        $aop->gatewayUrl =$this->config['gatewayUrl'];
+        $aop->gatewayUrl = $this->config['gatewayUrl'];
         $aop->appId = $this->config['app_id'];
         $aop->rsaPrivateKey = $this->config['merchant_private_key'];
         $aop->alipayrsaPublicKey = $this->config['alipay_public_key'];
