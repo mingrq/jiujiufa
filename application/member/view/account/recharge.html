@@ -55,18 +55,19 @@
             layer.msg("请输入正确金额");
             return;
         }
-       //调用充值接口
+        //调用充值接口
         $.ajax({
             url: "/member/account/recharge",
-            type: "POST",
+            type: "GET",
             dataType: "json",
+            cache: false,
             data: {
                 money: recharge_money
             },
-            success: function (data) {
-
-            },
-            error: function(){
+            // success: function (data) {
+            //     console.log(data);
+            // },
+            error: function () {
                 console.log('网络繁忙,请稍后再试');
             }
         });

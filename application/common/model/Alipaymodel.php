@@ -12,6 +12,7 @@ namespace app\common\model;
 use malipay\malipay;
 use think\Model;
 
+
 /**
  * Class Alipay 阿里支付
  * @package app\common\model

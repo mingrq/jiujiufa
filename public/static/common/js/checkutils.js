@@ -46,3 +46,17 @@ function isEmail(str) {
     else
         return true;
 }
+
+/**
+ * 获取小写随机字母
+ */
+function lowerCaseRandLetter() {
+    return chr(rand(97,122));
+}
+
+/**
+ * 获取大写随机字母
+ */
+function randLetter() {
+    return chr(rand(65,90));
+}
