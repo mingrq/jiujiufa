@@ -58,10 +58,10 @@ class Member extends Model
     public function getRechargeRecord($condition = array(), $field = '*', $page = 100, $order = 'recharge_time desc')
     {
         if ($page) {
-            $recharge_record = db('recharge_record')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
+            $recharge_record = db('v_recharge_record')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
             return $recharge_record;
         } else {
-            return db('recharge_record')->field($field)->where($condition)->order($order)->select();
+            return db('v_recharge_record')->field($field)->where($condition)->order($order)->select();
         }
     }
 

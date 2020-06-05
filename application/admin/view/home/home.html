@@ -28,7 +28,7 @@
     <div class="state-overview clearfix">
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <a href="/admin/membermanagement.html" title="平台用户">
+                <a href="/admin/membermanagement.html" title="平台用户" class="no-radius">
                     <div class="symbol terques">
                         <i class="icon-user"></i>
                     </div>
@@ -41,7 +41,7 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <a href="/admin/workorder.html" title="未处理工单">
+                <a href="/admin/workorder.html" title="未处理工单"  class="no-radius">
                 <div class="symbol red">
                     <i class="icon-tags"></i>
                 </div>
@@ -54,7 +54,7 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <a href="/admin/orderform.html" title="礼品订单">
+                <a href="/admin/orderform.html" title="礼品订单"  class="no-radius">
                 <div class="symbol yellow">
                     <i class="icon-shopping-cart"></i>
                 </div>
@@ -67,13 +67,15 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <div class="symbol blue">
-                    <i class="icon-bar-chart"></i>
-                </div>
-                <div class="value">
-                    <h1>￥{$paysum}</h1>
-                    <p>充值记录</p>
-                </div>
+                <a href="/admin/financialmanagement/rechargerecord.html"  title="充值记录" class="no-radius">
+                    <div class="symbol blue">
+                        <i class="icon-bar-chart"></i>
+                    </div>
+                    <div class="value">
+                        <h1>￥{$paysum}</h1>
+                        <p>充值记录</p>
+                    </div>
+                </a>
             </section>
         </div>
     </div>
@@ -118,6 +120,25 @@
             </table>
         </div>
         <div class="Order_Statistics">
+            <div class="title_name">会员注册统计</div>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td class="name">今日注册：</td>
+                    <td class="munber"><a href="#">{$articlecount}</a>&nbsp;人</td>
+                </tr>
+                <tr>
+                    <td class="name">近一周注册：</td>
+                    <td class="munber"><a href="#">{$noticecount}</a>&nbsp;人</td>
+                </tr>
+                <tr>
+                    <td class="name">近一月注册：</td>
+                    <td class="munber"><a href="#">{$noticecount}</a>&nbsp;人</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="Order_Statistics">
             <div class="title_name">资讯信息统计</div>
             <table class="table table-bordered">
                 <tbody>
@@ -132,6 +153,7 @@
                 </tbody>
             </table>
         </div>
+
         <!--<div class="t_Record">
           <div id="main" style="height:300px; overflow:hidden; width:100%; overflow:auto" ></div>
          </div> -->

@@ -300,7 +300,7 @@ class Membermanagement extends AdminBaseController
             }
         }
 
-        $query = db('recharge_record')
+        $query = db('v_recharge_record')
             ->where($condition)
             ->order('recharge_time desc')
             ->paginate(100);
