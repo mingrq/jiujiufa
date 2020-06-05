@@ -13,7 +13,6 @@
 namespace app\member\controller;
 
 use think\Controller;
-use malipay\malipay;
 
 class Payment extends Controller
 {
@@ -31,10 +30,11 @@ class Payment extends Controller
                 $trade_no = $notify_result['trade_no']; #交易凭据单号
                 $total_fee = $notify_result['total_fee']; #涉及金额
                 $order_type = $notify_result['order_type'];
-                db('recharge_record')->where('recharge_trade_no', $out_trade_no)->update(['trade_no' => $trade_no, 'trade_body' => $order_type, 'recharge_state' => 2, 'recharge_time' => time()]);
-
+                $time = date('Y-m-d H:i:s', time());
+                db('recharge_record')->where('recharge_trade_no', $out_trade_no)->update(['trade_no' => $trade_no, 'trade_body' => $order_type, 'recharge_state' => 2, 'recharge_time' => $time]);
             } else {
                 //支付失败
+
             }
         }
     }
