@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome.min.css"/>
+    <script src="{$Think.COMMON_SITE_ROOT}/js/jsontoexcel.js"></script>
     <!--[if IE 7]>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
@@ -108,6 +109,7 @@
             </div>
 
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-danger" onclick="derive()">导出</button>
         </div>
     </form>
     <!--表格-->
@@ -115,10 +117,11 @@
 </div>
 <!--QQ列模板-->
 <script type="text/html" id="qq_templ">
-<div style="line-height: 25px;text-align: center">
-    <p>{{d.member_qq}}</p>
-    <a href="tencent://message/?uin={{d.member_qq}}"><img style="width: 70px;height: 22px" src="/static/admin/images/qqjiaoliu.png" alt="QQ交流"></a>
-</div>
+    <div style="line-height: 25px;text-align: center">
+        <p>{{d.member_qq}}</p>
+        <a href="tencent://message/?uin={{d.member_qq}}"><img style="width: 70px;height: 22px"
+                                                              src="/static/admin/images/qqjiaoliu.png" alt="QQ交流"></a>
+    </div>
 </script>
 <!--表格item工具-->
 <script type="text/html" id="table_operation_toolbar">
@@ -183,6 +186,34 @@
     </div>
 </script>
 
+
+<!--会员数据导出布局-->
+<script type="text/html" id="memberlistderive">
+    <div style="padding: 20px">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+
+                <div class="layui-inline" style="margin-right: -12px;">
+                    <label class="m-form-label">注册日期</label>
+                    <div class="layui-input-inline" style="width: 110px">
+                        <input type="text" name="date_atart" id="derive_serach_param_date_atart" lay-verify="date"
+                               placeholder="开始日期"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                    <div class="layui-input-inline" style="width: 110px">
+                        <input type="text" name="date_end" id="derive_serach_param_date_end" lay-verify="url"
+                               placeholder="结束日期"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <label style="color: rgba(255,0,0,0.5)">不填写注册时间区间则导出全部会员信息</label>
+    </div>
+</script>
 <script>
     /**设置等级下拉框数据*/
     var table;
@@ -257,9 +288,8 @@
         laydate.render({
             elem: '#serach_param_date_end'
         });
-        // form.render({
-        //     elem: '#serach_param_form'
-        // });
+
+
         table.on('tool(table_member)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             let data = obj.data; //获得当前行数据
             console.log(data);
@@ -407,6 +437,54 @@
         });
     }
 
+    /**
+     * 导出用户数据
+     */
+    function derive() {
+        layer.open({
+            type: 1,
+            title: '会员数据导出',
+            content: $('#memberlistderive').html(),
+            area: ['450px', '300px'],
+            btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/membermanagement/derivememberlist",
+                    data: {
+                        dateatart: $('#derive_serach_param_date_atart').val(),
+                        dateend: $('#derive_serach_param_date_end').val()
+                    },
+                    success: function (result) {
+                        if (result.code == 10000) {
+                            let title = ["用户名(手机号)",
+                                "QQ",
+                                "用户等级",
+                                "用户余额",
+                                "推荐人",
+                                "邀请人数",
+                                "注册时间"];
+                            JSONToExcelConvertor(result.result, "会员列表", title);
+                            layer.close(index);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('导出失败，请稍后再试');
+                    }
+                });
+
+            }
+        });
+        laydate.render({
+            elem: '#derive_serach_param_date_atart'
+        });
+        laydate.render({
+            elem: '#derive_serach_param_date_end'
+        });
+
+    }
 </script>
 </body>
 </html>

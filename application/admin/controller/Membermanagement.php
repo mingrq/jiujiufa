@@ -454,4 +454,30 @@ class Membermanagement extends AdminBaseController
             ds_json_encode(10001, "设置会员等级配置失败");
         }
     }
+
+    /**
+     * 导出会员数据
+     */
+    public function derivememberlist(){
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+        $condition = array();
+        if ($dateatart && $dateend) {
+            $condition["member_addtime"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["member_addtime"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["member_addtime"] = ['<=', $dateend];
+            }
+        }
+        $member_list = db('v_member')->field(['member_mobile','member_qq','rank_name','member_balance','referrer_name','member_invite_count','member_addtime'])->where($condition)->select();
+        if ($member_list){
+            ds_json_encode(10000, "导出会员数据成功",$member_list);
+        }else{
+            ds_json_encode(10001, "导出会员数据失败");
+        }
+    }
 }
