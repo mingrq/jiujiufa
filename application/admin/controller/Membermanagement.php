@@ -42,18 +42,12 @@ class Membermanagement extends AdminBaseController
     public function serachmemberlist()
     {
         $condition = array();
-        $accountorqq = input('param.accountorqq');
+        $serachparam = input('param.serachparam');
         $find = array('\\', '/', '%', '_', '&');
         $replace = array('\\\\', '\\/', '\%', '\_', '\&');
-        $accountorqq = '%' . trim(str_replace($find, $replace, $accountorqq)) . '%';
-        if ($accountorqq && trim($accountorqq) != "") {
-            $condition['member_mobile|member_qq'] = ['like', $accountorqq];
-        }
-
-        $referrer = input('param.referrer');
-        $member = db('member')->where("member_mobile", $referrer)->find();
-        if ($member) {
-            $condition["member_referrer"] = $member['member_id'];
+        $serachparam = '%' . trim(str_replace($find, $replace, $serachparam)) . '%';
+        if ($serachparam && trim($serachparam) != "") {
+            $condition['member_mobile|member_qq|referrer_name'] = ['like', $serachparam];
         }
 
         $rank = input('param.rank');

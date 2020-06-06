@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome.min.css"/>
+    <script src="{$Think.COMMON_SITE_ROOT}/js/jsontoexcel.js"></script>
     <!--[if IE 7]>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
@@ -75,6 +76,7 @@
                 </div>
             </div>
             <button type="button" onclick="serach()" class="layui-inline layui-btn layui-btn-normal">搜索</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-danger" onclick="derive()">导出</button>
         </div>
     </form>
     <!--表格-->
@@ -82,6 +84,35 @@
 </div>
 <script type="text/html" id="table_operation_toolbar">
     <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">取消订单</a>
+</script>
+
+
+<!--订单数据导出布局-->
+<script type="text/html" id="orderlistderive">
+    <div style="padding: 20px">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+
+                <div class="layui-inline" style="margin-right: -12px;">
+                    <label class="m-form-label">下单日期</label>
+                    <div class="layui-input-inline" style="width: 110px">
+                        <input type="text" name="date_atart" id="derive_serach_param_date_atart" lay-verify="date"
+                               placeholder="开始日期"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                    <div class="layui-input-inline" style="width: 110px">
+                        <input type="text" name="date_end" id="derive_serach_param_date_end" lay-verify="url"
+                               placeholder="结束日期"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <label style="color: rgba(255,0,0,0.5)">不填写下单时间区间则导出全部订单信息</label>
+    </div>
 </script>
 <script type="text/javascript">
     var table;
@@ -96,7 +127,7 @@
             , url: '/admin/orderform/orderlist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
-            ,method:'post'
+            , method: 'post'
             , height: 'full-110'
             , cols: [[
                 {field: 'order_no', width: 260, align: 'center', title: '订单号'}
@@ -154,7 +185,7 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/orderform/searchorderlist'
-            ,method: 'post'
+            , method: 'post'
             , where: {
                 searchparam: $('#serach_param').val(),
                 dateatart: $('#serach_param_date_atart').val(),
@@ -163,6 +194,60 @@
         });
     }
 
+    /**
+     * 导出订单数据
+     */
+    function derive() {
+        layer.open({
+            type: 1,
+            title: '会员数据导出',
+            content: $('#orderlistderive').html(),
+            area: ['450px', '300px'],
+            btn: ['确定', '取消']
+            , yes: function (index, layero) {
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/orderform/deriveorderlist",
+                    data: {
+                        dateatart: $('#derive_serach_param_date_atart').val(),
+                        dateend: $('#derive_serach_param_date_end').val()
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        if (result.code == 10000) {
+                            let title = ["用户名(手机号)",
+                                "商品名称",
+                                "订单价格",
+                                "仓库名称",
+                                "商家订单号",
+                                "快递单号",
+                                "配送地址",
+                                "收货人",
+                                "收货人联系方式",
+                                "下单时间",
+                                "订单状态"];
+
+                            JSONToExcelConvertor(result.result, "订单列表", title);
+                            layer.close(index);
+                        }
+                    },
+                    error: function () {
+                        layer.msg('导出失败，请稍后再试');
+                    }
+                });
+
+            }
+        });
+        laydate.render({
+            elem: '#derive_serach_param_date_atart'
+        });
+        laydate.render({
+            elem: '#derive_serach_param_date_end'
+        });
+
+    }
 </script>
 </body>
 </html>

@@ -72,14 +72,7 @@
             <div class="layui-inline">
                 <label class="m-form-label">查询</label>
                 <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="手机号/QQ" id="serach_param"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="m-form-label">推荐人</label>
-                <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="推荐人账号" id="search_user_level"
+                    <input type="text" placeholder="手机号/QQ/推荐人" id="serach_param"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -428,8 +421,7 @@
         table.reload('sample-table', {
             url: '/admin/membermanagement/serachmemberlist'
             , where: {
-                accountorqq: $('#serach_param').val(),
-                referrer: $('#search_user_level').val(),
+                serachparam: $('#serach_param').val(),
                 rank: $('#serach_rank').val(),
                 dateatart: $('#serach_param_date_atart').val(),
                 dateend: $('#serach_param_date_end').val()
