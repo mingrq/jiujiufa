@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
+    <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/font/css/font-awesome.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/jquery-1.9.1.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/bootstrap.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/typeahead-bs2.min.js"></script>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+    <title>底单申请</title>
+</head>
+<body>
+
+<div class="page-content clearfix">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="m-form-label">查询</label>
+                <div class="layui-input-inline" style="width: 180px">
+                    <input type="text" placeholder="用户名/QQ/邮箱" id="serach_param"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="m-form-label">申请状态</label>
+                <div class="layui-input-inline" style="width: 120px">
+                    <select name="modules" id="serach_state" lay-verify="required" lay-search="">
+                        <option value="">申请状态</option>
+                        <option value="1">未处理</option>
+                        <option value="2">已处理</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline" style="margin-right: -12px;">
+                <label class="m-form-label">创建日期</label>
+                <div class="layui-input-inline" style="width: 110px">
+                    <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
+                           placeholder="开始日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
+                <div class="layui-input-inline" style="width: 110px">
+                    <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url" placeholder="结束日期"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
+        </div>
+    </form>
+    <!--表格-->
+    <table id="sample-table" lay-filter="table_baseorder"></table>
+</div>
+<!--表格item工具-->
+<script type="text/html" id="table_operation_toolbar">
+    {{#  if(d.bo_state ==1){ }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="baseorder_over">完成申请</a>
+    {{#  } }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" href="{{d.bo_file}}" download="底单申请表" lay-event="baseorder_down">下载申请表</a>
+</script>
+<script>
+    /**设置等级下拉框数据*/
+    var table;
+    var laydate;
+    var form;
+    layui.use(['table', 'laydate', 'form'], function () {
+        table = layui.table;
+        laydate = layui.laydate;
+        form = layui.form;
+
+
+        table.render({
+            elem: '#sample-table'
+            , url: '/admin/baseorder.html'
+            ,method:'post'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , limit: 100
+            , height: 'full-110'
+            , cols: [[
+                {field: 'member_mobile', width: 220, align: 'center', title: '申请用户'}
+                , {field: 'member_qq', align: 'center',width: 220, title: 'QQ'}
+                , {field: 'bo_email', title: '邮箱', align: 'center', width: 290} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {
+                    field: 'bo_state', title: '状态', align: 'center', width: 120, sort: true,
+                    templet: function (d) {
+                        if (d.bo_state == 1) {
+                            return '未处理';
+                        } else if (d.bo_state == 2) {
+                            return '已处理';
+                        } else {
+                            return d.bo_state;
+                        }
+                    }
+                }
+                , {field: 'bo_create_time', title: '创建时间', width: 200, align: 'center', sort: true}
+                , {field: 'bo_over_time', align: 'center', title: '处理时间', width: 200, sort: true}
+                , {field: 'operation', align: 'center',  title: '操作', toolbar: '#table_operation_toolbar'}
+            ]]
+            , parseData: function (res) {
+                console.log(res);
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.result.total, //解析数据长度
+                    "data": res.result.data //解析数据列表
+                }
+            }
+            , response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                , statusCode: 10000 //规定成功的状态码，默认：0
+                , msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                , countName: 'count' //规定数据总数的字段名称，默认：count
+                , dataName: 'data' //规定数据列表的字段名称，默认：data
+            }
+            , page: {
+                layout: ['prev', 'page', 'next', 'skip', 'refresh']
+            }
+        });
+
+        laydate.render({
+            elem: '#serach_param_date_atart'
+        });
+        laydate.render({
+            elem: '#serach_param_date_end'
+        });
+
+        table.on('tool(table_baseorder)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            if (layEvent === 'baseorder_over') { //完成工单
+                workorder_over(obj.data, function (overtime) {
+                    obj.update({
+                        bo_state: 2,
+                        bo_over_time:overtime,
+                    });
+                    $(tr).find('td').eq(7).find('a').remove();
+                })
+            }
+        });
+    });
+
+    /** 完成工单*/
+    function workorder_over(data, callback) {
+        layer.confirm('这个申请已经解决了吗', function (index) {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/baseorder/baseorderover",
+                data: {
+                    bo_id: data.bo_id
+                },
+                success: function (result) {
+                    layer.msg(result.message);
+                    if (result.code == 10000) {
+                        layer.close(index);
+                        callback(result.result);
+                    }
+                },
+                error: function () {
+                    layer.msg('处理申请失败，请稍后再试');
+                }
+            });
+        });
+    }
+
+
+    /**搜索*/
+    function serach() {
+        location.href="tencent://message/?uin=1099655068";
+        // table.reload('sample-table', {
+        //     url: '/admin/workorder/serachworkorderlist'
+        //     , where: {
+        //         workordertitle: $('#serach_param').val(),
+        //         workorderstate: $('#serach_state').val(),
+        //         dateatart: $('#serach_param_date_atart').val(),
+        //         dateend: $('#serach_param_date_end').val()
+        //     } //设定异步数据接口的额外参数
+        // });
+    }
+
+</script>
+</body>
+</html>

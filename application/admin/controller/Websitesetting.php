@@ -32,6 +32,17 @@ class Websitesetting extends AdminBaseController
                 $website_logo = DS . 'upload' . DS . $ad_pic;
             }
 
+            $website_top_logo = input('param.website_top_logo_url');
+            $file = request()->file('website_top_logo');
+            if ($file) {
+                // 移动到框架应用根目录/public/uploads/ 目录下
+                $info = $file->move(ROOT_PATH . 'public' . DS . 'upload');
+                //如果不清楚文件上传的具体键名，可以直接打印$info来查看
+                //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+                $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
+                $website_top_logo = DS . 'upload' . DS . $ad_pic;
+            }
+
             $website_keyword = input('param.website_keyword');
             $website_icp = input('param.website_icp');
             $website_copyright = input('param.website_copyright');
@@ -45,7 +56,8 @@ class Websitesetting extends AdminBaseController
                 ['config_id' => 17, 'config_value' => $website_keyword],
                 ['config_id' => 18, 'config_value' => $website_icp],
                 ['config_id' => 19, 'config_value' => $website_copyright],
-                ['config_id' => 20, 'config_value' => $website_statistics]
+                ['config_id' => 20, 'config_value' => $website_statistics],
+                ['config_id' => 21, 'config_value' => $website_top_logo]
             ];
             $query = $websiteinfo->saveAll($list);
             if ($query) {
@@ -75,6 +87,9 @@ class Websitesetting extends AdminBaseController
                 }
                 if ($info['config_code'] == 'website_statistics') {
                     $this->assign('website_statistics', $info['config_value']);
+                }
+                if ($info['config_code'] == 'website_top_logo') {
+                    $this->assign('website_top_logo', $info['config_value']);
                 }
             }
             return $this->fetch('websitesetting');

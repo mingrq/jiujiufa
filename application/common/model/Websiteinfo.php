@@ -23,6 +23,6 @@ class Websiteinfo extends Model
      */
     public function getWebsiteInfo()
     {
-        return db('config')->where('config_id', 'in', [15, 16, 17, 18, 19, 20])->select();
+        return db('config')->where('config_id', 'in', [15, 16, 17, 18, 19, 20,21])->select();
     }
 }

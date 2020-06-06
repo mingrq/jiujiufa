@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>售后配置</title>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+</head>
+<body>
+<div style="padding: 20px">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 90px">退款申请表格</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="file"
+                       style="position:absolute; top:0px; right:0px; height:34px; width:400px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
+                       name="refund_file" id="refund_file" hidefocus="true">
+                <input type="text" id="refund_file_url" lay-verify="required"
+                       placeholder="退款申请表格" class="layui-input" value="{$refund_file}">
+                <input type='button' value='上传'
+                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 90px">降权申请表格</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="file"
+                       style="position:absolute; top:0px; right:0px; height:34px; width:400px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
+                       name="restraint_file" id="restraint_file" hidefocus="true">
+                <input type="text" id="restraint_file_url" lay-verify="required"
+                       placeholder="降权申请表格" class="layui-input" value="{$restraint_file}">
+                <input type='button' value='上传'
+                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formsub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var form;
+    layui.use('form', function(){
+        form = layui.form;
+        //监听提交
+        form.on('submit(formsub)', function(data){
+
+            var refund_file = document.getElementById('refund_file').files[0];
+            var fd = new FormData();
+            fd.append('refund_file_url', $('refund_file_url').val());
+            fd.append('refund_file', refund_file);
+
+            var restraint_file = document.getElementById('restraint_file').files[0];
+            fd.append('restraint_file_url', $('#restraint_file_url').val());
+            fd.append('restraint_file', restraint_file);
+
+            $.ajax({
+                //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/baseorder/aftersaleconfigure",
+                data: fd,
+                processData: false,  //tell jQuery not to process the data
+                contentType: false,  //tell jQuery not to set contentType
+                success: function (result) {
+                    layer.msg(result.message);
+                },
+                error: function () {
+                    layer.msg('站点信息设置失败，请稍后再试');
+                }
+            });
+            return false;
+        });
+    });
+    $("#refund_file").change(function () {
+        $("#refund_file_url").val($("#refund_file").val());
+    });
+    $("#restraint_file").change(function () {
+        $("#restraint_file_url").val($("#restraint_file").val());
+    });
+</script>
+</body>
+</html>

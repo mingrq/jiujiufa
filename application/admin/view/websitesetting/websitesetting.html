@@ -18,13 +18,28 @@
 
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">网站LOGO</label>
+            <label class="layui-form-label">网站ICON</label>
             <div class="layui-input-inline" style="display: flex;width: 400px">
                 <input type="file"
                        style="position:absolute; top:0px; right:0px; height:34px; width:400px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
                        name="website_logo_sel" id="website_logo_sel" hidefocus="true">
                 <input type="text" id="website_logo" lay-verify="required"
-                       placeholder="请输入网站LOGO" class="layui-input" value="{$website_logo}">
+                       placeholder="请输入网站ICON" class="layui-input" value="{$website_logo}">
+                <input type='button' value='上传'
+                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div>
+            <div class="layui-input-inline">
+                <div class="layui-form-mid layui-word-aux">LOGO尺寸:80*80</div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">顶部LOGO</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="file"
+                       style="position:absolute; top:0px; right:0px; height:34px; width:400px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
+                       name="website_top_logo_sel" id="website_top_logo_sel" hidefocus="true">
+                <input type="text" id="website_top_logo" lay-verify="required"
+                       placeholder="请输入网站LOGO" class="layui-input" value="{$website_top_logo}">
                 <input type='button' value='上传'
                        style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
             </div>
@@ -81,6 +96,9 @@
             fd.append('website_icp', $('#website_icp').val());
             fd.append('website_copyright', $('#website_copyright').val());
             fd.append('website_statistics', $('#website_statistics').val());
+            var file_top_obj = document.getElementById('website_top_logo_sel').files[0];
+            fd.append('website_top_logo', file_top_obj);
+            fd.append('website_top_logo_url', $('#website_logo').val());
             $.ajax({
                 //几个参数需要注意一下
                 type: "POST",//方法类型
@@ -102,6 +120,10 @@
     });
     $("#website_logo_sel").change(function () {
         $("#website_logo").val($("#website_logo_sel").val());
+    });
+
+    $("#website_top_logo_sel").change(function () {
+        $("#website_top_logo").val($("#website_top_logo_sel").val());
     });
 </script>
 </body>

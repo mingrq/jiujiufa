@@ -3,10 +3,10 @@
  * @param phone
  * @returns {boolean}
  */
-function checkPhone(phone){
-    if((/^1[3456789]\d{9}$/.test(phone))){
+function checkPhone(phone) {
+    if ((/^1[3456789]\d{9}$/.test(phone))) {
         return true;
-    }else {
+    } else {
         return false;
     }
 }
@@ -51,12 +51,20 @@ function isEmail(str) {
  * 获取小写随机字母
  */
 function lowerCaseRandLetter() {
-    return chr(rand(97,122));
+    return chr(rand(97, 122));
 }
 
 /**
  * 获取大写随机字母
  */
 function randLetter() {
-    return chr(rand(65,90));
+    return chr(rand(65, 90));
+}
+
+/**
+ * js打开QQ交流
+ * @param ac_qq  QQ账号
+ */
+function openQQ(ac_qq) {
+    location.href = "tencent://message/?uin=" + ac_qq;
 }

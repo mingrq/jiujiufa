@@ -21,9 +21,13 @@ class Home extends AdminBaseController
         $orderdeliverpaycount = db('order')->where('order_state', 3)->count();
         $goodscount = db('goods')->count();
         $goodsasalecount = db('goods')->where('good_state', 1)->count();
-        $paysum = db('recharge_record')->where('recharge_state',2)->sum('recharge_money');
+        $paysum = db('recharge_record')->where('recharge_state', 2)->sum('recharge_money');
         $noticecount = db('notice')->count();
         $articlecount = db('article')->count();
+        $todaymember = db('member')->whereTime('member_addtime', 'd')->count();
+        $weekmember = db('member')->whereTime('member_addtime', 'w')->count();
+        $monthmember = db('member')->whereTime('member_addtime', 'm')->count();
+        $lastmonthmember = db('member')->whereTime('member_addtime', 'last month')->count();
 
         $this->assign('workordercount', $workordercount);
         $this->assign('warehousecount', $warehousecount);
@@ -36,6 +40,10 @@ class Home extends AdminBaseController
         $this->assign('paysum', $paysum);
         $this->assign('noticecount', $noticecount);
         $this->assign('articlecount', $articlecount);
+        $this->assign('todaymember', $todaymember);
+        $this->assign('weekmember', $weekmember);
+        $this->assign('monthmember', $monthmember);
+        $this->assign('lastmonthmember', $lastmonthmember);
         return $this->fetch();
     }
 }

@@ -31,7 +31,7 @@ class Workorder extends Model
     }
 
     /**
-     * 处理订单
+     * 处理工单
      * @param $workorder_id 工单id
      */
     public function overWorkOrder($workorder_id,$time)

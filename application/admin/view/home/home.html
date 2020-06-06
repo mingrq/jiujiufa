@@ -81,6 +81,29 @@
     </div>
     <!--实时交易记录-->
     <div class="clearfix">
+        <div class="Order_Statistics">
+            <div class="title_name">会员注册统计</div>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td class="name">今日注册：</td>
+                    <td class="munber"><a href="#">{$todaymember}</a>&nbsp;人</td>
+                </tr>
+                <tr>
+                    <td class="name">本周注册：</td>
+                    <td class="munber"><a href="#">{$weekmember}</a>&nbsp;人</td>
+                </tr>
+                <tr>
+                    <td class="name">本月注册：</td>
+                    <td class="munber"><a href="#">{$monthmember}</a>&nbsp;人</td>
+                </tr>
+                <tr>
+                    <td class="name">上月注册：</td>
+                    <td class="munber"><a href="#">{$lastmonthmember}</a>&nbsp;人</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="Order_Statistics ">
             <div class="title_name">订单统计信息</div>
             <table class="table table-bordered">
@@ -115,25 +138,6 @@
                 <tr>
                     <td class="name">在售礼品数：</td>
                     <td class="munber"><a href="#">{$goodsasalecount}</a>&nbsp;个</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="Order_Statistics">
-            <div class="title_name">会员注册统计</div>
-            <table class="table table-bordered">
-                <tbody>
-                <tr>
-                    <td class="name">今日注册：</td>
-                    <td class="munber"><a href="#">{$articlecount}</a>&nbsp;人</td>
-                </tr>
-                <tr>
-                    <td class="name">近一周注册：</td>
-                    <td class="munber"><a href="#">{$noticecount}</a>&nbsp;人</td>
-                </tr>
-                <tr>
-                    <td class="name">近一月注册：</td>
-                    <td class="munber"><a href="#">{$noticecount}</a>&nbsp;人</td>
                 </tr>
                 </tbody>
             </table>
