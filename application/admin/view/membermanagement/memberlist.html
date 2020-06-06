@@ -50,6 +50,21 @@
 </head>
 
 <body>
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+    }
+
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .layui-btn-danger {
+        background-color: #FF464E;
+    }
+</style>
 <div class="page-content clearfix">
     <form class="layui-form" action="">
         <div class="layui-form-item">
@@ -98,6 +113,13 @@
     <!--表格-->
     <table id="sample-table" lay-filter="table_member"></table>
 </div>
+<!--QQ列模板-->
+<script type="text/html" id="qq_templ">
+<div style="line-height: 25px;text-align: center">
+    <p>{{d.member_qq}}</p>
+    <a href="tencent://message/?uin={{d.member_qq}}"><img style="width: 70px;height: 22px" src="/static/admin/images/qqjiaoliu.png" alt="QQ交流"></a>
+</div>
+</script>
 <!--表格item工具-->
 <script type="text/html" id="table_operation_toolbar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="special_price">特殊价格</a>
@@ -201,8 +223,8 @@
             , height: 'full-110'
             , cols: [[
                 {field: 'member_mobile', width: 120, align: 'center', title: '用户(手机)'}
-                , {field: 'member_qq', width: 120, align: 'center', title: 'QQ'}
-                , {field: 'rank_name', title: '等级', align: 'center', width: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'member_qq', width: 140, align: 'center', title: 'QQ', templet: '#qq_templ'}
+                , {field: 'rank_name', title: '等级', align: 'center', width: 100}
                 , {field: 'referrer_name', align: 'center', title: '推荐人(手机)', width: 120}
                 , {field: 'member_balance', title: '余额(元)', align: 'center', width: 120, sort: true,}
                 , {field: 'member_addtime', title: '注册时间', width: 160, align: 'center', sort: true}
@@ -246,7 +268,7 @@
 
             if (layEvent === 'special_price') { //特殊价格
                 setnav('特殊价格');
-                window.location.href = '/admin/membermanagement/specialprice.html?mid='+data.member_id;
+                window.location.href = '/admin/membermanagement/specialprice.html?mid=' + data.member_id;
             } else if (layEvent === 'reward_punish') { //奖罚
                 reward_punish(data, function (balance) {
                     obj.update({
@@ -255,12 +277,12 @@
                 });
             } else if (layEvent === 'recharge_record') { //充值记录
                 setnav('充值记录');
-                window.location.href = '/admin/membermanagement/rechargerecord.html?mid='+data.member_id;
+                window.location.href = '/admin/membermanagement/rechargerecord.html?mid=' + data.member_id;
             } else if (layEvent === 'change_password') { //修改密码
                 alter_password(data);
             } else if (layEvent === 'financial_details') { //资金明细
                 setnav('资金明细');
-                window.location.href = '/admin/membermanagement/financialdetails.html?mid='+data.member_id;
+                window.location.href = '/admin/membermanagement/financialdetails.html?mid=' + data.member_id;
             }
         });
     });

@@ -102,4 +102,51 @@ class Baseorder extends AdminBaseController
         }
     }
 
+
+
+    /**
+     * 搜索底单
+     */
+    public function serachbaseorderover()
+    {
+        $condition = array();
+        $serachparam = input('param.serachparam');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serachparam = '%' . trim(str_replace($find, $replace, $serachparam)) . '%';
+        if ($serachparam && trim($serachparam) != "") {
+            $condition['member_mobile|member_qq|bo_email'] = ['like', $serachparam];
+        }
+
+        $orderstate = input('param.orderstate');
+        if ($orderstate) {
+            $condition["bo_state"] = $orderstate;
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["bo_create_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["bo_create_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["bo_create_time"] = ['<=', $dateend];
+            }
+        }
+
+        $query = db('v_base_order')
+            ->where($condition)
+            ->order('bo_state asc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索底单成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索底单失败");
+        }
+    }
+
 }

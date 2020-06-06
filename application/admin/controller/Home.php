@@ -14,6 +14,8 @@ class Home extends AdminBaseController
     public function home()
     {
         $workordercount = db('workorder')->where('wo_state', 1)->count();
+        $baseordercount = db('base_order')->where('bo_state', 1)->count();
+
         $membercount = db('member')->count();
         $warehousecount = db('warehouse')->count();
         $orderpaycount = db('order')->where('order_state', 2)->count();

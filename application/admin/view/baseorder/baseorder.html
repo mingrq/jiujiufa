@@ -148,8 +148,8 @@
                         bo_state: 2,
                         bo_over_time:overtime,
                     });
-                    $(tr).find('td').eq(7).find('a').remove();
-                })
+                   $(tr).find('td').eq(6).find('a')[0].remove();
+                });
             }
         });
     });
@@ -182,16 +182,15 @@
 
     /**搜索*/
     function serach() {
-        location.href="tencent://message/?uin=1099655068";
-        // table.reload('sample-table', {
-        //     url: '/admin/workorder/serachworkorderlist'
-        //     , where: {
-        //         workordertitle: $('#serach_param').val(),
-        //         workorderstate: $('#serach_state').val(),
-        //         dateatart: $('#serach_param_date_atart').val(),
-        //         dateend: $('#serach_param_date_end').val()
-        //     } //设定异步数据接口的额外参数
-        // });
+        table.reload('sample-table', {
+            url: '/admin/baseorder/serachbaseorderover'
+            , where: {
+                serachparam: $('#serach_param').val(),
+                orderstate: $('#serach_state').val(),
+                dateatart: $('#serach_param_date_atart').val(),
+                dateend: $('#serach_param_date_end').val()
+            } //设定异步数据接口的额外参数
+        });
     }
 
 </script>
