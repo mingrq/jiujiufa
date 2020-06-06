@@ -323,17 +323,29 @@ function distinguish() {
     if (selreal == 1) {
         // 保留输入框中的订单号
         for (let i = 0; i < realContentArr.length; i++) {
-            for (let j = 0; j < contentArr.length; j++) {
-                let addressTemp = contentArr[j].split('，');
-                if (realContentArr[i].trim() == addressTemp[0].trim() || realContentArr[i].trim() == addressTemp[1].trim() || realContentArr[i].trim() == addressTemp[3].trim()) {
-                    // tempRealArr.push(contentArr[j]);
-                    if (tempRealStr != "") {
-                        tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+            if (realContentArr[i].trim() != '') {
+                for (let j = 0; j < contentArr.length; j++) {
+                    if (contentArr[j].trim() != ''){
+                        let addressTemp = contentArr[j].split('，');
+                        if (addressTemp.length == 5) {
+                            if (realContentArr[i].trim() == addressTemp[0].trim() || realContentArr[i].trim() == addressTemp[1].trim() || realContentArr[i].trim() == addressTemp[3].trim()) {
+                                // tempRealArr.push(contentArr[j]);
+                                if (tempRealStr != "") {
+                                    tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+                                } else {
+                                    tempRealStr = contentArr[j];
+                                }
+                                tempRealNum++;
+                            }
+                        }else {
+                            continue;
+                        }
                     } else {
-                        tempRealStr = contentArr[j];
+                        continue;
                     }
-                    tempRealNum++;
                 }
+            }else {
+                continue;
             }
         }
         // 将数据填充
@@ -356,17 +368,29 @@ function distinguish() {
     } else if (selreal == 2) {
         // 过滤输入框中的订单号
         for (let i = 0; i < realContentArr.length; i++) {
-            for (let j = 0; j < contentArr.length; j++) {
-                let addressTemp = contentArr[j].split('，');
-                if (realContentArr[i].trim() != addressTemp[0].trim() && realContentArr[i].trim() != addressTemp[1].trim() && realContentArr[i].trim() != addressTemp[3].trim()) {
-                    // tempRealArr.push(contentArr[j]);
-                    if (tempRealStr != "") {
-                        tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+            if (realContentArr[i].trim() != '') {
+                for (let j = 0; j < contentArr.length; j++) {
+                    if (contentArr[j].trim() != ''){
+                        let addressTemp = contentArr[j].split('，');
+                        if (addressTemp.length == 5) {
+                            if (realContentArr[i].trim() != addressTemp[0].trim() && realContentArr[i].trim() != addressTemp[1].trim() && realContentArr[i].trim() != addressTemp[3].trim()) {
+                                // tempRealArr.push(contentArr[j]);
+                                if (tempRealStr != "") {
+                                    tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+                                } else {
+                                    tempRealStr = contentArr[j];
+                                }
+                                tempRealNum++;
+                            }
+                        }else {
+                            continue;
+                        }
                     } else {
-                        tempRealStr = contentArr[j];
+                        continue;
                     }
-                    tempRealNum++;
                 }
+            }else {
+                continue;
             }
         }
         // 将数据填充
