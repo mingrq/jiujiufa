@@ -315,23 +315,101 @@ function distinguish() {
         return false;
     }
 
+    var load_index = layer.load(2, {shade: [0.5, '#000000']});
     var selreal = $("input[name='selreal']:checked").val();
-    var tempRealArr = [];
+    //var tempRealArr = [];
+    var tempRealStr = "";
+    var tempRealNum = 0;
     if (selreal == 1) {
-        // 保留输入框中的订单号 共识别到1单刷单订单，已自动为您过滤掉真实订单
+        // 保留输入框中的订单号
         for (let i = 0; i < realContentArr.length; i++) {
-            for (let j = 0; j < contentArr.length; j++) {
-                let addressTemp = contentArr[i].split('，').trim();
-                if (realContentArr[i] == addressTemp[0] || realContentArr[i] == addressTemp[1] || realContentArr[i] == addressTemp[3]) {
-                    tempRealArr.push(contentArr[i]);
+            if (realContentArr[i].trim() != '') {
+                for (let j = 0; j < contentArr.length; j++) {
+                    if (contentArr[j].trim() != ''){
+                        let addressTemp = contentArr[j].split('，');
+                        if (addressTemp.length == 5) {
+                            if (realContentArr[i].trim() == addressTemp[0].trim() || realContentArr[i].trim() == addressTemp[1].trim() || realContentArr[i].trim() == addressTemp[3].trim()) {
+                                // tempRealArr.push(contentArr[j]);
+                                if (tempRealStr != "") {
+                                    tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+                                } else {
+                                    tempRealStr = contentArr[j];
+                                }
+                                tempRealNum++;
+                            }
+                        }else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
                 }
+            }else {
+                continue;
             }
         }
-        //
-        let tempReaStr = tempRealArr.join("\r\n");
-        $("#content").val(tempReaStr);
+        // 将数据填充
+        // $("#content").val(tempRealArr.join());
+        if (tempRealNum == 0) {
+            layer.open({
+                content: "未识别到订单，请确认输入的订单号是否正确",
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }else{
+            $("#content").val(tempRealStr);
+            closedData();
+            layer.open({
+                content: "共识别到"+tempRealNum+"单订单，其它订单已自动为您过滤掉",
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
     } else if (selreal == 2) {
         // 过滤输入框中的订单号
+        for (let i = 0; i < realContentArr.length; i++) {
+            if (realContentArr[i].trim() != '') {
+                for (let j = 0; j < contentArr.length; j++) {
+                    if (contentArr[j].trim() != ''){
+                        let addressTemp = contentArr[j].split('，');
+                        if (addressTemp.length == 5) {
+                            if (realContentArr[i].trim() != addressTemp[0].trim() && realContentArr[i].trim() != addressTemp[1].trim() && realContentArr[i].trim() != addressTemp[3].trim()) {
+                                // tempRealArr.push(contentArr[j]);
+                                if (tempRealStr != "") {
+                                    tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+                                } else {
+                                    tempRealStr = contentArr[j];
+                                }
+                                tempRealNum++;
+                            }
+                        }else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+            }else {
+                continue;
+            }
+        }
+        // 将数据填充
+        // $("#content").val(tempRealArr.join());
+        if (tempRealNum == 0) {
+            layer.open({
+                content: "未识别到订单，请确认输入的订单号是否正确",
+                btnAlign: "c",
+                offset: "300px"
+            });
+        } else {
+            $("#content").val(tempRealStr);
+            closedData();
+            layer.open({
+                content: "共识别到"+tempRealNum+"单订单，其它订单已自动为您过滤掉",
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
     } else {
         layer.open({
             content: "请选择保留还是过滤",
@@ -340,5 +418,6 @@ function distinguish() {
         });
         return false;
     }
+    layer.close(load_index);
 }
 
