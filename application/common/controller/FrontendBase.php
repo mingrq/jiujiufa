@@ -32,6 +32,9 @@ class FrontendBase extends Controller
             if ($info['config_code'] == 'website_statistics') {
                 $this->assign('website_statistics', $info['config_value']);
             }
+            if ($info['config_code'] == 'website_top_logo') {
+                $this->assign('website_top_logo', $info['config_value']);
+            }
         }
     }
 
