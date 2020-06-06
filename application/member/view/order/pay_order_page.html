@@ -49,7 +49,7 @@
                         <img src="/static/member/images/payorder-anli.jpg" width="710" height="130" />
                     </div>
                     <div class="orderanli-explain">
-                        <p>收货地址格式：李四，15888888888，广东省 广州市 番禺区 岭南大道321号 ，330006 </p>
+                        <p>收货地址格式：75310000000000，李四，15888888888，广东省 广州市 番禺区 岭南大道321号 ，330006 </p>
                     </div>
                 </div>
                 <div class="payorder-step">第四步：填写收货地址↓可批量购买单号，每行一个地址 最多1000个地址</div>
@@ -59,8 +59,8 @@
                     </div>
                     <div class="order-add-btns">
                         <button type="button" class="add-btn" onclick="checkAddress();">检查收货地址</button>
-                        <!--button class="add-btn">检查收货地址</button>
-                        <button class="add-btn">检查收货地址</button-->
+                        <button type="button" class="add-btn" onclick="realOrderDisWin();">真实订单区分器</button>
+                        <!--button type="button" class="add-btn">检查收货地址</button-->
                     </div>
                 </div>
                 <div class="order-memb-info">
@@ -70,6 +70,7 @@
                    <table id="tb_addrs">
                        <tr>
                            <th>序号</th>
+                           <th>单号</th>
                            <th>收货人</th>
                            <th>收货电话</th>
                            <th>收货地址</th>
@@ -85,6 +86,28 @@
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
+    <!-- 真实订单区分器 BEGIN-->
+    <div id="realOrderDisWin" style="display: none;" class="layui-layer-wrap">
+        <div class="rorderdis-box">
+            <div class="selinput">
+                <input type="radio" name="selreal" value="1" id="selo" checked /><label for="selo"> 保留输入框中的订单号</label>
+                <input type="radio" name="selreal" value="2" id="selt" /><label for="selt"> 过滤输入框中的订单号</label>
+            </div>
+            <div class="orderdis">
+                <textarea id="realcontent" placeholder="本网站提供三种区分方式，请选择其中一种进行区分即可！
+第一种：输入需要购买的订单号，一行一条，系统将会帮您的订单作为区分！
+第二种：输入 收货名字 的记号，系统将把带有记号收货名字的订单作为区分！
+第三种：输入 收货地址 的记号，系统将把带有记号收货地址的订单作为区分！"></textarea>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" onclick="distinguish();">确认区分</button>
+                    <button type="reset" class="layui-btn layui-btn-primary layui-btn-pr-master" onclick="closedData();">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 真实订单区分器 END-->
 </div>
 <!--END content-box-->
 <!-- footer -->

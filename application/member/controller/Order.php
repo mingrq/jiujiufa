@@ -116,6 +116,7 @@ class Order extends MemberBase
             } else {
                 $price = $goods['cost_price'] + $goods['good_price'];
             }
+
             // 判断内容是否错误
             $param = array();
             if (empty($content)) {
@@ -125,14 +126,18 @@ class Order extends MemberBase
             $errorNum = 0;
             foreach ($contentArr as $address) {
                 $addressArr = explode("，", $address);
-                if (count($addressArr) != 4) {
+                if (count($addressArr) != 5) {
                     $errorNum++;
+                } else {
+                    // 去除订单号后 重新拼接
+                    array_push($param, array(
+                        'pid' => time() . rand(10000000, 99999999),
+                        'msg' => $addressArr[1] . '，' . $addressArr[2] . '，' . $addressArr[3] . '，' . $addressArr[4],
+                        'address' => trim($addressArr[3]),
+                        'mchorderno' => trim($addressArr[0]),
+                        'postcode' => trim($addressArr[4])
+                    ));
                 }
-                array_push($param, array(
-                    'pid' => time() . rand(10000000, 99999999),
-                    'msg' => $address,
-                    'address' => trim($addressArr[2])
-                ));
             }
             if ($errorNum > 0) {
                 ds_json_encode(10003, "收货地址错误", $errorNum);
@@ -141,6 +146,7 @@ class Order extends MemberBase
             if ((count($contentArr) * $price) > $member['member_balance']) {
                 ds_json_encode(10005, "账号余额不足", null);
             }
+
             // 提交订单
             $orderData = array();
             $mchRecordData = array();
@@ -164,7 +170,9 @@ class Order extends MemberBase
                         'order_pay' => $kddhs[$i]['price'],
                         'order_state' => 2,
                         'goodsTitle' => $goods['kdName'],
-                        'consignee_phone' => $kddhs[$i]['takePhone']
+                        'consignee_phone' => $kddhs[$i]['takePhone'],
+                        'merchant_order_no' => $param[$i]['mchorderno'],
+                        'postcode' => $param[$i]['postcode']
                     );
                     $mchRecordData[$i] = array(
                         'member_id' => $mUserId,
@@ -204,22 +212,21 @@ class Order extends MemberBase
 
     public function orderList()
     {
-        if (request()->isPost()){
+        if (request()->isPost()) {
             $condition = array();
-            $condition['member_id']=session("MUserId");
+            $condition['member_id'] = session("MUserId");
             $order_mod = model('order');
             $orderList = $order_mod->getOrderlist($condition);
 
-            if ($orderList){
+            if ($orderList) {
                 ds_json_encode(10000, "获取订单列表成功", $orderList);
-            }else{
+            } else {
                 ds_json_encode(10001, "获取订单列表失败");
             }
-        }else{
+        } else {
             return $this->fetch();
         }
     }
-
 
 
     /**
@@ -228,28 +235,29 @@ class Order extends MemberBase
     public function searchorderlist()
     {
         $condition = array();
-        $condition['member_id']=session("MUserId");
+        $condition['member_id'] = session("MUserId");
 
         $serach_param = input('param.searchparam');
         $find = array('\\', '/', '%', '_', '&');
         $replace = array('\\\\', '\\/', '\%', '\_', '\&');
         $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
         if ($serach_param && trim($serach_param) != "") {
-            $condition['order_no|tracking_number|consignee_name'] = ['like', $serach_param];
+            $condition['order_no|tracking_number|consignee_name|merchant_order_no'] = ['like', $serach_param];
         }
 
-        $dateatart = input('param.dateatart');
-        $dateend = input('param.dateend');
+        // $dateatart = input('param.dateatart');
+        // $dateend = input('param.dateend');
+        $dateatart = $this->request->post("dateatart");
+        $dateend = $this->request->post("dateend");
 
         if ($dateatart && $dateend) {
-            $condition["create_time"] = ['between', [$dateatart, $dateend]];
+            $condition["create_time"] = ['between', [$dateatart . " 00:00:00", $dateend . " 23:59:59"]];
         } else {
             if ($dateatart) {
-                $condition["create_time"] = ['>=', $dateatart];
+                $condition["create_time"] = ['>=', $dateatart . " 00:00:00"];
             }
-
             if ($dateend) {
-                $condition["create_time"] = ['<=', $dateend];
+                $condition["create_time"] = ['<=', $dateend . " 23:59:59"];
             }
         }
 
@@ -293,5 +301,90 @@ class Order extends MemberBase
         }
     }
 
+    /**
+     * 下载查询的订单
+     */
+    public function downOrder()
+    {
 
+        if (request()->isPost()) {
+
+            $condition = array();
+            $condition['member_id'] = session("MUserId");
+
+            $serach_param = input('param.searchparam');
+            $find = array('\\', '/', '%', '_', '&');
+            $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+            $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
+            if ($serach_param && trim($serach_param) != "") {
+                $condition['order_no|tracking_number|consignee_name|merchant_order_no'] = ['like', $serach_param];
+            }
+
+            // $dateatart = input('param.dateatart');
+            // $dateend = input('param.dateend');
+            $dateatart = $this->request->post("dateatart");
+            $dateend = $this->request->post("dateend");
+
+            if ($dateatart && $dateend) {
+                $condition["create_time"] = ['between', [$dateatart . " 00:00:00", $dateend . " 23:59:59"]];
+            } else {
+                if ($dateatart) {
+                    $condition["create_time"] = ['>=', $dateatart . " 00:00:00"];
+                }
+                if ($dateend) {
+                    $condition["create_time"] = ['<=', $dateend . " 23:59:59"];
+                }
+            }
+
+            // $memberid = session("MUserId");
+            $field = ['order_no', 'tracking_number', 'merchant_order_no', 'consignee_name', 'shipping_address', 'express_name', 'create_time', 'order_pay', 'order_state', 'goodsTitle', 'consignee_phone'];
+            //$query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
+            $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where($condition)->select();
+            if ($query) {
+                ds_json_encode(10000, "获取底单成功", $query);
+            } else {
+                ds_json_encode(10001, "获取底单失败");
+            }
+        } else {
+            ds_json_encode(10001, "获取底单失败");
+        }
+
+        /*
+        $condition = array();
+        $condition['member_id']=session("MUserId");
+
+        $serach_param = input('param.searchparam');
+        $find = array('\\', '/', '%', '_', '&');
+        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
+        $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
+        if ($serach_param && trim($serach_param) != "") {
+            $condition['order_no|tracking_number|consignee_name'] = ['like', $serach_param];
+        }
+
+        $dateatart = input('param.dateatart');
+        $dateend = input('param.dateend');
+
+        if ($dateatart && $dateend) {
+            $condition["create_time"] = ['between', [$dateatart, $dateend]];
+        } else {
+            if ($dateatart) {
+                $condition["create_time"] = ['>=', $dateatart];
+            }
+
+            if ($dateend) {
+                $condition["create_time"] = ['<=', $dateend];
+            }
+        }
+
+        $query = db('v_order')
+            ->where($condition)
+            ->order('create_time desc')
+            ->paginate(100);
+        if ($query) {
+            ds_json_encode(10000, "搜索订单列表成功", $query);
+        } else {
+            ds_json_encode(10001, "搜索订单列表失败");
+        }
+        */
+    }
 }

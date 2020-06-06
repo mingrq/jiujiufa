@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/static/member/css/member-main.css">
     <link rel="stylesheet" href="/static/common/layui/css/layui.css">
     <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/static/common/js/jsontoexcel.js"></script>
     <script type="text/javascript" src="/static/common/layui/layui.js"></script>
 </head>
 <body>
@@ -23,94 +22,110 @@
         <!-- END cont-side -->
         <!-- cont-main -->
         <div class="cont-main">
-            <div class="title">底单申请</div>
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <div style="margin-right: -12px;">
-                        <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="date_atart" id="serach_param_date_atart" lay-verify="date"
-                                   placeholder="开始日期"
-                                   autocomplete="off" class="layui-input"
-                                   style="width: 200px !important;height: 30px !important;margin-top: 4px !important;">
-                        </div>
-                    </div>
-                    <div>
-                        <label style="float: left;display: block;padding: 9px 9px;font-weight: 400;line-height: 20px;text-align: right;">~</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="date_end" id="serach_param_date_end" lay-verify="url"
-                                   placeholder="结束日期"
-                                   autocomplete="off" class="layui-input"
-                                   style="width: 200px !important;height: 30px !important;margin-top: 4px !important;">
-                        </div>
-                    </div>
-
-                    <button type="button" class="apply-for-btn" onclick="applyfor()">申请底单</button>
-
+            <div class="title">在线自助申请底单</div>
+            <div class="cont-main-box">
+                <div class="cont-didan-top">
+                    <h2>自助申请底单</h2>
+                    <p>申请宝贝降权表格 <a href="">《点击下载表格》</a></p>
+                    <p>申请宝贝退款表格 <a href="">《点击下载表格》</a></p>
+                    <p>严格按照格式填写后，并将表格填写好后上传，填写好您的邮箱。我们将会在最短的时间内发送给您。</p>
                 </div>
-            </form>
+                <div class="cont-didan-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上传表格：</label>
+                        <div class="layui-input-block">
+                            <input type="hidden" name="bofile" id="bofile"/>
+                            <button type="button" class="layui-btn" id="upldidan">上传表格</button>
+                            <span id="showupldidan"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" id="email" autocomplete="off" placeholder="邮箱"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn" id="applyfor">保 存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
 </div>
 <script>
-    var laydate;
-    var form;
-    layui.use(['laydate', 'form'], function () {
-        laydate = layui.laydate;
-        form = layui.form;
+    $(function () {
+        var layer;
+        layui.use(['upload', 'layer'], function () {
+            var upload = layui.upload;
+            layer = layui.layer;
 
-        laydate.render({
-            elem: '#serach_param_date_atart'
+            var uploadInst = upload.render({
+                elem: '#upldidan' //绑定元素
+                , url: '/member/aftersale/uploadDiDan' //上传接口
+                , field: 'didanfile'
+                , accept: 'file'
+                , exts: 'xls|xlsx'
+                , size: 5120
+                , done: function (res) {
+                    //上传完毕回调
+                    // console.log(res);
+                    if (res.code == 10000) {
+                        layer.msg(res.message, {icon: 1});
+                        $("#bofile").val(res.result);
+                        $("#showupldidan").html(res.result);
+                    } else {
+                        layer.msg(res.message, {icon: 2});
+                    }
+                }
+                , error: function () {
+                    //请求异常回调
+                    layer.msg("请求异常", {icon: 2});
+                }
+            });
         });
-        laydate.render({
-            elem: '#serach_param_date_end'
-        });
-    });
 
-    /**
-     * 申请底单
-     */
-    function applyfor() {
-        let starttime = $('#serach_param_date_atart').val();
-        let endtime = $('#serach_param_date_end').val();
-        if (!starttime) {
-            layer.msg("开始日期不能为空");
-            return;
-        }
-        if (!endtime) {
-            layer.msg("结束日期不能为空");
-            return;
-        }
-        $.ajax({
-            //几个参数需要注意一下
-            type: "POST",//方法类型
-            dataType: "json",//预期服务器返回的数据类型
-            url: "/member/aftersale/didan",
-            data: {
-                dateatart: starttime,
-                dateend: endtime
-            },
-            success: function (result) {
-                let title = ["订单号",
-                    "快递单号",
-                    "收货人姓名",
-                    "配送地址",
-                    "快递公司名称",
-                    "下单时间",
-                    "订单金额",
-                    "订单状态",
-                    "商品标题",
-                    "收货人手机号码"];
-                JSONToExcelConvertor(result.result, starttime + '至' + endtime + '底单', title)
-            },
-            error: function () {
-                layer.msg('申请底单失败，请稍后再试');
-            }
+        $("#applyfor").click(function () {
+            $.ajax({
+                url: "/member/aftersale/didan",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    bofile: $('#bofile').val(),
+                    email: $("#email").val()
+                },
+                success: function (data) {
+                    // console.log(data);
+                    if (data.code == 10000) {
+                        layer.open({
+                            content: data.message,
+                            yes: function(index, layero){
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                window.location.href="/member/aftersale/didan";
+                            }
+                        });
+                    } else {
+                        layer.open({
+                            content: data.message,
+                            btnAlign: "c",
+                            offset: "300px"
+                        });
+                        return false;
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                    return false;
+                }
+            });
         });
-    }
-
+    })
 </script>
 <!--END content-box-->
 <!-- footer -->

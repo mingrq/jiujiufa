@@ -72,50 +72,47 @@ class Login extends Controller
                 ds_json_encode(10002, "验证码错误", null);
             }
             if ($vscode != $value) {
-                ds_json_encode(10002, "验证码错误222", null);
+                ds_json_encode(10002, "验证码错误", null);
             }
             // 判断手机号唯一性
             $memberMobi = Member::get(['member_mobile' => $mobile]);
-            // $memberMobi = new Member();
-            // $memberMobi->where("member_mobile", '=', $mobile)->find();
             if (!empty($memberMobi['member_mobile']) && $memberMobi['member_mobile'] == $mobile && !empty($memberMobi['member_id'])) {
                 ds_json_encode(10002, "此手机号已使用，请更换其它手机号注册", null);
-            }
-
-            $ndata = [
-                'member_login_name' => $mobile,
-                'member_login_pw' => substr(md5($member_login_pw), 8, 16),
-                'member_mobile' => $mobile,
-                'member_qq' => $member_qq,
-                'member_rank' => 1,
-                'member_addtime' => date("Y-m-d H:i:s", time())
-            ];
-            // $member = Member::create($ndata);
-            $member = Member::create($ndata);
-            if (empty($member['member_id'])) {
-                // 失败
-                ds_json_encode(10001, "注册失败");
             } else {
-                // 成功
-                // 判断是否是邀请的会员 是 则 更新会员信息
-                if (!empty($inviteUserId)) {
-                    $inviteMember = Member::get($inviteUserId);
-                    if (!empty($inviteMember) && !empty($inviteMember['member_login_name'])) {
-                        $imemberRank = $inviteMember['member_rank'];
-                        $invite_count = $inviteMember['member_invite_count'] + 1;
-                        // 判断下一个代理级别的人数 如果大于等于了则升级代理级别
-                        $rank = Rank::get(($imemberRank + 1));
-                        if (!empty($rank) && !empty($rank['rank_id']) && !empty($rank['rank_name'])) {
-                            if ($invite_count >= $rank['invite_upgrade']) {
-                                $inviteMember->member_rank = $rank['rank_id'];
+                $ndata = [
+                    'member_login_name' => $mobile,
+                    'member_login_pw' => substr(md5($member_login_pw), 8, 16),
+                    'member_mobile' => $mobile,
+                    'member_qq' => $member_qq,
+                    'member_rank' => 1,
+                    'member_addtime' => date("Y-m-d H:i:s", time())
+                ];
+                $member = Member::create($ndata);
+                if (empty($member['member_id'])) {
+                    // 失败
+                    ds_json_encode(10001, "注册失败");
+                } else {
+                    // 成功
+                    // 判断是否是邀请的会员 是 则 更新会员信息
+                    if (!empty($inviteUserId)) {
+                        $inviteMember = Member::get($inviteUserId);
+                        if (!empty($inviteMember) && !empty($inviteMember['member_login_name'])) {
+                            $imemberRank = $inviteMember['member_rank'];
+                            $invite_count = $inviteMember['member_invite_count'] + 1;
+                            // 判断下一个代理级别的人数 如果大于等于了则升级代理级别
+                            $rank = Rank::get(($imemberRank + 1));
+                            if (!empty($rank) && !empty($rank['rank_id']) && !empty($rank['rank_name'])) {
+                                if ($invite_count >= $rank['invite_upgrade']) {
+                                    $inviteMember->member_rank = $rank['rank_id'];
+                                }
                             }
+                            // 将邀请人数更新
+                            $inviteMember->member_invite_count = $invite_count;
+                            $inviteMember->save();
                         }
-                        // 将邀请人数更新
-                        $inviteMember->member_invite_count = $invite_count;
-                        $inviteMember->save();
                     }
+                    ds_json_encode(10000, "注册成功");
                 }
-                ds_json_encode(10000, "注册成功");
             }
         } else {
             $this->getwebsiteinfo();

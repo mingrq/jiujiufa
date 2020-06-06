@@ -14,49 +14,43 @@
             layui.use(['layer', 'form'], function () {
                 form = layui.form;
                 layer = layui.layer;
+            })
 
-                form.on('submit(register)', function (data) {
-                    let muserqq = $("#muserqq").val();
-                    let password = $("#password").val();
-                    let mobile = $("#userPhone").val();
-                    let vscode = $("#vscode").val();
-
-                    $.ajax({
-                        url: "{:url('/member/login/register')}",
-                        type: "POST",
-                        dataType: "json",
-                        data: {
-                            muserqq: $("#muserqq").val(),
-                            password: $("#password").val(),
-                            mobile: $("#userPhone").val(),
-                            vscode: $("#vscode").val()
-                        },
-                        success: function (data) {
-                            // console.log(data);
-                            if (data.code == 10000) {
-                                layer.msg(data.message, {
-                                    icon: 1,
-                                    time: 2000
-                                }, function () {
-                                    window.location.href = "{:url('/member/login/login')}";
-                                });
-                            } else {
-                                layer.msg(data.message, {
-                                    icon: 2,
-                                    time: 3000
-                                });
-                            }
-                        },
-                        error: function () {
-                            layer.msg('注册失败13', {
+            $("#registerbtn").click(function () {
+                $.ajax({
+                    url: "{:url('/member/login/register')}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        muserqq: $("#muserqq").val(),
+                        password: $("#password").val(),
+                        mobile: $("#userPhone").val(),
+                        vscode: $("#vscode").val()
+                    },
+                    success: function (data) {
+                        // console.log(data);
+                        if (data.code == 10000) {
+                            layer.msg(data.message, {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                window.location.href = "{:url('/member/login/login')}";
+                            });
+                        } else {
+                            layer.msg(data.message, {
                                 icon: 2,
                                 time: 3000
                             });
                         }
-                    });
-                    return false;
+                    },
+                    error: function () {
+                        layer.msg('注册失败13', {
+                            icon: 2,
+                            time: 3000
+                        });
+                    }
                 });
-            })
+            });
         })
     </script>
 </head>
@@ -69,30 +63,29 @@
         <img class="login-bg-img" src="/static/member/images/login-bg01.jpg"/>
         <div class="login-box">
             <div class="ltitle">会员注册</div>
-            <form method="post">
-                <div class="login-input">
-                    <label><img src="/static/member/images/login-mobile-icon.png"></label>
-                    <input type="text" name="mobile" id="userPhone" placeholder="手机号"/>
-                </div>
-                <div class="login-input">
-                    <label><img src="/static/member/images/login-verify-icon.png"></label>
-                    <input type="text" name="vscode" id="vscode" placeholder="短信验证码" style="width: 130px;"/>
-                    <button type="button" class="sendsms" id="sendsms">获取短信验证码</button>
-                </div>
-                <div class="login-input">
-                    <label><img src="/static/member/images/qq.png"/></label>
-                    <input type="text" name="muserqq" id="muserqq" placeholder="QQ"/>
-                </div>
-                <div class="login-input">
-                    <label><img src="/static/member/images/login-pwd-icon.png"></label>
-                    <input type="password" name="password" id="password" placeholder="密码"/>
-                </div>
 
-                <div class="login-btn">
-                    <button lay-submit lay-filter="register" class="subbtn"/>
-                    注 册</button>
-                </div>
-            </form>
+            <div class="login-input">
+                <label><img src="/static/member/images/login-mobile-icon.png"></label>
+                <input type="text" name="mobile" id="userPhone" placeholder="手机号"/>
+            </div>
+            <div class="login-input">
+                <label><img src="/static/member/images/login-verify-icon.png"></label>
+                <input type="text" name="vscode" id="vscode" placeholder="短信验证码" style="width: 130px;"/>
+                <button type="button" class="sendsms" id="sendsms">获取短信验证码</button>
+            </div>
+            <div class="login-input">
+                <label><img src="/static/member/images/qq.png"/></label>
+                <input type="text" name="muserqq" id="muserqq" placeholder="QQ"/>
+            </div>
+            <div class="login-input">
+                <label><img src="/static/member/images/login-pwd-icon.png"></label>
+                <input type="password" name="password" id="password" placeholder="密码"/>
+            </div>
+
+            <div class="login-btn">
+                <button type="button" class="subbtn" id="registerbtn"/>
+                注 册</button>
+            </div>
             <div class="jump-link">
                 <a href="{:url('/member/login/login')}">登 录</a>
             </div>

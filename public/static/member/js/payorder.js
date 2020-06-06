@@ -94,7 +94,7 @@ function checkAddress() {
     for (let i = 1; i <= contentArr.length; i++) {
         let one_cnotent_arr = contentArr[i - 1].split("，");
         let $tr;
-        if (one_cnotent_arr.length == 4) {
+        if (one_cnotent_arr.length == 5) {
             // 按逗号分割
             $tr = $("<tr>" +
                 "<td>" + i + "</td>" +
@@ -102,12 +102,13 @@ function checkAddress() {
                 "<td>" + one_cnotent_arr[1] + "</td>" +
                 "<td>" + one_cnotent_arr[2] + "</td>" +
                 "<td>" + one_cnotent_arr[3] + "</td>" +
+                "<td>" + one_cnotent_arr[4] + "</td>" +
                 "</tr>");
         } else {
             // 按逗号分割
             $tr = $("<tr style=\"background-color: #EA5252;\">" +
                 "<td>" + i + "</td>" +
-                "<td colspan=\"4\" >第" + i + "行收货地址格式错误，请修改后重新检查无误再购买</td>" +
+                "<td colspan=\"5\" >第" + i + "行收货地址格式错误，请修改后重新检查无误再购买</td>" +
                 "</tr>");
         }
         $("#tb_addrs").append($tr);
@@ -115,7 +116,7 @@ function checkAddress() {
     var price = $('#selproduct').find("option:selected").attr("data-myprice");
     var accont = toDecimal( contentArr.length * Number(price));
     var $tr_bottom = $("<tr>" +
-        "<td colspan=\"5\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
+        "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
         "</tr>");
     $("#tb_addrs").append($tr_bottom);
     // 关闭
@@ -130,7 +131,9 @@ function toDecimal(x) {
     return val;
 }
 
-
+/**
+ * 确认购买
+ */
 function buyGoods() {
     var errorNum = 0;
     // 判断单价
@@ -177,7 +180,7 @@ function buyGoods() {
     for (let i = 1; i <= contentArr.length; i++) {
         let one_cnotent_arr = contentArr[i - 1].split("，");
         let $tr;
-        if (one_cnotent_arr.length == 4) {
+        if (one_cnotent_arr.length == 5) {
             // 按逗号分割
             $tr = $("<tr>" +
                 "<td>" + i + "</td>" +
@@ -185,12 +188,13 @@ function buyGoods() {
                 "<td>" + one_cnotent_arr[1] + "</td>" +
                 "<td>" + one_cnotent_arr[2] + "</td>" +
                 "<td>" + one_cnotent_arr[3] + "</td>" +
+                "<td>" + one_cnotent_arr[4] + "</td>" +
                 "</tr>");
         } else {
             // 按逗号分割
             $tr = $("<tr style=\"background-color: #EA5252;\">" +
                 "<td>" + i + "</td>" +
-                "<td colspan=\"4\" >第" + i + "行收货地址格式错误，请修改后重新检查无误再购买</td>" +
+                "<td colspan=\"5\" >第" + i + "行收货地址格式错误，请修改后重新检查无误再购买</td>" +
                 "</tr>");
             errorNum++;
         }
@@ -199,7 +203,7 @@ function buyGoods() {
     var price = $('#selproduct').find("option:selected").attr("data-myprice");
     var accont = toDecimal( contentArr.length * Number(price));
     var $tr_bottom = $("<tr>" +
-        "<td colspan=\"5\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
+        "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
         "</tr>");
     $("#tb_addrs").append($tr_bottom);
 
@@ -247,6 +251,94 @@ function buyGoods() {
                 layer.close(load_index);
             }
         });
+    }
+}
+
+/**
+ * 置空数据 隐藏所有弹框
+ */
+function closedData(){
+    $("#realOrderDisWin textarea").val('');
+    // $(':radio[name="selreal"]').eq(0).attr("checked",true);
+    // $("input[name='selreal'][value='1']").attr("checked",true);
+    // $("input[name='selreal']:checked").val(1);
+    // $("#realOrderDisWin,#createUserWin,#updateSysUserWin").hide();
+    // $("#realOrderDisWin").hide();
+    layer.closeAll();
+}
+
+/**
+ * 真实订单区分窗口
+ */
+function realOrderDisWin() {
+    //通过这种方式弹出的层，每当它被选择，就会置顶。
+    layer.open({
+        title:'订单在线区分器',
+        type: 1,
+        shade: [0.3, '#000000'],
+        area: '580px',
+        maxmin: false,
+        btnAlign: "c",
+        offset: "260px",
+        content: $('#realOrderDisWin')
+    });
+}
+
+/**
+ * 确认区分
+ */
+function distinguish() {
+    var realContent = $("#realcontent").val().trim();
+    // 先换行
+    var realContentArr = [];
+    if (realContent != '') {
+        realContentArr = realContent.split(/[(\r\n)\r\n]+/);
+    } else {
+        layer.open({
+            content: "请输入订单号",
+            btnAlign: "c",
+            offset: "300px"
+        });
+        return false;
+    }
+
+    var content = $("#content").val().trim();
+    var contentArr = [];
+    if (content != '') {
+        contentArr = content.split(/[(\r\n)\r\n]+/);
+    } else {
+        layer.open({
+            content: "请先导入购买信息",
+            btnAlign: "c",
+            offset: "300px"
+        });
+        return false;
+    }
+
+    var selreal = $("input[name='selreal']:checked").val();
+    var tempRealArr = [];
+    if (selreal == 1) {
+        // 保留输入框中的订单号 共识别到1单刷单订单，已自动为您过滤掉真实订单
+        for (let i = 0; i < realContentArr.length; i++) {
+            for (let j = 0; j < contentArr.length; j++) {
+                let addressTemp = contentArr[i].split('，').trim();
+                if (realContentArr[i] == addressTemp[0] || realContentArr[i] == addressTemp[1] || realContentArr[i] == addressTemp[3]) {
+                    tempRealArr.push(contentArr[i]);
+                }
+            }
+        }
+        //
+        let tempReaStr = tempRealArr.join("\r\n");
+        $("#content").val(tempReaStr);
+    } else if (selreal == 2) {
+        // 过滤输入框中的订单号
+    } else {
+        layer.open({
+            content: "请选择保留还是过滤",
+            btnAlign: "c",
+            offset: "300px"
+        });
+        return false;
     }
 }
 

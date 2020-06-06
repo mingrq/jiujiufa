@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/member/css/member-main.css">
     <link rel="stylesheet" href="/static/common/layui/css/layui.css">
     <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/common/js/jsontoexcel.js"></script>
     <script type="text/javascript" src="/static/common/layui/layui.js"></script>
     <script type="text/javascript" src="/static/member/js/order.js"></script>
 </head>
@@ -44,9 +45,9 @@
                         <div>
                             <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">查询</label>
                             <div class="layui-input-inline" style="width: 200px">
-                                <input type="text" placeholder="快递单号/订单号/收货人" id="serach_param"
+                                <input type="text" placeholder="快递单号/订单号/收货人/商家订单号" id="serach_param"
                                        autocomplete="off" class="layui-input"
-                                       style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
+                                       style="width:260px !important;height: 30px !important;margin-top: 4px !important;">
                             </div>
                         </div>
                         <div>
@@ -67,7 +68,9 @@
                                        style="width: 100px !important;height: 30px !important;margin-top: 4px !important;">
                             </div>
                         </div>
-                        <button type="button" class="apply-for-btn" onclick="search()">搜索</button>
+                        <button type="button" class="apply-for-btn" onclick="search();">搜索</button>
+
+                        <button type="button" class="apply-for-btn" onclick="downOrder();">下载订单</button>
 
                     </div>
                 </form>
@@ -98,10 +101,12 @@
     var laydate;
     var form;
     var table;
-    layui.use(['laydate', 'table', 'form'], function () {
+    var layer;
+    layui.use(['laydate', 'table', 'form', 'layer'], function () {
         laydate = layui.laydate;
         table = layui.table;
         form = layui.form;
+        layer = layui.layer;
 
         laydate.render({
             elem: '#serach_param_date_atart'
@@ -122,7 +127,7 @@
                 , {field: 'operation', align: 'center', title: '操作', width: 90, toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
-                console.log(res);
+                // console.log(res);
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -163,12 +168,12 @@
                                 content: data.message,
                                 btnAlign: "c",
                                 offset: "300px",
-                                yes: function(index, layero){
+                                yes: function (index, layero) {
                                     layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                    window.location.href="/member/order/orderList";
+                                    window.location.href = "/member/order/orderList";
                                 }
                             });
-                        }else {
+                        } else {
                             layer.open({
                                 content: data.message,
                                 btnAlign: "c",
@@ -177,7 +182,7 @@
                             return false;
                         }
                     },
-                    error: function(){
+                    error: function () {
                         console.log('error');
                     }
                 });
@@ -200,6 +205,47 @@
         });
     }
 
+    /**
+     * 下载订单
+     */
+    function downOrder() {
+        var load_index = layer.load(2, {shade: [0.5, '#000000']});
+        let starttime = $('#serach_param_date_atart').val();
+        let endtime = $('#serach_param_date_end').val();
+        let serachParam = $('#serach_param').val();// 快递单号/订单号/收货人
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/member/order/downOrder",
+            data: {
+                dateatart: starttime,
+                dateend: endtime,
+                searchparam: serachParam
+            },
+            success: function (result) {
+                let title = ["订单号",
+                    "快递单号",
+                    "商家订单号",
+                    "收货人姓名",
+                    "配送地址",
+                    "快递公司名称",
+                    "下单时间",
+                    "订单金额",
+                    "订单状态",
+                    "商品标题",
+                    "收货人手机号码"];
+                JSONToExcelConvertor(result.result, starttime + '至' + endtime + '底单', title)
+            },
+            error: function () {
+                layer.msg('申请底单失败，请稍后再试');
+            },
+            complete: function () {
+                // 关闭
+                layer.close(load_index);
+            }
+        });
+    }
 </script>
 <!--END content-box-->
 <!-- footer -->

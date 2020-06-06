@@ -8,8 +8,8 @@
 
 namespace app\member\controller;
 
-
 use app\common\controller\MemberBase;
+use app\common\model\BaseOrder;
 
 class Aftersale extends MemberBase
 {
@@ -20,15 +20,27 @@ class Aftersale extends MemberBase
     public function didan()
     {
         if (request()->isPost()) {
-            $memberid = session("MUserId");
-            $field = ['order_no', 'tracking_number', 'consignee_name', 'shipping_address', 'express_name', 'create_time', 'order_pay', 'order_state', 'goodsTitle', 'consignee_phone'];
-            $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
-            if ($query) {
-                ds_json_encode(10000, "获取底单成功", $query);
-            } else {
-                ds_json_encode(10001, "获取底单失败");
+            $bofile = $this->request->post("bofile");
+            $email = $this->request->post("email");
+            if (empty($bofile) || empty($email)) {
+                ds_json_encode(10001, "数据错误");
             }
 
+            $memberid = session("MUserId");
+            $data = [
+                "bo_member_id" => $memberid,
+                'bo_create_time' => date("Y-m-d H:i:s"),
+                'bo_file' => $bofile,
+                'bo_state' => 1,
+                'bo_email' => $email
+            ];
+            $baseOrder = new BaseOrder();
+            $res = $baseOrder->save($data);
+            if ($res > 0) {
+                ds_json_encode(10000, "底单申请成功");
+            } else {
+                ds_json_encode(10000, "底单申请失败");
+            }
         } else {
             return $this->fetch();
         }
@@ -107,20 +119,40 @@ class Aftersale extends MemberBase
             $wophone = input('param.wophone');
             $workordercontent = input('param.workordercontent');
             $condition = array();
-            $condition['wo_title']=$workordertit;
-            $condition['wo_linkman']=$wolinkman;
-            $condition['wo_phone']=$wophone;
-            $condition['wo_content']=$workordercontent;
-            $condition['member_id']=session("MUserId");
-           $query= db('workorder')->insert($condition);
-           if ($query){
-               ds_json_encode(10000, "工单提交成功");
-           }else{
-               ds_json_encode(10001, "工单提交失败");
-           }
+            $condition['wo_title'] = $workordertit;
+            $condition['wo_linkman'] = $wolinkman;
+            $condition['wo_phone'] = $wophone;
+            $condition['wo_content'] = $workordercontent;
+            $condition['member_id'] = session("MUserId");
+            $query = db('workorder')->insert($condition);
+            if ($query) {
+                ds_json_encode(10000, "工单提交成功");
+            } else {
+                ds_json_encode(10001, "工单提交失败");
+            }
 
         } else {
             return $this->fetch();
+        }
+    }
+
+    /**
+     * 底单文件上传
+     */
+    public function uploadDiDan()
+    {
+        $file = $this->request->file("didanfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'upload');
+            if ($info) {
+                $ad_pic = $info->getSaveName();
+                $ad_pic = DS . 'upload' . DS . $ad_pic;
+                ds_json_encode(10000, "上传成功", $ad_pic);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10001, "上传失败");
         }
     }
 }
