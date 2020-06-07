@@ -50,6 +50,21 @@
 </head>
 
 <body>
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+    }
+
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .layui-btn-danger {
+        background-color: #FF464E;
+    }
+</style>
 <div class="page-content clearfix">
     <form class="layui-form" action="">
         <div class="layui-form-item">
@@ -80,13 +95,23 @@
         </div>
     </form>
     <!--表格-->
-    <table id="sample-table"></table>
+    <table id="sample-table" lay-filter="table_order"></table>
 </div>
 <script type="text/html" id="table_operation_toolbar">
-    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">取消订单</a>
+    {{# if(d.order_state==2){ }}
+    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{# } }}
 </script>
-
-
+<!--收货信息布局-->
+<script type="text/html" id="receivinginfo">
+    <div style="line-height: 25px;text-align: center">
+        <p>快递单号：{{d.tracking_number}}</p>
+        <p>
+            商家订单号：{{d.merchant_order_no}}
+        </p>
+        <p>收货信息：{{d.consignee_name}}，{{d.shipping_address}}，{{d.postcode}}</p>
+    </div>
+</script>
 <!--订单数据导出布局-->
 <script type="text/html" id="orderlistderive">
     <div style="padding: 20px">
@@ -130,15 +155,26 @@
             , method: 'post'
             , height: 'full-110'
             , cols: [[
-                {field: 'order_no', width: 260, align: 'center', title: '订单号'}
-                , {field: 'member_mobile', width: 120, align: 'center', title: '会员名'}
-                , {field: 'goodsTitle', minWidth: 160, align: 'center', title: '商品名称'}
-                , {field: 'tracking_number', title: '快递单号', align: 'center', width: 260} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'express_name', align: 'center', title: '快递公司', width: 120}
-                , {field: 'consignee_name', align: 'center', title: '收货人', width: 150}
-                , {field: 'create_time', title: '下单时间', align: 'center', width: 160, sort: true,}
-                , {field: 'order_pay', title: '下单金额', width: 110, align: 'center', sort: true}
-                , {field: 'operation', align: 'center', title: '操作', toolbar: '#table_operation_toolbar'}
+                {field: 'goodsTitle', align: 'center', title: '快递名称'}
+                , {align: 'center', title: '收货信息', templet: '#receivinginfo'}
+                , {field: 'member_mobile', width: 120, align: 'center', title: '购买会员'}
+                , {field: 'create_time', title: '购买时间', align: 'center', width: 160} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {
+                    field: 'order_state', align: 'center', title: '状态', width: 90, templet: function (state) {
+                        if (state.order_state == 1) {
+                            return "未支付";
+                        } else if (state.order_state == 2) {
+                            return "已付款";
+                        } else if (state.order_state == 3) {
+                            return "已发货";
+                        } else if (state.order_state == 4) {
+                            return "已取消";
+                        } else {
+                            return state.order_state;
+                        }
+                    }
+                }
+                , {field: 'operation', align: 'center', width: 70, title: '操作', toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
                 console.log(res)
@@ -169,14 +205,33 @@
             elem: '#serach_param_date_end'
         });
 
-        table.on('tool(table_member)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(table_order)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             let data = obj.data; //获得当前行数据
             console.log(data);
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if (layEvent === 'del') { //取消订单
-
+                layer.confirm('这个订单确定要删除吗', function (index) {
+                    $.ajax({
+                        //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: "json",//预期服务器返回的数据类型
+                        url: "/admin/orderform/delLpdh",
+                        data: {
+                            oid: data.order_id
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            layer.close(index);
+                            layer.msg(result.message);
+                            table.reload('sample-table');
+                        },
+                        error: function () {
+                            layer.msg('删除失败，请稍后再试');
+                        }
+                    });
+                });
             }
         });
     });
@@ -218,7 +273,7 @@
                         console.log(result);
                         if (result.code == 10000) {
                             let title = ["用户名(手机号)",
-                                "商品名称",
+                                "快递名称",
                                 "订单价格",
                                 "仓库名称",
                                 "商家订单号",
