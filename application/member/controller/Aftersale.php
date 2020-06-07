@@ -10,6 +10,7 @@ namespace app\member\controller;
 
 use app\common\controller\MemberBase;
 use app\common\model\BaseOrder;
+use app\common\model\Websiteinfo;
 
 class Aftersale extends MemberBase
 {
@@ -42,6 +43,12 @@ class Aftersale extends MemberBase
                 ds_json_encode(10000, "底单申请失败");
             }
         } else {
+            $webRefundFile = db("config")->where('config_code', '=', 'refund_file')->find();
+            $this->assign('refund_file', $webRefundFile['config_value']);
+
+            $webRestraintFile = db("config")->where('config_code', '=', 'restraint_file')->find();
+            $this->assign('restraint_file', $webRestraintFile['config_value']);
+
             return $this->fetch();
         }
     }
@@ -143,7 +150,7 @@ class Aftersale extends MemberBase
     {
         $file = $this->request->file("didanfile");
         if ($file) {
-            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'upload');
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
             if ($info) {
                 $ad_pic = $info->getSaveName();
                 $ad_pic = DS . 'upload' . DS . $ad_pic;
