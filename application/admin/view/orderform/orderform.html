@@ -99,7 +99,7 @@
 </div>
 <script type="text/html" id="table_operation_toolbar">
     {{# if(d.order_state==2){ }}
-    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">取消</a>
     {{# } }}
 </script>
 <!--收货信息布局-->
@@ -212,7 +212,7 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if (layEvent === 'del') { //取消订单
-                layer.confirm('这个订单确定要删除吗', function (index) {
+                layer.confirm('这个订单确定要取消吗', function (index) {
                     $.ajax({
                         //几个参数需要注意一下
                         type: "POST",//方法类型
