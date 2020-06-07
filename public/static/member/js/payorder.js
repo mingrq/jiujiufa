@@ -114,7 +114,7 @@ function checkAddress() {
         $("#tb_addrs").append($tr);
     }
     var price = $('#selproduct').find("option:selected").attr("data-myprice");
-    var accont = toDecimal( contentArr.length * Number(price));
+    var accont = toDecimal(contentArr.length * Number(price));
     var $tr_bottom = $("<tr>" +
         "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
         "</tr>");
@@ -201,7 +201,7 @@ function buyGoods() {
         $("#tb_addrs").append($tr);
     }
     var price = $('#selproduct').find("option:selected").attr("data-myprice");
-    var accont = toDecimal( contentArr.length * Number(price));
+    var accont = toDecimal(contentArr.length * Number(price));
     var $tr_bottom = $("<tr>" +
         "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
         "</tr>");
@@ -233,8 +233,8 @@ function buyGoods() {
             success: function (data) {
                 // console.log(data);
                 if (data.code == 10000) {
-                    window.location.href="/member/order/orderList";
-                }else {
+                    window.location.href = "/member/order/orderList";
+                } else {
                     layer.open({
                         content: data.message,
                         btnAlign: "c",
@@ -243,7 +243,7 @@ function buyGoods() {
                     return false;
                 }
             },
-            error: function(){
+            error: function () {
                 console.log('error');
             },
             complete: function () {
@@ -257,7 +257,7 @@ function buyGoods() {
 /**
  * 置空数据 隐藏所有弹框
  */
-function closedData(){
+function closedData() {
     $("#realOrderDisWin textarea").val('');
     // $(':radio[name="selreal"]').eq(0).attr("checked",true);
     // $("input[name='selreal'][value='1']").attr("checked",true);
@@ -273,7 +273,7 @@ function closedData(){
 function realOrderDisWin() {
     //通过这种方式弹出的层，每当它被选择，就会置顶。
     layer.open({
-        title:'订单在线区分器',
+        title: '订单在线区分器',
         type: 1,
         shade: [0.3, '#000000'],
         area: '580px',
@@ -325,7 +325,7 @@ function distinguish() {
         for (let i = 0; i < realContentArr.length; i++) {
             if (realContentArr[i].trim() != '') {
                 for (let j = 0; j < contentArr.length; j++) {
-                    if (contentArr[j].trim() != ''){
+                    if (contentArr[j].trim() != '') {
                         let addressTemp = contentArr[j].split('，');
                         if (addressTemp.length == 5) {
                             if (realContentArr[i].trim() == addressTemp[0].trim() || realContentArr[i].trim() == addressTemp[1].trim() || realContentArr[i].trim() == addressTemp[3].trim()) {
@@ -337,59 +337,14 @@ function distinguish() {
                                 }
                                 tempRealNum++;
                             }
-                        }else {
+                        } else {
                             continue;
                         }
                     } else {
                         continue;
                     }
                 }
-            }else {
-                continue;
-            }
-        }
-        // 将数据填充
-        // $("#content").val(tempRealArr.join());
-        if (tempRealNum == 0) {
-            layer.open({
-                content: "未识别到订单，请确认输入的订单号是否正确",
-                btnAlign: "c",
-                offset: "300px"
-            });
-        }else{
-            $("#content").val(tempRealStr);
-            closedData();
-            layer.open({
-                content: "共识别到"+tempRealNum+"单订单，其它订单已自动为您过滤掉",
-                btnAlign: "c",
-                offset: "300px"
-            });
-        }
-    } else if (selreal == 2) {
-        // 过滤输入框中的订单号
-        for (let i = 0; i < realContentArr.length; i++) {
-            if (realContentArr[i].trim() != '') {
-                for (let j = 0; j < contentArr.length; j++) {
-                    if (contentArr[j].trim() != ''){
-                        let addressTemp = contentArr[j].split('，');
-                        if (addressTemp.length == 5) {
-                            if (realContentArr[i].trim() != addressTemp[0].trim() && realContentArr[i].trim() != addressTemp[1].trim() && realContentArr[i].trim() != addressTemp[3].trim()) {
-                                // tempRealArr.push(contentArr[j]);
-                                if (tempRealStr != "") {
-                                    tempRealStr = tempRealStr + "\r\n" + contentArr[j];
-                                } else {
-                                    tempRealStr = contentArr[j];
-                                }
-                                tempRealNum++;
-                            }
-                        }else {
-                            continue;
-                        }
-                    } else {
-                        continue;
-                    }
-                }
-            }else {
+            } else {
                 continue;
             }
         }
@@ -405,7 +360,52 @@ function distinguish() {
             $("#content").val(tempRealStr);
             closedData();
             layer.open({
-                content: "共识别到"+tempRealNum+"单订单，其它订单已自动为您过滤掉",
+                content: "共识别到" + tempRealNum + "单订单，其它订单已自动为您过滤掉",
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
+    } else if (selreal == 2) {
+        // 过滤输入框中的订单号
+        for (let i = 0; i < realContentArr.length; i++) {
+            if (realContentArr[i].trim() != '') {
+                for (let j = 0; j < contentArr.length; j++) {
+                    if (contentArr[j].trim() != '') {
+                        let addressTemp = contentArr[j].split('，');
+                        if (addressTemp.length == 5) {
+                            if (realContentArr[i].trim() != addressTemp[0].trim() && realContentArr[i].trim() != addressTemp[1].trim() && realContentArr[i].trim() != addressTemp[3].trim()) {
+                                // tempRealArr.push(contentArr[j]);
+                                if (tempRealStr != "") {
+                                    tempRealStr = tempRealStr + "\r\n" + contentArr[j];
+                                } else {
+                                    tempRealStr = contentArr[j];
+                                }
+                                tempRealNum++;
+                            }
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+            } else {
+                continue;
+            }
+        }
+        // 将数据填充
+        // $("#content").val(tempRealArr.join());
+        if (tempRealNum == 0) {
+            layer.open({
+                content: "未识别到订单，请确认输入的订单号是否正确",
+                btnAlign: "c",
+                offset: "300px"
+            });
+        } else {
+            $("#content").val(tempRealStr);
+            closedData();
+            layer.open({
+                content: "共识别到" + tempRealNum + "单订单，其它订单已自动为您过滤掉",
                 btnAlign: "c",
                 offset: "300px"
             });
@@ -419,5 +419,49 @@ function distinguish() {
         return false;
     }
     layer.close(load_index);
+}
+
+/**
+ * 点击下载快递上传模板
+ */
+function downKdModelWin() {
+    layer.open({
+        content: "<p>淘宝京东表格模板</p>" +
+            "<p>拼多多专用表格模板</p>"
+        , btnAlign: "c"
+        , area: '500px'
+        , offset: "300px"
+        , btn: ['淘宝京东表格模板', '拼多多专用表格模板']
+        , yes: function (index, layero) {
+            //淘宝京东表格模板 的回调
+            try {
+                window.open("/static/common/file/淘宝京东表格.xls",'_blank')
+            } catch (e) {
+                layer.msg("下载异常", {
+                    icon: 2,
+                    time: 3000
+                });
+            }
+            layer.close(index)
+        }
+        , btn2: function (index, layero) {
+            //拼多多专用表格模板 的回调
+            try {
+                window.open("/static/common/file/拼多多专用表格.xls",'_blank')
+            } catch (e) {
+                layer.msg("下载异常", {
+                    icon: 2,
+                    time: 3000
+                });
+            }
+            layer.close(index)
+            //return false 开启该代码可禁止点击该按钮关闭
+        }
+        , cancel: function () {
+            //右上角关闭回调
+            // console.log('cancel');
+            //return false 开启该代码可禁止点击该按钮关闭
+        }
+    });
 }
 

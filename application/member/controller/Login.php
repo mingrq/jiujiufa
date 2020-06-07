@@ -36,6 +36,9 @@ class Login extends Controller
             if ($info['config_code'] == 'website_statistics') {
                 $this->assign('website_statistics', $info['config_value']);
             }
+            if ($info['config_code'] == 'website_top_logo') {
+                $this->assign('website_top_logo', $info['config_value']);
+            }
         }
     }
 
@@ -44,7 +47,6 @@ class Login extends Controller
      */
     public function register()
     {
-
         // 邀请的会员ID
         $inviteUserId = preg_replace('/[^0-9]/', '', $this->request->param("m"));
         if ($this->request->isPost()) {

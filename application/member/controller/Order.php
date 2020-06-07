@@ -242,7 +242,7 @@ class Order extends MemberBase
         $replace = array('\\\\', '\\/', '\%', '\_', '\&');
         $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
         if ($serach_param && trim($serach_param) != "") {
-            $condition['order_no|tracking_number|consignee_name|merchant_order_no'] = ['like', $serach_param];
+            $condition['tracking_number|consignee_name|merchant_order_no'] = ['like', $serach_param];
         }
 
         // $dateatart = input('param.dateatart');
@@ -310,9 +310,8 @@ class Order extends MemberBase
      */
     public function downOrder()
     {
-
         if (request()->isPost()) {
-
+            $typeId = $this->request->post("typeId") ? preg_replace('/[^0-9]/', '', $this->request->post('typeId')) : 0;
             $condition = array();
             $condition['member_id'] = session("MUserId");
 
@@ -321,7 +320,7 @@ class Order extends MemberBase
             $replace = array('\\\\', '\\/', '\%', '\_', '\&');
             $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
             if ($serach_param && trim($serach_param) != "") {
-                $condition['order_no|tracking_number|consignee_name|merchant_order_no'] = ['like', $serach_param];
+                $condition['tracking_number|consignee_name|merchant_order_no'] = ['like', $serach_param];
             }
 
             // $dateatart = input('param.dateatart');
@@ -340,55 +339,37 @@ class Order extends MemberBase
                 }
             }
 
-            // $memberid = session("MUserId");
-            $field = ['order_no', 'tracking_number', 'merchant_order_no', 'consignee_name', 'shipping_address', 'express_name', 'create_time', 'order_pay', 'order_state', 'goodsTitle', 'consignee_phone'];
-            //$query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
-            $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where($condition)->select();
-            if ($query) {
-                ds_json_encode(10000, "获取底单成功", $query);
+            if ($typeId == 1) {
+                // 淘宝导出
+                $field = ['order_no', 'express_name', 'tracking_number'];
+                //$query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
+                $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where($condition)->select();
+            } else if ($typeId == 2) {
+                // 京东导出
+                $field = ['order_no', 'tracking_number'];
+                //$query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
+                $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where($condition)->select();
+            } else if ($typeId == 3) {
+                // 拼多多导出
+                $field = ['order_no', 'express_name', 'tracking_number'];
+                //$query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
+                $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where($condition)->select();
+            } else if ($typeId == 4) {
+                // 明细导出
+                $field = ['order_no', 'tracking_number', 'merchant_order_no', 'consignee_name', 'shipping_address', 'express_name', 'create_time', 'order_pay', 'order_state', 'goodsTitle', 'consignee_phone'];
+                //$query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where('member_id', $memberid)->select();
+                $query = db('order')->field($field)->where('order_state', 'in', [2, 3])->where($condition)->select();
             } else {
-                ds_json_encode(10001, "获取底单失败");
-            }
-        } else {
-            ds_json_encode(10001, "获取底单失败");
-        }
-
-        /*
-        $condition = array();
-        $condition['member_id']=session("MUserId");
-
-        $serach_param = input('param.searchparam');
-        $find = array('\\', '/', '%', '_', '&');
-        $replace = array('\\\\', '\\/', '\%', '\_', '\&');
-        $serach_param = '%' . trim(str_replace($find, $replace, $serach_param)) . '%';
-        if ($serach_param && trim($serach_param) != "") {
-            $condition['order_no|tracking_number|consignee_name'] = ['like', $serach_param];
-        }
-
-        $dateatart = input('param.dateatart');
-        $dateend = input('param.dateend');
-
-        if ($dateatart && $dateend) {
-            $condition["create_time"] = ['between', [$dateatart, $dateend]];
-        } else {
-            if ($dateatart) {
-                $condition["create_time"] = ['>=', $dateatart];
+                ds_json_encode(10002, "获取订单失败");
             }
 
-            if ($dateend) {
-                $condition["create_time"] = ['<=', $dateend];
+            if ($query) {
+                ds_json_encode(10000, "获取订单成功", $query);
+            } else {
+                ds_json_encode(10001, "获取订单失败");
             }
-        }
-
-        $query = db('v_order')
-            ->where($condition)
-            ->order('create_time desc')
-            ->paginate(100);
-        if ($query) {
-            ds_json_encode(10000, "搜索订单列表成功", $query);
         } else {
-            ds_json_encode(10001, "搜索订单列表失败");
+            ds_json_encode(10003, "获取订单失败");
         }
-        */
     }
 }
