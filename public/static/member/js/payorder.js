@@ -1,7 +1,49 @@
 var layer;
 $(function () {
-    layui.use('layer', function () {
+    layui.use(['layer', 'upload'], function () {
         layer = layui.layer;
+        var upload = layui.upload;
+
+        /**
+         * 导入文件
+         */
+            //执行实例
+        var uploadInst = upload.render({
+                elem: '#uploadKdModel'
+                , url: '/member/order/uploadKdModel'
+                , field: 'uploadkdodfile'
+                , accept: 'file'
+                , exts: 'xls|xlsx'
+                , size: 5120
+                , done: function (res) {
+                    //上传完毕回调
+                    // console.log(res);
+                    if (res.code == 10000) {
+                        let result = res.result;
+                        let contentStr = '';
+                        for (let i = 0; i < result.length; i++) {
+                            contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                        }
+                        $("#content").val(contentStr);
+                    } else {
+                        layer.msg(res.message, {
+                            icon: 2,
+                            time: 3000,
+                            btnAlign: "c",
+                            offset: "300px"
+                        });
+                    }
+                }
+                , error: function () {
+                    //请求异常回调
+                    layer.msg("导入文件异常", {
+                        icon: 2,
+                        time: 3000,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                }
+            });
     })
 
 
@@ -435,7 +477,7 @@ function downKdModelWin() {
         , yes: function (index, layero) {
             //淘宝京东表格模板 的回调
             try {
-                window.open("/static/common/file/淘宝京东表格.xls",'_blank')
+                window.open("/static/common/file/淘宝京东表格.xls", '_blank')
             } catch (e) {
                 layer.msg("下载异常", {
                     icon: 2,
@@ -447,7 +489,7 @@ function downKdModelWin() {
         , btn2: function (index, layero) {
             //拼多多专用表格模板 的回调
             try {
-                window.open("/static/common/file/拼多多专用表格.xls",'_blank')
+                window.open("/static/common/file/拼多多专用表格.xls", '_blank')
             } catch (e) {
                 layer.msg("下载异常", {
                     icon: 2,

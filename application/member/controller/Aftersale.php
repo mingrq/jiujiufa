@@ -153,7 +153,7 @@ class Aftersale extends MemberBase
             $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
             if ($info) {
                 $ad_pic = $info->getSaveName();
-                $ad_pic = DS . 'upload' . DS . $ad_pic;
+                $ad_pic = DS . 'files/upload' . DS . $ad_pic;
                 ds_json_encode(10000, "上传成功", $ad_pic);
             } else {
                 ds_json_encode(10001, "上传失败");

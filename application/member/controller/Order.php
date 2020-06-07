@@ -7,6 +7,7 @@ use app\common\model\Goods;
 use app\common\model\Member;
 use app\common\model\MoneychangeRecord;
 use app\common\model\Warehouse;
+use think\Loader;
 
 class Order extends MemberBase
 {
@@ -80,6 +81,69 @@ class Order extends MemberBase
                 "goodsList" => $goodsList
             );
             ds_json_encode(10000, "商品获取成功", $result);
+        }
+    }
+
+    /**
+     * 导入文件
+     */
+    public function uploadKdModel()
+    {
+        $file = $this->request->file("uploadkdodfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
+            if ($info) {
+                $file_name = $info->getSaveName();
+                $file_path = ROOT_PATH . 'public' . DS . 'files/upload' . DS . $file_name;
+
+                // 上传成功后 将数据读取出来 返回
+                Loader::import("PHPExcel.PHPExcel");
+                Loader::import('PHPExcel.PHPExcel.IOFactory.PHPExcel_IOFactory');
+
+                if ($info->getExtension() == 'xls') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel5');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                } else if ($info->getExtension() == 'xlsx') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel2007');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                } else {
+                    ds_json_encode(10003, "数据读取失败");
+                }
+
+                // $obj_PHPExcel = $objReader->load($file_path, $encode = 'utf-8');
+                $obj_PHPExcel = $objReader->load($file_path);
+                $excel_array = $obj_PHPExcel->getsheet(0)->toArray();
+
+                $excel_data = [];
+                if (count($excel_array[0]) == 4) {
+                    // 淘宝京东
+                    array_shift($excel_array);  //删除第一个数组(标题);
+                    foreach ($excel_array as $k => $v) {
+                        $excel_data[$k]['kdid'] = $v[0];
+                        $excel_data[$k]['name'] = $v[1];
+                        $excel_data[$k]['mobile'] = $v[2];
+                        $excel_data[$k]['address'] = $v[3];
+                        $excel_data[$k]['postal'] = '000000';
+                    }
+                } else if (count($excel_array[0]) == 7) {
+                    // 拼多多
+                    array_shift($excel_array);  //删除第一个数组(标题);
+                    foreach ($excel_array as $k => $v) {
+                        $excel_data[$k]['kdid'] = $v[0];
+                        $excel_data[$k]['name'] = $v[1];
+                        $excel_data[$k]['mobile'] = $v[2];
+                        $excel_data[$k]['address'] = $v[3] . $v[4] . $v[5] . $v[6];
+                        $excel_data[$k]['postal'] = '000000';
+                    }
+                } else {
+                    ds_json_encode(10004, "数据格式错误");
+                }
+                ds_json_encode(10000, "上传成功", $excel_data);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10002, "上传失败");
         }
     }
 
