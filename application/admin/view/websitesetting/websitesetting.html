@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
 </head>
 <body>
+<style type="text/css">
+    .layui-form-label {
+        float: left;
+        display: block;
+        padding: 9px 15px;
+        width: 90px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: right;
+    }
+</style>
 <div style="padding: 20px">
     <form class="layui-form" action="">
         <div class="layui-form-item">
@@ -15,7 +26,12 @@
             <div class="layui-input-block">
                 <input type="text" name="website_name" id="website_name" required  lay-verify="required" placeholder="请输入网站名称" autocomplete="off" style="width: 550px" class="layui-input" value="{$website_name}">
             </div>
-
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">网站首页标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="website_home_title" id="website_home_title" required  lay-verify="required" placeholder="请输入网站首页标题" autocomplete="off" style="width: 550px" class="layui-input" value="{$website_home_title}">
+            </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">网站ICON</label>
@@ -93,6 +109,7 @@
             fd.append('website_logo', file_obj);
             fd.append('website_logo_url', $('#website_logo').val());
             fd.append('website_keyword', $('#website_keyword').val());
+            fd.append('website_home_title', $('#website_home_title').val());
             fd.append('website_icp', $('#website_icp').val());
             fd.append('website_copyright', $('#website_copyright').val());
             fd.append('website_statistics', $('#website_statistics').val());

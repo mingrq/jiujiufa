@@ -13,6 +13,8 @@ class Orderform extends AdminBaseController
 {
     public function index()
     {
+        $state = input('param.state');
+        $this->assign('state', $state);
         return $this->fetch('orderform');
     }
 
@@ -21,11 +23,15 @@ class Orderform extends AdminBaseController
      */
     public function orderlist()
     {
+        $limit=input('param.limit');
+        $state = input('param.state');
+        $condition = array();
+        $condition['order_state'] = $state;
         $order_mod = model('order');
-        $orderList = $order_mod->getOrderlist();
+        $orderList = $order_mod->getOrderlist($condition,'*',$limit);
 
         if ($orderList) {
-            ds_json_encode(10000, "获取订单列表成功", $orderList);
+            ds_json_encode(10000, "获取订单列表成功" . $state, $orderList);
         } else {
             ds_json_encode(10001, "获取订单列表失败");
         }
@@ -143,12 +149,12 @@ class Orderform extends AdminBaseController
                 // 将这个订单状态修改成 4：已取消
                 db('order')->where('order_id', $oid)->update(['order_state' => 4]);
                 db('member')->where('member_id', $order['member_id'])->setInc('member_balance', $order['order_pay']);
-                db('moneychange_record')->insert(['member_id'=>$order['member_id'],'change_money'=>$order['order_pay'],'change_cause'=>'订单退款']);
+                db('moneychange_record')->insert(['member_id' => $order['member_id'], 'change_money' => $order['order_pay'], 'change_cause' => '订单退款']);
                 ds_json_encode(10000, "删除成功");
             } else {
                 // 删除失败
                 db('order')->where('order_id', $oid)->update(['order_state' => 3]);
-                ds_json_encode(10004, '订单已发货，无法删除');
+                ds_json_encode(10001, '订单已发货，无法删除');
             }
         } else {
             ds_json_encode(10010, "数据错误", null);

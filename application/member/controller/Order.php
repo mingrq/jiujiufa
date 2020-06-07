@@ -376,7 +376,7 @@ class Order extends MemberBase
                 // 删除失败
                 $order->order_state = 3;
                 $order->save();
-                ds_json_encode(10004, $result['status']);
+                ds_json_encode(10001, '订单已发货，无法删除');
             }
         } else {
             ds_json_encode(10010, "数据错误", null);

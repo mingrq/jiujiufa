@@ -27,7 +27,7 @@ class Workorder extends Model
      */
     public function getWorkOrderlist($condition = array(), $field = '*', $page = 100, $order = 'wo_state asc')
     {
-        return db('workorder')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
+        return db('v_workorder')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
     }
 
     /**

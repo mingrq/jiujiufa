@@ -11,6 +11,7 @@
  */
 
 namespace app\admin\controller;
+
 use app\common\model\Config;
 
 class Websitesetting extends AdminBaseController
@@ -47,7 +48,7 @@ class Websitesetting extends AdminBaseController
             $website_icp = input('param.website_icp');
             $website_copyright = input('param.website_copyright');
             $website_statistics = input('param.website_statistics');
-
+            $website_home_title = input('param.website_home_title');
 
             $websiteinfo = new Config();
             $list = [
@@ -57,7 +58,8 @@ class Websitesetting extends AdminBaseController
                 ['config_id' => 18, 'config_value' => $website_icp],
                 ['config_id' => 19, 'config_value' => $website_copyright],
                 ['config_id' => 20, 'config_value' => $website_statistics],
-                ['config_id' => 21, 'config_value' => $website_top_logo]
+                ['config_id' => 21, 'config_value' => $website_top_logo],
+                ['config_id' => 24, 'config_value' => $website_home_title]
             ];
             $query = $websiteinfo->saveAll($list);
             if ($query) {
@@ -90,6 +92,9 @@ class Websitesetting extends AdminBaseController
                 }
                 if ($info['config_code'] == 'website_top_logo') {
                     $this->assign('website_top_logo', $info['config_value']);
+                }
+                if ($info['config_code'] == 'website_home_title') {
+                    $this->assign('website_home_title', $info['config_value']);
                 }
             }
             return $this->fetch('websitesetting');

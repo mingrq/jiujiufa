@@ -243,7 +243,7 @@
             elem: '#sample-table'
             , url: '/admin/membermanagement/memberlist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , limit: 100
+            , limit: 50
             , height: 'full-110'
             , cols: [[
                 {field: 'member_mobile', width: 120, align: 'center', title: '用户(手机)'}
@@ -271,7 +271,7 @@
                 , dataName: 'data' //规定数据列表的字段名称，默认：data
             }
             , page: {
-                layout: ['prev', 'page', 'next', 'skip', 'refresh']
+                layout: ['prev', 'page', 'next', 'skip','limit', 'refresh']
             }
         });
 

@@ -26,8 +26,9 @@ class Membermanagement extends AdminBaseController
      */
     public function memberlist()
     {
+        $limit = input('param.limit');
         $member_mod = model('member');
-        $memberList = $member_mod->getMemberList();
+        $memberList = $member_mod->getMemberList(null,'*',$limit);
         if ($memberList) {
             ds_json_encode(10000, "获取会员列表成功", $memberList);
         } else {

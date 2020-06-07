@@ -23,6 +23,21 @@
 </head>
 
 <body>
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+    }
+
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .layui-btn-danger {
+        background-color: #FF464E;
+    }
+</style>
 <div class="page-content clearfix">
     <form class="layui-form" action="">
         <div class="layui-form-item">
@@ -72,6 +87,14 @@
     <a class="layui-btn layui-btn-normal layui-btn-xs" style="margin-top: 3px" lay-event="workorder_over">完成工单</a>
     {{#  } }}
 </script>
+<!--提交人列模板-->
+<script type="text/html" id="sub_templ">
+    <div style="line-height: 25px;text-align: center">
+        <p>用户：{{d.member_mobile}}</p>
+        <a href="tencent://message/?uin={{d.member_qq}}"><img style="width: 70px;height: 22px"
+                                                              src="/static/admin/images/qqjiaoliu.png" alt="QQ交流"></a>
+    </div>
+</script>
 <script>
     /**设置等级下拉框数据*/
     var table;
@@ -90,7 +113,8 @@
             , limit: 100
             , height: 'full-110'
             , cols: [[
-                {field: 'wo_title', width: 200, align: 'center', title: '工单标题'}
+                { width: 160, align: 'center', title: '提交人',templet: '#sub_templ'}
+                ,{field: 'wo_title', width: 200, align: 'center', title: '工单标题'}
                 , {field: 'wo_content', align: 'center', title: '工单内容'}
                 , {field: 'wo_linkman', title: '联系人', align: 'center', width: 90} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'wo_phone', align: 'center', title: '联系方式', width: 120}

@@ -14,7 +14,7 @@ class Home extends AdminBaseController
     public function home()
     {
         $workordercount = db('workorder')->where('wo_state', 1)->count();
-        $baseordercount = db('base_order')->where('bo_state', 1)->count();
+        //$baseordercount = db('base_order')->where('bo_state', 1)->count();
 
         $membercount = db('member')->count();
         $warehousecount = db('warehouse')->count();
@@ -26,10 +26,13 @@ class Home extends AdminBaseController
         $paysum = db('recharge_record')->where('recharge_state', 2)->sum('recharge_money');
         $noticecount = db('notice')->count();
         $articlecount = db('article')->count();
+        //注册人数统计
         $todaymember = db('member')->whereTime('member_addtime', 'd')->count();
         $weekmember = db('member')->whereTime('member_addtime', 'w')->count();
         $monthmember = db('member')->whereTime('member_addtime', 'm')->count();
         $lastmonthmember = db('member')->whereTime('member_addtime', 'last month')->count();
+        //订单数量统计
+
 
         $this->assign('workordercount', $workordercount);
         $this->assign('warehousecount', $warehousecount);

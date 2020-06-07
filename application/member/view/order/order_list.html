@@ -44,10 +44,10 @@
                     <div class="layui-form-item">
                         <div>
                             <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">查询</label>
-                            <div class="layui-input-inline" style="width: 200px">
+                            <div class="layui-input-inline" style="width: 210px">
                                 <input type="text" placeholder="快递单号/收货人/商家订单号" id="serach_param"
                                        autocomplete="off" class="layui-input"
-                                       style="width:260px !important;height: 30px !important;margin-top: 4px !important;">
+                                       style="width:210px !important;height: 30px !important;margin-top: 4px !important;">
                             </div>
                         </div>
                         <div>
@@ -84,12 +84,11 @@
 </div>
 <script type="text/html" id="goods_receiving_information">
     <div style="line-height: 25px;text-align: left">
-        <div>订单号:&nbsp;&nbsp;{{d.order_no}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 快递号:&nbsp;&nbsp;{{d.tracking_number}}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 下单时间:&nbsp;&nbsp;{{d.create_time}}
-        </div>
-        <div style="white-space:normal; word-break:break-all;overflow:hidden;margin-top: 5px">收货信息:&nbsp;&nbsp;{{d.consignee_name}},{{d.consignee_phone}},{{d.shipping_address}}
-            {{# if(d.postcode){ }},{{d.postcode}} {{# } }}
-        </div>
+        <p>快递单号：{{d.tracking_number}}</p>
+        <p>
+            商家订单号：{{d.merchant_order_no}}
+        </p>
+        <p>收货信息：{{d.consignee_name}}，{{d.shipping_address}}，{{d.postcode}}</p>
     </div>
 </script>
 <script type="text/html" id="table_operation_toolbar">
@@ -154,37 +153,56 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if (layEvent === 'del') { //取消订单
-                console.log(data);
-                $.ajax({
-                    url: "/member/order/delLpdh",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        oid: tr.order_id
-                    },
-                    success: function (data) {
-                        if (data.code == 10000) {
-                            layer.open({
-                                content: data.message,
-                                btnAlign: "c",
-                                offset: "300px",
-                                yes: function (index, layero) {
-                                    layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                    window.location.href = "/member/order/orderList";
-                                }
-                            });
-                        } else {
-                            layer.open({
-                                content: data.message,
-                                btnAlign: "c",
-                                offset: "300px"
-                            });
-                            return false;
+                // $.ajax({
+                //     url: "/member/order/delLpdh",
+                //     type: "POST",
+                //     dataType: "json",
+                //     data: {
+                //         oid: tr.order_id
+                //     },
+                //     success: function (data) {
+                //         if (data.code == 10000) {
+                //             layer.open({
+                //                 content: data.message,
+                //                 btnAlign: "c",
+                //                 offset: "300px",
+                //                 yes: function (index, layero) {
+                //                     layer.close(index); //如果设定了yes回调，需进行手工关闭
+                //                     window.location.href = "/member/order/orderList";
+                //                 }
+                //             });
+                //         } else {
+                //             layer.open({
+                //                 content: data.message,
+                //                 btnAlign: "c",
+                //                 offset: "300px"
+                //             });
+                //             return false;
+                //         }
+                //     },
+                //     error: function () {
+                //         console.log('error');
+                //     }
+                // });
+
+                layer.confirm('这个订单确定要取消吗', function (index) {
+                    $.ajax({
+                        //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: "json",//预期服务器返回的数据类型
+                        url: "/member/order/delLpdh",
+                        data: {
+                            oid: data.order_id
+                        },
+                        success: function (result) {
+                            layer.close(index);
+                            layer.msg(result.message);
+                            table.reload('sample-table');
+                        },
+                        error: function () {
+                            layer.msg('删除失败，请稍后再试');
                         }
-                    },
-                    error: function () {
-                        console.log('error');
-                    }
+                    });
                 });
             }
         });

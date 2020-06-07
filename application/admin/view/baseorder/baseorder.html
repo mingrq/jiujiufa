@@ -22,7 +22,21 @@
     <title>底单申请</title>
 </head>
 <body>
+<style type="text/css">
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+    }
 
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .layui-btn-danger {
+        background-color: #FF464E;
+    }
+</style>
 <div class="page-content clearfix">
     <form class="layui-form" action="">
         <div class="layui-form-item">
@@ -66,6 +80,14 @@
     <!--表格-->
     <table id="sample-table" lay-filter="table_baseorder"></table>
 </div>
+<!--QQ列模板-->
+<script type="text/html" id="qq_templ">
+    <div style="line-height: 25px;text-align: center">
+        <p>{{d.member_qq}}</p>
+        <a href="tencent://message/?uin={{d.member_qq}}"><img style="width: 70px;height: 22px"
+                                                              src="/static/admin/images/qqjiaoliu.png" alt="QQ交流"></a>
+    </div>
+</script>
 <!--表格item工具-->
 <script type="text/html" id="table_operation_toolbar">
     {{#  if(d.bo_state ==1){ }}
@@ -93,7 +115,7 @@
             , height: 'full-110'
             , cols: [[
                 {field: 'member_mobile', width: 220, align: 'center', title: '申请用户'}
-                , {field: 'member_qq', align: 'center',width: 220, title: 'QQ'}
+                , {field: 'member_qq', align: 'center',width: 220, title: 'QQ', templet: '#qq_templ'}
                 , {field: 'bo_email', title: '邮箱', align: 'center', width: 290} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {
                     field: 'bo_state', title: '状态', align: 'center', width: 120, sort: true,

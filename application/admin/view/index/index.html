@@ -195,15 +195,26 @@
                                         title="商品管理"
                                         title=""><i class="icon-desktop"></i><span class="menu-text"> 商品管理 </span></a>
                     </li>
-
-
-                    <li class="home"><a href="javascript:void(0)" name="/admin/advertising.html" class="iframeurl"
-                                        title="广告管理"
-                                        title=""><i class="icon-picture"></i><span class="menu-text"> 广告管理 </span></a>
-                    </li>
-                    <li class="home"><a href="javascript:void(0)" name="/admin/orderform.html" class="iframeurl"
-                                        title="订单管理"
-                                        title=""><i class="icon-list"></i><span class="menu-text"> 订单管理 </span></a>
+                    <li><a href="#" class="dropdown-toggle"><i class="icon-list"></i><span
+                            class="menu-text"> 订单管理 </span><b class="arrow icon-angle-down"></b></a>
+                        <ul class="submenu">
+                            <li class="home"><a href="javascript:void(0)" name="/admin/orderform.html?state=2"
+                                                title="底单申请"
+                                                class="iframeurl"><i class="icon-double-angle-right"></i>已付款</a>
+                            </li>
+                            <li class="home"><a href="javascript:void(0)" name="/admin/orderform.html?state=3"
+                                                title="售后配置"
+                                                class="iframeurl"><i class="icon-double-angle-right"></i>已发货</a>
+                            </li>
+                            <li class="home"><a href="javascript:void(0)" name="/admin/orderform.html?state=1"
+                                                title="工单管理"
+                                                class="iframeurl"><i class="icon-double-angle-right"></i>未付款</a>
+                            </li>
+                            <li class="home"><a href="javascript:void(0)" name="/admin/orderform.html?state=4"
+                                                title="售后配置"
+                                                class="iframeurl"><i class="icon-double-angle-right"></i>已取消</a>
+                            </li>
+                        </ul>
                     </li>
                     <li><a href="#" class="dropdown-toggle"><i class="icon-comments-alt"></i><span
                             class="menu-text"> 售后管理 </span><b class="arrow icon-angle-down"></b></a>
@@ -216,7 +227,8 @@
                                                 title="底单申请"
                                                 class="iframeurl"><i class="icon-double-angle-right"></i>底单申请</a>
                             </li>
-                            <li class="home"><a href="javascript:void(0)" name="/admin/baseorder/aftersaleconfigure.html"
+                            <li class="home"><a href="javascript:void(0)"
+                                                name="/admin/baseorder/aftersaleconfigure.html"
                                                 title="售后配置"
                                                 class="iframeurl"><i class="icon-double-angle-right"></i>售后配置</a>
                             </li>
@@ -225,7 +237,8 @@
                     <li><a href="#" class="dropdown-toggle"><i class="icon-dropbox"></i><span
                             class="menu-text"> 财务管理 </span><b class="arrow icon-angle-down"></b></a>
                         <ul class="submenu">
-                            <li class="home"><a href="javascript:void(0)" name="/admin/financialmanagement/rechargerecord.html"
+                            <li class="home"><a href="javascript:void(0)"
+                                                name="/admin/financialmanagement/rechargerecord.html"
                                                 title="充值记录"
                                                 class="iframeurl"><i class="icon-double-angle-right"></i>充值记录</a>
                             </li>
@@ -238,7 +251,8 @@
                                                 title="会员列表"
                                                 class="iframeurl"><i class="icon-double-angle-right"></i>会员列表</a>
                             </li>
-                            <li class="home"><a href="javascript:void(0)" name="/admin/membermanagement/memberconfigure.html"
+                            <li class="home"><a href="javascript:void(0)"
+                                                name="/admin/membermanagement/memberconfigure.html"
                                                 title="会员配置"
                                                 class="iframeurl"><i class="icon-double-angle-right"></i>会员配置</a>
                             </li>
@@ -310,7 +324,8 @@
                     <li class="active" id="parentIfour"><span class="parentIfour iframeurl"></span></li>
                 </ul>
             </div>
-            <iframe id="iframe" style="border:0; width:100%; background-color:#FFF;" name="iframe" frameborder="0" src="{:url('admin/home/home')}"></iframe>
+            <iframe id="iframe" style="border:0; width:100%; background-color:#FFF;" name="iframe" frameborder="0"
+                    src="{:url('admin/home/home')}"></iframe>
         </div>
 
     </div><!-- /.main-container-inner -->
