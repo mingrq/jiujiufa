@@ -619,7 +619,24 @@ a {
     margin: 10px 0px;
 }
 
-.payorder-selcangku li {
+.payorder-selcangku .single {
+    width: 100%;
+    float: left;
+}
+
+.payorder-selcangku .single .payorder-selcangku-title {
+    font-size: 18px;
+    line-height: 50px;
+    color: #FF464E;
+    font-weight: bold;
+}
+
+.payorder-selcangku .single ul {
+    width: 100%;
+    float: left;
+}
+
+.payorder-selcangku .single ul li {
     display: inline-block;
     float: left;
     line-height: 36px;
@@ -631,11 +648,11 @@ a {
     cursor: pointer;
 }
 
-.payorder-selcangku li:hover {
+.payorder-selcangku .single ul li:hover {
     background-color: #FF464E;
 }
 
-.payorder-selcangku li.action {
+.payorder-selcangku .single ul li.action {
     background-color: #FF464E;
 }
 

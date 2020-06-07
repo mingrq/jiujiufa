@@ -37,18 +37,30 @@ class Product extends FrontendBase
             $oby = 0;
         }
 
+        // 获取所有的仓库
+        $warehouseList = array();
+        $warehouseClassList = db("wasehouse_class")->order('class_id', "asc")->select();
+        foreach ($warehouseClassList as $key => $warehouseClass) {
+            $warehouseList[$key]['classId'] = $warehouseClass['class_id'];
+            $warehouseList[$key]['className'] = $warehouseClass['class_name'];
+            $warehouseList[$key]['classRemark'] = $warehouseClass['class_remark'];
+            $warehouseTemp = db("warehouse")->where("wh_class", "=", $warehouseClass['class_id'])->select();
+            if (!empty($warehouseTemp) && count($warehouseTemp) > 0) {
+                $warehouseList[$key]['children'] = $warehouseTemp;
+            } else {
+                $warehouseList[$key]['children'] = [];
+            }
+        }
+
         $whereGoods['good_state'] = 1;
         if (empty($ckid)) {
-            $ckid = 0;
+            // $ckid = 0;
+            $ckid = $warehouseClassList[0]['class_id'];
+            $whereGoods['classId'] = $ckid;
         }
         if ($ckid > 0) {
             $whereGoods['classId'] = $ckid;
         }
-
-
-        // 仓库
-        $warehouse = new Warehouse();
-        $warehouselist = $warehouse->getWarehouselist();
 
         $goods = new Goods();
         // 新品
@@ -56,7 +68,7 @@ class Product extends FrontendBase
 
         $this->assign('ckid', $ckid);
         $this->assign('oby', $oby);
-        $this->assign('warehouselist', $warehouselist);
+        $this->assign('warehouseList', $warehouseList);
         $this->assign('newGoodsList', $newGoodsList);
 
         $articlemode = model('article');
@@ -70,15 +82,5 @@ class Product extends FrontendBase
         $question = $articlemode->articlelist(['ac_id' => 3], '*', 5, 'article_time desc');
         $this->assign('question', $question);
         return $this->fetch();
-    }
-
-    /**
-     * 筛选
-     */
-    public function screening()
-    {
-        $ckid = $this->request->param("ckid") ? preg_replace('/[^0-9]/', '', $this->request->param("ckid")) : 0;
-        $orderby = $this->request->param("orderby") ? preg_replace('/[^0-9]/', '', $this->request->param("orderby")) : 0;
-
     }
 }

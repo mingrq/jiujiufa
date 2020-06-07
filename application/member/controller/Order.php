@@ -25,25 +25,39 @@ class Order extends MemberBase
         $goods = Goods::get($kdId);
         $goodsList = array();
         $classid = 0;
+        $warehouseList = array();
+
+        // 获取所有的仓库
+        $warehouseClassList = db("wasehouse_class")->order('class_id', "asc")->select();
+        foreach ($warehouseClassList as $key => $warehouseClass) {
+            $warehouseList[$key]['classId'] = $warehouseClass['class_id'];
+            $warehouseList[$key]['className'] = $warehouseClass['class_name'];
+            $warehouseList[$key]['classRemark'] = $warehouseClass['class_remark'];
+            $warehouseTemp = db("warehouse")->where("wh_class", "=", $warehouseClass['class_id'])->select();
+            if (!empty($warehouseTemp) && count($warehouseTemp) > 0) {
+                $warehouseList[$key]['children'] = $warehouseTemp;
+            } else {
+                $warehouseList[$key]['children'] = [];
+            }
+        }
+
         if (!empty($goods) && !empty($goods['classId'])) {
             // $classid = $this->request->param('classid') ? preg_replace('/[^0-9]/', '', $this->request->param('classid')) : 0;
             $classid = $goods['classId'];
-            $warehouse = Warehouse::get($classid);
-            if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
-                // 调用仓库快递数据
-                $goodsT = new Goods();
-                $whereGoods['classId'] = $classid;
-                $whereGoods['good_state'] = 1;
-                $goodsList = $goodsT->where($whereGoods)->select();
-            } else {
-
-            }
         } else {
+            $classid = $warehouseClassList[0]['class_id'];
             $kdId = 0;
         }
 
-        // 所有仓库
-        $warehouseList = \db('warehouse')->select();
+        // 当前仓库下的产品
+        $warehouse = Warehouse::get($classid);
+        if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
+            // 调用仓库快递数据
+            $goodsT = new Goods();
+            $whereGoods['classId'] = $classid;
+            $whereGoods['good_state'] = 1;
+            $goodsList = $goodsT->where($whereGoods)->select();
+        }
 
         $member = Member::get(session('MUserId'));
 
@@ -356,7 +370,7 @@ class Order extends MemberBase
                 $order->order_state = 4;
                 $order->save();
                 db('member')->where('member_id', $order['member_id'])->setInc('member_balance', $order['order_pay']);
-                db('moneychange_record')->insert(['member_id'=>$order['member_id'],'change_money'=>$order['order_pay'],'change_cause'=>'订单退款']);
+                db('moneychange_record')->insert(['member_id' => $order['member_id'], 'change_money' => $order['order_pay'], 'change_cause' => '订单退款']);
                 ds_json_encode(10000, "删除成功");
             } else {
                 // 删除失败

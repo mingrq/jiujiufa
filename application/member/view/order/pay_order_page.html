@@ -25,11 +25,18 @@
             <div class="title">礼品下单</div>
             <div class="cont-main-box">
                 <div class="payorder-step">第一步：选择仓库</div>
-                <ul class="payorder-selcangku" id="selcangku">
+                <div class="payorder-selcangku" id="selcangku">
                     {foreach $warehouseList as $warehouse}
-                    <li data-ckid="{$warehouse.wh_id}" {if condition="$classid==$warehouse.wh_id"} class="action"{/if}>{$warehouse.wh_title}</li>
+                    <div class="single">
+                        <div class="payorder-selcangku-title">（{$warehouse.className}）{$warehouse.classRemark}</div>
+                        <ul>
+                            {foreach $warehouse.children as $warehousech}
+                            <li data-ckid="{$warehousech.wh_id}" {if condition="$classid==$warehousech.wh_id"} class="action"{/if}>{$warehousech.wh_title}</li>
+                            {/foreach}
+                        </ul>
+                    </div>
                     {/foreach}
-                </ul>
+                </div>
                 <div class="payorder-step">第二步：选择快递类型</div>
                 <div class="payorder-sellipin">
                     <select id="selproduct">
