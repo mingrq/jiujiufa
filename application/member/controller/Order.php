@@ -280,7 +280,7 @@ class Order extends MemberBase
                         'merchant_order_no' => $param[$i]['mchorderno'],
                         'postcode' => $param[$i]['postcode'],
                         'order_cost' => $costPrice,
-                        'order_profit' =>$orderProfit
+                        'order_profit' => $orderProfit
                     );
                     $mchRecordData[$i] = array(
                         'member_id' => $mUserId,
