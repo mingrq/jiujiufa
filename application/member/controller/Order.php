@@ -56,10 +56,10 @@ class Order extends MemberBase
         if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
             // 调用仓库快递数据
             $goodsT = new Goods();
-            $whereGoods['classId'] = $classid;
-            $whereGoods['good_state'] = 1;
+            // $whereGoods['classId'] = $classid;
+            // $whereGoods['good_state'] = 1;
             //$goodsList = $goodsT->where($whereGoods)->select();
-            $goodsList = $goods->FrontGetSpecialGoodsList(session('MUserId'), $classid);
+            $goodsList = $goodsT->FrontGetSpecialGoodsList(session('MUserId'), $classid);
         }
 
         $this->assign('classid', $classid);
@@ -82,9 +82,10 @@ class Order extends MemberBase
             $ckid = $this->request->post('ckid') ? preg_replace('/[^0-9]/', '', $this->request->post('ckid')) : 0;
             if (!empty($ckid)) {
                 $goods = new Goods();
-                $whereGoods['classId'] = $ckid;
-                $whereGoods['good_state'] = 1;
-                $goodsList = $goods->where($whereGoods)->select();
+                // $whereGoods['classId'] = $ckid;
+                // $whereGoods['good_state'] = 1;
+                // $goodsList = $goods->where($whereGoods)->select();
+                $goodsList = $goods->FrontGetSpecialGoodsList(session('MUserId'), $ckid);
             }
         }
         $member = Member::get(session('MUserId'));
@@ -189,12 +190,33 @@ class Order extends MemberBase
                 ds_json_encode(10004, "用户信息错误，请重新登录");
             }
             $mrank = $member['member_rank'];
+
+            $wherePrice['member_id'] = $mUserId;
+            $wherePrice['kd_id'] = $kdid;
+            $specialPrice = db("special_price")->where($wherePrice)->find();
             // 获取商品价格
+            if ($mrank == 1) {
+                if (!empty($specialPrice) && !empty($specialPrice['good_special_price'])) {
+                    $price = $goods['cost_price'] + $specialPrice['good_special_price'];
+                } else {
+                    $price = $goods['cost_price'] + $goods['good_price'];
+                }
+            } else if ($mrank == 2) {
+                if (!empty($specialPrice) && !empty($specialPrice['good_special_vip_price'])) {
+                    $price = $goods['cost_price'] + $specialPrice['good_special_vip_price'];
+                } else {
+                    $price = $goods['cost_price'] + $goods['good_price'];
+                }
+            } else {
+                ds_json_encode(10008, "会员代理级别错误", null);
+            }
+            /*
             if ($mrank == 2) {
                 $price = $goods['cost_price'] + $goods['good_vip_price'];
             } else {
                 $price = $goods['cost_price'] + $goods['good_price'];
             }
+            */
 
             // 判断内容是否错误
             $param = array();

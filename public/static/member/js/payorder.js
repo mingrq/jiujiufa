@@ -69,11 +69,19 @@ $(function () {
                     $goods = data.result.goodsList;
                     if ($mrank == 1) {
                         for (let i = 0; i < $goods.length; i++) {
-                            $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))));
+                            if ($goods[i].good_special_price) {
+                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_price))));
+                            }else{
+                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))));
+                            }
                         }
                     } else if ($mrank == 2) {
                         for (let i = 0; i < $goods.length; i++) {
-                            $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))));
+                            if ($goods[i].good_special_vip_price) {
+                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_vip_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_vip_price))));
+                            }else{
+                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))));
+                            }
                         }
                     }
                 }
