@@ -5,11 +5,27 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/member/css/member-main.css">
+    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/member/js/slider.js"></script>
+    <script type="text/javascript" src="/static/member/js/slidert.js"></script>
 </head>
 <body>
 <!--HEADER-->
 {include file="public/header" /}
 <!--END HEADER-->
+<div class="banner">
+    <div id="banner_tabs" class="flexslider">
+        <ul class="slides">
+            {foreach $banner as $item}
+            <li><a href="{$item.ad_link}"> <img alt="" style="background: #ffffff" src="{$item.ad_pic}"> </a></li>
+            {/foreach}
+        </ul>
+        <ul class="flex-direction-nav">
+            <li><a class="flex-prev" href="javascript:;" style="margin-left:50px;">Previous</a></li>
+            <li><a class="flex-next" href="javascript:;" style="margin-right:50px;">Next</a></li>
+        </ul>
+    </div>
+</div>
 <!--content-box-->
 <div class="content-box">
     <div class="cont">
@@ -20,46 +36,87 @@
         <div class="cont-main">
             <div class="title">个人中心</div>
             <div class="personal">
-                <div class="personal-photo">
-                    <img src="/static/member/images/default-photo.png"/>
-                </div>
-                <div class="personal-info">
-                    <div class="item">
-                        <div class="item-title">用户名：</div>
-                        <div class="item-value">{$member.member_login_name}</div>
-                    </div>
-                    <div class="item">
-                        <div class="item-title">用户级别：</div>
-                        <div class="item-value">
-                            {if condition="$member.member_rank==1"}
-                            普通会员
-                            {elseif condition="$member.member_rank==2"}
-                            代理会员
-                            {/if}
+                <div class="personal-left">
+                    <div class="ptitle">我的账户</div>
+                    <div class="personal-info">
+                        <div class="item">
+                            <div class="item-title">用户名：</div>
+                            <div class="item-value">{$member.member_login_name}</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">用户级别：</div>
+                            <div class="item-value">
+                                {if condition="$member.member_rank==1"}
+                                普通会员
+                                {elseif condition="$member.member_rank==2"}
+                                代理会员
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">手机号：</div>
+                            <div class="item-value">{$member.member_mobile}</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">会员QQ：</div>
+                            <div class="item-value">{$member.member_qq}</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">会员余额：</div>
+                            <div class="item-title" style="text-align: left;padding-left: 10px;width: 150px;">{$member.member_balance} 元</div>
+                            <div class="item-title"> <a class="capylink" style="margin-top: 10px" href="{:url('member/account/recharge')}">充值</a></div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">注册时间：</div>
+                            <div class="item-value">{$member.member_addtime}</div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="item-title">手机号：</div>
-                        <div class="item-value">{$member.member_mobile}</div>
-                    </div>
-                    <div class="item">
-                        <div class="item-title">会员QQ：</div>
-                        <div class="item-value">{$member.member_qq}</div>
-                    </div>
-                    <div class="item">
-                        <div class="item-title">会员余额：</div>
-                        <div class="item-title" style="text-align: left;padding-left: 10px;width: 150px;">{$member.member_balance} 元</div>
-                        <div class="item-title"> <a class="capylink" style="margin-top: 10px" href="{:url('member/account/recharge')}">充值</a></div>
-                    </div>
-                    <div class="item">
-                        <div class="item-title">创建时间：</div>
-                        <div class="item-value">{$member.member_addtime}</div>
+                    <div class="update-userinfo-button">
+                        <button onclick="javascript:window.location.href='{:url(\'member/account/updatePersonInfo\');}';">修 改</button>
                     </div>
                 </div>
-                <div class="update-userinfo-button">
-                    <button onclick="javascript:window.location.href='{:url(\'member/account/updatePersonInfo\');}';">修 改</button>
+                <div class="personal-right">
+                    <div class="ptitle">联系我们</div>
+                    <div class="personal-info">
+                        <div class="item">
+                            <div class="item-title">Q Q客服：</div>
+                            <div class="item-value">562954107</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">全国服务热线：</div>
+                            <div class="item-value">137 0204 4117</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-title">人工服务时间：</div>
+                            <div class="item-value">08:30 - 22:00</div>
+                        </div>
+                        <div class="qrcode">
+                            <div class="item-title">客服微信：</div>
+                            <div class="item-value">
+                                <img src="/static/member/images/kefu-qrcode.png" width="120px" height="120px" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- 中间轮播 -->
+            <div class="bannerc">
+                <div id="bannert_tabs" class="flexslider">
+                    <ul class="slides">
+                        {foreach $bannerc as $item}
+                        <li><a href="{$item.ad_link}"> <img alt="" style="background: #ffffff" src="{$item.ad_pic}"> </a></li>
+                        {/foreach}
+                    </ul>
+                    <ul class="flex-direction-nav">
+                        <li><a class="flex-prev" href="javascript:;" style="margin-left:50px;">Previous</a></li>
+                        <li><a class="flex-next" href="javascript:;" style="margin-right:50px;">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END 中间轮播 -->
+            <!-- 新闻 -->
+            <div class=""></div>
+            <!-- END 新闻 -->
         </div>
         <!-- END cont-main -->
     </div>

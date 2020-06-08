@@ -487,6 +487,150 @@ a {
 }
 
 
+.banner {
+    width: 100%;
+    float: left;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.banner .flexslider {
+    margin: 0px auto;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    zoom: 1;
+}
+
+.banner .flexslider .slides li {
+    width: 100%;
+    height: 100%;
+}
+
+.banner .flex-direction-nav a {
+    width: 70px;
+    height: 70px;
+    line-height: 99em;
+    overflow: hidden;
+    margin: -35px 0 0;
+    display: block;
+    background: url(../images/ad_ctr.png) no-repeat;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: all .3s ease;
+    border-radius: 35px;
+}
+
+.banner .flex-direction-nav .flex-next {
+    background-position: 0 -70px;
+    right: 0;
+}
+
+.banner .flex-direction-nav .flex-prev {
+    left: 0;
+}
+
+.banner .flexslider:hover .flex-next {
+    opacity: 0.8;
+    filter: alpha(opacity=25);
+}
+
+.banner .flexslider:hover .flex-prev {
+    opacity: 0.8;
+    filter: alpha(opacity=25);
+}
+
+.banner .flexslider:hover .flex-next:hover,
+.banner .flexslider:hover .flex-prev:hover {
+    opacity: 1;
+    filter: alpha(opacity=50);
+}
+
+.banner .flexslider .slides a img {
+    width: 100%;
+    height: 200px;
+    display: block;
+}
+
+
+.bannerc {
+    width: 100%;
+    float: left;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bannerc .flexslider {
+    margin: 0px auto;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    zoom: 1;
+}
+
+.bannerc .flexslider .slides li {
+    width: 100%;
+    height: 100%;
+}
+
+.bannerc .flex-direction-nav a {
+    width: 70px;
+    height: 70px;
+    line-height: 99em;
+    overflow: hidden;
+    margin: -35px 0 0;
+    display: block;
+    background: url(../images/ad_ctr.png) no-repeat;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: all .3s ease;
+    border-radius: 35px;
+}
+
+.bannerc .flex-direction-nav .flex-next {
+    background-position: 0 -70px;
+    right: 0;
+}
+
+.bannerc .flex-direction-nav .flex-prev {
+    left: 0;
+}
+
+.bannerc .flexslider:hover .flex-next {
+    opacity: 0.8;
+    filter: alpha(opacity=25);
+}
+
+.bannerc .flexslider:hover .flex-prev {
+    opacity: 0.8;
+    filter: alpha(opacity=25);
+}
+
+.bannerc .flexslider:hover .flex-next:hover,
+.bannerc .flexslider:hover .flex-prev:hover {
+    opacity: 1;
+    filter: alpha(opacity=50);
+}
+
+.bannerc .flexslider .slides a img {
+    width: 100%;
+    height: 200px;
+    display: block;
+}
+
 /**
  * 会员中心
  */
@@ -495,41 +639,35 @@ a {
     float: left;
 }
 
-.personal .personal-photo {
-    width: 120px;
+.personal .personal-left {
+    width: 450px;
+    margin: 10px;
     float: left;
-    position: relative;
 }
 
-.personal .personal-photo img {
-    width: 120px;
-    height: 120px;
+.personal .personal-right {
+    width: 450px;
+    margin: 10px;
+    float: left;
 }
 
-.personal .personal-photo .update-personal-photo {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    text-align: center;
-    line-height: 25px;
-    background-color: rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+.personal .ptitle {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 50px;
 }
 
-.personal .personal-photo .update-personal-photo:hover {
-    color: #fa3b4a;
-}
-
-.personal .personal-info {
-    width: 800px;
+.personal .personal-left .personal-info {
+    width: 410px;
     padding-left: 20px;
+    padding-right: 20px;
     float: left;
     overflow: hidden;
     position: relative;
 }
 
-.personal .personal-info .item {
-    width: 800px;
+.personal .personal-left .personal-info .item {
+    width: 410px;
     float: left;
     height: 50px;
     line-height: 50px;
@@ -538,41 +676,27 @@ a {
     font-size: 14px;
 }
 
-.personal .personal-info .item .item-title {
+.personal .personal-left .personal-info .item .item-title {
     width: 70px;
     float: left;
     text-align: right;
 }
 
-.personal .personal-info .item .item-value {
-    width: 720px;
+.personal .personal-left .personal-info .item .item-value {
+    width: 330px;
     padding-left: 10px;
     float: left;
     overflow: hidden;
 }
 
-.personal .personal-info .item .item-value input {
-    width: 285px;
-    height: 36px;
-    margin-left: 22px;
-    margin-top: 6px;
-}
-
-.personal .personal-info .item .item-value span {
-    line-height: 36px;
-    color: #999999;
-    font-size: 12px;
-    padding-left: 10px;
-}
-
-.personal .update-userinfo-button {
+.personal .personal-left .update-userinfo-button {
     width: 100%;
     float: left;
     text-align: center;
     padding: 16px 0px;
 }
 
-.personal .update-userinfo-button button {
+.personal .personal-left .update-userinfo-button button {
     width: 100px;
     text-align: center;
     background-color: #FF464E;
@@ -584,7 +708,163 @@ a {
     cursor: pointer;
 }
 
-.personal .update-userinfo-button .insubbtn {
+.personal .personal-left .update-userinfo-button .insubbtn {
+    width: 100px;
+    text-align: center;
+    background-color: #FF464E;
+    color: #ffffff;
+    border: none;
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.personal .personal-right .personal-info {
+    width: 410px;
+    padding-left: 20px;
+    padding-right: 20px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.personal .personal-right .personal-info .item {
+    width: 410px;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px dashed #eaeaea;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.personal .personal-right .personal-info .item .item-title {
+    width: 70px;
+    float: left;
+    text-align: right;
+}
+
+.personal .personal-right .personal-info .item .item-value {
+    width: 330px;
+    padding-left: 10px;
+    float: left;
+    overflow: hidden;
+}
+
+.personal .personal-right .personal-info .qrcode {
+    width: 410px;
+    float: left;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.personal .personal-right .personal-info .qrcode .item-title {
+    width: 70px;
+    float: left;
+    text-align: right;
+    line-height: 50px;
+}
+
+.personal .personal-right .personal-info .qrcode .item-value {
+    width: 330px;
+    padding-left: 10px;
+    float: left;
+    overflow: hidden;
+}
+
+
+.updpersonal .personal-photo {
+    width: 120px;
+    float: left;
+    position: relative;
+}
+
+.updpersonal .personal-photo img {
+    width: 120px;
+    height: 120px;
+}
+
+.updpersonal .personal-photo .update-personal-photo {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    line-height: 25px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.updpersonal .personal-photo .update-personal-photo:hover {
+    color: #fa3b4a;
+}
+
+.updpersonal .personal-info {
+    width: 800px;
+    padding-left: 20px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.updpersonal .personal-info .item {
+    width: 800px;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px dashed #eaeaea;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.updpersonal .personal-info .item .item-title {
+    width: 70px;
+    float: left;
+    text-align: right;
+}
+
+.updpersonal .personal-info .item .item-value {
+    width: 720px;
+    padding-left: 10px;
+    float: left;
+    overflow: hidden;
+}
+
+.updpersonal .personal-info .item .item-value input {
+    width: 285px;
+    height: 36px;
+    margin-left: 22px;
+    margin-top: 6px;
+}
+
+.updpersonal .personal-info .item .item-value span {
+    line-height: 36px;
+    color: #999999;
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.updpersonal .update-userinfo-button {
+    width: 100%;
+    float: left;
+    text-align: center;
+    padding: 16px 0px;
+}
+
+.updpersonal .update-userinfo-button button {
+    width: 100px;
+    text-align: center;
+    background-color: #FF464E;
+    color: #ffffff;
+    border: none;
+    line-height: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.updpersonal .update-userinfo-button .insubbtn {
     width: 100px;
     text-align: center;
     background-color: #FF464E;

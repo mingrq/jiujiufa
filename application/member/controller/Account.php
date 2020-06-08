@@ -3,6 +3,7 @@
 namespace app\member\controller;
 
 use app\common\controller\MemberBase;
+use app\common\model\Advertising;
 use app\common\model\Member;
 use app\common\model\Rank;
 use think\Loader;
@@ -20,6 +21,16 @@ class Account extends MemberBase
      */
     public function personInfo()
     {
+        //轮播图 上
+        $advertmodel = new Advertising();
+        $banner = $advertmodel->getadvertislist(['ad_class' => 4], '*', 4, 'ad_add_time desc');
+        $this->assign('banner', $banner);
+
+        //轮播图 下
+        $advertmodel = new Advertising();
+        $bannerc = $advertmodel->getadvertislist(['ad_class' => 5], '*', 4, 'ad_add_time desc');
+        $this->assign('bannerc', $bannerc);
+
         $memeber = Member::get(session('MUserId'));
         $this->assign('member', $memeber);
         return $this->fetch();
