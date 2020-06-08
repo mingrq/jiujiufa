@@ -109,16 +109,43 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <td class="name">已发货订单数：</td>
-                    <td class="munber"><a href="#">{$orderdeliverpaycount}</a>&nbsp;个</td>
+                    <td class="name">今日订单数：</td>
+                    <td class="munber"><a href="#">{$todayorder}</a>&nbsp;个</td>
                 </tr>
                 <tr>
-                    <td class="name">已支付订单数：</td>
-                    <td class="munber"><a href="#">{$orderpaycount}</a>&nbsp;个</td>
+                    <td class="name">昨天订单数：</td>
+                    <td class="munber"><a href="#">{$yesterdayorder}</a>&nbsp;个</td>
                 </tr>
                 <tr>
-                    <td class="name">未支付订单数：</td>
-                    <td class="munber"><a href="#">{$ordernotpaycount}</a>&nbsp;个</td>
+                    <td class="name">本月订单数：</td>
+                    <td class="munber"><a href="#">{$monthorder}</a>&nbsp;个</td>
+                </tr>
+                <tr>
+                    <td class="name">上月订单数：</td>
+                    <td class="munber"><a href="#">{$lastmonthorder}</a>&nbsp;个</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="Order_Statistics">
+            <div class="title_name">财务信息统计</div>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td class="name">今日充值金额：</td>
+                    <td class="munber"><a href="#">{$todayrecharge}</a>&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td class="name">昨天充值金额：</td>
+                    <td class="munber"><a href="#">{$yesterdayrecharge}</a>&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td class="name">本月充值金额：</td>
+                    <td class="munber"><a href="#">{$monthrecharge}</a>&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td class="name">上月充值金额：</td>
+                    <td class="munber"><a href="#">{$lastmonthrecharge}</a>&nbsp;元</td>
                 </tr>
                 </tbody>
             </table>
@@ -142,21 +169,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="Order_Statistics">
-            <div class="title_name">资讯信息统计</div>
-            <table class="table table-bordered">
-                <tbody>
-                <tr>
-                    <td class="name">代发资讯：</td>
-                    <td class="munber"><a href="#">{$articlecount}</a>&nbsp;篇</td>
-                </tr>
-                <tr>
-                    <td class="name">网站公告：</td>
-                    <td class="munber"><a href="#">{$noticecount}</a>&nbsp;篇</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
 
         <!--<div class="t_Record">
           <div id="main" style="height:300px; overflow:hidden; width:100%; overflow:auto" ></div>
