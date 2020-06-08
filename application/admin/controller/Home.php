@@ -28,16 +28,21 @@ class Home extends AdminBaseController
         $monthmember = db('member')->whereTime('member_addtime', 'm')->count();
         $lastmonthmember = db('member')->whereTime('member_addtime', 'last month')->count();
         //订单数量统计
-        $todayorder = db('order')->where('order_state','>',1)->whereTime('create_time', 'd')->count();
-        $yesterdayorder = db('order')->where('order_state','>',1)->whereTime('create_time', 'yesterday')->count();
-        $monthorder = db('order')->where('order_state','>',1)->whereTime('create_time', 'm')->count();
-        $lastmonthorder = db('order')->where('order_state','>',1)->whereTime('create_time', 'last month')->count();
+        $todayorder = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'd')->count();
+        $yesterdayorder = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'yesterday')->count();
+        $monthorder = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'm')->count();
+        $lastmonthorder = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'last month')->count();
 
         //财务信息统计
         $todayrecharge = db('recharge_record')->where('recharge_state',2)->whereTime('recharge_time', 'd')->sum('recharge_money');
         $yesterdayrecharge = db('recharge_record')->where('recharge_state',2)->whereTime('recharge_time', 'yesterday')->sum('recharge_money');
         $monthrecharge = db('recharge_record')->where('recharge_state',2)->whereTime('recharge_time', 'm')->sum('recharge_money');
         $lastmonthrecharge = db('recharge_record')->where('recharge_state',2)->whereTime('recharge_time', 'last month')->sum('recharge_money');
+        //利润统计 profit
+        $todayprofit = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'd')->sum('order_profit');
+        $yesterdayprofit = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'yesterday')->sum('order_profit');
+        $monthprofit = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'm')->sum('order_profit');
+        $lastmonthprofit = db('order')->where('order_state','in',[2,3])->whereTime('create_time', 'last month')->sum('order_profit');
 
 
         $this->assign('workordercount', $workordercount);
@@ -63,6 +68,11 @@ class Home extends AdminBaseController
         $this->assign('yesterdayrecharge', $yesterdayrecharge);
         $this->assign('monthrecharge', $monthrecharge);
         $this->assign('lastmonthrecharge', $lastmonthrecharge);
+
+        $this->assign('todayprofit', $todayprofit);
+        $this->assign('yesterdayprofit', $yesterdayprofit);
+        $this->assign('monthprofit', $monthprofit);
+        $this->assign('lastmonthprofit', $lastmonthprofit);
         return $this->fetch();
     }
 }

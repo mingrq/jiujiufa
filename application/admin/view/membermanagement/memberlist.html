@@ -8,6 +8,7 @@
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome.min.css"/>
     <script src="{$Think.COMMON_SITE_ROOT}/js/jsontoexcel.js"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/js/checkutils.js"></script>
     <!--[if IE 7]>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
@@ -120,6 +121,7 @@
 <script type="text/html" id="table_operation_toolbar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="special_price">特殊价格</a>
     <a class="layui-btn layui-btn-xs" lay-event="reward_punish">奖罚</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="recharge_record">充值记录</a>
     <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="change_password">修改密码</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="financial_details">资金明细</a>
@@ -172,6 +174,45 @@
                 <div class="layui-input-block" style="margin-left: 20px;width: 300px">
                     <input type="password" id="alter_password_again" lay-verify="title" autocomplete="off"
                            placeholder="请再次输入密码"
+                           class="layui-input" style="margin: 0px">
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<!--修改会员信息布局-->
+<script type="text/html" id="alter_info_html">
+    <div style="padding: 20px">
+
+        <form class="layui-form" action="" lay-filter="example">
+            <div class="layui-inline">
+                <label class="m-form-label">会员等级</label>
+                <div class="layui-input-inline" style="width: 120px">
+                    <select name="modules" id="edit_rank" lay-verify="required" lay-search="">
+
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="m-form-label">手机号:</label>
+                <div class="layui-input-block" style="margin-left: 20px;width: 300px">
+                    <input type="text" id="alter_mobile" lay-verify="title" autocomplete="off" placeholder="请输入手机号"
+                           class="layui-input" style="margin: 0px">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="m-form-label">QQ:</label>
+                <div class="layui-input-block" style="margin-left: 20px;width: 300px">
+                    <input type="text" id="alter_qq" lay-verify="title" autocomplete="off" placeholder="请输入QQ号"
+                           class="layui-input" style="margin: 0px">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="m-form-label">推荐人ID:</label>
+                <div class="layui-input-block" style="margin-left: 20px;width: 300px">
+                    <input type="text" id="alter_recommend_id" lay-verify="title" autocomplete="off"
+                           placeholder="请输入推荐人ID"
                            class="layui-input" style="margin: 0px">
                 </div>
             </div>
@@ -271,7 +312,7 @@
                 , dataName: 'data' //规定数据列表的字段名称，默认：data
             }
             , page: {
-                layout: ['prev', 'page', 'next', 'skip','limit', 'refresh']
+                layout: ['prev', 'page', 'next', 'skip', 'limit', 'refresh']
             }
         });
 
@@ -306,6 +347,8 @@
             } else if (layEvent === 'financial_details') { //资金明细
                 setnav('资金明细');
                 window.location.href = '/admin/membermanagement/financialdetails.html?mid=' + data.member_id;
+            } else if (layEvent === 'edit') {
+                edit(data);
             }
         });
     });
@@ -414,6 +457,103 @@
             }
         });
         $('#alter_pw_mobile').html(data.member_mobile);
+    }
+
+    /** 用户信息编辑*/
+    function edit(data) {
+        layer.open({
+            type: 1,
+            title: '编辑' + data.member_mobile + '信息',
+            content: $('#alter_info_html').html(),
+            btn: ['确定', '取消']
+            , yes: function (indexa, layero) {
+                let rank = $("#edit_rank").val();
+                let mobile = $('#alter_mobile').val();
+                let qq = $('#alter_qq').val();
+                let recommend = $('#alter_recommend_id').val();
+                if (!recommend) {
+                    recommend = 0;
+                }
+                if (!mobile) {
+                    layer.msg("请填写手机号");
+                    return;
+                }
+                if (!checkPhone(mobile)) {
+                    layer.msg("请填写正确手机号");
+                    return;
+                }
+                if (!qq) {
+                    layer.msg("请填写QQ号");
+                    return;
+                }
+                if (!isQQ(qq)) {
+                    layer.msg("请填写正确QQ号");
+                    return;
+                }
+                console.log(data.member_id);
+                layer.msg('手机号必须正确，否则无法登录，确定要修改吗？', {
+                    time: 0 //不自动关闭
+                    ,btn: ['必须啊', '取消']
+                    ,yes: function(index){
+                        layer.close(index);
+
+                        $.ajax({
+                            //几个参数需要注意一下
+                            type: "POST",//方法类型
+                            dataType: "json",//预期服务器返回的数据类型
+                            url: "/admin/membermanagement/updateinfo",
+                            data: {
+                                memberid: data.member_id,
+                                rank: rank,
+                                mobile:mobile,
+                                qq:qq,
+                                recommend:recommend
+                            },
+                            success: function (result) {
+                                console.log(result);
+                                layer.msg(result.message);
+                                if (result.code == 10000) {
+                                    layer.close(indexa);
+                                    table.reload('sample-table');
+                                }
+                            },
+                            error: function () {
+                                layer.msg('修改失败，请稍后再试');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        $('#alter_mobile').val(data.member_mobile);
+        $('#alter_qq').val(data.member_qq);
+        if (data.member_referrer != 0) {
+            $('#alter_recommend_id').val(data.member_referrer);
+        }
+        $.ajax({
+            //几个参数需要注意一下
+            type: "GET",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/rank/getranklist",
+            success: function (result) {
+                if (result.code == 10000) {
+                    //设置下拉框数据
+                    for (let i = 0; i < result.result.length; i++) {
+                        let rank = result.result[i];
+                        if (data.member_rank == rank.rank_id) {
+                            $("#edit_rank").append("<option selected='selected' value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
+                        } else {
+                            $("#edit_rank").append("<option value='" + rank.rank_id + "'>" + rank.rank_name + "</option>");
+                        }
+                    }
+                    form.render('select');
+                }
+            },
+            error: function () {
+
+            }
+        });
+
     }
 
     /**搜索*/

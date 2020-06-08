@@ -41,33 +41,33 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <a href="/admin/workorder.html" title="未处理工单"  class="no-radius">
-                <div class="symbol red">
-                    <i class="icon-tags"></i>
-                </div>
-                <div class="value">
-                    <h1>{$workordercount}</h1>
-                    <p>未处理工单</p>
-                </div>
+                <a href="/admin/workorder.html" title="未处理工单" class="no-radius">
+                    <div class="symbol red">
+                        <i class="icon-tags"></i>
+                    </div>
+                    <div class="value">
+                        <h1>{$workordercount}</h1>
+                        <p>未处理工单</p>
+                    </div>
                 </a>
             </section>
         </div>
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <a href="/admin/orderform.html" title="礼品订单"  class="no-radius">
-                <div class="symbol yellow">
-                    <i class="icon-shopping-cart"></i>
-                </div>
-                <div class="value">
-                    <h1>{$orderpaycount}</h1>
-                    <p>礼品订单</p>
-                </div>
+                <a href="/admin/orderform.html" title="礼品订单" class="no-radius">
+                    <div class="symbol yellow">
+                        <i class="icon-shopping-cart"></i>
+                    </div>
+                    <div class="value">
+                        <h1>{$orderpaycount}</h1>
+                        <p>礼品订单</p>
+                    </div>
                 </a>
             </section>
         </div>
         <div class="col-lg-3 col-sm-6">
             <section class="panel">
-                <a href="/admin/financialmanagement/rechargerecord.html"  title="充值记录" class="no-radius">
+                <a href="/admin/financialmanagement/rechargerecord.html" title="充值记录" class="no-radius">
                     <div class="symbol blue">
                         <i class="icon-bar-chart"></i>
                     </div>
@@ -132,20 +132,43 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <td class="name">今日充值金额：</td>
+                    <td class="name" style="width: 120px">今日充值金额：</td>
                     <td class="munber"><a href="#">{$todayrecharge}</a>&nbsp;元</td>
                 </tr>
                 <tr>
-                    <td class="name">昨天充值金额：</td>
+                    <td class="name" style="width: 120px">昨天充值金额：</td>
                     <td class="munber"><a href="#">{$yesterdayrecharge}</a>&nbsp;元</td>
                 </tr>
                 <tr>
-                    <td class="name">本月充值金额：</td>
+                    <td class="name" style="width: 120px">本月充值金额：</td>
                     <td class="munber"><a href="#">{$monthrecharge}</a>&nbsp;元</td>
                 </tr>
                 <tr>
-                    <td class="name">上月充值金额：</td>
+                    <td class="name" style="width: 120px">上月充值金额：</td>
                     <td class="munber"><a href="#">{$lastmonthrecharge}</a>&nbsp;元</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="Order_Statistics">
+            <div class="title_name">利润信息统计</div>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td class="name" style="width: 120px">今日利润金额：</td>
+                    <td class="munber"><a href="#">{$todayprofit}</a>&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td class="name" style="width: 120px">昨天利润金额：</td>
+                    <td class="munber"><a href="#">{$yesterdayprofit}</a>&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td class="name" style="width: 120px">本月利润金额：</td>
+                    <td class="munber"><a href="#">{$monthprofit}</a>&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td class="name" style="width: 120px">上月利润金额：</td>
+                    <td class="munber"><a href="#">{$lastmonthprofit}</a>&nbsp;元</td>
                 </tr>
                 </tbody>
             </table>

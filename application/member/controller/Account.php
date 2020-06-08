@@ -95,6 +95,10 @@ class Account extends MemberBase
         $member = Member::get(session('MUserId'));
         $this->assign('member', $member);
         $this->assign('domain', $domain);
+
+        $rank = new Rank();
+        $rankList = $rank->where('rank_id', '>', $member['member_rank'])->order('rank_id', 'asc')->select();
+        $this->assign('rankList', $rankList);
         return $this->fetch();
     }
 
@@ -110,6 +114,10 @@ class Account extends MemberBase
 
         $this->assign('member', $member);
         $this->assign('rankList', $rankList);
+
+        $request = Request::instance();
+        $domain = $request->domain();
+        $this->assign('domain', $domain);
         return $this->fetch();
     }
 
@@ -134,6 +142,7 @@ class Account extends MemberBase
             }
 
         } else {
+
             return $this->fetch();
         }
     }

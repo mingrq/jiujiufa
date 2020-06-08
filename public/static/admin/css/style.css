@@ -417,7 +417,8 @@ body {
 }
 
 .Order_Statistics {
-    width: 230px;
+    width: 220px;
+    margin-top: 20px;
     float: left;
     border: 1px solid #ddd;
     margin-right: 15px;
@@ -502,7 +503,7 @@ body {
 
 .Order_Statistics .table.table-bordered td.name {
     border-left: 0px;
-    width: 120px;
+    width: 100px;
     text-align: right
 }
 

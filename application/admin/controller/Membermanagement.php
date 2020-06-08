@@ -28,13 +28,35 @@ class Membermanagement extends AdminBaseController
     {
         $limit = input('param.limit');
         $member_mod = model('member');
-        $memberList = $member_mod->getMemberList(null,'*',$limit);
+        $memberList = $member_mod->getMemberList(null, '*', $limit);
         if ($memberList) {
             ds_json_encode(10000, "获取会员列表成功", $memberList);
         } else {
             ds_json_encode(10001, "获取会员列表失败");
         }
 
+    }
+
+    /**
+     * 修改用户信息
+     */
+    public function updateinfo()
+    {
+        if (request()->isPost()) {
+            $memberid = input('param.memberid');
+            $rank = input('param.rank');
+            $mobile = input('param.mobile');
+            $qq = input('param.qq');
+            $recommend = input('param.recommend');
+            $query = db('member')->where('member_id', $memberid)->update(['member_login_name' => $mobile, 'member_mobile' => $mobile, 'member_qq' => $qq, 'member_referrer' => $recommend, 'member_rank' => $rank]);
+            if ($query) {
+                ds_json_encode(10000, "修改用户信息成功");
+            } else {
+                ds_json_encode(10001, "修改用户信息失败");
+            }
+        } else {
+            ds_json_encode(10001, "接口调用错误");
+        }
     }
 
     /**
@@ -453,7 +475,8 @@ class Membermanagement extends AdminBaseController
     /**
      * 导出会员数据
      */
-    public function derivememberlist(){
+    public function derivememberlist()
+    {
         $dateatart = input('param.dateatart');
         $dateend = input('param.dateend');
         $condition = array();
@@ -468,10 +491,10 @@ class Membermanagement extends AdminBaseController
                 $condition["member_addtime"] = ['<=', $dateend];
             }
         }
-        $member_list = db('v_member')->field(['member_mobile','member_qq','rank_name','member_balance','referrer_name','member_invite_count','member_addtime'])->where($condition)->select();
-        if ($member_list){
-            ds_json_encode(10000, "导出会员数据成功",$member_list);
-        }else{
+        $member_list = db('v_member')->field(['member_mobile', 'member_qq', 'rank_name', 'member_balance', 'referrer_name', 'member_invite_count', 'member_addtime'])->where($condition)->select();
+        if ($member_list) {
+            ds_json_encode(10000, "导出会员数据成功", $member_list);
+        } else {
             ds_json_encode(10001, "导出会员数据失败");
         }
     }

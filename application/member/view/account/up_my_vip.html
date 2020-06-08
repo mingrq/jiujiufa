@@ -25,10 +25,8 @@
                 {else/}
                 <div class="upvip-explain">
                     {foreach $rankList as $value}
-                    <p>充值累积满<span style="color:#FF464E">{$value.recharge_upgrade}</span>元，可自动升级为永久<span style="color:#FF464E">{$value.rank_name}</span></p>
-                    <p>邀请<span style="color:#FF464E">{$value.invite_upgrade}</span>个好友注册成功，可自动升级为永久<span style="color:#FF464E">{$value.rank_name}</span>
-                        <a href="{:url('member/account/myspreadline')}" class="upgrade-btn capylink">复制链接</a>
-                    </p>
+                    <p>一次性充值或累积充值满<span style="color:#FF464E">{$value.recharge_upgrade}</span>元，可自动升级为永久<span style="color:#FF464E">{$value.rank_name}</span></p>
+                    <p>邀请<span style="color:#FF464E">{$value.invite_upgrade}</span>个好友注册成功，可自动升级为永久<span style="color:#FF464E">{$value.rank_name}</span></p>
                     {/foreach}
                 </div>
                 {/empty}
@@ -61,6 +59,10 @@
                                 <a href="recharge.html" class="upgrade-btn">去充值</a>
                             </td>
                         </tr>
+                        <tr style="margin-top: 3px">
+                            <td class="td-title">邀请链接：</td>
+                            <td class="td-value"> <span id="invitation_link">{$domain}{:url('member/login/register')}?m={$member.member_id}</span> <span class="upgrade-btn capylink" onclick="copyUrl()">复制链接</span></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -68,6 +70,20 @@
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
+    <script>
+        function copyUrl()
+        {
+            var Url2=document.getElementById("invitation_link").innerText;
+            var oInput = document.createElement('input');
+            oInput.value = Url2;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            oInput.className = 'oInput';
+            oInput.style.display='none';
+            layer.msg("复制成功")
+        }
+    </script>
 </div>
 <!--END content-box-->
 <!-- footer -->

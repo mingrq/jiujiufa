@@ -18,9 +18,17 @@
         <!-- END cont-side -->
         <!-- cont-main -->
         <div class="cont-main">
-            <div class="title">邀请链接</div>
+            <div class="title">邀请有礼</div>
             <div class="cont-main-box">
-                <div class="spread-line">链接地址：<span id="invitation_link">{$domain}{:url('member/login/register')}?m={$member.member_id}</span> <span class="copymyline" onclick="copyUrl()">复制</span></div>
+                <div class="spread-line">链接地址：<span id="invitation_link">{$domain}{:url('member/login/register')}?m={$member.member_id}</span>
+                    <span class="copymyline" onclick="copyUrl()">复制</span></div>
+            </div>
+            <div class="cont-main-box" style="margin-top: 30px">
+                <p>温馨提示:</p>
+                <p style="margin-top: 8px">* 凡通过此链接进入网站注册的人都计算在您的推荐人数内</p>
+                {foreach $rankList as $value}
+                <p style="margin-top: 8px">* 您推荐的总人数达到{$value.invite_upgrade}人，自动升级{$value.rank_name}等级</p>
+                {/foreach}
             </div>
         </div>
         <!-- END cont-main -->
@@ -28,16 +36,15 @@
     <div class="clear"></div>
 </div>
 <script>
-    function copyUrl()
-    {
-        var Url2=document.getElementById("invitation_link").innerText;
+    function copyUrl() {
+        var Url2 = document.getElementById("invitation_link").innerText;
         var oInput = document.createElement('input');
         oInput.value = Url2;
         document.body.appendChild(oInput);
         oInput.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
         oInput.className = 'oInput';
-        oInput.style.display='none';
+        oInput.style.display = 'none';
         layer.msg("复制成功")
     }
 </script>

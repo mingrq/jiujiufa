@@ -64,6 +64,11 @@
     .layui-btn-danger {
         background-color: #FF464E;
     }
+    .layui-table-tips-c:before {
+        position: relative;
+         right: 0px;
+        top: -3px;
+    }
 </style>
 <div class="page-content clearfix">
     <form class="layui-form" action="">
@@ -106,10 +111,7 @@
 <script type="text/html" id="receivinginfo">
     <div style="line-height: 25px;text-align: center">
         <p>快递单号：{{d.tracking_number}}</p>
-        <p>
-            商家订单号：{{d.merchant_order_no}}
-        </p>
-        <p>收货信息：{{d.consignee_name}}，{{d.shipping_address}}，{{d.postcode}}</p>
+        <p style="word-wrap: break-word;word-break: break-all;">{{d.merchant_order_no}},{{d.consignee_name}}，{{d.shipping_address}}，{{d.postcode}}</p>
     </div>
 </script>
 <!--订单数据导出布局-->
