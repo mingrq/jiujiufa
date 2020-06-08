@@ -183,6 +183,7 @@ class Order extends MemberBase
                 // 商品ID错误
                 ds_json_encode(10001, "商品信息错误", null);
             }
+            $costPrice = $goods['cost_price'];
             // 获取用户级别
             $mUserId = session('MUserId');
             $member = Member::get($mUserId);
@@ -197,15 +198,19 @@ class Order extends MemberBase
             // 获取商品价格
             if ($mrank == 1) {
                 if (!empty($specialPrice) && !empty($specialPrice['good_special_price'])) {
-                    $price = $goods['cost_price'] + $specialPrice['good_special_price'];
+                    $orderProfit = $specialPrice['good_special_price'];
+                    $price = $costPrice + $orderProfit;
                 } else {
-                    $price = $goods['cost_price'] + $goods['good_price'];
+                    $orderProfit = $goods['good_price'];
+                    $price = $costPrice + $orderProfit;
                 }
             } else if ($mrank == 2) {
                 if (!empty($specialPrice) && !empty($specialPrice['good_special_vip_price'])) {
-                    $price = $goods['cost_price'] + $specialPrice['good_special_vip_price'];
+                    $orderProfit = $specialPrice['good_special_vip_price'];
+                    $price = $costPrice + $orderProfit;
                 } else {
-                    $price = $goods['cost_price'] + $goods['good_price'];
+                    $orderProfit = $goods['good_price'];
+                    $price = $costPrice + $orderProfit;
                 }
             } else {
                 ds_json_encode(10008, "会员代理级别错误", null);
@@ -268,16 +273,18 @@ class Order extends MemberBase
                         'shipping_address' => $param[$i]['address'],
                         'express_name' => $goods['whTitle'],
                         'create_time' => $nowTime,
-                        'order_pay' => $kddhs[$i]['price'],
+                        'order_pay' => $price,
                         'order_state' => 2,
                         'goodsTitle' => $goods['kdName'],
                         'consignee_phone' => $kddhs[$i]['takePhone'],
                         'merchant_order_no' => $param[$i]['mchorderno'],
-                        'postcode' => $param[$i]['postcode']
+                        'postcode' => $param[$i]['postcode'],
+                        'order_cost' => $costPrice,
+                        'order_profit' =>$orderProfit
                     );
                     $mchRecordData[$i] = array(
                         'member_id' => $mUserId,
-                        'change_money' => (-1 * $kddhs[$i]['price']),
+                        'change_money' => (-1 * $price),
                         'change_time' => $nowTime,
                         'change_cause' => '购买小礼品：' . $goods['kdName']
                     );
