@@ -7,6 +7,7 @@ namespace app\index\controller;
 
 use app\common\controller\FrontendBase;
 use app\common\model\Goods;
+use app\common\model\Member;
 use app\common\model\Warehouse;
 
 class Product extends FrontendBase
@@ -29,10 +30,10 @@ class Product extends FrontendBase
         $orderBy = ['kdId' => "desc"];
         if ($oby == 1) {
             // 价格最低排序
-            $orderBy = ['good_price' => "asc"];
+            $orderBy = ['cost_price' => "asc"];
         } else if ($oby == 2) {
             // 价格最高排序
-            $orderBy = ['good_price' => "desc"];
+            $orderBy = ['cost_price' => "desc"];
         } else {
             $oby = 0;
         }
@@ -64,10 +65,23 @@ class Product extends FrontendBase
 
         $goods = new Goods();
         // 新品
-        $newGoodsList = $goods->where($whereGoods)->order($orderBy)->select();
+        // $newGoodsList = $goods->where($whereGoods)->order($orderBy)->select();
+        $MUserId = session('MUserId');
+        $MUserName = session('MUserName');
+        $mrank = 0;
+        if (empty($MUserId) || empty($MUserName)) {
+            $newGoodsList = $goods->where($whereGoods)->order($orderBy)->select();
+        } else {
+            $member = Member::get($MUserId);
+            if (!empty($member) && !empty($member['member_rank'])) {
+                $mrank = $member['member_rank'];
+            }
+            $newGoodsList = $goods->FrontGetSpecialGoodsList($MUserId, $ckid, $orderBy);
+        }
 
         $this->assign('ckid', $ckid);
         $this->assign('oby', $oby);
+        $this->assign('mrank', $mrank);
         $this->assign('warehouseList', $warehouseList);
         $this->assign('newGoodsList', $newGoodsList);
 

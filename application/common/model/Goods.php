@@ -34,15 +34,32 @@ class Goods extends Model
     /**
      *
      * 获取特殊价格商品列表
-     * @param int $mid  用户id
+     * @param int $mid 用户id
      * @param int $page
      * @param string $order
      * @return mixed
      */
-    public function getSpecialGoodsList($mid,$page = 100, $order = 'kdId desc')
+    public function getSpecialGoodsList($mid, $page = 100, $order = 'kdId desc')
     {
         $specialpricelist = db('special_price')->where('member_id', $mid)->fetchSql(true)->select();
-        $query=db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId','LEFT')->field(['vgoods.*','specialprice.good_special_price','specialprice.good_special_vip_price','specialprice.good_special_api_price'])->order($order)->paginate($page);
+        $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->order($order)->paginate($page);
+        return $query;
+    }
+
+    /**
+     * 前端 获取特殊价格商品列表
+     * @param $mid
+     * @param int $classId
+     * @param string $order
+     * @return mixed
+     */
+    public function FrontGetSpecialGoodsList($mid, $classId = 0, $order = 'kdId desc')
+    {
+        $whereGoods['vgoods.good_state'] = 1;
+        $whereGoods['vgoods.classId'] = $classId;
+        
+        $specialpricelist = db('special_price')->where('member_id', $mid)->fetchSql(true)->select();
+        $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->where($whereGoods)->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->order($order)->select();
         return $query;
     }
 }

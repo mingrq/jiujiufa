@@ -55,13 +55,24 @@
         <ul class="newproduct-list">
             {foreach $newGoodsList as $goods}
             <li>
-                <a href="/member/order/payOrderPage?gid={$goods.kdId}">
+                <a href="/member/order/payOrderPage/gid/{$goods.kdId}">
                     <div class="newproduct-pic">
                         <img src="{$goods.good_pic}"/>
                     </div>
                     <p class="nwpro-title">{$goods.goodsTitle}</p>
                     <p class="nwpro-price">
-                        <span class="price">￥ {$goods.good_price} </span><span class="util">元/单</span>
+                        <span class="price">￥
+	{if condition="$mrank==0"}
+		{$goods.cost_price + $goods.good_price}
+	{elseif condition="$mrank==1" }
+		{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}
+		{else /}{$goods.cost_price + $goods.good_special_price}
+		{/if}
+	{else if condition="$mrank==2"}
+		{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}
+		{else /}{$goods.cost_price + $goods.good_special_vip_price}
+		{/if}
+	{/if} </span><span class="util">元/单</span>
                     </p>
                     <p class="nwpro-buy-btn">
                         <button>立即购买</button>

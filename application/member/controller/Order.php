@@ -49,6 +49,8 @@ class Order extends MemberBase
             $kdId = 0;
         }
 
+        $member = Member::get(session('MUserId'));
+
         // 当前仓库下的产品
         $warehouse = Warehouse::get($classid);
         if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
@@ -56,10 +58,9 @@ class Order extends MemberBase
             $goodsT = new Goods();
             $whereGoods['classId'] = $classid;
             $whereGoods['good_state'] = 1;
-            $goodsList = $goodsT->where($whereGoods)->select();
+            //$goodsList = $goodsT->where($whereGoods)->select();
+            $goodsList = $goods->FrontGetSpecialGoodsList(session('MUserId'), $classid);
         }
-
-        $member = Member::get(session('MUserId'));
 
         $this->assign('classid', $classid);
         $this->assign('kdId', $kdId);
