@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加广告</title>
+    <script src="{$Think.ADMIN_SITE_ROOT}/js/jquery-1.9.1.min.js"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/layer/layer.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div style="padding: 20px">
+    <form class="layui-form" id="adv_form" action="##" onsubmit="return false">
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告类型</label>
+            <div class="layui-input-block">
+                <select name="set_adv_class" id="set_adv_class" lay-verify="required" lay-search="">
+                    {foreach $data as $adclass}
+                    <option value="{$adclass.ad_class_id}" {if condition="$adclass.ad_class_id==$ad.ad_class"} selected="selected"{/if}>{$adclass.ad_class_name}({$adclass.ad_size})</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="adv_link" id="adv_link" lay-verify="required" lay-reqtext="广告链接是必填项，岂能为空？"
+                       placeholder="请输入广告链接 ps:http://www.xxx.com" autocomplete="off" class="layui-input" value="{$ad.ad_link}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告图片</label>
+
+            <div class="layui-input-inline" style="display: flex;width: 240px">
+                <input type="file"
+                       style="position:absolute; top:0px; right:0px; height:34px; width:286px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
+                       name="adv_pic_sel" id="adv_pic_sel" hidefocus="true">
+                <input type="text" id="adv_pic" lay-verify="required" lay-reqtext="广告图片是必填项，岂能为空？"
+                       placeholder="请输入广告图片地址" class="layui-input" value="{$ad.ad_pic}">
+                <input type='button' value='上传'
+                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div>
+            <div class="layui-input-inline">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" onclick="btnsub()">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+
+    /**设置等级下拉框数据*/
+    var form;
+    layui.use('form', function () {
+        form = layui.form;
+    });
+    $("#adv_pic_sel").change(function () {
+        $("#adv_pic").val($("#adv_pic_sel").val());
+    });
+
+    /*提交广告*/
+    function btnsub() {
+        let adv_link = $('#adv_link').val();
+        if (!$.trim(adv_link)) {
+            layer.msg("广告链接不能为空");
+            return;
+        }
+        if (!$.trim($('#adv_pic').val())) {
+            layer.msg("请选择广告图片");
+            return;
+        }
+        let link = $.trim(adv_link);
+        if (!IsURL(link)) {
+            layer.msg("请输入正确链接");
+            return;
+        }
+        var file_obj = document.getElementById('adv_pic_sel').files[0];
+        var fd = new FormData();
+        fd.append('set_adv_id', {$ad.ad_id});
+        fd.append('set_adv_class', $('#set_adv_class').val());
+        if (file_obj) {
+            fd.append('file', file_obj);
+        }else {
+            fd.append('picurl', $('#adv_pic').val());
+        }
+        fd.append('adv_link', link);
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/advertising/editadvertising",
+            data: fd,
+            processData: false,  //tell jQuery not to process the data
+            contentType: false,  //tell jQuery not to set contentType
+            success: function (result) {
+                layer.msg(result.message);
+                if (result.code == 10000) {
+                    parent.serachwin();
+                }
+            },
+            error: function () {
+                layer.msg('广告添加失败，请稍后再试');
+            }
+        });
+    }
+
+    /**
+     * 判断链接格式
+     * @param value
+     * @returns {boolean}
+     * @constructor
+     */
+    function IsURL(value) {
+        var strRegex = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
+        if (!strRegex.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

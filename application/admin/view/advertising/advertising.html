@@ -88,7 +88,8 @@
 </script>
 <!--表格item工具-->
 <script type="text/html" id="table_operation_toolbar">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" style="margin-top: 3px" lay-event="advertising_del">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="advertising_del">删除</a>
+    <a class="layui-btn  layui-btn-normal layui-btn-xs"  lay-event="advertising_edit">编辑</a>
 </script>
 <script>
     /**设置等级下拉框数据*/
@@ -111,7 +112,7 @@
                 , {field: 'ad_pic', width: 200, align: 'center', title: '图片', templet: '#table_main_pic'}
                 , {field: 'ad_link', title: '链接地址', align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'ad_add_time', align: 'center', title: '加入时间', width: 160}
-                , {field: 'operation', align: 'center', title: '操作', width: 100, toolbar: '#table_operation_toolbar'}
+                , {field: 'operation', align: 'center', title: '操作', width: 130, toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
                 return {
@@ -166,7 +167,16 @@
                         }
                     });
                 });
-
+            }else if (layEvent === 'advertising_edit') {
+                layer.open({
+                    type: 2,
+                    title: '编辑广告',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['600px', '400px'],
+                    content: '/admin/advertising/editadvertising.html?adid='+data.ad_id
+                });
             }
         });
     });

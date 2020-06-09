@@ -130,5 +130,43 @@ class Advertising extends AdminBaseController
         }
     }
 
+    /**
+     * 编辑广告
+     */
+    public function editadvertising()
+    {
+        if (!request()->isPost()) {
+            $ad_id = input('param.adid');
+            $model = model('advertising');
+            $query = $model->getaddverisingclass();
+            $this->assign('data', $query);
+            $ad = db('advertising')->where('ad_id', $ad_id)->find();
+            $this->assign('ad', $ad);
+            return $this->fetch();
+        } else {
+            $ad_id = input('param.set_adv_id');
+            $ad_pic = input('param.picurl');
+            $ad_class = input('param.set_adv_class');
+            $ad_link = input('param.adv_link');
 
+
+            $file = request()->file('file');
+            if ($file){
+                // 移动到框架应用根目录/public/uploads/ 目录下
+                $info = $file->move(ROOT_PATH . 'public' . DS . 'upload');
+                //如果不清楚文件上传的具体键名，可以直接打印$info来查看
+                //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+                $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
+                $ad_pic = DS . 'upload' . DS . $ad_pic;
+            }
+
+            if ($ad_pic) {
+                $query = db('advertising')->where('ad_id',$ad_id)->update(['ad_class' => $ad_class, 'ad_pic' => $ad_pic, 'ad_link' => $ad_link]);
+                if ($query) {
+                    ds_json_encode(10000, "编辑广告成功");
+                }
+            }
+            ds_json_encode(10001, "编辑广告失败");
+        }
+    }
 }
