@@ -741,13 +741,13 @@ a {
 }
 
 .personal .personal-right .personal-info .item .item-title {
-    width: 70px;
+    width: 120px;
     float: left;
     text-align: right;
 }
 
 .personal .personal-right .personal-info .item .item-value {
-    width: 330px;
+    width: 280px;
     padding-left: 10px;
     float: left;
     overflow: hidden;
@@ -761,14 +761,14 @@ a {
 }
 
 .personal .personal-right .personal-info .qrcode .item-title {
-    width: 70px;
+    width: 120px;
     float: left;
     text-align: right;
     line-height: 50px;
 }
 
 .personal .personal-right .personal-info .qrcode .item-value {
-    width: 330px;
+    width: 280px;
     padding-left: 10px;
     float: left;
     overflow: hidden;
@@ -874,6 +874,124 @@ a {
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+}
+
+/**
+ * 会员中心新闻
+ */
+.pi-news{
+    width: 940px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.pi-news .pi-news-notice{
+    width: 450px;
+    margin: 10px;
+    float: left;
+}
+
+.pi-news .pi-news-problem{
+    width: 450px;
+    margin: 10px;
+    float: left;
+}
+
+.pi-news .pin-title{
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 26px;
+    padding-left: 16px;
+    border-left: 5px solid #CCCCCC;
+    margin: 8px auto;
+}
+
+.pi-news ul{
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+.pi-news ul li{
+    width: 450px;
+    float: left;
+    overflow: hidden;
+}
+
+.pi-news ul li a{
+    display: inline-block;
+    width: 300px;
+    float: left;
+    height: 36px;
+    line-height: 36px;
+    font-size: 12px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.pi-news ul li a:hover{
+    color: #FF464E;
+}
+.pi-news ul li .pin-time{
+    display: inline-block;
+    width: 150px;
+    float: left;
+    height: 36px;
+    line-height: 36px;
+    font-size: 12px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    text-align: center;
+    color: #999999;
+}
+
+/**
+ * 推荐有礼
+ */
+.pin-recommend{
+    width: 940px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.pin-recommend .rec-title{
+    line-height: 38px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 16px;
+    border-bottom: 1px solid #999999;
+}
+
+.pin-rec-csline {
+    width: 940px;
+    float: left;
+}
+
+.pin-rec-csline .pin-spread-line {
+    font-size: 14px;
+    line-height: 36px;
+    padding-left: 20px;
+    margin-top: 16px;
+}
+
+.pin-rec-csline .pin-spread-line .pin-copymyline {
+    margin-left: 20px;
+    color: #FF464E;
+    font-size: 14px;
+    cursor: pointer;
+}
+.pin-rec-tishi{
+    width: 920px;
+    float: left;
+    margin-top: 16px;
+    padding-left: 20px;
+}
+.pin-rec-tishi p{
+    line-height: 36px;
 }
 
 
@@ -1097,6 +1215,42 @@ a {
     font-weight: bold;
     cursor: pointer;
 }
+
+.pin-rech-jine{
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+.pin-rech-jine ul{
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+}
+.pin-rech-jine ul li{
+    display: inline-block;
+    float: left;
+    line-height: 30px;
+    border: 1px solid #FF464E;
+    border-radius: 3px;
+    padding: 0px 16px;
+    margin: 8px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.pin-rech-jine ul li:hover{
+    background-color: #FF464E;
+    color: #ffffff;
+    font-weight: bold;
+}
+.pin-rech-jine ul li.action{
+    background-color: #FF464E;
+    color: #ffffff;
+    font-weight: bold;
+}
+
 
 .apply-for-btn {
     margin-left: 16px;

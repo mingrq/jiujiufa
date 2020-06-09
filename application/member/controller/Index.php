@@ -16,6 +16,6 @@ class Index extends MemberBase
      */
     public function index()
     {
-        return $this->fetch();
+        return $this->redirect("/member/account/personinfo");
     }
 }

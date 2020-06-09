@@ -20,20 +20,35 @@
         <div class="cont-main">
             <div class="title">余额充值</div>
             <div class="cont-main-box">
-                <form class="layui-form" action="/member/account/recharge.html" onsubmit="return rechargecheck()" target="_blank" method="post">
-                    <div class="layui-form-item">
-                        <div>
-                            <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">充值金额</label>
-                            <div class="layui-input-inline" style="width: 200px">
-                                <input type="text" placeholder="请输入充值金额" id="recharge_money"
-                                       autocomplete="off" class="layui-input" lay-verify="double" name="money"
-                                       style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
+                <div class="pin-rech-jine">
+                    <ul id="selrechamount">
+                        <li data-amount="18">18</li>
+                        <li data-amount="88">88</li>
+                        <li data-amount="188">188</li>
+                        <li data-amount="1088">1088</li>
+                        <li data-amount="5088">5088</li>
+                        <li data-amount="0">其它金额</li>
+                    </ul>
+                    <form class="layui-form" action="/member/account/recharge.html" onsubmit="return rechargecheck()"
+                          target="_blank" method="post">
+                        <div class="layui-form-item">
+                            <div>
+                                <label style="float: left;display: block;padding: 9px 6px;font-weight: 400;line-height: 20px;text-align: right;">充值金额：</label>
+                                <div class="layui-input-inline" style="width: 200px">
+                                    <input type="text" placeholder="请输入充值金额" id="recharge_money"
+                                           autocomplete="off" class="layui-input" lay-verify="double" name="money"
+                                           style="width:200px !important;height: 30px !important;margin-top: 4px !important;">
+                                </div>
                             </div>
+                            <button type="submit" class="apply-for-btn">充值</button>
                         </div>
-                        <button  type="submit" class="apply-for-btn">充值</button>
-
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="pin-rec-tishi">
+                    <p>温馨提示:</p>
+                    <p>* 24小时全自动充值实时到账，切记：充值的金额只能用于消费无法提现！</p>
+                    <p>* 充值如遇到问题，请联系在线客服！</p>
+                </div>
             </div>
         </div>
         <!-- END cont-main -->
@@ -42,9 +57,22 @@
 </div>
 <script>
     var form;
-    layui.use('form', function () {
-        form = layui.form;
-    });
+    $(function () {
+        layui.use('form', function () {
+            form = layui.form;
+        });
+
+        $("#selrechamount li").click(function () {
+            var amount = $(this).attr("data-amount");
+            if (amount > 0) {
+                $("#recharge_money").val(amount);
+            } else {
+                $("#recharge_money").val("");
+            }
+            $("#selrechamount li").removeClass('action');
+            $(this).addClass('action');
+        });
+    })
 
     /**
      * 充值验证

@@ -5,55 +5,52 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="stylesheet" href="/static/member/css/member-main.css">
-    <link rel="stylesheet" href="/static/common/layui/css/layui.css">
-    <script type="text/javascript" src="/static/common/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/static/common/layui/layui.all.js"></script>
-    <script type="text/javascript">
-        var layer;
-        $(function () {
-            layui.use(['layer'], function () {
-                layer = layui.layer;
-            })
-            $("#updUInfoBtn").click(function () {
-                $.ajax({
-                    url: "{:url('member/account/updatePersonInfo')}",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        password: $("#password").val(),
-                        qqnum: $("#qqnum").val()
-                    },
-                    success: function (data) {
-                        // console.log(data);
-                        if (data.code == 10000) {
-                            layer.msg(data.message, {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                window.location.href = "{:url('/member/account/personinfo')}";
-                            });
-                        } else {
-                            layer.msg(data.message, {
-                                icon: 2,
-                                time: 3000
-                            });
-                        }
-                    },
-                    error: function () {
-                        layer.msg('更新失败', {
-                            icon: 2,
-                            time: 3000
-                        });
-                    }
-                });
-            });
-        })
-    </script>
 </head>
 <body>
 <!--HEADER-->
 {include file="public/header" /}
 <!--END HEADER-->
+<script type="text/javascript">
+    var layer;
+    $(function () {
+        layui.use(['layer'], function () {
+            layer = layui.layer;
+        })
+        $("#updUInfoBtn").click(function () {
+            $.ajax({
+                url: "{:url('member/account/updatePersonInfo')}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    password: $("#password").val(),
+                    qqnum: $("#qqnum").val()
+                },
+                success: function (data) {
+                    // console.log(data);
+                    if (data.code == 10000) {
+                        layer.msg(data.message, {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = "{:url('/member/account/personinfo')}";
+                        });
+                    } else {
+                        layer.msg(data.message, {
+                            icon: 2,
+                            time: 3000
+                        });
+                    }
+                },
+                error: function () {
+                    layer.msg("更新失败", {
+                        icon: 2,
+                        time: 3000
+                    });
+                }
+            });
+        });
+    })
+</script>
 <!--content-box-->
 <div class="content-box">
     <div class="cont">

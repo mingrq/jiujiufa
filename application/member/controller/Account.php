@@ -4,7 +4,9 @@ namespace app\member\controller;
 
 use app\common\controller\MemberBase;
 use app\common\model\Advertising;
+use app\common\model\Article;
 use app\common\model\Member;
+use app\common\model\Notice;
 use app\common\model\Rank;
 use think\Loader;
 use think\Request;
@@ -31,8 +33,30 @@ class Account extends MemberBase
         $bannerc = $advertmodel->getadvertislist(['ad_class' => 5], '*', 4, 'ad_add_time desc');
         $this->assign('bannerc', $bannerc);
 
-        $memeber = Member::get(session('MUserId'));
-        $this->assign('member', $memeber);
+        // 常见问题
+        $article = new Article();
+        $where['ac_id'] = 3;
+        $where['article_show'] = 1;
+        $articleList = $article->where($where)->order("article_time desc")->paginate(5);
+        $this->assign('articleList', $articleList);
+
+        // 公告
+        $notic = new Notice();
+        $noticList = $notic->order("notice_create_time desc")->paginate(5);
+        $this->assign('noticList', $noticList);
+
+        $member = Member::get(session('MUserId'));
+        $this->assign('member', $member);
+
+        // 推荐有礼
+        $request = Request::instance();
+        $domain = $request->domain();
+        $this->assign('domain', $domain);
+
+        $rank = new Rank();
+        $rankList = $rank->where('rank_id', '>', $member['member_rank'])->order('rank_id', 'asc')->select();
+        $this->assign('rankList', $rankList);
+
         return $this->fetch();
     }
 
@@ -52,7 +76,8 @@ class Account extends MemberBase
                 $validate = Loader::validate("Member");
                 $result = $validate->scene('edit')->check($data);
                 if ($result !== true) {
-                    $this->error($validate->getError(), url("member/account/personinfo"));
+                    // $this->error($validate->getError(), url("member/account/personinfo"));
+                    ds_json_encode(10001, $validate->getError());
                 }
                 $memeber = new Member;
                 $memeber->save($data, ['member_id' => session('MUserId')]);
@@ -68,7 +93,8 @@ class Account extends MemberBase
                 $validate = Loader::validate('Member');
                 $result = $validate->scene('edit_pwd')->check($data);
                 if ($result !== true) {
-                    $this->error($validate->getError(), url("member/account/personinfo"));
+                    // $this->error($validate->getError(), url("member/account/personinfo"));
+                    ds_json_encode(10001, $validate->getError());
                 }
                 $member = Member::get(session('MUserId'));
                 $member->member_qq = $qqnum;
@@ -138,7 +164,7 @@ class Account extends MemberBase
             $query = db('recharge_record')->insert($condition);
             if ($query) {
                 $alipaymode = model('alipaymodel');
-                $alipaymode->payform($orderno,$money,'余额充值','账号余额充值');
+                $alipaymode->payform($orderno, $money, '余额充值', '账号余额充值');
             }
 
         } else {

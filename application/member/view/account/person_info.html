@@ -63,8 +63,11 @@
                         </div>
                         <div class="item">
                             <div class="item-title">会员余额：</div>
-                            <div class="item-title" style="text-align: left;padding-left: 10px;width: 150px;">{$member.member_balance} 元</div>
-                            <div class="item-title"> <a class="capylink" style="margin-top: 10px" href="{:url('member/account/recharge')}">充值</a></div>
+                            <div class="item-title" style="text-align: left;padding-left: 10px;width: 150px;">
+                                {$member.member_balance} 元
+                            </div>
+                            <div class="item-title"><a class="capylink" style="margin-top: 10px"
+                                                       href="{:url('member/account/recharge')}">充值</a></div>
                         </div>
                         <div class="item">
                             <div class="item-title">注册时间：</div>
@@ -72,7 +75,9 @@
                         </div>
                     </div>
                     <div class="update-userinfo-button">
-                        <button onclick="javascript:window.location.href='{:url(\'member/account/updatePersonInfo\');}';">修 改</button>
+                        <button onclick="javascript:window.location.href='{:url(\'member/account/updatePersonInfo\');}';">
+                            修 改
+                        </button>
                     </div>
                 </div>
                 <div class="personal-right">
@@ -84,7 +89,7 @@
                         </div>
                         <div class="item">
                             <div class="item-title">全国服务热线：</div>
-                            <div class="item-value">137 0204 4117</div>
+                            <div class="item-value">13702044117</div>
                         </div>
                         <div class="item">
                             <div class="item-title">人工服务时间：</div>
@@ -93,7 +98,7 @@
                         <div class="qrcode">
                             <div class="item-title">客服微信：</div>
                             <div class="item-value">
-                                <img src="/static/member/images/kefu-qrcode.png" width="120px" height="120px" />
+                                <img src="/static/member/images/kefu-qrcode.png" width="120px" height="120px"/>
                             </div>
                         </div>
                     </div>
@@ -104,7 +109,8 @@
                 <div id="bannert_tabs" class="flexslider">
                     <ul class="slides">
                         {foreach $bannerc as $item}
-                        <li><a href="{$item.ad_link}"> <img alt="" style="background: #ffffff" src="{$item.ad_pic}"> </a></li>
+                        <li><a href="{$item.ad_link}"> <img alt="" style="background: #ffffff" src="{$item.ad_pic}">
+                        </a></li>
                         {/foreach}
                     </ul>
                     <ul class="flex-direction-nav">
@@ -115,13 +121,70 @@
             </div>
             <!-- END 中间轮播 -->
             <!-- 新闻 -->
-            <div class=""></div>
+            <div class="pi-news">
+                <div class="pi-news-notice">
+                    <div class="pin-title">最新公告</div>
+                    <ul>
+                        {foreach name="noticList" item="notic" key="k"}
+                        <li>
+                            <a href="/index/news/noticedetail/id/{$notic.notice_id}">{$k+1}. {$notic.notice_title}</a>
+                            <span class="pin-time">{$notic.notice_create_time}</span>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                <div class="pi-news-problem">
+                    <div class="pin-title">常见问题</div>
+                    <ul>
+                        {foreach name="articleList" item="article" key="k"}
+                        <li>
+                            <a href="/index/news/detail/id/{$article.article_id}">{$k+1}. {$article.article_title}</a>
+                            <span class="pin-time">{$article.article_time}</span>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
             <!-- END 新闻 -->
+            <!-- 推荐有礼 -->
+            <div class="pin-recommend">
+                <div class="rec-title">推荐有礼</div>
+                <div class="pin-rec-csline">
+                    <div class="pin-spread-line">
+                        链接地址：
+                        <span id="invitation_link">{$domain}{:url('member/login/register')}?m={$member.member_id}</span>
+                        <span class="pin-copymyline" onclick="copyUrl()">复制</span>
+                    </div>
+                </div>
+                <div class="pin-rec-tishi">
+                    <p>温馨提示:</p>
+                    <p>* 凡通过此链接进入网站注册的人都计算在您的推荐人数内</p>
+                    <p>* 您推荐的总人数达到5人，自动升级代理会员等级，每单优惠0.1元</p>
+                    <p>* 您推荐的用户完成注册后， 并且累计充值金额满99金币， 即可奖励您10金币！</p>
+                </div>
+            </div>
+            <!-- END 推荐有礼 -->
         </div>
         <!-- END cont-main -->
     </div>
     <div class="clear"></div>
 </div>
+<script>
+    function copyUrl() {
+        var Url2 = document.getElementById("invitation_link").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = Url2;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display = 'none';
+        layer.msg("复制成功", {
+            btnAlign: "c",
+            offset: "360px"
+        })
+    }
+</script>
 <!--END content-box-->
 <!-- footer -->
 {include file="public/footer" /}
