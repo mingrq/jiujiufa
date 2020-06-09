@@ -38,6 +38,25 @@ class Membermanagement extends AdminBaseController
     }
 
     /**
+     * 邀请配置
+     */
+    public function inviteinfo(){
+        if (request()->isPost()){
+            $official=input('param.official');
+            $recharge=input('param.recharge');
+            db('config')->where('config_code','invite_official')->update(['config_value'=>$official]);
+            db('config')->where('config_code','recharge_cashback')->update(['config_value'=>$recharge]);
+            ds_json_encode(10000, "设置成功");
+        }else{
+            $official= db('config')->where('config_code','invite_official')->find();
+            $recharge= db('config')->where('config_code','recharge_cashback')->find();
+            $this->assign('official',$official);
+            $this->assign('recharge',$recharge);
+            $this->assign('returmmoney',$recharge);
+            return $this->fetch();
+        }
+    }
+    /**
      * 修改用户信息
      */
     public function updateinfo()

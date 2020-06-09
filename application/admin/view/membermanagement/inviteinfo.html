@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邀请配置</title>
+    <script src="{$Think.ADMIN_SITE_ROOT}/assets/js/jquery.min.js"></script>
+    <script src="{$Think.COMMON_SITE_ROOT}/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="{$Think.COMMON_SITE_ROOT}/layui/css/layui.css" media="all">
+</head>
+<body>
+<style type="text/css">
+    .layui-form-label {
+        float: left;
+        display: block;
+        padding: 9px 15px;
+        width: 90px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: right;
+    }
+</style>
+<div style="padding: 20px">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 120px">被邀请人充值返现</label>
+            <div class="layui-form-item  layui-input-block"
+                 style="display: inline-flex;margin-left: 0px;line-height: 38px">
+                被推荐人累计充值 <input type="text" name="recharge" id="recharge" required lay-verify="required"
+                                autocomplete="off" style="width: 100px;margin-left: 6px;margin-right: 6px"
+                                class="layui-input"
+                                value="{$recharge}">
+                元返给推荐人
+                <input type="text" name="return_money" id="return_money" required lay-verify="required"
+                       autocomplete="off" style="width: 100px;margin-left: 6px;margin-right: 6px" class="layui-input"
+                       value="{$returmmoney}">
+                元
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label" style="width: 120px">邀请文案</label>
+            <div class="layui-input-block">
+                <textarea name="official " id="official" placeholder="请输入邀请文案" class="layui-textarea"
+                          style="width: 550px">{$official}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formsub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var form;
+    layui.use('form', function () {
+        form = layui.form;
+        //监听提交
+        form.on('submit(formsub)', function (data) {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/membermanagement/inviteinfo",
+                data: {
+                    official: $('#official').val(),
+                    recharge: ($('#recharge').val() + ' ' + $('#return_money').val()).toString()
+                },
+                success: function (result) {
+                    console.log(result)
+                    layer.msg(result.message);
+                },
+                error: function () {
+                    layer.msg('站点信息设置失败，请稍后再试');
+                }
+            });
+            return false;
+        });
+    });
+    $("#website_logo_sel").change(function () {
+        $("#website_logo").val($("#website_logo_sel").val());
+    });
+
+    $("#website_top_logo_sel").change(function () {
+        $("#website_top_logo").val($("#website_top_logo_sel").val());
+    });
+</script>
+</body>
+</html>
