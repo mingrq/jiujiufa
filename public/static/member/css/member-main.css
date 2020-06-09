@@ -879,7 +879,7 @@ a {
 /**
  * 会员中心新闻
  */
-.pi-news{
+.pi-news {
     width: 940px;
     float: left;
     position: relative;
@@ -887,19 +887,19 @@ a {
     margin-top: 20px;
 }
 
-.pi-news .pi-news-notice{
+.pi-news .pi-news-notice {
     width: 450px;
     margin: 10px;
     float: left;
 }
 
-.pi-news .pi-news-problem{
+.pi-news .pi-news-problem {
     width: 450px;
     margin: 10px;
     float: left;
 }
 
-.pi-news .pin-title{
+.pi-news .pin-title {
     font-size: 18px;
     font-weight: bold;
     line-height: 26px;
@@ -908,42 +908,45 @@ a {
     margin: 8px auto;
 }
 
-.pi-news ul{
+.pi-news ul {
     width: 100%;
     float: left;
     position: relative;
     overflow: hidden;
 }
-.pi-news ul li{
+
+.pi-news ul li {
     width: 450px;
     float: left;
     overflow: hidden;
 }
 
-.pi-news ul li a{
+.pi-news ul li a {
     display: inline-block;
     width: 300px;
     float: left;
     height: 36px;
     line-height: 36px;
     font-size: 12px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-.pi-news ul li a:hover{
+
+.pi-news ul li a:hover {
     color: #FF464E;
 }
-.pi-news ul li .pin-time{
+
+.pi-news ul li .pin-time {
     display: inline-block;
     width: 150px;
     float: left;
     height: 36px;
     line-height: 36px;
     font-size: 12px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     text-align: center;
     color: #999999;
 }
@@ -951,14 +954,15 @@ a {
 /**
  * 推荐有礼
  */
-.pin-recommend{
+.pin-recommend {
     width: 940px;
     float: left;
     position: relative;
     overflow: hidden;
     margin-top: 20px;
 }
-.pin-recommend .rec-title{
+
+.pin-recommend .rec-title {
     line-height: 38px;
     font-size: 18px;
     font-weight: bold;
@@ -984,13 +988,15 @@ a {
     font-size: 14px;
     cursor: pointer;
 }
-.pin-rec-tishi{
+
+.pin-rec-tishi {
     width: 920px;
     float: left;
     margin-top: 16px;
     padding-left: 20px;
 }
-.pin-rec-tishi p{
+
+.pin-rec-tishi p {
     line-height: 36px;
 }
 
@@ -1216,20 +1222,22 @@ a {
     cursor: pointer;
 }
 
-.pin-rech-jine{
+.pin-rech-jine {
     width: 100%;
     float: left;
     overflow: hidden;
     position: relative;
 }
-.pin-rech-jine ul{
+
+.pin-rech-jine ul {
     width: 100%;
     float: left;
     overflow: hidden;
     position: relative;
     margin-bottom: 20px;
 }
-.pin-rech-jine ul li{
+
+.pin-rech-jine ul li {
     display: inline-block;
     float: left;
     line-height: 30px;
@@ -1240,12 +1248,14 @@ a {
     font-size: 14px;
     cursor: pointer;
 }
-.pin-rech-jine ul li:hover{
+
+.pin-rech-jine ul li:hover {
     background-color: #FF464E;
     color: #ffffff;
     font-weight: bold;
 }
-.pin-rech-jine ul li.action{
+
+.pin-rech-jine ul li.action {
     background-color: #FF464E;
     color: #ffffff;
     font-weight: bold;
