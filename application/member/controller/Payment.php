@@ -61,12 +61,15 @@ class Payment extends Controller
     {
         $alipaymode = model('alipaymodel');
         $notify_result = $alipaymode->return_verify();
+
         if ($notify_result['trade_status'] == 1) {
             //支付成功
-            $this->assign('tes', json_encode($notify_result));
-            return $this->fetch();
+            // $this->assign('tes', json_encode($notify_result));
+            // return $this->fetch();
+            return $this->redirect("/member/finance/rechargerecord", ['code' => 200]);
         } else {
             //支付失败
+            return $this->redirect("/member/finance/rechargerecord", ['code' => 404]);
         }
     }
 }

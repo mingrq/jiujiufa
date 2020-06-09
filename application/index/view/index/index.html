@@ -12,7 +12,7 @@
     <script type="text/javascript" src="/static/index/js/scroll.1.3.js"></script>
 </head>
 <body>
-{include file="public/header" /}
+{include file="public/headeri" /}
 <div class="banner">
     <div id="banner_tabs" class="flexslider">
         <ul class="slides">
@@ -135,15 +135,26 @@
             <div id="wrapBoxb" class="wrapBoxb">
                 <ul id="countb" class="countb">
                     <li>
-                        {foreach $hotProductOne as $key=>$product}
+                        {foreach $hotProductOne as $key=>$goods}
                         <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
-                            <a href="/member/order/payOrderPage?gid={$product.kdId}">
+                            <a href="/member/order/payOrderPage?gid={$goods.kdId}">
                                 <div class="hpro-pic">
-                                    <img src="{$product.good_pic}"/>
+                                    <img src="{$goods.good_pic}"/>
                                 </div>
-                                <p class="hpro-title">{$product.goodsTitle}</p>
+                                <p class="hpro-title">{$goods.goodsTitle}</p>
                                 <p class="hpro-price">
-                                    <span class="price">￥ {$product.good_price} </span><span class="util">元/单</span>
+                                    <span class="price">￥
+	{if condition="$mrank==0"}
+		{$goods.cost_price + $goods.good_price}
+	{elseif condition="$mrank==1" }
+		{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}
+		{else /}{$goods.cost_price + $goods.good_special_price}
+		{/if}
+	{else if condition="$mrank==2"}
+		{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}
+		{else /}{$goods.cost_price + $goods.good_special_vip_price}
+		{/if}
+	{/if} </span><span class="util">元/单</span>
                                 </p>
                                 <p class="hpro-buy-btn">
                                     <button>立即购买</button>
@@ -153,15 +164,26 @@
                         {/foreach}
                     </li>
                     <li>
-                        {foreach $hotProductTwo as $key=>$product}
+                        {foreach $hotProductTwo as $key=>$goods}
                         <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
-                            <a href="/member/order/payOrderPage?gid={$product.kdId}">
+                            <a href="/member/order/payOrderPage?gid={$goods.kdId}">
                                 <div class="hpro-pic">
-                                    <img src="{$product.good_pic}"/>
+                                    <img src="{$goods.good_pic}"/>
                                 </div>
-                                <p class="hpro-title">{$product.goodsTitle}</p>
+                                <p class="hpro-title">{$goods.goodsTitle}</p>
                                 <p class="hpro-price">
-                                    <span class="price">￥ {$product.good_price} </span><span class="util">元/单</span>
+                                    <span class="price">￥
+	{if condition="$mrank==0"}
+		{$goods.cost_price + $goods.good_price}
+	{elseif condition="$mrank==1" }
+		{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}
+		{else /}{$goods.cost_price + $goods.good_special_price}
+		{/if}
+	{else if condition="$mrank==2"}
+		{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}
+		{else /}{$goods.cost_price + $goods.good_special_vip_price}
+		{/if}
+	{/if} </span><span class="util">元/单</span>
                                 </p>
                                 <p class="hpro-buy-btn">
                                     <button>立即购买</button>
@@ -171,15 +193,26 @@
                         {/foreach}
                     </li>
                     <li>
-                        {foreach $hotProductTwo as $key=>$product}
+                        {foreach $hotProductTwo as $key=>$goods}
                         <div class="hotproduct-single{if condition='$key==3'} nom{/if}">
-                            <a href="/member/order/payOrderPage?gid={$product.kdId}">
+                            <a href="/member/order/payOrderPage?gid={$goods.kdId}">
                                 <div class="hpro-pic">
-                                    <img src="{$product.good_pic}"/>
+                                    <img src="{$goods.good_pic}"/>
                                 </div>
-                                <p class="hpro-title">{$product.goodsTitle}</p>
+                                <p class="hpro-title">{$goods.goodsTitle}</p>
                                 <p class="hpro-price">
-                                    <span class="price">￥ {$product.good_price} </span><span class="util">元/单</span>
+                                    <span class="price">￥
+	{if condition="$mrank==0"}
+		{$goods.cost_price + $goods.good_price}
+	{elseif condition="$mrank==1" }
+		{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}
+		{else /}{$goods.cost_price + $goods.good_special_price}
+		{/if}
+	{else if condition="$mrank==2"}
+		{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}
+		{else /}{$goods.cost_price + $goods.good_special_vip_price}
+		{/if}
+	{/if} </span><span class="util">元/单</span>
                                 </p>
                                 <p class="hpro-buy-btn">
                                     <button>立即购买</button>
@@ -216,7 +249,18 @@
                     </div>
                     <p class="nwpro-title">{$goods.goodsTitle}</p>
                     <p class="nwpro-price">
-                        <span class="price">￥ {$goods.good_price} </span><span class="util">元/单</span>
+                        <span class="price">￥
+	{if condition="$mrank==0"}
+		{$goods.cost_price + $goods.good_price}
+	{elseif condition="$mrank==1" }
+		{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}
+		{else /}{$goods.cost_price + $goods.good_special_price}
+		{/if}
+	{else if condition="$mrank==2"}
+		{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}
+		{else /}{$goods.cost_price + $goods.good_special_vip_price}
+		{/if}
+	{/if} </span><span class="util">元/单</span>
                     </p>
                     <p class="nwpro-buy-btn">
                         <button>立即购买</button>

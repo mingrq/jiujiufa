@@ -10,7 +10,6 @@ namespace app\member\controller;
 
 use app\common\controller\MemberBase;
 use app\common\model\BaseOrder;
-use app\common\model\Websiteinfo;
 
 class Aftersale extends MemberBase
 {

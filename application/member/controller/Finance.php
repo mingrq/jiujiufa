@@ -33,6 +33,14 @@ class Finance extends MemberBase
                 ds_json_encode(10001, "获取充值记录失败");
             }
         } else {
+            $code = $this->request->param("code");
+            if ($code == 200) {
+                $this->assign("code", 200);
+            } else if ($code == 400) {
+                $this->assign("code", 400);
+            } else {
+                $this->assign("code", 404);
+            }
             return $this->fetch();
         }
     }

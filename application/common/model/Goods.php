@@ -42,7 +42,7 @@ class Goods extends Model
     public function getSpecialGoodsList($mid, $page = 100, $order = 'kdId desc')
     {
         $specialpricelist = db('special_price')->where('member_id', $mid)->fetchSql(true)->select();
-        $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->order($order)->paginate($page);
+        $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->where("vgoods.good_state", "=", 1)->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->order($order)->paginate($page);
         return $query;
     }
 
@@ -57,9 +57,24 @@ class Goods extends Model
     {
         $whereGoods['vgoods.good_state'] = 1;
         $whereGoods['vgoods.classId'] = $classId;
-        
+
         $specialpricelist = db('special_price')->where('member_id', $mid)->fetchSql(true)->select();
         $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->where($whereGoods)->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->order($order)->select();
+        return $query;
+    }
+
+    /**
+     * 首页 获取特殊价格商品列表
+     * @param $mid
+     * @param int $limits
+     * @param int $limite
+     * @param string $order
+     * @return mixed
+     */
+    public function getIndexSpecialGoodsList($mid, $limits = 0, $limite = 10, $order = 'kdId desc')
+    {
+        $specialpricelist = db('special_price')->where('member_id', $mid)->fetchSql(true)->select();
+        $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->where("vgoods.good_state", "=", 1)->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->order($order)->limit($limits, $limite)->select();
         return $query;
     }
 }

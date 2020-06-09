@@ -17,14 +17,6 @@
         width: 100px;
         margin-right: 10px;
     }
-
-    .layui-table-cell {
-        height: auto;
-    }
-
-    .layui-btn-danger {
-        background-color: #FF464E;
-    }
 </style>
 <div class="content-box">
     <div class="cont">
@@ -80,60 +72,73 @@
     var table;
     var laydate;
     var form;
-    layui.use(['table', 'laydate', 'form'], function () {
-        table = layui.table;
-        laydate = layui.laydate;
-        form = layui.form;
+    $(function () {
+        layui.use(['table', 'laydate', 'form'], function () {
+            table = layui.table;
+            laydate = layui.laydate;
+            form = layui.form;
 
-        table.render({
-            elem: '#sample-table'
-            ,method:'post'
-            , url: "/member/finance/rechargeRecord"
-            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , limit: 100
-            , height: 'full-240'
-            , cols: [[
-                {field: 'recharge_trade_no',  align: 'center', title: '订单号'}
-                , {field: 'recharge_money', align: 'center', title: '充值金额', sort: true}
-                , {field: 'recharge_time', title: '充值时间',  align: 'center', sort: true}
-            ]]
-            , parseData: function (res) {
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.message, //解析提示文本
-                    "count": res.result.total, //解析数据长度
-                    "data": res.result.data //解析数据列表
+            table.render({
+                elem: '#sample-table'
+                , method: 'post'
+                , url: "/member/finance/rechargeRecord"
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , limit: 100
+                , height: 'full-240'
+                , cols: [[
+                    {field: 'recharge_trade_no', align: 'center', title: '订单号'}
+                    , {field: 'recharge_money', align: 'center', title: '充值金额', sort: true}
+                    , {field: 'recharge_time', title: '充值时间', align: 'center', sort: true}
+                ]]
+                , parseData: function (res) {
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.result.total, //解析数据长度
+                        "data": res.result.data //解析数据列表
+                    }
                 }
-            }
-            , response: {
-                statusName: 'code' //规定数据状态的字段名称，默认：code
-                , statusCode: 10000 //规定成功的状态码，默认：0
-                , msgName: 'msg' //规定状态信息的字段名称，默认：msg
-                , countName: 'count' //规定数据总数的字段名称，默认：count
-                , dataName: 'data' //规定数据列表的字段名称，默认：data
-            }
-            , page: {
-                layout: ['prev', 'page', 'next', 'skip', 'refresh']
-            }
-        });
+                , response: {
+                    statusName: 'code' //规定数据状态的字段名称，默认：code
+                    , statusCode: 10000 //规定成功的状态码，默认：0
+                    , msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                    , countName: 'count' //规定数据总数的字段名称，默认：count
+                    , dataName: 'data' //规定数据列表的字段名称，默认：data
+                }
+                , page: {
+                    layout: ['prev', 'page', 'next', 'skip', 'refresh']
+                }
+            });
 
-        laydate.render({
-            elem: '#serach_param_date_atart'
+            laydate.render({
+                elem: '#serach_param_date_atart'
+            });
+            laydate.render({
+                elem: '#serach_param_date_end'
+            });
         });
-        laydate.render({
-            elem: '#serach_param_date_end'
-        });
-
-
+        if ({$code} == 200) {
+            layer.msg("支付成功", {
+                icon: 1,
+                area: ['180px', '60px'],
+                offset: 360,
+                time: 3000
+            });
+        } else if ({$code} == 400) {
+            layer.msg("支付失败", {
+                icon: 2,
+                area: ['180px', '60px'],
+                offset: 360,
+                time: 3000
+            });
+        }
     });
-
 
     /**搜索*/
     function serach() {
         table.reload('sample-table', {
             url: '/member/finance/serachrechargerecord'
             , where: {
-                mid:'',
                 serach_param: $('#serach_param').val(),
                 dateatart: $('#serach_param_date_atart').val(),
                 dateend: $('#serach_param_date_end').val()
