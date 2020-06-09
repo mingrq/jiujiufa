@@ -8,11 +8,11 @@
 
 namespace app\common\model;
 
-
 use think\Model;
 
 class Member extends Model
 {
+    protected $pk = 'member_id';
     /**
      * 会员详细信息（查库）
      * @access public
