@@ -111,6 +111,11 @@ class Login extends Controller
                             // 将邀请人数更新
                             $inviteMember->member_invite_count = $invite_count;
                             $inviteMember->save();
+
+                            $memberT = new Member();
+                            $memberT->save([
+                                'member_referrer' => $inviteUserId
+                            ], ['member_id' => $member['member_id']]);
                         }
                     }
                     ds_json_encode(10000, "注册成功");
@@ -118,6 +123,7 @@ class Login extends Controller
             }
         } else {
             $this->getwebsiteinfo();
+            $this->assign('inviteUserId', $inviteUserId);
             return $this->fetch();
         }
     }

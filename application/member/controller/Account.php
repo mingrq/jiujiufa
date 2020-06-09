@@ -166,9 +166,7 @@ class Account extends MemberBase
                 $alipaymode = model('alipaymodel');
                 $alipaymode->payform($orderno, $money, '余额充值', '账号余额充值');
             }
-
         } else {
-
             return $this->fetch();
         }
     }
