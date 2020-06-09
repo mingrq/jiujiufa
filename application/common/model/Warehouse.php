@@ -27,4 +27,12 @@ class Warehouse extends Model
     {
         return db('warehouse')->select();
     }
+
+    /**
+     * 获取仓库信息列表
+     */
+    public function getWarehouseclasslist()
+    {
+        return db('wasehouse_class')->select();
+    }
 }

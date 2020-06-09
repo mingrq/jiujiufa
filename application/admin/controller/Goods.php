@@ -120,7 +120,19 @@ class Goods extends AdminBaseController
         }
     }
 
-
+    /**
+     * 获取仓库信息列表
+     */
+    public function getwarehouseclasslist()
+    {
+        $model = model('warehouse');
+        $warehouseclasss = $model->getWarehouseclasslist();
+        if ($warehouseclasss) {
+            ds_json_encode(10000, "获取仓库类型列表成功", $warehouseclasss);
+        } else {
+            ds_json_encode(10001, "获取仓库类型列表失败");
+        }
+    }
     /**
      * 更新商品列表
      */

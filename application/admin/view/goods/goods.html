@@ -70,11 +70,19 @@
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
-
+            <div class="layui-inline">
+                <label class="m-form-label">仓库类型</label>
+                <div class="layui-input-inline" style="width: 170px">
+                    <select name="modules" id="serach_warehouseclass" lay-filter="houseclass" lay-verify="required"
+                            lay-search="">
+                        <option value="">仓库类型</option>
+                    </select>
+                </div>
+            </div>
             <div class="layui-inline">
                 <label class="m-form-label">仓库</label>
                 <div class="layui-input-inline" style="width: 170px">
-                    <select name="modules" id="serach_warehouse" lay-verify="required" lay-search="">
+                    <select name="house" id="serach_warehouse" lay-filter="house" lay-verify="required" lay-search="">
                         <option value="">仓库</option>
                     </select>
                 </div>
@@ -124,11 +132,33 @@
 <script type="text/javascript">
     var table;
     var form;
+    var casehouseclass;
+    var casehouse;
     layui.use(['table', 'form'], function () {
         table = layui.table;
         form = layui.form;
-
         $(function () {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/admin/goods/getwarehouseclasslist",
+                success: function (result) {
+                    if (result.code == 10000) {
+                        //设置下拉框数据
+                        casehouseclass = result.result;
+                        for (let i = 0; i < result.result.length; i++) {
+                            let warehouse = result.result[i];
+                            $("#serach_warehouseclass").append("<option value='" + warehouse.class_id + "'>" + warehouse.class_name + "</option>");
+                        }
+                        form.render('select');
+                    }
+                },
+                error: function () {
+
+                }
+            });
+
             $.ajax({
                 //几个参数需要注意一下
                 type: "GET",//方法类型
@@ -137,6 +167,8 @@
                 success: function (result) {
                     if (result.code == 10000) {
                         //设置下拉框数据
+                        casehouse = result.result;
+                        console.log(casehouse)
                         for (let i = 0; i < result.result.length; i++) {
                             let warehouse = result.result[i];
                             $("#serach_warehouse").append("<option value='" + warehouse.wh_id + "'>" + warehouse.wh_title + "</option>");
@@ -150,7 +182,30 @@
             });
         });
 
-
+        form.on('select(houseclass)', function (data) {
+            var classId = data.elem.value;
+            console.log(classId)
+            $("select[name='house']").empty();
+            var html = "<option value=''>仓库</option>";
+            if (classId>0) {
+                for (let i = 0; i < casehouse.length; i++) {
+                    let house = casehouse[i];
+                    console.log(house.wh_class)
+                    if (classId == house.wh_class) {
+                        html += "<option value='" + house.wh_id + "'>" + house.wh_title + "</option>";
+                    }
+                }
+            } else {
+                for (let i = 0; i < casehouse.length; i++) {
+                    let house = casehouse[i];
+                    html += "<option value='" + house.wh_id + "'>" + house.wh_title + "</option>";
+                }
+            }
+            //把遍历的数据放到select表里面
+            $("select[name='house']").append(html);
+            //从新刷新了一下下拉框
+            form.render('select');      //重新渲染
+        });
         table.render({
             elem: '#sample-table'
             , url: '/admin/goods/getgoodslist'
@@ -235,7 +290,7 @@
             dataType: "json",//预期服务器返回的数据类型
             url: "/admin/goods/batcheditprice",
             data: {
-                good_price:$('#good_price').val(),
+                good_price: $('#good_price').val(),
                 good_vip_price: $('#good_vip_price').val(),
                 good_api_price: $('#good_api_price').val()
             },
