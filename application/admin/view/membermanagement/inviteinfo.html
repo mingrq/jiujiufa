@@ -67,7 +67,7 @@
                 url: "/admin/membermanagement/inviteinfo",
                 data: {
                     official: $('#official').val(),
-                    recharge: ($('#recharge').val() + ' ' + $('#return_money').val()).toString()
+                    recharge: ($('#recharge').val() + '&' + $('#return_money').val()).toString()
                 },
                 success: function (result) {
                     console.log(result)

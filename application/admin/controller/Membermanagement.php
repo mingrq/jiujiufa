@@ -48,14 +48,16 @@ class Membermanagement extends AdminBaseController
             db('config')->where('config_code','recharge_cashback')->update(['config_value'=>$recharge]);
             ds_json_encode(10000, "设置成功");
         }else{
-            $official= db('config')->where('config_code','invite_official')->find();
-            $recharge= db('config')->where('config_code','recharge_cashback')->find();
+            $official= db('config')->where('config_code','invite_official')->value('config_value');
+            $recharge= db('config')->where('config_code','recharge_cashback')->value('config_value');
+            $pieces = explode('&', $recharge);
             $this->assign('official',$official);
-            $this->assign('recharge',$recharge);
-            $this->assign('returmmoney',$recharge);
+            $this->assign('recharge',$pieces[0]);
+            $this->assign('returmmoney',$pieces[1]);
             return $this->fetch();
         }
     }
+
     /**
      * 修改用户信息
      */
