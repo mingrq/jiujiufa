@@ -32,7 +32,10 @@ class Index extends FrontendBase
             $hotProductThree = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(8, 4)->select();
 
             // 新品
-            $newGoodsList = $goods->where('good_state', '=', 1)->order('kdId', 'desc')->paginate(10);
+            $wherenp['good_state'] = 1;
+            $wherenp['classId'] = 14;
+
+            $newGoodsList = $goods->where($wherenp)->order('kdId', 'desc')->paginate(10);
         } else {
             $mrank = $member['member_rank'];
             if ($mrank == 1) {
@@ -40,19 +43,23 @@ class Index extends FrontendBase
                 $hotProductTwo = $goods->getIndexSpecialGoodsList($MUserId, 4, 4, 'specialprice.good_special_price asc');
                 $hotProductThree = $goods->getIndexSpecialGoodsList($MUserId, 8, 4, 'specialprice.good_special_price asc');
 
-                $newGoodsList = $goods->getSpecialGoodsList($MUserId, 10);
+                // $newGoodsList = $goods->getSpecialGoodsList($MUserId, 10);
+                $newGoodsList = $goods->getIndexSpecialGoodsList($MUserId, 0, 10, 14);
             } else if ($mrank == 2) {
                 $hotProductOne = $goods->getIndexSpecialGoodsList($MUserId, 0, 4, 'specialprice.good_special_vip_price asc');
                 $hotProductTwo = $goods->getIndexSpecialGoodsList($MUserId, 4, 4, 'specialprice.good_special_vip_price asc');
                 $hotProductThree = $goods->getIndexSpecialGoodsList($MUserId, 8, 4, 'specialprice.good_special_vip_price asc');
 
-                $newGoodsList = $goods->getSpecialGoodsList($MUserId, 10);
+                // $newGoodsList = $goods->getSpecialGoodsList($MUserId, 10);
+                $newGoodsList = $goods->getIndexSpecialGoodsList($MUserId, 0, 10, 14);
             } else {
                 $hotProductOne = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(0, 4)->select();
                 $hotProductTwo = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(4, 4)->select();
                 $hotProductThree = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(8, 4)->select();
 
-                $newGoodsList = $goods->where('good_state', '=', 1)->order('kdId', 'desc')->paginate(10);
+                $wherenp['good_state'] = 1;
+                $wherenp['classId'] = 14;
+                $newGoodsList = $goods->where($wherenp)->order('kdId', 'desc')->paginate(10);
             }
         }
 
