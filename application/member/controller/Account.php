@@ -57,6 +57,22 @@ class Account extends MemberBase
         $rankList = $rank->where('rank_id', '>', $member['member_rank'])->order('rank_id', 'asc')->select();
         $this->assign('rankList', $rankList);
 
+        // 客服qq二维码图片
+        $qqconfig = db("config")->where("config_code", "=", "saler_qq")->find();
+        $qqqrcode = "";
+        if (!empty($qqconfig) && !empty($qqconfig['config_value'])){
+            $qqqrcode = $qqconfig['config_value'];
+        }
+        $this->assign('qqqrcode', $qqqrcode);
+
+        // 客服微信二维码
+        $wxconfig = db("config")->where("config_code", "=", "saler_wechat")->find();
+        $wxqrcode = "";
+        if (!empty($wxconfig) && !empty($wxconfig['config_value'])){
+            $wxqrcode = $wxconfig['config_value'];
+        }
+        $this->assign('wxqrcode', $wxqrcode);
+
         return $this->fetch();
     }
 
