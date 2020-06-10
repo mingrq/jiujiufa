@@ -23,12 +23,25 @@
                 <div class="spread-line">链接地址：<span id="invitation_link">{$domain}{:url('member/login/register')}?m={$member.member_id}</span>
                     <span class="copymyline" onclick="copyUrl()">复制</span></div>
             </div>
+            <div class="cont-main-box" style="float: left; width: 920px;
+    padding-left: 20px;margin-top: 20px;border: 1px solid #cccccc;">
+                <div ><span style="float: left;margin-top: 6px">链接文案：</span><span id="invite_official" style="display: inline-block;line-height: 24px;padding: 5px 0;
+  margin-right: 10px;
+  float: left;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden; width: 300px">{$inviteofficial}{$domain}{:url('member/login/register')}?m={$member.member_id}</span>
+                    <span style="float: left;margin-left: 20px;
+    color: #FF464E;
+    font-size: 14px;
+    cursor: pointer;margin-top: 6px" class="copymyline" onclick="copyUrl2()">复制</span></div>
+            </div>
             <div class="cont-main-box" style="margin-top: 30px">
                 <p>温馨提示:</p>
                 <p style="margin-top: 8px">* 凡通过此链接进入网站注册的人都计算在您的推荐人数内</p>
-                {foreach $rankList as $value}
-                <p style="margin-top: 8px">* 您推荐的总人数达到{$value.invite_upgrade}人，自动升级{$value.rank_name}等级</p>
-                {/foreach}
+                <p style="margin-top: 8px">* 您推荐的总人数达到{$rankList.invite_upgrade}人，自动升级{$rankList.rank_name}等级</p>
+                <p style="margin-top: 8px">* 您推荐的用户完成注册后， 并且累计充值金额满{$recharge}元， 即可奖励您{$returmmoney}元！</p>
+
             </div>
         </div>
         <!-- END cont-main -->
@@ -38,6 +51,17 @@
 <script>
     function copyUrl() {
         var Url2 = document.getElementById("invitation_link").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = Url2;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display = 'none';
+        layer.msg("复制成功")
+    }
+    function copyUrl2() {
+        var Url2 = document.getElementById("invite_official").innerText;
         var oInput = document.createElement('input');
         oInput.value = Url2;
         document.body.appendChild(oInput);

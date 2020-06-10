@@ -122,9 +122,14 @@ class Account extends MemberBase
         $this->assign('member', $member);
         $this->assign('domain', $domain);
 
-        $rank = new Rank();
-        $rankList = $rank->where('rank_id', '>', $member['member_rank'])->order('rank_id', 'asc')->select();
+        $rankList = db('rank')->where('rank_id', '2')->find();
         $this->assign('rankList', $rankList);
+        $invite_official = db('config')->where('config_id', 26)->value('config_value');
+        $this->assign('inviteofficial', $invite_official);
+        $recharge= db('config')->where('config_code','recharge_cashback')->value('config_value');
+        $pieces = explode('&', $recharge);
+        $this->assign('recharge',$pieces[0]);
+        $this->assign('returmmoney',$pieces[1]);
         return $this->fetch();
     }
 
