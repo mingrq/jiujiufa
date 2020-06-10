@@ -12,6 +12,7 @@
 
 namespace app\member\controller;
 
+use app\common\model\Member;
 use think\Controller;
 
 class Payment extends Controller
@@ -45,6 +46,25 @@ class Payment extends Controller
                         $rank = $ranklist[$i];
                         if ($recharge_money > $rank['recharge_upgrade']) {
                             db('member')->where('member_id', $memberid)->update(['member_rank' => $rank['rank_id']]);
+                        }
+                    }
+                    // 您推荐的用户完成注册后， 并且累计充值金额满99金币， 即可奖励您10金币！
+                    $config = db("config")->where("config_code", "=", "recharge_cashback")->find();
+                    if (!empty($config)) {
+                        $config_value_arr = explode('&', $config['config_value']);
+                        if (count($config_value_arr) == 2) {
+                            // 查询充值人的充值金额
+                            if (($recharge_money - $total_fee) < $config_value_arr[0] && $recharge_money > $config_value_arr[0]) {
+                                // 充值前 小于 满多少  充值后 大于 满多少
+                                $czMember = Member::get($memberid);
+                                if (!empty($czMember) && !empty($czMember['member_referrer'])) {
+                                    $result = db("member")->where('member_id', '=', $czMember['member_referrer'])->setInc('member_balance', $config_value_arr[1]);
+                                    if ($result) {
+                                        //记录资金明细
+                                        db('moneychange_record')->insert(['member_id' => $czMember['member_referrer'], 'change_money' => $config_value_arr[1], 'change_cause' => '推荐的用户累计充值金额满' . $config_value_arr[0] . '金币，奖励' . $config_value_arr[1] . '金币']);
+                                    }
+                                }
+                            }
                         }
                     }
                     //记录资金明细

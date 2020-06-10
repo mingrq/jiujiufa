@@ -26,7 +26,7 @@
                         password: $("#password").val(),
                         mobile: $("#userPhone").val(),
                         vscode: $("#vscode").val(),
-                        m: {$inviteUserId}
+                        m: $("#invitemid").val()
                     },
                     success: function (data) {
                         // console.log(data);
@@ -64,7 +64,7 @@
         <img class="login-bg-img" src="/static/member/images/login-bg01.jpg"/>
         <div class="login-box">
             <div class="ltitle">会员注册</div>
-
+            <input type="hidden" id="invitemid" value="{$inviteUserId}"/>
             <div class="login-input">
                 <label><img src="/static/member/images/login-mobile-icon.png"></label>
                 <input type="text" name="mobile" id="userPhone" placeholder="手机号"/>
