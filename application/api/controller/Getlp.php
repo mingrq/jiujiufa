@@ -9,13 +9,14 @@
 namespace app\api\controller;
 
 /**
- *
- *  获取小礼品接口
- *
- * Class Getlp
- * @package app\api\controller
+ *  获取小礼品价格接口
  */
 class Getlp extends ApiBaseController
 {
-
+    public function getLp()
+    {
+        $param = $this->request->post();
+        $parama = json_decode($param, true);
+        ds_json_encode(10000, "", $parama['sid']);
+    }
 }
