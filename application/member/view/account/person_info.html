@@ -13,22 +13,24 @@
 <!--HEADER-->
 {include file="public/header" /}
 <!--END HEADER-->
-<div class="banner">
-    <div id="banner_tabs" class="flexslider">
-        <ul class="slides">
-            {foreach $banner as $item}
-            <li><a href="{$item.ad_link}"> <img alt="" style="background: #ffffff" src="{$item.ad_pic}"> </a></li>
-            {/foreach}
-        </ul>
-        <ul class="flex-direction-nav">
-            <li><a class="flex-prev" href="javascript:;" style="margin-left:50px;">Previous</a></li>
-            <li><a class="flex-next" href="javascript:;" style="margin-right:50px;">Next</a></li>
-        </ul>
-    </div>
-</div>
 <!--content-box-->
 <div class="content-box">
     <div class="cont">
+        <!-- Banner -->
+        <div class="banner">
+            <div id="banner_tabs" class="flexslider">
+                <ul class="slides">
+                    {foreach $banner as $item}
+                    <li><a href="{$item.ad_link}"> <img alt="" style="background: #ffffff" src="{$item.ad_pic}"> </a></li>
+                    {/foreach}
+                </ul>
+                <ul class="flex-direction-nav">
+                    <li><a class="flex-prev" href="javascript:;" style="margin-left:50px;">Previous</a></li>
+                    <li><a class="flex-next" href="javascript:;" style="margin-right:50px;">Next</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- END Banner -->
         <!-- cont-side -->
         {include file="public/left" /}
         <!-- END cont-side -->
@@ -84,10 +86,6 @@
                     <div class="ptitle">联系我们</div>
                     <div class="personal-info">
                         <div class="item">
-                            <div class="item-title">Q Q客服：</div>
-                            <div class="item-value">562954107</div>
-                        </div>
-                        <div class="item">
                             <div class="item-title">全国服务热线：</div>
                             <div class="item-value">13702044117</div>
                         </div>
@@ -96,9 +94,20 @@
                             <div class="item-value">08:30 - 22:00</div>
                         </div>
                         <div class="qrcode">
+                            <div class="item-title">Q Q客服：</div>
+                            <div class="item-value">
+                                <p style="line-height: 50px;display: inline-block;vertical-align: top; padding-right: 20px;">562954107</p>
+                                {if condition="$qqqrcode !=''"}
+                                <img src="{$qqqrcode}" width="120px" height="120px"/>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="qrcode">
                             <div class="item-title">客服微信：</div>
                             <div class="item-value">
-                                <img src="/static/member/images/kefu-qrcode.png" width="120px" height="120px"/>
+                                {if condition="$wxqrcode !=''"}
+                                <img src="{$wxqrcode}" width="120px" height="120px"/>
+                                {/if}
                             </div>
                         </div>
                     </div>
