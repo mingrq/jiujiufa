@@ -48,9 +48,20 @@
                         <a href="{:url('/index/news/problem')}">常见问题</a>
                     </li>
                     <li>
-                        <a href="{:url('/index/news/notice')}">网站公告</a>
+                        <a href="{:url('member/account/personinfo')}">个人中心</a>
                     </li>
                 </ul>
+                {empty name="$Think.session.MUserName" }
+                <div style="color: #999; float: left; height: 80px; margin-left:50px;font-size: 14px">
+                    <span style=" float: left; line-height: 80px;font-size: 14px;">
+                        <a href="{:url('member/login/login')}" style="color: #ff2520;">登录</a>
+                    </span>
+                    <span style=" float: left; line-height: 80px;font-size: 14px;">&nbsp; /&nbsp; </span>
+                    <span style=" float: left; line-height: 80px;font-size: 14px;">
+                        <a href="{:url('member/login/register')}" style="color: #000000;">注册</a>
+                    </span>
+                </div>
+                {/empty}
             </div>
         </div>
         <div class="clear"></div>

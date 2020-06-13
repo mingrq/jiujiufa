@@ -38,6 +38,7 @@ class FrontendBase extends Controller
             if ($info['config_code'] == 'website_home_title') {
                 $this->assign('website_home_title', $info['config_value']);
             }
+
         }
     }
 
