@@ -98,7 +98,7 @@
     }
 </style>
 
-
+{present name="saler_wechat"}
 <style>
     .flex-column-center {
         display: flex;
@@ -120,17 +120,22 @@
     }
 </style>
 <div style="z-index:9999;position: fixed;right: 0px;top: 40%;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;border-radius: 3px;">
+    {present name="saler_wechat"}
     <div style="right: 0px;width:60px;height:60px;background:rgba(255,255,255,1);
     border-radius: 3px;cursor: pointer" class="flex-column-center" id="wechat">
         <img src="{$Think.INDEX_SITE_ROOT}/images/wechat.png" style="width: 30px;height: 30px;margin-top: 5px" alt="微信">
         <span style="color: #333;font-size: 12px;">微信</span>
     </div>
+    {/present}
+    {present name="saler_wechat_group"}
     <div style="right: 0px;width:60px;height:60px;background:rgba(255,255,255,1);
     border-radius: 3px;cursor: pointer" class="flex-column-center" id="wechatgroup">
         <img src="{$Think.INDEX_SITE_ROOT}/images/wechatgroup.png" style="width: 30px;height: 30px;margin-top: 5px"
              alt="微信">
         <span style="color: #333;font-size: 12px;">微信群</span>
     </div>
+    {/present}
+    {present name="saler_qq"}
     <a href="tencent://message/?uin={$saler_qq}">
         <div style="right: 0px;width:60px;height:60px;background:rgba(255,255,255,1);
     border-radius: 3px;cursor: pointer" class="flex-column-center" id="qq">
@@ -139,19 +144,22 @@
             <span style="color: #333;font-size: 12px;">QQ</span>
         </div>
     </a>
+    {/present}
 </div>
-
+{present name="saler_wechat"}
 <div style="z-index:9999;display:none;position: fixed;right: 60px;top: 40%;padding: 8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;border-radius: 3px;"
      class="flex-column-center wechat_dialog">
     <img src="{$saler_wechat}" style="width: 124px;"
          alt="微信">
 </div>
+{/present}
+{present name="saler_wechat_group"}
 <div style="z-index:9999;display:none;position: fixed;right: 60px;top: 40%;margin-top:60px;padding: 8px;background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;border-radius: 3px;"
      class="flex-column-center wechatgroup_dialog">
     <img src="{$saler_wechat_group}" style="width: 124px;"
          alt="微信群">
 </div>
-
+{/present}
 <script type="text/javascript">
     $('#wechat').hover(function () {  // 进入
         $('.wechat_dialog').show()
@@ -164,3 +172,4 @@
         $('.wechatgroup_dialog').hide()
     });
 </script>
+{/present}
