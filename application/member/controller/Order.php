@@ -103,7 +103,7 @@ class Order extends MemberBase
     /**
      * 导入文件
      */
-    public function uploadKdModel()
+    /*public function uploadKdModel()
     {
         $file = $this->request->file("uploadkdodfile");
         if ($file) {
@@ -161,7 +161,279 @@ class Order extends MemberBase
         } else {
             ds_json_encode(10002, "上传失败");
         }
+    }*/
+
+    /**
+     * 导入淘宝京东表格
+     */
+    public function importTbjd()
+    {
+        $file = $this->request->file("uploadkdodfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
+            if ($info) {
+                $file_name = $info->getSaveName();
+                $file_path = ROOT_PATH . 'public' . DS . 'files/upload' . DS . $file_name;
+
+                // 上传成功后 将数据读取出来 返回
+                Loader::import("PHPExcel.PHPExcel");
+                Loader::import('PHPExcel.PHPExcel.IOFactory.PHPExcel_IOFactory');
+
+                if ($info->getExtension() == 'xls') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel5');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                } else if ($info->getExtension() == 'xlsx') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel2007');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                } else {
+                    ds_json_encode(10003, "数据读取失败");
+                }
+
+                // $obj_PHPExcel = $objReader->load($file_path, $encode = 'utf-8');
+                $obj_PHPExcel = $objReader->load($file_path);
+                $excel_array = $obj_PHPExcel->getsheet(0)->toArray();
+
+                $excel_data = [];
+                if (count($excel_array[0]) == 4) {
+                    // 淘宝京东
+                    array_shift($excel_array);  //删除第一个数组(标题);
+                    foreach ($excel_array as $k => $v) {
+                        $excel_data[$k]['kdid'] = $v[0];
+                        $excel_data[$k]['name'] = $v[1];
+                        $excel_data[$k]['mobile'] = preg_replace('/[^0-9]/', '', $v[2]);
+                        $excel_data[$k]['address'] = $v[3];
+                        $excel_data[$k]['postal'] = '000000';
+                    }
+                } else {
+                    ds_json_encode(10004, "数据格式错误");
+                }
+                /*
+                if (count($excel_array[0]) == 4) {
+                    // 淘宝京东
+                    array_shift($excel_array);  //删除第一个数组(标题);
+                    foreach ($excel_array as $k => $v) {
+                        $excel_data[$k]['kdid'] = $v[0];
+                        $excel_data[$k]['name'] = $v[1];
+                        $excel_data[$k]['mobile'] = $v[2];
+                        $excel_data[$k]['address'] = $v[3];
+                        $excel_data[$k]['postal'] = '000000';
+                    }
+                } else if (count($excel_array[0]) == 7) {
+                    // 拼多多
+                    array_shift($excel_array);  //删除第一个数组(标题);
+                    foreach ($excel_array as $k => $v) {
+                        $excel_data[$k]['kdid'] = $v[0];
+                        $excel_data[$k]['name'] = $v[1];
+                        $excel_data[$k]['mobile'] = $v[2];
+                        $excel_data[$k]['address'] = $v[3] . $v[4] . $v[5] . $v[6];
+                        $excel_data[$k]['postal'] = '000000';
+                    }
+                } else {
+                    ds_json_encode(10004, "数据格式错误");
+                }
+                */
+                ds_json_encode(10000, "上传成功", $excel_data);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10002, "上传失败");
+        }
     }
+    /**
+     * 导入拼多多专用表格
+     */
+    public function importPindd()
+    {
+        $file = $this->request->file("uploadkdodfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
+            if ($info) {
+                $file_name = $info->getSaveName();
+                $file_path = ROOT_PATH . 'public' . DS . 'files/upload' . DS . $file_name;
+
+                // 上传成功后 将数据读取出来 返回
+                Loader::import("PHPExcel.PHPExcel");
+                Loader::import('PHPExcel.PHPExcel.IOFactory.PHPExcel_IOFactory');
+
+                if ($info->getExtension() == 'xls') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel5');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                } else if ($info->getExtension() == 'xlsx') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel2007');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                } else {
+                    ds_json_encode(10003, "数据读取失败");
+                }
+
+                // $obj_PHPExcel = $objReader->load($file_path, $encode = 'utf-8');
+                $obj_PHPExcel = $objReader->load($file_path);
+                $excel_array = $obj_PHPExcel->getsheet(0)->toArray();
+
+                $excel_data = [];
+                if (count($excel_array[0]) == 7) {
+                    // 拼多多
+                    array_shift($excel_array);  //删除第一个数组(标题);
+                    foreach ($excel_array as $k => $v) {
+                        $excel_data[$k]['kdid'] = $v[0];
+                        $excel_data[$k]['name'] = $v[1];
+                        $excel_data[$k]['mobile'] = preg_replace('/[^0-9]/', '', $v[2]);
+                        $excel_data[$k]['address'] = $v[3] . $v[4] . $v[5] . $v[6];
+                        $excel_data[$k]['postal'] = '000000';
+                    }
+                } else {
+                    ds_json_encode(10004, "数据格式错误");
+                }
+                ds_json_encode(10000, "上传成功", $excel_data);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10002, "上传失败");
+        }
+    }
+    /**
+     * 导入淘宝后台表格
+     */
+    public function importTaobao()
+    {
+        $file = $this->request->file("uploadkdodfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
+            if ($info) {
+                $file_name = $info->getSaveName();
+                $file_path = ROOT_PATH . 'public' . DS . 'files/upload' . DS . $file_name;
+
+                // 上传成功后 将数据读取出来 返回
+                Loader::import("PHPExcel.PHPExcel");
+                Loader::import('PHPExcel.PHPExcel.IOFactory.PHPExcel_IOFactory');
+
+                if ($info->getExtension() == 'xls') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel5');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                } else if ($info->getExtension() == 'xlsx') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel2007');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                } else {
+                    ds_json_encode(10003, "数据读取失败");
+                }
+
+                // $obj_PHPExcel = $objReader->load($file_path, $encode = 'utf-8');
+                $obj_PHPExcel = $objReader->load($file_path);
+                $excel_array = $obj_PHPExcel->getsheet(0)->toArray();
+
+                $excel_data = [];
+                array_shift($excel_array);  //删除第一个数组(标题);
+                foreach ($excel_array as $k => $v) {
+                    $excel_data[$k]['kdid'] = $v[0];
+                    $excel_data[$k]['name'] = $v[12];
+                    $excel_data[$k]['mobile'] = preg_replace('/[^0-9]/', '', $v[16]);
+                    $excel_data[$k]['address'] = $v[13];
+                    $excel_data[$k]['postal'] = '000000';
+                }
+                ds_json_encode(10000, "上传成功", $excel_data);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10002, "上传失败");
+        }
+    }
+    /**
+     * 导入京东后台表格
+     */
+    public function importJingd()
+    {
+        $file = $this->request->file("uploadkdodfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
+            if ($info) {
+                $file_name = $info->getSaveName();
+                $file_path = ROOT_PATH . 'public' . DS . 'files/upload' . DS . $file_name;
+
+                // 上传成功后 将数据读取出来 返回
+                Loader::import("PHPExcel.PHPExcel");
+                Loader::import('PHPExcel.PHPExcel.IOFactory.PHPExcel_IOFactory');
+
+                if ($info->getExtension() == 'xls') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel5');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                } else if ($info->getExtension() == 'xlsx') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel2007');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                } else {
+                    ds_json_encode(10003, "数据读取失败");
+                }
+
+                // $obj_PHPExcel = $objReader->load($file_path, $encode = 'utf-8');
+                $obj_PHPExcel = $objReader->load($file_path);
+                $excel_array = $obj_PHPExcel->getsheet(0)->toArray();
+
+                $excel_data = [];
+                array_shift($excel_array);  //删除第一个数组(标题);
+                foreach ($excel_array as $k => $v) {
+                    $excel_data[$k]['kdid'] = $v[0];
+                    $excel_data[$k]['name'] = $v[14];
+                    $excel_data[$k]['mobile'] = preg_replace('/[^0-9]/', '', $v[16]);
+                    $excel_data[$k]['address'] = $v[15];
+                    $excel_data[$k]['postal'] = '000000';
+                }
+                ds_json_encode(10000, "上传成功", $excel_data);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10002, "上传失败");
+        }
+    }
+    /**
+     * 导入拼多多订单
+     */
+    public function importPingddOrder()
+    {
+        $file = $this->request->file("uploadkdodfile");
+        if ($file) {
+            $info = $file->validate(['size' => 5242880, 'ext' => 'xls,xlsx'])->move(ROOT_PATH . 'public' . DS . 'files/upload');
+            if ($info) {
+                $file_name = $info->getSaveName();
+                $file_path = ROOT_PATH . 'public' . DS . 'files/upload' . DS . $file_name;
+
+                // 上传成功后 将数据读取出来 返回
+                Loader::import("PHPExcel.PHPExcel");
+                Loader::import('PHPExcel.PHPExcel.IOFactory.PHPExcel_IOFactory');
+
+                if ($info->getExtension() == 'xls') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel5');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                } else if ($info->getExtension() == 'xlsx') {
+                    Loader::import('PHPExcel.PHPExcel.Reader.Excel2007');
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                } else {
+                    ds_json_encode(10003, "数据读取失败");
+                }
+
+                // $obj_PHPExcel = $objReader->load($file_path, $encode = 'utf-8');
+                $obj_PHPExcel = $objReader->load($file_path);
+                $excel_array = $obj_PHPExcel->getsheet(0)->toArray();
+
+                $excel_data = [];
+                array_shift($excel_array);  //删除第一个数组(标题);
+                foreach ($excel_array as $k => $v) {
+                    $excel_data[$k]['kdid'] = $v[1];
+                    $excel_data[$k]['name'] = $v[15];
+                    $excel_data[$k]['mobile'] = preg_replace('/[^0-9]/', '', $v[16]);
+                    $excel_data[$k]['address'] = $v[18] . $v[19] .$v[20] .$v[21];
+                    $excel_data[$k]['postal'] = '000000';
+                }
+                ds_json_encode(10000, "上传成功", $excel_data);
+            } else {
+                ds_json_encode(10001, "上传失败");
+            }
+        } else {
+            ds_json_encode(10002, "上传失败");
+        }
+    }
+
 
     /**
      * 下订单

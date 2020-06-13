@@ -1,50 +1,225 @@
 var layer;
+// var upload;
 $(function () {
     layui.use(['layer', 'upload'], function () {
         layer = layui.layer;
         var upload = layui.upload;
 
-        /**
-         * 导入文件
-         */
-            //执行实例
-        var uploadInst = upload.render({
-                elem: '#uploadKdModel'
-                , url: '/member/order/uploadKdModel'
-                , field: 'uploadkdodfile'
-                , accept: 'file'
-                , exts: 'xls|xlsx'
-                , size: 5120
-                , done: function (res) {
-                    //上传完毕回调
-                    // console.log(res);
-                    if (res.code == 10000) {
-                        let result = res.result;
-                        let contentStr = '';
-                        for (let i = 0; i < result.length; i++) {
-                            contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
-                        }
-                        $("#content").val(contentStr);
-                    } else {
-                        layer.msg(res.message, {
-                            icon: 2,
-                            time: 3000,
-                            btnAlign: "c",
-                            offset: "300px"
-                        });
+        //淘宝京东表格
+        var uploadInstimportTbjd = upload.render({
+            elem: '#importTbjd'
+            , url: '/member/order/importTbjd'
+            , field: 'uploadkdodfile'
+            , accept: 'file'
+            , exts: 'xls|xlsx'
+            , size: 5120
+            , done: function (res) {
+                //上传完毕回调
+                // console.log(res);
+                layer.closeAll();
+                if (res.code == 10000) {
+                    let result = res.result;
+                    let contentStr = '';
+                    for (let i = 0; i < result.length; i++) {
+                        contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
                     }
-                }
-                , error: function () {
-                    //请求异常回调
-                    layer.msg("导入文件异常", {
+                    $("#content").val(contentStr);
+                } else {
+                    layer.msg(res.message, {
                         icon: 2,
                         time: 3000,
                         btnAlign: "c",
                         offset: "300px"
                     });
                 }
-            });
-    })
+            }
+            , error: function () {
+                layer.closeAll();
+                //请求异常回调
+                layer.msg("导入文件异常", {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        });
+
+        //拼多多专用表格
+        var uploadInstimportPindd = upload.render({
+            elem: '#importPindd'
+            , url: '/member/order/importPindd'
+            , field: 'uploadkdodfile'
+            , accept: 'file'
+            , exts: 'xls|xlsx'
+            , size: 5120
+            , done: function (res) {
+                //上传完毕回调
+                // console.log(res);
+                layer.closeAll();
+                if (res.code == 10000) {
+                    let result = res.result;
+                    let contentStr = '';
+                    for (let i = 0; i < result.length; i++) {
+                        contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                    }
+                    $("#content").val(contentStr);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 3000,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                }
+            }
+            , error: function () {
+                layer.closeAll();
+                //请求异常回调
+                layer.msg("导入文件异常", {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        });
+
+        //淘宝后台表格
+        var uploadInstimportTaobao = upload.render({
+            elem: '#importTaobao'
+            , url: '/member/order/importTaobao'
+            , field: 'uploadkdodfile'
+            , accept: 'file'
+            , exts: 'xls|xlsx'
+            , size: 5120
+            , done: function (res) {
+                //上传完毕回调
+                // console.log(res);
+                layer.closeAll();
+                if (res.code == 10000) {
+                    let result = res.result;
+                    let contentStr = '';
+                    for (let i = 0; i < result.length; i++) {
+                        contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                    }
+                    $("#content").val(contentStr);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 3000,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                }
+            }
+            , error: function () {
+                layer.closeAll();
+                //请求异常回调
+                layer.msg("导入文件异常", {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        });
+
+        //京东后台表格
+        var uploadInstimportJingd = upload.render({
+            elem: '#importJingd'
+            , url: '/member/order/importJingd'
+            , field: 'uploadkdodfile'
+            , accept: 'file'
+            , exts: 'xls|xlsx'
+            , size: 5120
+            , done: function (res) {
+                //上传完毕回调
+                // console.log(res);
+                layer.closeAll();
+                if (res.code == 10000) {
+                    let result = res.result;
+                    let contentStr = '';
+                    for (let i = 0; i < result.length; i++) {
+                        contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                    }
+                    $("#content").val(contentStr);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 3000,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                }
+            }
+            , error: function () {
+                layer.closeAll();
+                //请求异常回调
+                layer.msg("导入文件异常", {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        });
+
+        //拼多多订单
+        var uploadInstimportPingddOrder = upload.render({
+            elem: '#importPingddOrder'
+            , url: '/member/order/importPingddOrder'
+            , field: 'uploadkdodfile'
+            , accept: 'file'
+            , exts: 'xls|xlsx'
+            , size: 5120
+            , done: function (res) {
+                //上传完毕回调
+                // console.log(res);
+                layer.closeAll();
+                if (res.code == 10000) {
+                    let result = res.result;
+                    let contentStr = '';
+                    for (let i = 0; i < result.length; i++) {
+                        contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                    }
+                    $("#content").val(contentStr);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 3000,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                }
+            }
+            , error: function () {
+                layer.closeAll();
+                //请求异常回调
+                layer.msg("导入文件异常", {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        });
+
+    });
+
+    $("#uploadKdModel").click(function () {
+        //通过这种方式弹出的层，每当它被选择，就会置顶。
+        layer.open({
+            title: '选择导入文件',
+            type: 1,
+            shade: [0.3, '#000000'],
+            area: '860px',
+            maxmin: false,
+            btnAlign: "c",
+            offset: "260px",
+            content: $('#importOrderWin')
+        });
+    });
 
 
     /**
@@ -128,7 +303,8 @@ function checkAddress() {
     // 先换行
     var contentArr = [];
     if (content != '') {
-        contentArr = content.split(/[(\r\n)\r\n]+/);
+        // contentArr = content.split(/[(\r\n)\r\n]+/);
+        contentArr = content.split(/[\r\n]+/);
     }
     // 清空table
     $("#tb_addrs tr:not(:first)").empty();
@@ -207,7 +383,7 @@ function buyGoods() {
     // 先换行
     var contentArr = [];
     if (content != '') {
-        contentArr = content.split(/[(\r\n)\r\n]+/);
+        contentArr = content.split(/[\r\n]+/);
     } else {
         layer.open({
             content: "您未填写收货地址或收货地址大于1000个",
@@ -342,7 +518,7 @@ function distinguish() {
     // 先换行
     var realContentArr = [];
     if (realContent != '') {
-        realContentArr = realContent.split(/[(\r\n)\r\n]+/);
+        realContentArr = realContent.split(/[\r\n]+/);
     } else {
         layer.open({
             content: "请输入订单号",
@@ -355,7 +531,7 @@ function distinguish() {
     var content = $("#content").val().trim();
     var contentArr = [];
     if (content != '') {
-        contentArr = content.split(/[(\r\n)\r\n]+/);
+        contentArr = content.split(/[\r\n]+/);
     } else {
         layer.open({
             content: "请先导入购买信息",
@@ -514,4 +690,211 @@ function downKdModelWin() {
         }
     });
 }
+/*
+
+// 导入淘宝京东表格
+function importTbjd() {
+    //执行实例
+    var uploadInstimportTbjd = upload.render({
+            elem: '#importTbjd'
+            , url: '/member/order/importTbjd'
+            , field: 'uploadkdodfile'
+            , accept: 'file'
+            , exts: 'xls|xlsx'
+            , size: 5120
+            , done: function (res) {
+                //上传完毕回调
+                // console.log(res);
+                if (res.code == 10000) {
+                    let result = res.result;
+                    let contentStr = '';
+                    for (let i = 0; i < result.length; i++) {
+                        contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                    }
+                    $("#content").val(contentStr);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 3000,
+                        btnAlign: "c",
+                        offset: "300px"
+                    });
+                }
+            }
+            , error: function () {
+                //请求异常回调
+                layer.msg("导入文件异常", {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        });
+}
+
+// 导入拼多多专用表格
+function importPindd() {
+    //执行实例
+    var uploadInstimportPindd = upload.render({
+        elem: '#importPindd'
+        , url: '/member/order/importPindd'
+        , field: 'uploadkdodfile'
+        , accept: 'file'
+        , exts: 'xls|xlsx'
+        , size: 5120
+        , done: function (res) {
+            //上传完毕回调
+            // console.log(res);
+            if (res.code == 10000) {
+                let result = res.result;
+                let contentStr = '';
+                for (let i = 0; i < result.length; i++) {
+                    contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                }
+                $("#content").val(contentStr);
+            } else {
+                layer.msg(res.message, {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        }
+        , error: function () {
+            //请求异常回调
+            layer.msg("导入文件异常", {
+                icon: 2,
+                time: 3000,
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
+    });
+}
+
+// 导入拼多多专用表格
+function importTaobao() {
+    //执行实例
+    var uploadInstimportTaobao = upload.render({
+        elem: '#importTaobao'
+        , url: '/member/order/importTaobao'
+        , field: 'uploadkdodfile'
+        , accept: 'file'
+        , exts: 'xls|xlsx'
+        , size: 5120
+        , done: function (res) {
+            //上传完毕回调
+            // console.log(res);
+            if (res.code == 10000) {
+                let result = res.result;
+                let contentStr = '';
+                for (let i = 0; i < result.length; i++) {
+                    contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                }
+                $("#content").val(contentStr);
+            } else {
+                layer.msg(res.message, {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        }
+        , error: function () {
+            //请求异常回调
+            layer.msg("导入文件异常", {
+                icon: 2,
+                time: 3000,
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
+    });
+}
+
+// 导入京东后台表格
+function importJingd() {
+    //执行实例
+    var uploadInstimportJingd = upload.render({
+        elem: '#importJingd'
+        , url: '/member/order/importJingd'
+        , field: 'uploadkdodfile'
+        , accept: 'file'
+        , exts: 'xls|xlsx'
+        , size: 5120
+        , done: function (res) {
+            //上传完毕回调
+            // console.log(res);
+            if (res.code == 10000) {
+                let result = res.result;
+                let contentStr = '';
+                for (let i = 0; i < result.length; i++) {
+                    contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                }
+                $("#content").val(contentStr);
+            } else {
+                layer.msg(res.message, {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        }
+        , error: function () {
+            //请求异常回调
+            layer.msg("导入文件异常", {
+                icon: 2,
+                time: 3000,
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
+    });
+}
+
+// 导入京东后台表格
+function importPingddOrder() {
+    //执行实例
+    var uploadInstimportPingddOrder = upload.render({
+        elem: '#importPingddOrder'
+        , url: '/member/order/importPingddOrder'
+        , field: 'uploadkdodfile'
+        , accept: 'file'
+        , exts: 'xls|xlsx'
+        , size: 5120
+        , done: function (res) {
+            //上传完毕回调
+            // console.log(res);
+            if (res.code == 10000) {
+                let result = res.result;
+                let contentStr = '';
+                for (let i = 0; i < result.length; i++) {
+                    contentStr = contentStr + result[i]['kdid'] + '，' + result[i]['name'] + '，' + result[i]['mobile'] + '，' + result[i]['address'] + '，' + result[i]['postal'] + '\r\n';
+                }
+                $("#content").val(contentStr);
+            } else {
+                layer.msg(res.message, {
+                    icon: 2,
+                    time: 3000,
+                    btnAlign: "c",
+                    offset: "300px"
+                });
+            }
+        }
+        , error: function () {
+            //请求异常回调
+            layer.msg("导入文件异常", {
+                icon: 2,
+                time: 3000,
+                btnAlign: "c",
+                offset: "300px"
+            });
+        }
+    });
+}
+*/
 
