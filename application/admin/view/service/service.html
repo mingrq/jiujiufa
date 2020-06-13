@@ -11,13 +11,13 @@
 <div style="padding: 20px">
     <form class="layui-form" action="">
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 90px">QQ二维码</label>
+            <label class="layui-form-label" style="width: 90px">微信群二维码</label>
             <div class="layui-input-inline" style="display: flex;width: 400px">
                 <input type="file"
                        style="position:absolute; top:0px; right:0px; height:34px; width:400px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
-                       name="saler_qq" id="saler_qq" hidefocus="true">
-                <input type="text" id="saler_qq_url" lay-verify="required"
-                       placeholder="QQ二维码" class="layui-input" value="{$saler_qq}">
+                       name="saler_wechat_group" id="saler_wechat_group" hidefocus="true">
+                <input type="text" id="saler_wechat_group_url" lay-verify="required"
+                       placeholder="微信群二维码" class="layui-input" value="{$saler_wechat_group}">
                 <input type='button' value='上传'
                        style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
             </div>
@@ -32,6 +32,27 @@
                        placeholder="微信二维码" class="layui-input" value="{$saler_wechat}">
                 <input type='button' value='上传'
                        style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 90px">QQ客服</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="text" id="saler_qq" lay-verify="required"
+                       placeholder="QQ客服" class="layui-input" value="{$saler_qq}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 90px">服务热线</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="text" id="saler_mobile" lay-verify="required"
+                       placeholder="服务热线" class="layui-input" value="{$saler_mobile}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 90px">服务时间</label>
+            <div class="layui-input-inline" style="display: flex;width: 400px">
+                <input type="text" id="saler_time" lay-verify="required"
+                       placeholder="服务时间" class="layui-input" value="{$saler_time}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -55,9 +76,13 @@
             fd.append('saler_wechat_url', $('#saler_wechat_url').val());
             fd.append('saler_wechat', saler_wechat_file);
 
-            var saler_qq_file = document.getElementById('saler_qq').files[0];
-            fd.append('saler_qq_url', $('#saler_qq_url').val());
-            fd.append('saler_qq', saler_qq_file);
+            var saler_wechat_group_file = document.getElementById('saler_wechat_group').files[0];
+            fd.append('saler_wechat_group_url', $('#saler_wechat_group_url').val());
+            fd.append('saler_wechat_group', saler_wechat_group_file);
+
+            fd.append('saler_mobile', $('#saler_mobile').val());
+            fd.append('saler_qq',  $('#saler_qq').val());
+            fd.append('saler_time',  $('#saler_time').val());
 
             $.ajax({
                 //几个参数需要注意一下
@@ -82,8 +107,8 @@
     $("#saler_wechat").change(function () {
         $("#saler_wechat_url").val($("#saler_wechat").val());
     });
-    $("#saler_qq").change(function () {
-        $("#saler_qq_url").val($("#saler_qq").val());
+    $("#saler_wechat_group").change(function () {
+        $("#saler_wechat_group_url").val($("#saler_wechat_group").val());
     });
 </script>
 </body>
