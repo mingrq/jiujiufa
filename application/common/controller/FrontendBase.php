@@ -39,6 +39,16 @@ class FrontendBase extends Controller
                 $this->assign('website_home_title', $info['config_value']);
             }
 
+            if ($info['config_code'] == 'saler_qq') {
+                $this->assign('saler_qq', $info['config_value']);
+            }
+            if ($info['config_code'] == 'saler_wechat') {
+                $this->assign('saler_wechat', $info['config_value']);
+            }
+            if ($info['config_code'] == 'saler_wechat_group') {
+                $this->assign('saler_wechat_group', $info['config_value']);
+            }
+
         }
     }
 
