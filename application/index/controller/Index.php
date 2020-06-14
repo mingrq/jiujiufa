@@ -27,9 +27,9 @@ class Index extends FrontendBase
         $member = Member::get($MUserId);
         if (empty($MUserId) || empty($member)) {
             // 爆款
-            $hotProductOne = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(0, 4)->select();
-            $hotProductTwo = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(4, 4)->select();
-            $hotProductThree = $goods->where('good_state', '=', 1)->order('good_price', 'asc')->limit(8, 4)->select();
+            $hotProductOne = $goods->where('good_state', '=', 1)->where('classId',14)->order('good_price', 'asc')->limit(0, 4)->select();
+            $hotProductTwo = $goods->where('good_state', '=', 1)->where('classId',14)->order('good_price', 'asc')->limit(4, 4)->select();
+            $hotProductThree = $goods->where('good_state', '=', 1)->where('classId',14)->order('good_price', 'asc')->limit(8, 4)->select();
 
             // 新品
             $wherenp['good_state'] = 1;

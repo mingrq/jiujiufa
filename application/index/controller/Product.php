@@ -27,7 +27,7 @@ class Product extends FrontendBase
         // 排序
         $oby = $this->request->param("oby") ? preg_replace('/[^0-9]/', '', $this->request->param("oby")) : 0;
 
-        $orderBy = ['kdId' => "desc"];
+        $orderBy = ['cost_price' => "asc"];
         if ($oby == 1) {
             // 价格最低排序
             $orderBy = ['cost_price' => "asc"];
@@ -35,7 +35,7 @@ class Product extends FrontendBase
             // 价格最高排序
             $orderBy = ['cost_price' => "desc"];
         } else {
-            $oby = 0;
+            $oby = 1;
         }
 
         // 获取所有的仓库
