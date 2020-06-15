@@ -41,16 +41,15 @@
                 </div>
                 <div class="payorder-step">第二步：选择快递类型</div>
                 <div class="payorder-sellipin">
-                    <select id="selproduct">
-                        {if condition="empty($goodsList) eq true"}
-                            <option value="0" data-myprice="0">请选择需要购买的快递公司物流</option>
+                    <div id="selproduct" class="fselect">
+                        {if condition="empty($goods) eq true"}
+                        <span data-value="0" data-myprice="0">请选择需要购买的快递公司物流</span>
                         {else /}
-                            <option value="0" data-myprice="0" selected>请选择需要购买的快递公司物流</option>
-                            {foreach $goodsList as $goods}
-                            <option value="{$goods.kdId}" data-myprice="{if condition='$memberrank==1'}{if condition='empty($goods.good_special_price)'}{$goods.cost_price + $goods.good_price}{else /}{$goods.cost_price + $goods.good_special_price}{/if}{else if condition='$memberrank==2'}{if condition='empty($goods.good_special_vip_price)'}{$goods.cost_price + $goods.good_vip_price}{else /}{$goods.cost_price + $goods.good_special_vip_price}{/if}{/if}"{if condition="$goods.kdId==$kdId"} selected{/if}>{$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}{else /}{$goods.cost_price + $goods.good_special_price}{/if}{else if condition="$memberrank==2"}{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}{else /}{$goods.cost_price + $goods.good_special_vip_price}{/if}{/if}</option>
-                            {/foreach}
+                        <span data-value="{$goods.kdId}" data-myprice="{if condition='$memberrank==1'}{if condition='empty($goods.good_special_price)'}{$goods.cost_price + $goods.good_price}{else /}{$goods.cost_price + $goods.good_special_price}{/if}{else if condition='$memberrank==2'}{if condition='empty($goods.good_special_vip_price)'}{$goods.cost_price + $goods.good_vip_price}{else /}{$goods.cost_price + $goods.good_special_vip_price}{/if}{/if}">
+                            {$goods.kdName} 普通会员价:{$goods.cost_price + $goods.good_price} / 代理会员价:{$goods.cost_price + $goods.good_vip_price} / 我的价格:{if condition="$memberrank==1"}{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}{else /}{$goods.cost_price + $goods.good_special_price}{/if}{else if condition="$memberrank==2"}{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}{else /}{$goods.cost_price + $goods.good_special_vip_price}{/if}{/if}
+                        </span>
                         {/if}
-                    </select>
+                    </div>
                 </div>
                 <div class="payorder-step">第三步：请严格按样式图去复制地址提交，否则无法购买单号</div>
                 <div class="payorder-orderanli">
@@ -142,6 +141,15 @@
         </div>
     </div>
     <!-- 导入窗口 END-->
+    <!-- 选择商品窗口 BEGIN-->
+    <div id="selectGoodsWin" style="display: none;" class="layui-layer-wrap">
+        <div class="selectgoods-box">
+            <ul class="selectgoods">
+                <li></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 选择商品窗口 END-->
 </div>
 <!--END content-box-->
 <!-- footer -->

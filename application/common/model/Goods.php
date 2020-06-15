@@ -85,4 +85,19 @@ class Goods extends Model
         }
         return $query;
     }
+
+    /**
+     * 查询某一个特殊价格商品
+     */
+    public function findSpecialGoods($mid, $classId = 0, $kdId = 0)
+    {
+        $where['vgoods.good_state'] = 1;
+        $where['vgoods.classId'] = $classId;
+        $where['vgoods.kdId'] = $kdId;
+
+        $specialpricelist = db('special_price')->where('member_id', $mid)->fetchSql(true)->select();
+        $query = db('v_onsale_goods')->alias('vgoods')->join('(' . $specialpricelist . ') specialprice', 'specialprice.kd_id = vgoods.kdId', 'LEFT')->where($where)->field(['vgoods.*', 'specialprice.good_special_price', 'specialprice.good_special_vip_price', 'specialprice.good_special_api_price'])->find();
+
+        return $query;
+    }
 }

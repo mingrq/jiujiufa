@@ -221,6 +221,23 @@ $(function () {
         });
     });
 
+    /**
+     * 选择商品
+     */
+    $("#selproduct").click(function () {
+        var ckid = $("#selcangku li.action").attr("data-ckid");
+        console.log(ckid);
+        layer.open({
+            title: '选择快递类型',
+            type: 1,
+            shade: [0.3, '#000000'],
+            area: '1200px',
+            maxmin: false,
+            btnAlign: "c",
+            offset: "260px",
+            content: $('#selectGoodsWin')
+        });
+    });
 
     /**
      * 选择仓库
