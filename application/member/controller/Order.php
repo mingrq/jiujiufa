@@ -23,7 +23,7 @@ class Order extends MemberBase
     {
         $kdId = $this->request->param('gid') ? preg_replace('/[^0-9]/', '', $this->request->param('gid')) : 0;
         $goods = Goods::get($kdId);
-        // $goodsList = array();
+        $goodsList = array();
         $classid = 0;
         $warehouseList = array();
         $specialGoods = array();
@@ -53,30 +53,47 @@ class Order extends MemberBase
 
         $member = Member::get(session('MUserId'));
 
-        /*
         // 当前仓库下的产品
         $warehouse = Warehouse::get($classid);
         if (!empty($warehouse) && !empty($warehouse['wh_id'])) {
             // 调用仓库快递数据
 
-            // $whereGoods['classId'] = $classid;
-            // $whereGoods['good_state'] = 1;
+            $goodsT = new Goods();
+            //$whereGoods['classId'] = $classid;
+            //$whereGoods['good_state'] = 1;
             //$goodsList = $goodsT->where($whereGoods)->select();
             $goodsList = $goodsT->FrontGetSpecialGoodsList(session('MUserId'), $classid);
         }
-        */
-//        $goodsT = new Goods();
-//        $goodsT->findSpecialGoods(session('MUserId'), $classid, $kdId)
 
         $this->assign('classid', $classid);
         $this->assign('kdId', $kdId);
         $this->assign('memberBalance', $member['member_balance']);
         $this->assign('memberrank', $member['member_rank']);// 代理级别
-        // $this->assign('goodsList', $goodsList);
+        $this->assign('goodsList', $goodsList);
         $this->assign('goods', $specialGoods);
         $this->assign('warehouseList', $warehouseList);
 
         return $this->fetch();
+    }
+
+    /**
+     * 查询单个商品特殊价格
+     */
+    public function findSingleSpecialGoods()
+    {
+        if ($this->request->isPost()) {
+            $kdId = $this->request->post('gid') ? preg_replace('/[^0-9]/', '', $this->request->param('gid')) : 0;
+            $classId = $this->request->post('ckid') ? preg_replace('/[^0-9]/', '', $this->request->param('ckid')) : 0;
+            if (!empty($kdId) && !empty($classId)) {
+                $goods = new Goods();
+                $specialGoods = $goods->findSpecialGoods(session('MUserId'), $classId, $kdId);
+                ds_json_encode(10000, "获取成功", $specialGoods);
+            } else {
+                ds_json_encode(10001, "获取失败", null);
+            }
+        } else {
+            ds_json_encode(10002, "获取失败", null);
+        }
     }
 
     /**
@@ -247,6 +264,7 @@ class Order extends MemberBase
             ds_json_encode(10002, "上传失败");
         }
     }
+
     /**
      * 导入拼多多专用表格
      */
@@ -299,6 +317,7 @@ class Order extends MemberBase
             ds_json_encode(10002, "上传失败");
         }
     }
+
     /**
      * 导入淘宝后台表格
      */
@@ -346,6 +365,7 @@ class Order extends MemberBase
             ds_json_encode(10002, "上传失败");
         }
     }
+
     /**
      * 导入京东后台表格
      */
@@ -393,6 +413,7 @@ class Order extends MemberBase
             ds_json_encode(10002, "上传失败");
         }
     }
+
     /**
      * 导入拼多多订单
      */
@@ -429,7 +450,7 @@ class Order extends MemberBase
                     $excel_data[$k]['kdid'] = $v[1];
                     $excel_data[$k]['name'] = $v[15];
                     $excel_data[$k]['mobile'] = preg_replace('/[^0-9]/', '', $v[16]);
-                    $excel_data[$k]['address'] = $v[18] . $v[19] .$v[20] .$v[21];
+                    $excel_data[$k]['address'] = $v[18] . $v[19] . $v[20] . $v[21];
                     $excel_data[$k]['postal'] = '000000';
                 }
                 ds_json_encode(10000, "上传成功", $excel_data);

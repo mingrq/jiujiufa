@@ -225,18 +225,28 @@ $(function () {
      * 选择商品
      */
     $("#selproduct").click(function () {
-        var ckid = $("#selcangku li.action").attr("data-ckid");
-        console.log(ckid);
+        // var ckid = $("#selcangku li.action").attr("data-ckid");
+        // console.log(ckid);
         layer.open({
             title: '选择快递类型',
             type: 1,
             shade: [0.3, '#000000'],
-            area: '1200px',
+            area: '1230px',
             maxmin: false,
             btnAlign: "c",
-            offset: "260px",
+            offset: "160px",
             content: $('#selectGoodsWin')
         });
+    });
+
+    /**
+     * 选择商品
+     */
+    $("#selectgoods li").click(function () {
+        var ckid = $("#selcangku li.action").attr("data-ckid");
+        var kdid = $(this).attr("data-kdid");
+
+
     });
 
     /**

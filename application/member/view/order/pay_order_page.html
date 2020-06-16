@@ -144,10 +144,37 @@
     <!-- 选择商品窗口 BEGIN-->
     <div id="selectGoodsWin" style="display: none;" class="layui-layer-wrap">
         <div class="selectgoods-box">
-            <ul class="selectgoods">
-                <li></li>
+            <ul class="selectgoods" id="selectgoods">
+                {foreach $goodsList as $goods}
+                <li data-kdid="{$goods.kdId}">
+                    <div class="newproduct-pic">
+                        <img src="{$goods.good_pic}">
+                    </div>
+                    <p class="nwpro-title">{$goods.goodsTitle}</p>
+                    <p class="nwpro-price">
+                        <span class="price">￥
+                        {if condition="$memberrank==0"}
+		{$goods.cost_price + $goods.good_price}
+	{elseif condition="$memberrank==1" }
+		{if condition="empty($goods.good_special_price)"}{$goods.cost_price + $goods.good_price}
+		{else /}{$goods.cost_price + $goods.good_special_price}
+		{/if}
+	{else if condition="$memberrank==2"}
+		{if condition="empty($goods.good_special_vip_price)"}{$goods.cost_price + $goods.good_vip_price}
+		{else /}{$goods.cost_price + $goods.good_special_vip_price}
+		{/if}
+	{/if}
+                        </span>
+                        <span class="util">元/单</span>
+                    </p>
+                    <p class="nwpro-buy-btn">
+                        <button>立即购买</button>
+                    </p>
+                </li>
+                {/foreach}
             </ul>
         </div>
+        <div class="clear"></div>
     </div>
     <!-- 选择商品窗口 END-->
 </div>
