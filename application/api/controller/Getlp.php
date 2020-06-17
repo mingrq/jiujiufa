@@ -31,13 +31,15 @@ class Getlp extends ApiBaseController
                 $asign = strtolower(md5($ausername . $pwd16 . $asid));
 
                 $paramData = array(
+                );
+                $data = array(
                     'sid' => $asid,
                     'sign' => $asign,
                     'username' => $ausername
                 );
-                $json_str = request_post($url, $paramData);
+                $json_str = request_post($url, $data);
                 // $json = json_decode($json_str, true);
-                // echo json_encode($json);
+                // echo json_encode($paramData);
                 echo $json_str;
             } else {
                 // 失败
@@ -50,7 +52,8 @@ class Getlp extends ApiBaseController
         } else {
             // ds_json_encode(10000, "", $param['sid']);
             $json = array(
-                'state' => "002参数数据异常"
+                'state' => "002参数数据异常",
+                'param' => $param
             );
             echo json_encode($json);
         }

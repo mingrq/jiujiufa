@@ -87,7 +87,21 @@ class Order extends MemberBase
             if (!empty($kdId) && !empty($classId)) {
                 $goods = new Goods();
                 $specialGoods = $goods->findSpecialGoods(session('MUserId'), $classId, $kdId);
-                ds_json_encode(10000, "获取成功", $specialGoods);
+                if (!empty($specialGoods) && !empty($specialGoods['kdId'])) {
+
+                    $member = Member::get(session('MUserId'));
+                    if (empty($member) || empty($member['member_rank'])) {
+                        ds_json_encode(10004, "会员信息获取错误");
+                    }
+
+                    $result = array(
+                        'mrank' => $member['member_rank'],
+                        'goods' => $specialGoods
+                    );
+                    ds_json_encode(10000, "获取成功", $result);
+                } else {
+                    ds_json_encode(10003, "获取失败", null);
+                }
             } else {
                 ds_json_encode(10001, "获取失败", null);
             }

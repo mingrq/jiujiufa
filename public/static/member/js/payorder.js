@@ -246,7 +246,56 @@ $(function () {
         var ckid = $("#selcangku li.action").attr("data-ckid");
         var kdid = $(this).attr("data-kdid");
 
+        $.ajax({
+            url: "/member/order/findSingleSpecialGoods",
+            type: "POST",
+            dataType: "json",
+            data: {
+                ckid: ckid,
+                gid: kdid
+            },
+            success: function (data) {
+                // console.log(data);
+                $("#selproduct").empty();
+                if (data.code == 10000) {
+                    let mrank = data.result.mrank;
+                    let goods = data.result.goods;
 
+                    let myPrice = 0;
+                    let specialPrice = 0;
+                    let specialVipPrice = 0;
+                    if (goods['good_special_price'] && goods['good_special_price'] > 0) {
+                        specialPrice = toDecimal(Number(goods['cost_price']) + Number(goods['good_special_price']));
+                    }else {
+                        specialPrice = toDecimal(Number(goods['cost_price']) + Number(goods['good_price']));
+                    }
+                    if (goods['good_special_vip_price'] && goods['good_special_vip_price'] > 0) {
+                        specialVipPrice = toDecimal(Number(goods['cost_price']) + Number(goods['good_special_vip_price']));
+                    }else{
+                        specialVipPrice = toDecimal(Number(goods['cost_price']) + Number(goods['good_vip_price']));
+                    }
+
+                    if (mrank == 1) {
+                        myPrice = specialPrice
+                    } else if (mrank == 2) {
+                        myPrice = specialVipPrice
+                    }
+                    $("#selproduct").html("<span data-kdid=\"" + goods['kdId'] + "\" data-myprice=\"" + myPrice + "\">" + goods['kdName'] + " 普通会员价：" + specialPrice + "  / 代理会员价：" + specialVipPrice + "  / 我的价格：" + myPrice + "</span>");
+                }else{
+                    // <span data-kdid="0" data-myprice="0">请选择需要购买的快递公司物流</span>
+                    $("#selproduct").html("<span data-kdid=\"0\" data-myprice=\"0\">请选择需要购买的快递公司物流</span>");
+                }
+            },
+            error: function () {
+                $("#selproduct").empty();
+                $("#selproduct").html("<span data-kdid=\"0\" data-myprice=\"0\">请选择需要购买的快递公司物流</span>");
+            },
+            complete: function () {
+                // 关闭
+                // layer.close(load_index);
+                layer.closeAll();
+            }
+        });
     });
 
     /**
