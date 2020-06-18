@@ -74,7 +74,26 @@
                     </div>
                 </div>
                 <div class="order-memb-info">
-                    余额：<span class="jine">{$memberBalance}</span> 元，【 <span class="daili">{if condition="$memberrank==1"}普通会员{else if condition="$memberrank==2"}代理会员{/if}</span> 】下单：<span id="curgoodsprice">0</span>元/单
+                    余额：<span class="jine">{$memberBalance}</span> 元，【 <span class="daili">{if condition="$memberrank==1"}普通会员{else if condition="$memberrank==2"}代理会员{/if}</span> 】下单：
+                    <span id="curgoodsprice">
+                        {if condition="empty($goods) eq true"}
+                        0
+                        {else /}
+                            {if condition="$memberrank==1"}
+                                {if condition="empty($goods.good_special_price)"}
+                                {$goods.cost_price + $goods.good_price}
+                                {else /}
+                                {$goods.cost_price + $goods.good_special_price}
+                                {/if}
+                            {else if condition="$memberrank==2"}
+                                {if condition="empty($goods.good_special_vip_price)"}
+                                {$goods.cost_price + $goods.good_vip_price}
+                                {else /}
+                                {$goods.cost_price + $goods.good_special_vip_price}
+                                {/if}
+                            {/if}
+                        {/if}
+                    </span>元/单
                 </div>
                 <div class="order-address-table">
                    <table id="tb_addrs">

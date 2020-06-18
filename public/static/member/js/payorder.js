@@ -225,7 +225,7 @@ $(function () {
      * 选择商品
      */
     $("#selproduct").click(function () {
-        // var ckid = $("#selcangku li.action").attr("data-ckid");
+        // var ckid = $("#selcangku").find("li.action").attr("data-ckid");
         // console.log(ckid);
         layer.open({
             title: '选择快递类型',
@@ -242,9 +242,10 @@ $(function () {
     /**
      * 选择商品
      */
-    $("#selectgoods li").click(function () {
-        var ckid = $("#selcangku li.action").attr("data-ckid");
+    $("#selectgoods").on("click", "li", function () {
+        var ckid = $("#selcangku").find("li.action").attr("data-ckid");
         var kdid = $(this).attr("data-kdid");
+        // console.log(kdid);
 
         $.ajax({
             url: "/member/order/findSingleSpecialGoods",
@@ -281,14 +282,17 @@ $(function () {
                         myPrice = specialVipPrice
                     }
                     $("#selproduct").html("<span data-kdid=\"" + goods['kdId'] + "\" data-myprice=\"" + myPrice + "\">" + goods['kdName'] + " 普通会员价：" + specialPrice + "  / 代理会员价：" + specialVipPrice + "  / 我的价格：" + myPrice + "</span>");
+                    $("#curgoodsprice").html(myPrice);
                 }else{
                     // <span data-kdid="0" data-myprice="0">请选择需要购买的快递公司物流</span>
                     $("#selproduct").html("<span data-kdid=\"0\" data-myprice=\"0\">请选择需要购买的快递公司物流</span>");
+                    $("#curgoodsprice").html("0");
                 }
             },
             error: function () {
                 $("#selproduct").empty();
                 $("#selproduct").html("<span data-kdid=\"0\" data-myprice=\"0\">请选择需要购买的快递公司物流</span>");
+                $("#curgoodsprice").html("0");
             },
             complete: function () {
                 // 关闭
@@ -304,8 +308,11 @@ $(function () {
     $("#selcangku li").click(function () {
         var ckid = $(this).attr("data-ckid");
         $("#selproduct").empty();
-        $("#selproduct").append($("<option>").val(0).attr("data-myprice", 0).text("请选择需要购买的快递公司物流"));
-        $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
+        $("#selproduct").html("<span data-kdid=\"0\" data-myprice=\"0\">请选择需要购买的快递公司物流</span>");
+        $("#curgoodsprice").html("0");
+        $("#selectgoods").empty();
+        // $("#selproduct").append($("<option>").val(0).attr("data-myprice", 0).text("请选择需要购买的快递公司物流"));
+        // $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
         // 获取商品数据 并填充
         $.ajax({
             url: "/member/order/getGoodsByCkId",
@@ -316,24 +323,38 @@ $(function () {
             },
             success: function (data) {
                 if (data.code == 10000) {
-                    $mrank = data.result.mrank;
-                    $goods = data.result.goodsList;
-                    if ($mrank == 1) {
-                        for (let i = 0; i < $goods.length; i++) {
-                            if ($goods[i].good_special_price) {
-                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_price))));
-                            }else{
-                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price))));
-                            }
+                    let mrank = data.result.mrank;
+                    let goods = data.result.goodsList;
+                    for (let i=0; i < goods.length; i++) {
+                        let myPrice = 0;
+                        let specialPrice = 0;
+                        let specialVipPrice = 0;
+
+                        if (goods[i]['good_special_price'] && goods[i]['good_special_price'] > 0) {
+                            specialPrice = toDecimal(Number(goods[i]['cost_price']) + Number(goods[i]['good_special_price']));
+                        }else {
+                            specialPrice = toDecimal(Number(goods[i]['cost_price']) + Number(goods[i]['good_price']));
                         }
-                    } else if ($mrank == 2) {
-                        for (let i = 0; i < $goods.length; i++) {
-                            if ($goods[i].good_special_vip_price) {
-                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_vip_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_special_vip_price))));
-                            }else{
-                                $("#selproduct").append($("<option>").val($goods[i].kdId).attr("data-myprice", toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))).text($goods[i].kdName + "普通会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_price)) + " / 代理会员价:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price)) + " / 我的价格:" + toDecimal(Number($goods[i].cost_price) + Number($goods[i].good_vip_price))));
-                            }
+                        if (goods[i]['good_special_vip_price'] && goods[i]['good_special_vip_price'] > 0) {
+                            specialVipPrice = toDecimal(Number(goods[i]['cost_price']) + Number(goods[i]['good_special_vip_price']));
+                        }else{
+                            specialVipPrice = toDecimal(Number(goods[i]['cost_price']) + Number(goods[i]['good_vip_price']));
                         }
+                        if (mrank == 1) {
+                            myPrice = specialPrice
+                        } else if (mrank == 2) {
+                            myPrice = specialVipPrice
+                        }
+
+                        $("#selectgoods").append("<li data-kdid=\""+goods[i]['kdId']+"\">" +
+                            "<div class=\"newproduct-pic\"><img src=\""+goods[i]['good_pic']+"\"></div>" +
+                            "<p class=\"nwpro-title\">"+goods[i]['goodsTitle']+"</p>" +
+                            "<p class=\"nwpro-price\">" +
+                            "<span class=\"price\">"+myPrice+"</span>" +
+                            "<span class=\"util\">元/单</span>" +
+                            "</p>" +
+                            "<p class=\"nwpro-buy-btn\"><button>立即购买</button></p>" +
+                            "</li>");
                     }
                 }
             },
@@ -355,24 +376,36 @@ $(function () {
     });
 
     // 选择商品改变价格
+    /*
     $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
     $("#selproduct").change(function () {
         $("#curgoodsprice").html($('#selproduct').find("option:selected").attr("data-myprice"));
     });
+    */
 })
 
 // 检查收获地址
 function checkAddress() {
     // 查看是否选中商品
-    var selproduct = $("#selproduct option:selected").val();
-    if (selproduct == 0) {
+    var kdid = $("#selproduct").find("span").eq(0).attr("data-kdid");
+    var myprice = $("#selproduct").find("span").eq(0).attr("data-myprice");
+    if (isNaN(kdid) || isNaN(myprice) || Number(kdid) <= 0 || Number(myprice) <= 0) {
+        // 清空table
+        $("#tb_addrs tr:not(:first)").empty();
         layer.open({
             content: "请选择商品",
             btnAlign: "c",
             offset: "300px"
         });
-        return;
+        return false;
     }
+
+    var load_index = layer.load(2, {
+        btnAlign: "c",
+        offset: "300px",
+        shade: [0.5, '#000000']
+    });
+
     // 收货地址
     var content = $("#content").val().trim();
     // 格式 李四，15888888888，广东省 广州市 番禺区 岭南大道321号 ，330006
@@ -392,7 +425,6 @@ function checkAddress() {
         });
         return;
     }
-    var load_index = layer.load(2, {shade: [0.5, '#000000']});
     for (let i = 1; i <= contentArr.length; i++) {
         let one_cnotent_arr = contentArr[i - 1].split("，");
         let $tr;
@@ -415,10 +447,10 @@ function checkAddress() {
         }
         $("#tb_addrs").append($tr);
     }
-    var price = $('#selproduct').find("option:selected").attr("data-myprice");
-    var accont = toDecimal(contentArr.length * Number(price));
+    // var price = $('#selproduct').find("option:selected").attr("data-myprice");
+    var accont = toDecimal(contentArr.length * Number(myprice));
     var $tr_bottom = $("<tr>" +
-        "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
+        "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + myprice + " = " + accont + "元</td>" +
         "</tr>");
     $("#tb_addrs").append($tr_bottom);
     // 关闭
@@ -444,15 +476,19 @@ function buyGoods() {
 
     // 判断是否有格式错误的   您提交的收货地址有1处填写错误，请修改
     // 查看是否选中商品
-    var selproduct = $("#selproduct option:selected").val();
-    if (selproduct == 0) {
+    var kdid = $("#selproduct").find("span").eq(0).attr("data-kdid");
+    var myprice = $("#selproduct").find("span").eq(0).attr("data-myprice");
+    if (isNaN(kdid) || isNaN(myprice) || Number(kdid) <= 0 || Number(myprice) <= 0) {
+        // 清空table
+        $("#tb_addrs tr:not(:first)").empty();
         layer.open({
             content: "请选择商品",
             btnAlign: "c",
             offset: "300px"
         });
-        return;
+        return false;
     }
+
     // 收货地址
     var content = $("#content").val().trim();
     // 格式 李四，15888888888，广东省 广州市 番禺区 岭南大道321号 ，330006
@@ -478,7 +514,11 @@ function buyGoods() {
         });
         return;
     }
-    var load_index = layer.load(2, {shade: [0.5, '#000000']});
+    var load_index = layer.load(2, {
+        btnAlign: "c",
+        offset: "300px",
+        shade: [0.5, '#000000']
+    });
     for (let i = 1; i <= contentArr.length; i++) {
         let one_cnotent_arr = contentArr[i - 1].split("，");
         let $tr;
@@ -502,10 +542,10 @@ function buyGoods() {
         }
         $("#tb_addrs").append($tr);
     }
-    var price = $('#selproduct').find("option:selected").attr("data-myprice");
-    var accont = toDecimal(contentArr.length * Number(price));
+    // var price = $('#selproduct').find("option:selected").attr("data-myprice");
+    var accont = toDecimal(contentArr.length * Number(myprice));
     var $tr_bottom = $("<tr>" +
-        "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + price + " = " + accont + "元</td>" +
+        "<td colspan=\"6\" style=\"text-align: center; color: red;\">" + contentArr.length + " X " + myprice + " = " + accont + "元</td>" +
         "</tr>");
     $("#tb_addrs").append($tr_bottom);
 
@@ -522,13 +562,15 @@ function buyGoods() {
         // 快递名称：广州圆通速递(菜鸟仓)+粉碎办公专用废纸 7单 X 2.20元 = 15.4元
         // 您的余额不足，请充值后再行购买
         var content = $("#content").val().trim();
+        // var ckid = $("#selcangku li.action").attr("data-ckid");
         var ckid = $("#selcangku").find("li.action").attr("data-ckid") ? $("#selcangku").find("li.action").attr("data-ckid") : 0;
+        var kdid = $("#selproduct").find("span").eq(0).attr("data-kdid") ? $("#selproduct").find("span").eq(0).attr("data-kdid"): 0;
         $.ajax({
             url: "/member/order/buyOrder",
             type: "POST",
             dataType: "json",
             data: {
-                kdid: $('#selproduct').val(),
+                kdid: kdid,
                 ckid: ckid,
                 content: content
             },
@@ -617,7 +659,11 @@ function distinguish() {
         return false;
     }
 
-    var load_index = layer.load(2, {shade: [0.5, '#000000']});
+    var load_index = layer.load(2, {
+        btnAlign: "c",
+        offset: "300px",
+        shade: [0.5, '#000000']
+    });
     var selreal = $("input[name='selreal']:checked").val();
     //var tempRealArr = [];
     var tempRealStr = "";
