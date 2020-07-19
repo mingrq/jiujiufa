@@ -539,28 +539,12 @@ class Order extends MemberBase
 
             // 判断内容是否错误
             $param = array();
+            $mchordernoarr=array();
             if (empty($content)) {
                 ds_json_encode(10002, "收货地址错误", null);
             }
             $contentArr = explode(PHP_EOL, $content);
             $errorNum = 0;
-            foreach ($contentArr as $address) {
-                $addressArr = explode("，", $address);
-                if (count($addressArr) != 5) {
-                    $errorNum++;
-                } else {
-                    // 去除订单号后 重新拼接
-                    array_push($param, array(
-                        'pid' => time() . rand(10000000, 99999999),
-                        'msg' => $addressArr[1] . '，' . $addressArr[2] . '，' . $addressArr[3] . '，' . $addressArr[4],
-                        'address' => trim($addressArr[3]),
-                        'mchorderno' => trim($addressArr[0]),
-                        'postcode' => trim($addressArr[4])
-                    ));
-                }
-            }
-
-
 
 
             $wh_alias= db('v_goods')->where('kdId',$kdid)->value('wh_alias');
@@ -579,6 +563,7 @@ class Order extends MemberBase
                         'storeType'=>$ckid,
                         'kuaidiName'=>$wh_alias
                     ));
+                    $mchordernoarr[]=trim($addressArr[0]);
                 }
             }
             if ($errorNum > 0) {
@@ -613,7 +598,7 @@ class Order extends MemberBase
                         'order_state' => 2,
                         'goodsTitle' => $goods['kdName'],
                         'consignee_phone' => $kddhs[$i]['buyerMobile'],
-                        'merchant_order_no' => $param[$i]['mchorderno'],
+                        'merchant_order_no' => $mchordernoarr[$i],
                         'postcode' => $param[$i]['buyerAddrCode'],
                         'order_cost' => $costPrice,
                         'order_profit' => $orderProfit
