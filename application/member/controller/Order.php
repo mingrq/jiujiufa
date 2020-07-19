@@ -544,6 +544,7 @@ class Order extends MemberBase
             }
             $contentArr = explode(PHP_EOL, $content);
             $errorNum = 0;
+           $wh_alias= db('v_goods')->where('kdId',$kdid)->value('wh_alias');
             foreach ($contentArr as $address) {
                 $addressArr = explode("，", $address);
                 if (count($addressArr) != 5) {
@@ -551,11 +552,13 @@ class Order extends MemberBase
                 } else {
                     // 去除订单号后 重新拼接
                     array_push($param, array(
-                        'pid' => time() . rand(10000000, 99999999),
-                        'msg' => $addressArr[1] . '，' . $addressArr[2] . '，' . $addressArr[3] . '，' . $addressArr[4],
-                        'address' => trim($addressArr[3]),
-                        'mchorderno' => trim($addressArr[0]),
-                        'postcode' => trim($addressArr[4])
+                        'apiOrderId' => time() . rand(10000000, 99999999),
+                        'buyerName'=>$addressArr[1],
+                        'buyerMobile'=>$addressArr[2],
+                        'buyerAddr'=>$addressArr[3],
+                        'buyerAddrCode'=>$addressArr[4],
+                        'storeType'=>$ckid,
+                        'kuaidiName'=>$wh_alias
                     ));
                 }
             }
