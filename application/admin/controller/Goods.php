@@ -25,11 +25,57 @@ class Goods extends AdminBaseController
     }
 
     /**
+     * 添加商品
+     */
+    public function addgoods()
+    {
+        return $this->fetch('addgoods');
+    }
+
+    /**
+     * 添加商品内页
+     */
+    public function addgoodscontent()
+    {
+        if (request()->isPost()) {
+            $goods_id = input('param.goods_id');
+
+            $goods_name = input('param.goods_name');
+            $warehouse = input('param.warehouse');
+            $file = request()->file('good_pic');
+            $good_pic = "";
+            if ($file) {
+                // 移动到框架应用根目录/public/uploads/ 目录下
+                $info = $file->move(ROOT_PATH . 'public' . DS . 'goods');
+                //如果不清楚文件上传的具体键名，可以直接打印$info来查看
+                //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+                $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
+                $good_pic = DS . 'goods' . DS . $ad_pic;
+            }
+
+
+            $cost = input('param.cost');
+            $api_profit = input('param.api_profit');
+            $agency_profit = input('param.agency_profit');
+            $member_profit = input('param.member_profit');
+            $warahouse_name = db('warehouse')->where("wh_id", $warehouse)->value("wh_title");
+            $goodsTitle = $warahouse_name . "+" . $goods_name;
+            $query = db('goods')->insert(["good_id" => $goods_id, "goodsTitle" => $goodsTitle, "classId" => $warehouse, "kdName" => $goodsTitle, "cost_price" => $cost, "good_price" => $member_profit, "good_vip_price" => $agency_profit, "good_api_price" => $api_profit, "good_pic" => $good_pic]);
+            if ($query) {
+                ds_json_encode(10000, "商品添加成功");
+            } else {
+                ds_json_encode(10001, "商品添加失败");
+            }
+        } else {
+            return $this->fetch('addgoodscontent');
+        }
+    }
+
+    /**
      * 获取商品列表
      */
     public function getgoodslist()
     {
-
         $mode = model('goods');
         $condition = array("good_state" => 1);
         $query = $mode->getGoodsList($condition);
@@ -38,6 +84,22 @@ class Goods extends AdminBaseController
         } else {
             ds_json_encode(10001, "获取商品列表失败");
         }
+    }
+
+    /**
+     * 删除商品
+     */
+    public function delgood()
+    {
+        if (request()->isPost()){
+            $kdId = input('param.kdId');
+            db('goods')->where("kdId",$kdId)->delete();
+            db('special_price')->where("kd_id",$kdId)->delete();
+            ds_json_encode(10000, "删除商品成功");
+        }else{
+            ds_json_encode(10001, "请求错误");
+        }
+
     }
 
 
@@ -133,6 +195,7 @@ class Goods extends AdminBaseController
             ds_json_encode(10001, "获取仓库类型列表失败");
         }
     }
+
     /**
      * 更新商品列表
      */

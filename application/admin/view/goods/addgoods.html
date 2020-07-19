@@ -16,6 +16,7 @@
 
     <!-- <![endif]-->
 
+
     <!--[if IE]>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <![endif]-->
@@ -89,34 +90,7 @@
             </div>
 
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
-        </div>
-    </form>
-    <form class="layui-form" action="" style="margin-top: -20px">
-        <label class="m-form-label">批量设置价格</label>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="m-form-label">会员价</label>
-                <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="会员价" id="good_price"
-                           autocomplete="off" class="layui-input" value="{$goods_mem_defult_price}">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="m-form-label">代理价</label>
-                <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="代理价" id="good_vip_price"
-                           autocomplete="off" class="layui-input" value="{$goods_vip_defult_price}">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="m-form-label">API价</label>
-                <div class="layui-input-inline" style="width: 150px">
-                    <input type="text" placeholder="API价" id="good_api_price"
-                           autocomplete="off" class="layui-input" value="{$goods_api_defult_price}">
-                </div>
-            </div>
-
-            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="setprice()">设置</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="addgoods()">添加商品</button>
         </div>
     </form>
     <!--表格-->
@@ -128,7 +102,9 @@
         <img src="{{ d.good_pic }}" alt="{{ d.kdName }}">
     </div>
 </script>
-
+<script type="text/html" id="table_operation_toolbar">
+    <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script type="text/javascript">
     var table;
     var form;
@@ -211,24 +187,24 @@
             , url: '/admin/goods/getgoodslist'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , limit: 100
-            , height: 'full-170'
+            , height: 'full-100'
             , cols: [[
                 {field: 'good_id', width: 90, align: 'center', title: '商品ID'}
-               ,{field: 'goodsTitle', width: 300, align: 'center', title: '商品标题'}
+                ,{field: 'goodsTitle', width: 300, align: 'center', title: '商品标题'}
                 , {field: 'good_pic', width: 140, align: 'center', title: '主图', templet: '#table_main_pic'}
                 , {field: 'kdName', align: 'center', title: '快递名称'}
                 , {field: 'warehouse_name', width: 160, align: 'center', title: '仓库'}
                 , {field: 'cost_price', title: '成本', width: 100, align: 'center'}
-                , {field: 'good_price', title: '会员价(利润)', align: 'center', width: 110, edit: 'text', fixed: 'right'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'good_vip_price', align: 'center', title: '代理价(利润)', width: 110, edit: 'text', fixed: 'right'}
+                , {field: 'good_price', title: '会员价(利润)', align: 'center', width: 110,  fixed: 'right'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                , {field: 'good_vip_price', align: 'center', title: '代理价(利润)', width: 110, fixed: 'right'}
                 , {
                     field: 'good_api_price',
                     title: 'API价(利润)',
                     align: 'center',
                     width: 110,
-                    edit: 'text',
                     fixed: 'right'
                 }
+                , {field: 'operation', align: 'center', width: 70, title: '操作', toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
                 return {
@@ -250,24 +226,33 @@
             }
         });
 
-        table.on('edit(table_goods)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-            $.ajax({
-                //几个参数需要注意一下
-                type: "GET",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/goods/editprice",
-                data: {
-                    field: obj.field,
-                    kdId: obj.data.kdId,
-                    price: obj.value
-                },
-                success: function (result) {
-                },
-                error: function () {
-                }
-            });
-        });
+        table.on('tool(table_goods)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            let data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
+            if (layEvent === 'del') { //取消订单
+                layer.confirm('确定要删除这个商品吗', function (index) {
+                    $.ajax({
+                        //几个参数需要注意一下
+                        type: "POST",//方法类型
+                        dataType: "json",//预期服务器返回的数据类型
+                        url: "/admin/goods/delgood",
+                        data: {
+                            kdId: data.kdId
+                        },
+                        success: function (result) {
+                            layer.close(index);
+                            layer.msg(result.message);
+                            table.reload('sample-table');
+                        },
+                        error: function () {
+                            layer.msg('删除失败，请稍后再试');
+                        }
+                    });
+                });
+            }
+        });
     })
 
     /**搜索*/
@@ -281,28 +266,19 @@
         });
     }
 
-    /**
-     * 批量设置价格
-     */
-    function setprice() {
-        $.ajax({
-            //几个参数需要注意一下
-            type: "POST",//方法类型
-            dataType: "json",//预期服务器返回的数据类型
-            url: "/admin/goods/batcheditprice",
-            data: {
-                good_price: $('#good_price').val(),
-                good_vip_price: $('#good_vip_price').val(),
-                good_api_price: $('#good_api_price').val()
-            },
-            success: function (result) {
-                if (result.code == 10000) {
-                    table.reload('sample-table');
-                }
-            },
-            error: function () {
-                layer.msg('修改失败，请稍后再试');
-            }
+    /**添加商品*/
+    function addgoods() {
+        //iframe窗
+
+
+        layer.open({
+            type: 2,
+            title: '新增商品',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '500px'],
+            content: '/admin/goods/addgoodscontent.html'
         });
     }
 </script>
