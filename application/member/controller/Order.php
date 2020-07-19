@@ -580,7 +580,8 @@ class Order extends MemberBase
             $order = new \app\common\model\Order();
             $result = $order->unifiedOrder($wh_alias['good_id'], $param);
 
-            dump($result);
+            // dump($result);
+            ds_json_encode(10000, "订单提交成功", $result);
 
             /*
             if ($result['result'] == 1) {

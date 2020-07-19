@@ -44,8 +44,8 @@ class Order extends Model
      */
     public function unifiedOrder($goodId, $param)
     {
-        $partnerId = "7878185";
-        $secret = "70a7262d0ff241d89fb0e76dca90715e";
+        $partnerId = "7863921";
+        $secret = "ac64e3a36a784aabb3c48f7f62fb4a5c";
 
         //下单
         $url = "http://182.254.212.247:9103/ApiOrder/orderGift";
@@ -62,8 +62,8 @@ class Order extends Model
         );
 
         $json_str = request_post($url, $data);
-        $json = json_decode($json_str, true);
-        return $json;
+        // $json = json_decode($json_str, true);
+        return $json_str;
 
 
 //        $url = 'http://www.681kb.com/API/BuyLpdh';

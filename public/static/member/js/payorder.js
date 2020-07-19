@@ -575,7 +575,8 @@ function buyGoods() {
                 content: content
             },
             success: function (data) {
-                 console.log(data);
+                console.log(data);
+                /*
                 if (data.code == 10000) {
                     window.location.href = "/member/order/orderList";
                 } else {
@@ -587,6 +588,7 @@ function buyGoods() {
 
                     return false;
                 }
+                */
             },
             error: function () {
                 console.log('error');
