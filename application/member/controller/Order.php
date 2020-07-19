@@ -544,7 +544,26 @@ class Order extends MemberBase
             }
             $contentArr = explode(PHP_EOL, $content);
             $errorNum = 0;
-           $wh_alias= db('v_goods')->where('kdId',$kdid)->value('wh_alias');
+            foreach ($contentArr as $address) {
+                $addressArr = explode("，", $address);
+                if (count($addressArr) != 5) {
+                    $errorNum++;
+                } else {
+                    // 去除订单号后 重新拼接
+                    array_push($param, array(
+                        'pid' => time() . rand(10000000, 99999999),
+                        'msg' => $addressArr[1] . '，' . $addressArr[2] . '，' . $addressArr[3] . '，' . $addressArr[4],
+                        'address' => trim($addressArr[3]),
+                        'mchorderno' => trim($addressArr[0]),
+                        'postcode' => trim($addressArr[4])
+                    ));
+                }
+            }
+
+
+
+
+            $wh_alias= db('v_goods')->where('kdId',$kdid)->value('wh_alias');
             foreach ($contentArr as $address) {
                 $addressArr = explode("，", $address);
                 if (count($addressArr) != 5) {
@@ -583,19 +602,19 @@ class Order extends MemberBase
                 // 订单全部
                 for ($i = 0; $i < count($kddhs); $i++) {
                     $orderData[$i] = array(
-                        'order_no' => $kddhs[$i]['pid'],
+                        'order_no' => $kddhs[$i]['apiOrderId'],
                         'member_id' => $mUserId,
                         'tracking_number' => $kddhs[$i]['num'],
-                        'consignee_name' => $kddhs[$i]['takeName'],
-                        'shipping_address' => $param[$i]['address'],
+                        'consignee_name' => $kddhs[$i]['buyerName'],
+                        'shipping_address' => $param[$i]['buyerAddr'],
                         'express_name' => $goods['whTitle'],
                         'create_time' => $nowTime,
                         'order_pay' => $price,
                         'order_state' => 2,
                         'goodsTitle' => $goods['kdName'],
-                        'consignee_phone' => $kddhs[$i]['takePhone'],
+                        'consignee_phone' => $kddhs[$i]['buyerMobile'],
                         'merchant_order_no' => $param[$i]['mchorderno'],
-                        'postcode' => $param[$i]['postcode'],
+                        'postcode' => $param[$i]['buyerAddrCode'],
                         'order_cost' => $costPrice,
                         'order_profit' => $orderProfit
                     );
