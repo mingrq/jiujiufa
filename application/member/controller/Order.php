@@ -547,7 +547,7 @@ class Order extends MemberBase
             $errorNum = 0;
 
 
-            $wh_alias= db('v_goods')->where('kdId',$kdid)->value('wh_alias');
+            $wh_alias= db('v_goods')->where('kdId',$kdid)->find('wh_alias');
             foreach ($contentArr as $address) {
                 $addressArr = explode("，", $address);
                 if (count($addressArr) != 5) {
@@ -561,7 +561,7 @@ class Order extends MemberBase
                         'buyerAddr'=>$addressArr[3],
                         'buyerAddrCode'=>$addressArr[4],
                         'storeType'=>$ckid,
-                        'kuaidiName'=>$wh_alias
+                        'kuaidiName'=>$wh_alias['wh_alias']
                     ));
                     $mchordernoarr[]=trim($addressArr[0]);
                 }
@@ -578,7 +578,7 @@ class Order extends MemberBase
             $orderData = array();
             $mchRecordData = array();
             $order = new \app\common\model\Order();
-            $result = $order->unifiedOrder($kdid, $param);
+            $result = $order->unifiedOrder($kdid,$wh_alias['good_id'], $param);
             if ($result['status'] == 'ok') {
                 // 下单成功
                 $kddhs = $result['kddhs'];
