@@ -52,7 +52,7 @@ class Order extends Model
 
         $orderParams = json_encode($param);
         // 对身份的验证
-        $validation = md5($goodId . $orderParams . $partnerId . $secret);
+        $validation = "c6647d25384f5f7bab5d3bcee5a3a867";
 
         $data = array(
             'partnerId' => $partnerId,
