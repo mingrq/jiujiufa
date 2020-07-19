@@ -39,9 +39,33 @@ class Order extends Model
 
     /**
      * 小礼品单号下单地址
+     * goodId   商品ID
+     * param    数组参数
      */
-    public function unifiedOrder($kdid, $param)
+    public function unifiedOrder($goodId, $param)
     {
+        $partnerId = "7878185";
+        $secret = "70a7262d0ff241d89fb0e76dca90715e";
+
+        //下单
+        $url = "http://182.254.212.247:9103/ApiOrder/orderGift";
+
+        $orderParams = json_encode($param);
+        // 对身份的验证
+        $validation = md5($goodId . $orderParams . $partnerId . $secret);
+
+        $data = array(
+            'partnerId' => $partnerId,
+            'itemId' => $goodId,
+            'orderParams' => $orderParams,
+            'validation' => $validation
+        );
+
+        $json_str = request_post($url, $data);
+        $json = json_decode($json_str, true);
+        return $json;
+
+
 //        $url = 'http://www.681kb.com/API/BuyLpdh';
 //        $username = db('config')->where('config_code', 'goods_api_acc')->value('config_value');
 //        $pwd = db('config')->where('config_code', 'goods_api_pw')->value('config_value');
@@ -74,22 +98,12 @@ class Order extends Model
 //        return $json;
 
 
-
-
-
-
-        $partnerId = "7878185";
-        $secret = "70a7262d0ff241d89fb0e76dca90715e";
-
 //        //获取token
 //        $md5Secret= md5($secret);
 //        $get_token_url = "http://182.254.212.247:9103/ApiOrder/getToken?partnerId=".$partnerId."&md5Secret=".$md5Secret;
 //        $json_str = http_request($get_token_url);
 
-        //下单
-        $place_an_order_url="http://182.254.212.247:9103/ApiOrder/orderGift";
-
-        ds_json_encode(10001, "获取token:".$kdid,$param);
+        //ds_json_encode(10001, "获取token:" . $kdid, $param);
 
     }
 

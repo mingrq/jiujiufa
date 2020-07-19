@@ -539,7 +539,7 @@ class Order extends MemberBase
 
             // 判断内容是否错误
             $param = array();
-            $mchordernoarr=array();
+            $mchordernoarr = array();
             if (empty($content)) {
                 ds_json_encode(10002, "收货地址错误", null);
             }
@@ -547,7 +547,7 @@ class Order extends MemberBase
             $errorNum = 0;
 
 
-            $wh_alias= db('v_goods')->where('kdId',$kdid)->find('wh_alias');
+            $wh_alias = db('v_goods')->where('kdId', $kdid)->find('wh_alias');
             foreach ($contentArr as $address) {
                 $addressArr = explode("，", $address);
                 if (count($addressArr) != 5) {
@@ -556,14 +556,14 @@ class Order extends MemberBase
                     // 去除订单号后 重新拼接
                     array_push($param, array(
                         'apiOrderId' => time() . rand(10000000, 99999999),
-                        'buyerName'=>$addressArr[1],
-                        'buyerMobile'=>$addressArr[2],
-                        'buyerAddr'=>$addressArr[3],
-                        'buyerAddrCode'=>$addressArr[4],
-                        'storeType'=>$ckid,
-                        'kuaidiName'=>$wh_alias['wh_alias']
+                        'buyerName' => $addressArr[1],
+                        'buyerMobile' => $addressArr[2],
+                        'buyerAddr' => $addressArr[3],
+                        'buyerAddrCode' => $addressArr[4],
+                        'storeType' => $ckid,
+                        'kuaidiName' => $wh_alias['wh_alias']
                     ));
-                    $mchordernoarr[]=trim($addressArr[0]);
+                    $mchordernoarr[] = trim($addressArr[0]);
                 }
             }
             if ($errorNum > 0) {
@@ -578,7 +578,17 @@ class Order extends MemberBase
             $orderData = array();
             $mchRecordData = array();
             $order = new \app\common\model\Order();
-            $result = $order->unifiedOrder($kdid,$wh_alias['good_id'], $param);
+            $result = $order->unifiedOrder($wh_alias['good_id'], $param);
+
+            dump($result);
+
+            /*
+            if ($result['result'] == 1) {
+
+            }
+            */
+
+            /*
             if ($result['status'] == 'ok') {
                 // 下单成功
                 $kddhs = $result['kddhs'];
@@ -629,6 +639,7 @@ class Order extends MemberBase
             } else {
                 ds_json_encode(10006, $result['status']);
             }
+            */
             //ds_json_encode(10000, "订单提交成功");
         } else {
             ds_json_encode(10010, "数据错误", null);
