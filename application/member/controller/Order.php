@@ -595,15 +595,33 @@ class Order extends MemberBase
                         $buy_param[]= $param[$index];
                     }
                 }
-                $result = $order->unifiedOrder($wh_alias['good_id'], $buy_param);
+                //$result = $order->unifiedOrder($wh_alias['good_id'], $buy_param);
+
+                //以下$result用于测试
+                $resultq = array();
+                if ($j==($count-1)){
+                    for ($z=0;$z<(count($param)%5);$z++){
+                        $index1 = ($j*5)+$z;
+                        $resultq[]= array("apiOrderId" =>$param[$index1]["apiOrderId"],"expressNo"=>"5456446444484","orderResult"=>1);
+                    }
+                }else{
+                    for ($z=0;$z<5;$z++){
+                        $index1 = ($j*5)+$z;
+                        $resultq[]= array("apiOrderId" =>$param[$index1]["apiOrderId"],"expressNo"=>"5456446444484","orderResult"=>1);
+                    }
+                }
+                $result = $resultq;
+
+                ds_json_encode(10001,"sdfdsaf",$result);
                 if ($result->orderResult==1){
                     //下单成功
+                    //$param[$j]["expressNo"]=$result->expressNo;
                     $success_order[]=$param[$j];
                 }else{
                     $error_order[]=$param[$j];
                 }
             }
-
+            ds_json_encode(10001,"sdfdsaf",$success_order);
 //            if ($result['result'] == 1) {
 //                $orders = $result['orders'];
 //                for ($i = 0; $i < count($orders); $i++) {
@@ -648,7 +666,7 @@ class Order extends MemberBase
                     $orderData[$i] = array(
                         'order_no' => $success_order[$i]['apiOrderId'],
                         'member_id' => $mUserId,
-                        'tracking_number' => $success_order[$i]['num'],
+                        'tracking_number' => $success_order[$i]['expressNo'],
                         'consignee_name' => $success_order[$i]['buyerName'],
                         'shipping_address' => $param[$i]['buyerAddr'],
                         'express_name' => $goods['whTitle'],
