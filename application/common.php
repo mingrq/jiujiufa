@@ -32,6 +32,28 @@ function request_post($url, $data = array())
     return $output;
 }
 
+/*
+ * $data 为数组格式参数
+ */
+function request_post_arr($url, $data = array())
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0); //是否抓取跳转后的页面
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    // POST数据
+    curl_setopt($ch, CURLOPT_POST, 1);
+    // 把post的变量加上
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    $output = curl_exec($ch);
+    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    //var_dump($status_code);
+    curl_close($ch);
+    return $output;
+}
+
 
 /**
  * KV缓存 读

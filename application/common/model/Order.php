@@ -52,7 +52,6 @@ class Order extends Model
 
         $orderParams = json_encode($param);
         // 对身份的验证
-        // $validation = "c6647d25384f5f7bab5d3bcee5a3a867";
         $validation = md5($goodId . $orderParams . $partnerId . $secret);
 
         $data = array(
@@ -62,9 +61,9 @@ class Order extends Model
             'validation' => $validation
         );
 
-        $json_str = request_post($url, $data);
-        // $json = json_decode($json_str, true);
-        return $json_str;
+        $json_str = request_post_arr($url, $data);
+        $json = json_decode($json_str, true);
+        return $json;
 
 
 //        $url = 'http://www.681kb.com/API/BuyLpdh';
