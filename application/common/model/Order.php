@@ -44,8 +44,8 @@ class Order extends Model
      */
     public function unifiedOrder($goodId, $param)
     {
-        $partnerId = 7863921;
-        $secret = "ac64e3a36a784aabb3c48f7f62fb4a5c";
+        $partnerId = 3789220;
+        $secret = "25808b198b3f46e49057333bfe1fa40c";
 
         //下单
         $url = "http://182.254.212.247:9103/ApiOrder/orderGift";
