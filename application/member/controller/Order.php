@@ -546,7 +546,6 @@ class Order extends MemberBase
             $contentArr = explode(PHP_EOL, $content);
             $errorNum = 0;
 
-
             $wh_alias = db('v_goods')->where('kdId', $kdid)->find('wh_alias');
             foreach ($contentArr as $address) {
                 $addressArr = explode("，", $address);
@@ -578,16 +577,50 @@ class Order extends MemberBase
             $orderData = array();
             $mchRecordData = array();
             $order = new \app\common\model\Order();
+
+            // 数组中一次最多不能超过5个订单
+            for ($j = 0; $j < count($param); $j++) {
+
+            }
+
             $result = $order->unifiedOrder($wh_alias['good_id'], $param);
 
             // dump($result);
-            ds_json_encode(10000, "订单提交成功", $result);
+            // ds_json_encode(10000, "订单提交成功", $result);
 
-            /*
             if ($result['result'] == 1) {
-
+                $orders = $result['orders'];
+                for ($i = 0; $i < count($orders); $i++) {
+                    if ($orders[$i]['orderResult'] == 1) {
+                        // 下单成功
+                        $orderData[$i] = array(
+                            'order_no' => $orders[$i]['apiOrderId'],
+                            'member_id' => $mUserId,
+                            'tracking_number' => $orders[$i]['expressNo'],
+                            'consignee_name' => $param[$i]['buyerName'],
+                            'shipping_address' => $param[$i]['buyerAddr'],
+                            'express_name' => $goods['whTitle'],
+                            'create_time' => $nowTime,
+                            'order_pay' => $price,
+                            'order_state' => 2,
+                            'goodsTitle' => $goods['kdName'],
+                            'consignee_phone' => $kddhs[$i]['buyerMobile'],
+                            'merchant_order_no' => $mchordernoarr[$i],
+                            'postcode' => $param[$i]['buyerAddrCode'],
+                            'order_cost' => $costPrice,
+                            'order_profit' => $orderProfit
+                        );
+                        $mchRecordData[$i] = array(
+                            'member_id' => $mUserId,
+                            'change_money' => (-1 * $price),
+                            'change_time' => $nowTime,
+                            'change_cause' => '购买小礼品：' . $goods['kdName']
+                        );
+                    }else{
+                        // 下单失败
+                    }
+                }
             }
-            */
 
             /*
             if ($result['status'] == 'ok') {
