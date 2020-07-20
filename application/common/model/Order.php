@@ -44,7 +44,7 @@ class Order extends Model
      */
     public function unifiedOrder($goodId, $param)
     {
-        $partnerId = "7863921";
+        $partnerId = 7863921;
         $secret = "ac64e3a36a784aabb3c48f7f62fb4a5c";
 
         //下单
@@ -52,7 +52,8 @@ class Order extends Model
 
         $orderParams = json_encode($param);
         // 对身份的验证
-        $validation = "c6647d25384f5f7bab5d3bcee5a3a867";
+        // $validation = "c6647d25384f5f7bab5d3bcee5a3a867";
+        $validation = md5($goodId . $orderParams . $partnerId . $secret);
 
         $data = array(
             'partnerId' => $partnerId,
