@@ -702,16 +702,6 @@ class Order extends MemberBase
                     }
                 }
 
-                // 过滤资金变动数组里的空数据
-                $mchRecordDataTemp = array();
-                $mm = 0;
-                foreach ($mchRecordData as $mchRecord) {
-                    if (count($mchRecord) > 0 && !empty($mchRecord['member_id'])) {
-                        $mchRecordDataTemp[$mm] = $mchRecord;
-                        $mm++;
-                    }
-                }
-
                 /*
                 //以下$result用于测试
                 $resultq = array();
@@ -800,6 +790,17 @@ class Order extends MemberBase
                 );
             }
             */
+
+            // 过滤资金变动数组里的空数据
+            $mchRecordDataTemp = array();
+            $mm = 0;
+            foreach ($mchRecordData as $mchRecord) {
+                if (count($mchRecord) > 0 && !empty($mchRecord['member_id'])) {
+                    $mchRecordDataTemp[$mm] = $mchRecord;
+                    $mm++;
+                }
+            }
+
             //$orderT = new \app\common\model\Order();
             $res = $order->saveAll($orderData);
             if ($res > 0) {
