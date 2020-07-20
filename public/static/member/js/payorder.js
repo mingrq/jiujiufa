@@ -576,19 +576,25 @@ function buyGoods() {
             },
             success: function (data) {
                 console.log(data);
-                /*
                 if (data.code == 10000) {
-                    window.location.href = "/member/order/orderList";
+                    // window.location.href = "/member/order/orderList";
+                    layer.msg(data.message, {
+                            icon: 2,
+                            time: 3000,
+                            btnAlign: "c",
+                            offset: "300px"
+                        },
+                        function(){
+                            window.location.href = "/member/order/orderList";
+                        });
                 } else {
                     layer.open({
                         content: data.message,
                         btnAlign: "c",
                         offset: "300px"
                     });
-
                     return false;
                 }
-                */
             },
             error: function () {
                 console.log('error');

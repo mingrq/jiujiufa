@@ -579,49 +579,166 @@ class Order extends MemberBase
             $order = new \app\common\model\Order();
 
             // 数组中一次最多不能超过5个订单
-            $error_order = array();//下单失败的订单集合
-            $success_order=array();//下单成功的订单集合
-            $count =ceil(count($param)/5);
-            for ($j = 0; $j <$count ; $j++) {
+            // $error_order = array();//下单失败的订单集合
+            // $success_order = array();//下单成功的订单集合
+            $success_order_num = 0; // 订单成功数量
+            $count = ceil(count($param) / 5);
+            for ($j = 0; $j < $count; $j++) {
                 $buy_param = array();
-                if ($j==($count-1)){
-                    for ($z=0;$z<(count($param)%5);$z++){
-                        $index = ($j*5)+$z;
-                        $buy_param[]= $param[$index];
+                if ($j == ($count - 1)) {
+                    for ($z = 0; $z < (count($param) % 5); $z++) {
+                        $index = ($j * 5) + $z;
+                        $buy_param[] = $param[$index];
                     }
-                }else{
-                    for ($z=0;$z<5;$z++){
-                        $index = ($j*5)+$z;
-                        $buy_param[]= $param[$index];
+                } else {
+                    for ($z = 0; $z < 5; $z++) {
+                        $index = ($j * 5) + $z;
+                        $buy_param[] = $param[$index];
                     }
                 }
-                //$result = $order->unifiedOrder($wh_alias['good_id'], $buy_param);
 
+                // 下单完成
+                $nowTime = date("Y-m-d H:i:s", time());
+                $result = $order->unifiedOrder($wh_alias['good_id'], $buy_param);
+
+                if ($result['result'] == 1) {
+                    $orders = $result['orders'];
+                    for ($i = 0; $i < count($orders); $i++) {
+                        $num = ($j * 5) + $i;
+                        if ($orders[$i]['orderResult'] == 1) {
+                            $orderData[$num] = array(
+                                'order_no' => $orders[$i]['apiOrderId'],
+                                'member_id' => $mUserId,
+                                'tracking_number' => $orders[$i]['expressNo'],
+                                'consignee_name' => $param[$num]['buyerName'],
+                                'shipping_address' => $param[$num]['buyerAddr'],
+                                'express_name' => $goods['whTitle'],
+                                'create_time' => $nowTime,
+                                'order_pay' => $price,
+                                'order_state' => 3,
+                                'goodsTitle' => $goods['kdName'],
+                                'consignee_phone' => $param[$num]['buyerMobile'],
+                                'merchant_order_no' => $mchordernoarr[$num],
+                                'postcode' => $param[$num]['buyerAddrCode'],
+                                'order_cost' => $costPrice,
+                                'order_profit' => $orderProfit
+                            );
+                            $mchRecordData[$num] = array(
+                                'member_id' => $mUserId,
+                                'change_money' => (-1 * $price),
+                                'change_time' => $nowTime,
+                                'change_cause' => '购买小礼品：' . $goods['kdName']
+                            );
+                            // 订单成功数量
+                            $success_order_num++;
+                        } else {
+                            // 下单失败
+                            $orderData[$num] = array(
+                                'order_no' => $param[$num]['apiOrderId'],
+                                'member_id' => $mUserId,
+                                'tracking_number' => '',
+                                'consignee_name' => $param[$num]['buyerName'],
+                                'shipping_address' => $param[$num]['buyerAddr'],
+                                'express_name' => $goods['whTitle'],
+                                'create_time' => $nowTime,
+                                'order_pay' => $price,
+                                'order_state' => 1,
+                                'goodsTitle' => $goods['kdName'],
+                                'consignee_phone' => $param[$num]['buyerMobile'],
+                                'merchant_order_no' => $mchordernoarr[$num],
+                                'postcode' => $param[$num]['buyerAddrCode'],
+                                'order_cost' => $costPrice,
+                                'order_profit' => $orderProfit
+                            );
+                            $mchRecordData[$num] = array();
+                        }
+                    }
+                } else {
+                    // 下单失败
+                    if ($j == ($count - 1)) {
+                        for ($z = 0; $z < (count($param) % 5); $z++) {
+                            $num = ($j * 5) + $z;
+                            $orderData[$num] = array(
+                                'order_no' => $param[$num]['apiOrderId'],
+                                'member_id' => $mUserId,
+                                'tracking_number' => '',
+                                'consignee_name' => $param[$num]['buyerName'],
+                                'shipping_address' => $param[$num]['buyerAddr'],
+                                'express_name' => $goods['whTitle'],
+                                'create_time' => $nowTime,
+                                'order_pay' => $price,
+                                'order_state' => 1,
+                                'goodsTitle' => $goods['kdName'],
+                                'consignee_phone' => $param[$num]['buyerMobile'],
+                                'merchant_order_no' => $mchordernoarr[$num],
+                                'postcode' => $param[$num]['buyerAddrCode'],
+                                'order_cost' => $costPrice,
+                                'order_profit' => $orderProfit
+                            );
+                            $mchRecordData[$num] = array();
+                        }
+                    } else {
+                        for ($z = 0; $z < 5; $z++) {
+                            $num = ($j * 5) + $z;
+                            $orderData[$num] = array(
+                                'order_no' => $param[$num]['apiOrderId'],
+                                'member_id' => $mUserId,
+                                'tracking_number' => '',
+                                'consignee_name' => $param[$num]['buyerName'],
+                                'shipping_address' => $param[$num]['buyerAddr'],
+                                'express_name' => $goods['whTitle'],
+                                'create_time' => $nowTime,
+                                'order_pay' => $price,
+                                'order_state' => 1,
+                                'goodsTitle' => $goods['kdName'],
+                                'consignee_phone' => $param[$num]['buyerMobile'],
+                                'merchant_order_no' => $mchordernoarr[$num],
+                                'postcode' => $param[$num]['buyerAddrCode'],
+                                'order_cost' => $costPrice,
+                                'order_profit' => $orderProfit
+                            );
+                            $mchRecordData[$num] = array();
+                        }
+                    }
+                }
+
+                // 过滤资金变动数组里的空数据
+                $mchRecordDataTemp = array();
+                $mm = 0;
+                foreach ($mchRecordData as $mchRecord) {
+                    if (count($mchRecord) > 0 && !empty($mchRecord['member_id'])) {
+                        $mchRecordDataTemp[$mm] = $mchRecord;
+                        $mm++;
+                    }
+                }
+
+                /*
                 //以下$result用于测试
                 $resultq = array();
-                if ($j==($count-1)){
-                    for ($z=0;$z<(count($param)%5);$z++){
-                        $index1 = ($j*5)+$z;
-                        $resultq[]= array("apiOrderId" =>$param[$index1]["apiOrderId"],"expressNo"=>"5456446444484","orderResult"=>1);
+                if ($j == ($count - 1)) {
+                    for ($z = 0; $z < (count($param) % 5); $z++) {
+                        $index1 = ($j * 5) + $z;
+                        $resultq[] = array("apiOrderId" => $param[$index1]["apiOrderId"], "expressNo" => "5456446444484", "orderResult" => 1);
                     }
-                }else{
-                    for ($z=0;$z<5;$z++){
-                        $index1 = ($j*5)+$z;
-                        $resultq[]= array("apiOrderId" =>$param[$index1]["apiOrderId"],"expressNo"=>"5456446444484","orderResult"=>1);
+                } else {
+                    for ($z = 0; $z < 5; $z++) {
+                        $index1 = ($j * 5) + $z;
+                        $resultq[] = array("apiOrderId" => $param[$index1]["apiOrderId"], "expressNo" => "5456446444484", "orderResult" => 1);
                     }
                 }
                 $result = $resultq;
 
-                ds_json_encode(10001,"sdfdsaf",$result);
-                if ($result->orderResult==1){
+                ds_json_encode(10001, "sdfdsaf", $result);
+                if ($result->orderResult == 1) {
                     //下单成功
                     //$param[$j]["expressNo"]=$result->expressNo;
-                    $success_order[]=$param[$j];
-                }else{
-                    $error_order[]=$param[$j];
+                    $success_order[] = $param[$j];
+                } else {
+                    $error_order[] = $param[$j];
                 }
+                */
             }
-            ds_json_encode(10001,"sdfdsaf",$success_order);
+            // ds_json_encode(10001, "sdfdsaf", $success_order);
 //            if ($result['result'] == 1) {
 //                $orders = $result['orders'];
 //                for ($i = 0; $i < count($orders); $i++) {
@@ -655,54 +772,54 @@ class Order extends MemberBase
 //                    }
 //                }
 //            }
-
-
-
-                // 下单完成
-                $nowTime = date("Y-m-d H:i:s", time());
-
-                // 订单全部
-                for ($i = 0; $i < count($success_order); $i++) {
-                    $orderData[$i] = array(
-                        'order_no' => $success_order[$i]['apiOrderId'],
-                        'member_id' => $mUserId,
-                        'tracking_number' => $success_order[$i]['expressNo'],
-                        'consignee_name' => $success_order[$i]['buyerName'],
-                        'shipping_address' => $param[$i]['buyerAddr'],
-                        'express_name' => $goods['whTitle'],
-                        'create_time' => $nowTime,
-                        'order_pay' => $price,
-                        'order_state' => 2,
-                        'goodsTitle' => $goods['kdName'],
-                        'consignee_phone' => $success_order[$i]['buyerMobile'],
-                        'merchant_order_no' => $mchordernoarr[$i],
-                        'postcode' => $param[$i]['buyerAddrCode'],
-                        'order_cost' => $costPrice,
-                        'order_profit' => $orderProfit
-                    );
-                    $mchRecordData[$i] = array(
-                        'member_id' => $mUserId,
-                        'change_money' => (-1 * $price),
-                        'change_time' => $nowTime,
-                        'change_cause' => '购买小礼品：' . $goods['kdName']
-                    );
-                }
-                //$orderT = new \app\common\model\Order();
-                $res = $order->saveAll($orderData);
-                if ($res > 0) {
-                    // 更新余额
-                    $nowMBalance = $member['member_balance'] - (count($contentArr) * $price);
-                    $member->save([
-                        'member_balance' => $nowMBalance
-                    ], ['member_id' => $member['member_id']]);
-                    // 资金变更记录
-                    $moneychangeRecord = new MoneychangeRecord();
-                    $moneychangeRecord->saveAll($mchRecordData);
+            /*
+            // 订单全部
+            for ($i = 0; $i < count($success_order); $i++) {
+                $orderData[$i] = array(
+                    'order_no' => $success_order[$i]['apiOrderId'],
+                    'member_id' => $mUserId,
+                    'tracking_number' => $success_order[$i]['expressNo'],
+                    'consignee_name' => $success_order[$i]['buyerName'],
+                    'shipping_address' => $param[$i]['buyerAddr'],
+                    'express_name' => $goods['whTitle'],
+                    'create_time' => $nowTime,
+                    'order_pay' => $price,
+                    'order_state' => 2,
+                    'goodsTitle' => $goods['kdName'],
+                    'consignee_phone' => $success_order[$i]['buyerMobile'],
+                    'merchant_order_no' => $mchordernoarr[$i],
+                    'postcode' => $param[$i]['buyerAddrCode'],
+                    'order_cost' => $costPrice,
+                    'order_profit' => $orderProfit
+                );
+                $mchRecordData[$i] = array(
+                    'member_id' => $mUserId,
+                    'change_money' => (-1 * $price),
+                    'change_time' => $nowTime,
+                    'change_cause' => '购买小礼品：' . $goods['kdName']
+                );
+            }
+            */
+            //$orderT = new \app\common\model\Order();
+            $res = $order->saveAll($orderData);
+            if ($res > 0) {
+                // 更新余额
+                $nowMBalance = $member['member_balance'] - ($success_order_num * $price);
+                $member->save([
+                    'member_balance' => $nowMBalance
+                ], ['member_id' => $member['member_id']]);
+                // 资金变更记录
+                $moneychangeRecord = new MoneychangeRecord();
+                // $moneychangeRecord->saveAll($mchRecordData);
+                $moneychangeRecord->saveAll($mchRecordDataTemp);
+                if (count($mchRecordDataTemp) == count($mchRecordData)) {
                     ds_json_encode(10000, "下单成功");
                 } else {
-                    ds_json_encode(10007, "下单失败");
+                    ds_json_encode(10000, "下单成功，有" . (count($mchRecordData) - $success_order_num) . "个订单失败，请注意查看！");
                 }
-
+            } else {
+                ds_json_encode(10007, "下单失败");
+            }
             //ds_json_encode(10000, "订单提交成功");
         } else {
             ds_json_encode(10010, "数据错误", null);
