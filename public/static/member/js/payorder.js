@@ -579,7 +579,7 @@ function buyGoods() {
                 if (data.code == 10000) {
                     // window.location.href = "/member/order/orderList";
                     layer.msg(data.message, {
-                            icon: 2,
+                            icon: 1,
                             time: 3000,
                             btnAlign: "c",
                             offset: "300px"
