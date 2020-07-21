@@ -579,14 +579,14 @@ function buyGoods() {
                 if (data.code == 10000) {
                     layer.msg(data.message, {
                             icon: 1,
-                            time: 3000,
+                            time: 1500,
                             btnAlign: "c",
                             offset: "300px"
                         },
                         function(){
                             window.location.href = "/member/order/orderList";
                         });
-                }else if(data.code == 10009){
+                }else if(data.code == 10200){
                    let error_arr= data.result;
                    let error_address_str = "<textarea id='error_order' style='background:#ffffff;overflow-x:hidden;overflow-y:auto;padding:10px;width: 100%;height: 100%'>";
                    for (let i = 0; i < error_arr.length; i++) {
