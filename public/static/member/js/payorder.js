@@ -577,7 +577,6 @@ function buyGoods() {
             success: function (data) {
                 console.log(data);
                 if (data.code == 10000) {
-                    // window.location.href = "/member/order/orderList";
                     layer.msg(data.message, {
                             icon: 1,
                             time: 3000,
@@ -587,7 +586,39 @@ function buyGoods() {
                         function(){
                             window.location.href = "/member/order/orderList";
                         });
-                } else {
+                }else if(data.code == 10009){
+                   let error_arr= data.result;
+                   let error_address_str = "<textarea id='error_order' style='background:#ffffff;overflow-x:hidden;overflow-y:auto;padding:10px;width: 100%;height: 100%'>";
+                   for (let i = 0; i < error_arr.length; i++) {
+                       let error = error_arr[i];
+                       let error_address = ""+error["merchant_order_no"]+"，"+error["consignee_name"]+"，"+error["consignee_phone"]+"，"+error["shipping_address"]+"，"+error["postcode"]+"\r";
+                       error_address_str+=error_address;
+                   }
+                    error_address_str += "</textarea>";
+
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏
+                        ,closeBtn: false
+                        ,area: ['580px','400px']
+                        ,offset: '100px'
+                        ,shade: 0.8
+                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        ,btn: ['立即复制', '不再理会']
+                        ,btnAlign: 'c'
+                        ,moveType: 0 //拖拽模式，0或者1
+                        ,content: error_address_str
+                        ,success: function(layero){
+                            var oInput = document.createElement('input');
+                            oInput.value =$('#error_order').val();
+                            document.body.appendChild(oInput);
+                            oInput.select(); // 选择对象
+                            document.execCommand("Copy"); // 执行浏览器复制命令
+                            oInput.className = 'oInput';
+                            oInput.style.display = 'none';
+                        }
+                    });
+                }else {
                     layer.open({
                         content: data.message,
                         btnAlign: "c",
