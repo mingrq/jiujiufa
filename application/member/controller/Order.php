@@ -545,6 +545,9 @@ class Order extends MemberBase
             }
             $contentArr = explode(PHP_EOL, $content);
             $errorNum = 0;
+            if (count($contentArr) > 100) {
+                ds_json_encode(10011, "您一次性最多只能提交100条小礼品订单，超过100单请分开多次下单", null);
+            }
 
             $wh_alias = db('v_goods')->where('kdId', $kdid)->find('wh_alias');
             foreach ($contentArr as $address) {

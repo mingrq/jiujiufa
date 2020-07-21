@@ -417,9 +417,9 @@ function checkAddress() {
     }
     // 清空table
     $("#tb_addrs tr:not(:first)").empty();
-    if (contentArr.length > 1000) {
+    if (contentArr.length > 100) {
         layer.open({
-            content: "您一次性最多只能提交2000条小礼品订单，超过1000单请分开多次下单",
+            content: "您一次性最多只能提交100条小礼品订单，超过100单请分开多次下单",
             btnAlign: "c",
             offset: "300px"
         });
@@ -498,7 +498,7 @@ function buyGoods() {
         contentArr = content.split(/[\r\n]+/);
     } else {
         layer.open({
-            content: "您未填写收货地址或收货地址大于1000个",
+            content: "您未填写收货地址或收货地址大于100个",
             btnAlign: "c",
             offset: "300px"
         });
@@ -506,9 +506,9 @@ function buyGoods() {
     }
     // 清空table
     $("#tb_addrs tr:not(:first)").empty();
-    if (contentArr.length > 1000) {
+    if (contentArr.length > 100) {
         layer.open({
-            content: "您一次性最多只能提交2000条小礼品订单，超过1000单请分开多次下单",
+            content: "您一次性最多只能提交100条小礼品订单，超过100单请分开多次下单",
             btnAlign: "c",
             offset: "300px"
         });
