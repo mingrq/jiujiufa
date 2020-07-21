@@ -774,6 +774,7 @@ class Order extends MemberBase
             if (empty($order) || empty($order['order_no'])) {
                 ds_json_encode(10001, "订单信息错误", null);
             }
+            /*
             $orderT = new \app\common\model\Order();
             $result = $orderT->delOrder($order['tracking_number']);
             if ($result['status'] == 'ok') {
@@ -790,6 +791,8 @@ class Order extends MemberBase
                 $order->save();
                 ds_json_encode(10001, '订单已发货，无法删除');
             }
+            */
+            ds_json_encode(10001, '订单已发货，无法删除');
         } else {
             ds_json_encode(10010, "数据错误", null);
         }
