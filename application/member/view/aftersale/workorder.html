@@ -168,6 +168,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/member/aftersale/serachworkorderlist'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 workordertitle: $('#serach_param').val(),
                 dateatart: $('#serach_param_date_atart').val(),

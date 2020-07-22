@@ -153,6 +153,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/notice/serachnoticelist'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 serachtitle: $('#serach_title').val(),
                 dateatart: $('#serach_param_date_atart').val(),

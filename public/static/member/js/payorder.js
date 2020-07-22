@@ -588,7 +588,7 @@ function buyGoods() {
                         });
                 }else if(data.code == 10009){
                    let error_arr= data.result;
-                   let error_address_str = "<textarea id='error_order' style='background:#ffffff;overflow-x:hidden;overflow-y:auto;padding:10px;width: 100%;height: 100%'>";
+                   let error_address_str = "<div style='padding: 10px;font-size: 16px;color: #dc2716;font-weight: bold'>"+data.message+"</div><textarea id='error_order' style='background:#ffffff;overflow-x:hidden;overflow-y:auto;padding:10px;width: 100%;height: 100%'>";
                    for (let i = 0; i < error_arr.length; i++) {
                        let error = error_arr[i];
                        let error_address = ""+error["merchant_order_no"]+"，"+error["consignee_name"]+"，"+error["consignee_phone"]+"，"+error["shipping_address"]+"，"+error["postcode"]+"\r";
@@ -600,7 +600,7 @@ function buyGoods() {
                         type: 1
                         ,title: false //不显示标题栏
                         ,closeBtn: false
-                        ,area: ['580px','400px']
+                        ,area: ['600px','400px']
                         ,offset: '100px'
                         ,shade: 0.8
                         ,id: 'LAY_layuipro' //设定一个id，防止重复弹出

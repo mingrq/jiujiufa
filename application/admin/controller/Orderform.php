@@ -135,29 +135,29 @@ class Orderform extends AdminBaseController
      */
     public function delLpdh()
     {
-        if (request()->isPost()) {
-
-            $oid = input("post.oid");
-            $order = db('order')->where('order_id', $oid)->find();
-            if (!$order) {
-                ds_json_encode(10001, "订单信息错误", null);
-            }
-            $ordermodel = model('order');
-            $result = $ordermodel->delOrder($order['tracking_number']);
-            if ($result['status'] == 'ok') {
-                // 删除成功
-                // 将这个订单状态修改成 4：已取消
-                db('order')->where('order_id', $oid)->update(['order_state' => 4]);
-                db('member')->where('member_id', $order['member_id'])->setInc('member_balance', $order['order_pay']);
-                db('moneychange_record')->insert(['member_id' => $order['member_id'], 'change_money' => $order['order_pay'], 'change_cause' => '订单退款']);
-                ds_json_encode(10000, "删除成功");
-            } else {
-                // 删除失败
-                db('order')->where('order_id', $oid)->update(['order_state' => 3]);
-                ds_json_encode(10001, '订单已发货，无法删除');
-            }
-        } else {
-            ds_json_encode(10010, "数据错误", null);
-        }
+//        if (request()->isPost()) {
+//
+//            $oid = input("post.oid");
+//            $order = db('order')->where('order_id', $oid)->find();
+//            if (!$order) {
+//                ds_json_encode(10001, "订单信息错误", null);
+//            }
+//            $ordermodel = model('order');
+//            $result = $ordermodel->delOrder($order['tracking_number']);
+//            if ($result['status'] == 'ok') {
+//                // 删除成功
+//                // 将这个订单状态修改成 4：已取消
+//                db('order')->where('order_id', $oid)->update(['order_state' => 4]);
+//                db('member')->where('member_id', $order['member_id'])->setInc('member_balance', $order['order_pay']);
+//                db('moneychange_record')->insert(['member_id' => $order['member_id'], 'change_money' => $order['order_pay'], 'change_cause' => '订单退款']);
+//                ds_json_encode(10000, "删除成功");
+//            } else {
+//                // 删除失败
+//                db('order')->where('order_id', $oid)->update(['order_state' => 3]);
+//                ds_json_encode(10001, '订单已发货，无法删除');
+//            }
+//        } else {
+//            ds_json_encode(10010, "数据错误", null);
+//        }
     }
 }

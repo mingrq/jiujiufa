@@ -162,22 +162,22 @@
                 , {field: 'member_mobile', width: 120, align: 'center', title: '购买会员'}
                 , {field: 'order_pay', title: '金额', align: 'center', width: 90}
                 , {field: 'create_time', title: '购买时间', align: 'center', width: 160} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                // , {
-                //     field: 'order_state', align: 'center', title: '状态', width: 90, templet: function (state) {
-                //         if (state.order_state == 1) {
-                //             return "未支付";
-                //         } else if (state.order_state == 2) {
-                //             return "已付款";
-                //         } else if (state.order_state == 3) {
-                //             return "已发货";
-                //         } else if (state.order_state == 4) {
-                //             return "已取消";
-                //         } else {
-                //             return state.order_state;
-                //         }
-                //     }
-                // }
-                , {field: 'operation', align: 'center', width: 70, title: '操作', toolbar: '#table_operation_toolbar'}
+                , {
+                    field: 'order_state', align: 'center', title: '状态', width: 90, templet: function (state) {
+                        if (state.order_state == 1) {
+                            return "未支付";
+                        } else if (state.order_state == 2) {
+                            return "已付款";
+                        } else if (state.order_state == 3) {
+                            return "已发货";
+                        } else if (state.order_state == 4) {
+                            return "已取消";
+                        } else {
+                            return state.order_state;
+                        }
+                    }
+                }
+                //, {field: 'operation', align: 'center', width: 70, title: '操作', toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
                 console.log(res)
@@ -242,6 +242,9 @@
         table.reload('sample-table', {
             url: '/admin/orderform/searchorderlist'
             , method: 'post'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 searchparam: $('#serach_param').val(),
                 dateatart: $('#serach_param_date_atart').val(),

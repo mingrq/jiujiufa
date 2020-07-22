@@ -114,6 +114,9 @@
         table.reload('sample-table', {
             url: '/member/finance/serachcashrecord'
             ,method: 'post'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 dateatart: $('#serach_param_date_atart').val(),
                 dateend: $('#serach_param_date_end').val()

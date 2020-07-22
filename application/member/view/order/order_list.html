@@ -2,7 +2,8 @@
 <head>
     <meta charset="utf-8">
     <title>会员中心</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0.27, maximum-scale=0.27, minimum-scale=0.27">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=0.27, maximum-scale=0.27, minimum-scale=0.27">
     <link rel="icon" href="{$website_logo}" type="image/gif">
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -128,7 +129,6 @@
                 , {field: 'operation', align: 'center', title: '操作', width: 90, toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
-                // console.log(res);
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -155,38 +155,6 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if (layEvent === 'del') { //取消订单
-                // $.ajax({
-                //     url: "/member/order/delLpdh",
-                //     type: "POST",
-                //     dataType: "json",
-                //     data: {
-                //         oid: tr.order_id
-                //     },
-                //     success: function (data) {
-                //         if (data.code == 10000) {
-                //             layer.open({
-                //                 content: data.message,
-                //                 btnAlign: "c",
-                //                 offset: "300px",
-                //                 yes: function (index, layero) {
-                //                     layer.close(index); //如果设定了yes回调，需进行手工关闭
-                //                     window.location.href = "/member/order/orderList";
-                //                 }
-                //             });
-                //         } else {
-                //             layer.open({
-                //                 content: data.message,
-                //                 btnAlign: "c",
-                //                 offset: "300px"
-                //             });
-                //             return false;
-                //         }
-                //     },
-                //     error: function () {
-                //         console.log('error');
-                //     }
-                // });
-
                 layer.confirm('这个订单确定要取消吗', function (index) {
                     $.ajax({
                         //几个参数需要注意一下
@@ -217,6 +185,9 @@
         table.reload('sample-table', {
             url: '/member/order/searchorderlist'
             , method: 'post'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 searchparam: $('#serach_param').val(),
                 dateatart: $('#serach_param_date_atart').val(),

@@ -274,6 +274,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/goods/serachgoodslist'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 goodtitle: $('#serach_param').val(),
                 warehouse: $('#serach_warehouse').val()

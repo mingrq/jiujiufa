@@ -142,6 +142,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/membermanagement/serachrechargerecord'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 mid:{$mid},
                 serach_param: $('#serach_param').val(),

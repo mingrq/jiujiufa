@@ -183,6 +183,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/membermanagement/serachmemberrank'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 serachtitle: $('#serach_title').val()
             } //设定异步数据接口的额外参数

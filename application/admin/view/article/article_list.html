@@ -166,6 +166,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/article/seracharticlelist'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 serachtitle: $('#serach_title').val(),
                 serachclass: $('#serach_class').val(),

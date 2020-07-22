@@ -560,6 +560,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/membermanagement/serachmemberlist'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 serachparam: $('#serach_param').val(),
                 rank: $('#serach_rank').val(),

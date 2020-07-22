@@ -144,6 +144,9 @@
     function serach() {
         table.reload('sample-table', {
             url: '/admin/financialmanagement/serachrechargerecord'
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
             , where: {
                 serach_param: $('#serach_param').val(),
                 dateatart: $('#serach_param_date_atart').val(),
