@@ -768,34 +768,34 @@ class Order extends MemberBase
      */
     public function delLpdh()
     {
-        if ($this->request->isPost()) {
-            $oid = $this->request->post("oid") ? preg_replace('/[^0-9]/', '', $this->request->post('oid')) : 0;
-            $order = \app\common\model\Order::get($oid);
-            if (empty($order) || empty($order['order_no'])) {
-                ds_json_encode(10001, "订单信息错误", null);
-            }
-            /*
-            $orderT = new \app\common\model\Order();
-            $result = $orderT->delOrder($order['tracking_number']);
-            if ($result['status'] == 'ok') {
-                // 删除成功
-                // 将这个订单状态修改成 4：已取消
-                $order->order_state = 4;
-                $order->save();
-                db('member')->where('member_id', $order['member_id'])->setInc('member_balance', $order['order_pay']);
-                db('moneychange_record')->insert(['member_id' => $order['member_id'], 'change_money' => $order['order_pay'], 'change_cause' => '订单退款']);
-                ds_json_encode(10000, "删除成功");
-            } else {
-                // 删除失败
-                $order->order_state = 3;
-                $order->save();
-                ds_json_encode(10001, '订单已发货，无法删除');
-            }
-            */
-            ds_json_encode(10001, '订单已发货，无法删除');
-        } else {
-            ds_json_encode(10010, "数据错误", null);
-        }
+//        if ($this->request->isPost()) {
+//            $oid = $this->request->post("oid") ? preg_replace('/[^0-9]/', '', $this->request->post('oid')) : 0;
+//            $order = \app\common\model\Order::get($oid);
+//            if (empty($order) || empty($order['order_no'])) {
+//                ds_json_encode(10001, "订单信息错误", null);
+//            }
+//            /*
+//            $orderT = new \app\common\model\Order();
+//            $result = $orderT->delOrder($order['tracking_number']);
+//            if ($result['status'] == 'ok') {
+//                // 删除成功
+//                // 将这个订单状态修改成 4：已取消
+//                $order->order_state = 4;
+//                $order->save();
+//                db('member')->where('member_id', $order['member_id'])->setInc('member_balance', $order['order_pay']);
+//                db('moneychange_record')->insert(['member_id' => $order['member_id'], 'change_money' => $order['order_pay'], 'change_cause' => '订单退款']);
+//                ds_json_encode(10000, "删除成功");
+//            } else {
+//                // 删除失败
+//                $order->order_state = 3;
+//                $order->save();
+//                ds_json_encode(10001, '订单已发货，无法删除');
+//            }
+//            */
+//            ds_json_encode(10001, '订单已发货，无法删除');
+//        } else {
+//            ds_json_encode(10010, "数据错误", null);
+//        }
     }
 
     /**
