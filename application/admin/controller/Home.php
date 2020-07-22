@@ -18,7 +18,7 @@ class Home extends AdminBaseController
 
         $membercount = db('member')->count();
         $warehousecount = db('warehouse')->count();
-        $orderpaycount = db('order')->where('order_state', 2)->count();
+        $orderpaycount = db('order')->where('order_state', 'in',[2,3])->count();
         $goodscount = db('goods')->count();
         $goodsasalecount = db('goods')->where('good_state', 1)->count();
         $paysum = db('recharge_record')->where('recharge_state', 2)->sum('recharge_money');
