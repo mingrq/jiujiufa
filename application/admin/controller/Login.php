@@ -47,4 +47,9 @@ class Login extends Controller
         session('admin_loginname', null);
         $this->redirect('/admin/login.html');
     }
+
+    public function _empty()
+    {
+        $this->redirect("/admin/login");
+    }
 }

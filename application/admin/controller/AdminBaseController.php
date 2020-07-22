@@ -50,4 +50,9 @@ class AdminBaseController extends Controller
 
         return $admin_info;
     }
+
+    public function _empty()
+    {
+        $this->redirect("/admin/login");
+    }
 }

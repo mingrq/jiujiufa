@@ -57,5 +57,6 @@ class FrontendBase extends Controller
      */
     public function _empty()
     {
+        $this->redirect("/");
     }
 }
