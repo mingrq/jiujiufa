@@ -596,6 +596,7 @@ function buyGoods() {
                    }
                     error_address_str += "</textarea>";
 
+
                     layer.open({
                         type: 1
                         ,title: false //不显示标题栏

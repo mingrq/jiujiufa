@@ -604,6 +604,25 @@ class Order extends MemberBase
                 $nowTime = date("Y-m-d H:i:s", time());
                 $result = $order->unifiedOrder($wh_alias['good_id'], $buy_param);
 
+                //------------------测试数据-------------------
+//                $result = array();
+//                $resultq = array();
+//                if ($j == ($count - 1)) {
+//                    for ($z = 0; $z < (count($param) % 5); $z++) {
+//                        $index1 = ($j * 5) + $z;
+//                        $resultq[] = array("apiOrderId" => $param[$index1]["apiOrderId"], "expressNo" => "5456446444484" . $index1, "orderResult" => 2);
+//                    }
+//                } else {
+//                    for ($z = 0; $z < 5; $z++) {
+//                        $index1 = ($j * 5) + $z;
+//                        $resultq[] = array("apiOrderId" => $param[$index1]["apiOrderId"], "expressNo" => "5456443224484" . $index1, "orderResult" => 2);
+//                    }
+//                }
+//                $result["message"] = "";
+//                $result["orders"] = $resultq;
+//                $result["result"] = 1;
+                //-----------------测试数据完--------------------
+
                 if ($result['result'] == 1) {
                     $orders = $result['orders'];
                     for ($i = 0; $i < count($orders); $i++) {
