@@ -44,11 +44,10 @@ class Order extends Model
      */
     public function unifiedOrder($goodId, $param)
     {
-        $partnerId = 3789220;
-        $secret = "25808b198b3f46e49057333bfe1fa40c";
-
         //下单
         $url = "http://182.254.212.247:9103/ApiOrder/orderGift";
+        $partnerId = db('config')->where('config_code', 'goods_api_acc')->value('config_value');
+        $secret = db('config')->where('config_code', 'goods_api_pw')->value('config_value');
 
         $orderParams = json_encode($param);
         // 对身份的验证
@@ -64,47 +63,6 @@ class Order extends Model
         $json_str = request_post_arr($url, $data);
         $json = json_decode($json_str, true);
         return $json;
-
-
-//        $url = 'http://www.681kb.com/API/BuyLpdh';
-//        $username = db('config')->where('config_code', 'goods_api_acc')->value('config_value');
-//        $pwd = db('config')->where('config_code', 'goods_api_pw')->value('config_value');
-//
-//        $sid = time() . rand(10000000, 99999999);
-//        $pwd16 = substr(md5($pwd), 8, 16);
-//        $sign = strtolower(md5($username . $pwd16 . $sid));
-//        $info = array(
-//            'sid' => $sid,
-//            'sign' => $sign,
-//            'username' => $username
-//        );
-//        $postAddrItem = array(
-//            'postPhone' => '',
-//            'province' => '',
-//            'addr' => '',
-//            'area' => '',
-//            'postName' => 'city'
-//        );
-//        $data = array(
-//            'info' => $info,
-//            'kdid' => $kdid,
-//            'postAddrItem' => $postAddrItem,
-//            'num' => 1,
-//            'items' => $param
-//        );
-//
-//        $json_str = request_post($url, $data);
-//        $json = json_decode($json_str, true);
-//        return $json;
-
-
-//        //获取token
-//        $md5Secret= md5($secret);
-//        $get_token_url = "http://182.254.212.247:9103/ApiOrder/getToken?partnerId=".$partnerId."&md5Secret=".$md5Secret;
-//        $json_str = http_request($get_token_url);
-
-        //ds_json_encode(10001, "获取token:" . $kdid, $param);
-
     }
 
     /**
