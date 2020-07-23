@@ -48,6 +48,9 @@ class MemberBase extends Controller
             if ($info['config_code'] == 'saler_wechat_group') {
                 $this->assign('saler_wechat_group', $info['config_value']);
             }
+            if ($info['config_code'] == 'icp_link') {
+                $this->assign('icp_link', $info['config_value']);
+            }
         }
         $MUserId = session('MUserId');
         $MUserName = session('MUserName');

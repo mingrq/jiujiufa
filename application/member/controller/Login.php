@@ -39,6 +39,9 @@ class Login extends Controller
             if ($info['config_code'] == 'website_top_logo') {
                 $this->assign('website_top_logo', $info['config_value']);
             }
+            if ($info['config_code'] == 'icp_link') {
+                $this->assign('icp_link', $info['config_value']);
+            }
         }
     }
 
