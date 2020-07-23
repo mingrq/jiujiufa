@@ -77,6 +77,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">ICP跳转链接</label>
+            <div class="layui-input-block">
+                <input type="text" value="{$icp_link}" name="icp_link" id="icp_link" required  lay-verify="required" placeholder="请输入ICP证书号跳转链接" autocomplete="off" style="width: 550px" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">版权信息</label>
             <div class="layui-input-block">
                 <input type="text" value="{$website_copyright}" id="website_copyright" name="website_copyright" required  lay-verify="required" placeholder="请输入版权信息" autocomplete="off" style="width: 550px" class="layui-input">
@@ -116,6 +122,7 @@
             var file_top_obj = document.getElementById('website_top_logo_sel').files[0];
             fd.append('website_top_logo', file_top_obj);
             fd.append('website_top_logo_url', $('#website_logo').val());
+            fd.append('icp_link', $('#icp_link').val());
             $.ajax({
                 //几个参数需要注意一下
                 type: "POST",//方法类型

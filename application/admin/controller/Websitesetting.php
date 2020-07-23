@@ -49,7 +49,7 @@ class Websitesetting extends AdminBaseController
             $website_copyright = input('param.website_copyright');
             $website_statistics = input('param.website_statistics');
             $website_home_title = input('param.website_home_title');
-
+            $icp_link= input('param.icp_link');
             $websiteinfo = new Config();
             $list = [
                 ['config_id' => 15, 'config_value' => $website_name],
@@ -59,7 +59,8 @@ class Websitesetting extends AdminBaseController
                 ['config_id' => 19, 'config_value' => $website_copyright],
                 ['config_id' => 20, 'config_value' => $website_statistics],
                 ['config_id' => 21, 'config_value' => $website_top_logo],
-                ['config_id' => 24, 'config_value' => $website_home_title]
+                ['config_id' => 24, 'config_value' => $website_home_title],
+                ['config_id' => 32, 'config_value' => $icp_link]
             ];
             $query = $websiteinfo->saveAll($list);
             if ($query) {
@@ -95,6 +96,9 @@ class Websitesetting extends AdminBaseController
                 }
                 if ($info['config_code'] == 'website_home_title') {
                     $this->assign('website_home_title', $info['config_value']);
+                }
+                if ($info['config_code'] == 'icp_link') {
+                    $this->assign('icp_link', $info['config_value']);
                 }
             }
             return $this->fetch('websitesetting');
