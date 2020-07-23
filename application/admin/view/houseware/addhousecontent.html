@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加商品</title>
+    <title>添加仓库</title>
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{$Think.ADMIN_SITE_ROOT}/css/style.css"/>
     <link href="{$Think.ADMIN_SITE_ROOT}/assets/css/codemirror.css" rel="stylesheet">
@@ -77,21 +77,14 @@
 <div style="padding: 20px">
     <form class="layui-form" action="">
         <div class="layui-form-item">
-            <label class="layui-form-label">商品ID</label>
+            <label class="layui-form-label">仓库名称</label>
             <div class="layui-input-block">
-                <input type="text" name="goods_id" id="goods_id" required lay-verify="required" placeholder="请输入商品ID"
-                       autocomplete="off" style="width: 550px" class="layui-input">
+                <input type="text" name="home_name" id="home_name" required lay-verify="required"
+                       placeholder="请输入仓库名称" autocomplete="off" style="width: 550px" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">商品名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="goods_name" id="goods_name" required lay-verify="required"
-                       placeholder="请输入商品名称" autocomplete="off" style="width: 550px" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">仓库</label>
+            <label class="layui-form-label">仓库类型</label>
             <div class="layui-input-block">
                 <div name="house" id="serach_warehouse" class="xm-select-demo" style="width: 550px">
 
@@ -101,48 +94,21 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">商品图片</label>
-            <div class="layui-input-inline" style="display: flex;width: 550px">
-                <input type="file"
-                       style="position:absolute; top:0px; right:0px; height:34px; width:550px; filter:alpha(opacity:0); opacity: 0;left: 0px; cursor: pointer;"
-                       name="good_pic_sel" id="good_pic_sel" hidefocus="true">
-                <input type="text" id="good_pic" lay-verify="required"
-                       placeholder="请输入商品图片" class="layui-input">
-                <input type='button' value='上传'
-                       style="display: inline-block; width:60px;margin-top:3px; height:30px;margin-left:10px;float: left; border: 0;background:#419dfd;color:#fff;border-radius:2px;font-weight:bold;"/>
+            <label class="layui-form-label">快递名</label>
+            <div class="layui-input-block">
+                <input type="text" name="kdname" id="kdname" required lay-verify="required"
+                       placeholder="请输入API文档中的快递名（下单接口使用）" inputmode="number" autocomplete="off" style="width: 550px"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">礼品成本</label>
+            <label class="layui-form-label">快递费</label>
             <div class="layui-input-block">
-                <input type="text" name="cost" id="cost" required lay-verify="required" placeholder="请输入礼品成本"
+                <input type="text" name="cost" id="cost" required lay-verify="required" placeholder="请输入快递费"
                        inputmode="number" autocomplete="off" style="width: 550px" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">API利润</label>
-            <div class="layui-input-block">
-                <input type="text" name="api_profit" id="api_profit" required lay-verify="required"
-                       placeholder="请输入API利润" inputmode="number" autocomplete="off" style="width: 550px"
-                       class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">代理利润</label>
-            <div class="layui-input-block">
-                <input type="text" name="agency_profit" id="agency_profit" required lay-verify="required"
-                       placeholder="请输入代理利润" inputmode="number" autocomplete="off" style="width: 550px"
-                       class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">会员利润</label>
-            <div class="layui-input-block">
-                <input type="text" name="member_profit" id="member_profit" required lay-verify="required"
-                       placeholder="请输入会员利润" inputmode="number" autocomplete="off" style="width: 550px"
-                       class="layui-input">
-            </div>
-        </div>
+
 
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -163,25 +129,19 @@
                 //几个参数需要注意一下
                 type: "GET",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/goods/getwarehouselist",
+                url: "/admin/houseware/getwarehouseclasslist",
                 success: function (result) {
                     if (result.code == 10000) {
                         //设置下拉框数据
                         casehouse = result.result;
-
-                        // for (let i = 0; i < result.result.length; i++) {
-                        //     let warehouse = result.result[i];
-                        //     $("#serach_warehouse").append("<option value='" + warehouse.wh_id + "'>" + warehouse.wh_title + "</option>");
-                        // }
-                        // form.render('select');
 
                         let xmselectarr = [];
 
                         for (let i = 0; i < result.result.length; i++) {
                             let warehouse = result.result[i];
                             let xmitem = [];
-                            xmitem["name"] = warehouse.wh_title;
-                            xmitem["value"] = warehouse.wh_id;
+                            xmitem["name"] = warehouse.class_name;
+                            xmitem["value"] = warehouse.class_id;
                             xmselectarr.push(xmitem);
                         }
                         demo1 = xmSelect.render({
@@ -199,7 +159,7 @@
         form.on('submit(formsub)', function (data) {
             var selectArr = demo1.getValue();
             if (selectArr.length == 0) {
-                layer.msg('您还没有选择仓库', {icon: 5});
+                layer.msg('您还没有选择仓库类型', {icon: 5});
                 return false;
             }
             let selecthousearr = "[";
@@ -211,22 +171,17 @@
                 }
             }
             selecthousearr += "]";
-            var file_obj = document.getElementById('good_pic_sel').files[0];
             var fd = new FormData();
-            fd.append('goods_id', $('#goods_id').val());
-            fd.append('goods_name', $('#goods_name').val());
+            fd.append('homename', $('#home_name').val());
             fd.append('warehouse', selecthousearr);
-            fd.append('good_pic', file_obj);
             fd.append('cost', $('#cost').val());
-            fd.append('api_profit', $('#api_profit').val());
-            fd.append('agency_profit', $('#agency_profit').val());
-            fd.append('member_profit', $('#member_profit').val());
+            fd.append('kdname', $('#kdname').val());
 
             $.ajax({
                 //几个参数需要注意一下
                 type: "POST",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/goods/addgoodscontent.html",
+                url: "/admin/houseware/addhousecontent.html",
                 data: fd,
                 processData: false,  //tell jQuery not to process the data
                 contentType: false,  //tell jQuery not to set contentType
@@ -238,7 +193,7 @@
                     parent.table.reload('sample-table');
                 },
                 error: function () {
-                    layer.msg('添加商品失败，请稍后再试');
+                    layer.msg('添加仓库失败，请稍后再试');
                 }
             });
             return false;

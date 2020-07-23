@@ -27,7 +27,10 @@ class Warehouse extends Model
     {
         return db('warehouse')->select();
     }
-
+    public function getWarehouselistg($condition = array(), $field = '*', $page = 100, $order = 'wh_id desc')
+    {
+        return db('v_warehouse')->field($field)->where($condition)->order($order)->paginate($page, false, ['query' => request()->param()]);
+    }
     /**
      * 获取仓库信息列表
      */
@@ -35,4 +38,7 @@ class Warehouse extends Model
     {
         return db('wasehouse_class')->select();
     }
+
+
+
 }

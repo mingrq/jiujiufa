@@ -39,9 +39,9 @@ class Goods extends AdminBaseController
     {
         if (request()->isPost()) {
             $goods_id = input('param.goods_id');
-
             $goods_name = input('param.goods_name');
             $warehouse = input('param.warehouse');
+            $warehouse_arr = json_decode($warehouse);
             $file = request()->file('good_pic');
             $good_pic = "";
             if ($file) {
@@ -53,15 +53,21 @@ class Goods extends AdminBaseController
                 $good_pic = DS . 'goods' . DS . $ad_pic;
             }
 
-
             $cost = input('param.cost');
             $api_profit = input('param.api_profit');
             $agency_profit = input('param.agency_profit');
             $member_profit = input('param.member_profit');
-            $warahouse_name = db('warehouse')->where("wh_id", $warehouse)->value("wh_title");
-            $goodsTitle = $warahouse_name . "+" . $goods_name;
-            $query = db('goods')->insert(["good_id" => $goods_id, "goodsTitle" => $goodsTitle, "classId" => $warehouse, "kdName" => $goodsTitle, "cost_price" => $cost, "good_price" => $member_profit, "good_vip_price" => $agency_profit, "good_api_price" => $api_profit, "good_pic" => $good_pic]);
-            if ($query) {
+
+            $data = [];
+            for ($h=0;$h<count($warehouse_arr);$h++){
+                $warahouse_info = db('warehouse')->where("wh_id", $warehouse_arr[$h])->find();
+                $goodsTitle =$warahouse_info["wh_title"] . "+" . $goods_name;
+                $cost=$cost+$warahouse_info["wh_kd_cost"];
+                $x = ["good_id" => $goods_id, "goodsTitle" => $goodsTitle, "classId" => $warehouse_arr[$h], "kdName" => $goodsTitle, "cost_price" => $cost, "good_price" => $member_profit, "good_vip_price" => $agency_profit, "good_api_price" => $api_profit, "good_pic" => $good_pic];
+                $data[]=$x;
+            }
+            $query = db('goods')->insertAll($data);
+            if ($query>0) {
                 ds_json_encode(10000, "商品添加成功");
             } else {
                 ds_json_encode(10001, "商品添加失败");
