@@ -523,7 +523,7 @@ class Order extends MemberBase
                     $orderProfit = $specialPrice['good_special_vip_price'];
                     $price = $costPrice + $orderProfit;
                 } else {
-                    $orderProfit = $goods['good_price'];
+                    $orderProfit = $goods['good_vip_price'];
                     $price = $costPrice + $orderProfit;
                 }
             } else {
@@ -562,7 +562,8 @@ class Order extends MemberBase
                         'buyerMobile' => $addressArr[2],
                         'buyerAddr' => $addressArr[3],
                         'buyerAddrCode' => $addressArr[4],
-                        'storeType' => $ckid,
+                        // 'storeType' => $ckid,
+                        'storeType' => $wh_alias['wh_class'],
                         'kuaidiName' => $wh_alias['wh_alias']
                     ));
                     $mchordernoarr[] = trim($addressArr[0]);
