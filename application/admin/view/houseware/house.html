@@ -75,7 +75,7 @@
             </div>
 
             <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="serach()">搜索</button>
-            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="addgoods()">添加仓库</button>
+            <button type="button" class="layui-inline layui-btn layui-btn-normal" onclick="addhouse()">添加仓库</button>
         </div>
     </form>
     <!--表格-->
@@ -130,7 +130,6 @@
                 , {field: 'operation', align: 'center', title: '操作', toolbar: '#table_operation_toolbar'}
             ]]
             , parseData: function (res) {
-                console.log(res)
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -190,7 +189,6 @@
                     price: obj.value
                 },
                 success: function (result) {
-                    console.log(result)
                 },
                 error: function () {
                 }
@@ -212,7 +210,7 @@
     }
 
     /**新增仓库*/
-    function addgoods() {
+    function addhouse() {
         layer.open({
             type: 2,
             title: '新增仓库',

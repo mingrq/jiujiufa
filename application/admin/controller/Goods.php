@@ -24,13 +24,6 @@ class Goods extends AdminBaseController
         return $this->fetch('goods');
     }
 
-    /**
-     * 添加商品
-     */
-    public function addgoods()
-    {
-        return $this->fetch('addgoods');
-    }
 
     /**
      * 添加商品内页
@@ -110,18 +103,48 @@ class Goods extends AdminBaseController
 
 
     /**
-     * 设置价格
+     * 编辑
      */
     public function editprice()
     {
         $field = input('param.field');
         $kdId = input('param.kdId');
         $price = input('param.price');
-        $qurey = db('goods')->where('kdId', $kdId)->setField($field, $price);
+        if ($field=='goodsTitle'){
+            $qurey = db('goods')->where('kdId', $kdId)->update([$field => $price, 'kdName' => $price]);
+        }else{
+            $qurey = db('goods')->where('kdId', $kdId)->setField($field, $price);
+        }
         if ($qurey) {
             ds_json_encode(10000, "修改价格成功");
         }
         ds_json_encode(10001, "修改价格失败");
+    }
+
+    /**
+     * 编辑图片
+     */
+    public function editpic()
+    {
+        $kdId = input('param.kdId');
+        $file = request()->file('good_pic');
+        $good_pic = "";
+        if ($file) {
+            // 移动到框架应用根目录/public/uploads/ 目录下
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'goods');
+            //如果不清楚文件上传的具体键名，可以直接打印$info来查看
+            //获取文件（日期/文件名），$info->getSaveName()  **********不同之处，笔记笔记哦
+            $ad_pic = $info->getSaveName();  //在测试的时候也可以直接打印文件名称来查看
+            $good_pic = DS . 'goods' . DS . $ad_pic;
+        }else{
+            ds_json_encode(10001, "图片为空");
+        }
+        $query = db('goods')->where('kdId', $kdId)->update(["good_pic" => $good_pic]);
+        if ($query>0) {
+            ds_json_encode(10000, "图片修改成功",$good_pic);
+        } else {
+            ds_json_encode(10001, "图片修改失败");
+        }
     }
 
     /**

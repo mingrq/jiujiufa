@@ -187,7 +187,6 @@
                 processData: false,  //tell jQuery not to process the data
                 contentType: false,  //tell jQuery not to set contentType
                 success: function (result) {
-                    console.log(result)
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                     parent.layer.msg(result.message);
