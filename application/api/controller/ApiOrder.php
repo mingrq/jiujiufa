@@ -5,7 +5,6 @@
 
 namespace app\api\controller;
 
-use app\common\model\Member;
 use app\common\model\Order;
 
 class ApiOrder extends ApiBaseController
