@@ -5,42 +5,27 @@
 
 namespace app\api\controller;
 
+use app\common\controller\ApiBase;
 use app\common\model\Order;
 
-class ApiOrder extends ApiBaseController
+class Apiorder extends ApiBase
 {
     private $username = '';
 
     /**
      * 初始化参数和身份验证
      */
-    public function _initialize()
+    protected function _initialize()
     {
-        if ($this->request->isPost()) {
-            $username = trim($this->request->post("username"));
-            $nonce_str = trim($this->request->post("nonce_str"));
-            $sign = trim($this->request->post("sign"));
-            if (!empty($username) && !empty($nonce_str) && !empty($sign)) {
-                $this->username = $username;
-                if (!parent::verify_ticket($username, $nonce_str, $sign)) {
-                    ds_json_encode(10002, "身份验证不通过，账号或密码错误", null);
-                }
-            } else {
-                ds_json_encode(10003, "请求参数格式错误", null);
-            }
-        } else {
-            ds_json_encode(10003, "请求参数格式错误", null);
-        }
+        parent::_initialize();
+        $this->username = trim($this->request->post("username"));
     }
 
     /**
-     *  面单号 下单的接口
-     *  将订单写入这个账号的订单记录中
-     * @param $kdId 快递ID
-     * @param $orderParams  订单内容的 json 格式，是一个json 的数组对象, 数组中一次最多不能超过 5 个订单
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * 面单号 下单的接口
+     * 将订单写入这个账号的订单记录中
+     * kdId 快递ID
+     * orderParams  订单内容的 json 格式，是一个json 的数组对象, 数组中一次最多不能超过 5 个订单
      *
      * 逻辑：
      *  1、判断参数格式是否正确 不正确返回"请求参数格式错误"
