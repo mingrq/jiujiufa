@@ -123,7 +123,27 @@
     <!--表格-->
     <table id="sample-table" lay-filter="table_goods" style="margin-top: -15px"></table>
 </div>
+<style>
+    /* 防止下拉框的下拉列表被隐藏---必须设置--- 此样式和表格的样式有冲突 如果表格列数太多 会出现错乱的情况 目前我的解决方法是忽略下拉框的美化渲染 <select lay-ignore> */
+    .layui-table-cell {
+        overflow: visible;
+    }
 
+    .layui-table-box {
+        overflow: visible;
+    }
+
+    .layui-table-body {
+        overflow: visible;
+    }
+
+    /* 设置下拉框的高度与表格单元相同 */
+    td .layui-form-select {
+        margin-top: -10px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+</style>
 <input type="file" style="display: none" id="updatepic"/>
 <!--主图显示-->
 <script type="text/html" id="table_main_pic">
@@ -135,6 +155,14 @@
     <a class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">更换商品图片</a>
 </script>
+
+<script type="text/html" id="house_sel">
+    <div class="layui-input-inline">
+        <select name="house_select" class="house_select">
+
+        </select>
+    </div>
+</script>
 <script type="text/javascript">
     var table;
     var form;
@@ -145,6 +173,28 @@
         table = layui.table;
         form = layui.form;
         upload = layui.upload;
+        $.ajax({
+            //几个参数需要注意一下
+            type: "GET",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/admin/goods/getwarehouselist",
+            success: function (result) {
+                if (result.code == 10000) {
+                    //设置下拉框数据
+                    casehouse = result.result;
+                    for (let i = 0; i < result.result.length; i++) {
+                        let warehouse = result.result[i];
+                        $("#serach_warehouse").append("<option value='" + warehouse.wh_id + "'>" + warehouse.wh_title + "</option>");
+                       // $(".house_select").append("<option value='" + warehouse.wh_id + "'>" + warehouse.wh_title + "</option>");
+                    }
+                    form.render('select');
+                    table.reload('sample-table');
+                }
+            },
+            error: function () {
+
+            }
+        });
         $(function () {
             $.ajax({
                 //几个参数需要注意一下
@@ -156,29 +206,8 @@
                         //设置下拉框数据
                         casehouseclass = result.result;
                         for (let i = 0; i < result.result.length; i++) {
-                            let warehouse = result.result[i];
-                            $("#serach_warehouseclass").append("<option value='" + warehouse.class_id + "'>" + warehouse.class_name + "</option>");
-                        }
-                        form.render('select');
-                    }
-                },
-                error: function () {
-
-                }
-            });
-
-            $.ajax({
-                //几个参数需要注意一下
-                type: "GET",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: "/admin/goods/getwarehouselist",
-                success: function (result) {
-                    if (result.code == 10000) {
-                        //设置下拉框数据
-                        casehouse = result.result;
-                        for (let i = 0; i < result.result.length; i++) {
-                            let warehouse = result.result[i];
-                            $("#serach_warehouse").append("<option value='" + warehouse.wh_id + "'>" + warehouse.wh_title + "</option>");
+                            let warehousecl = result.result[i];
+                            $("#serach_warehouseclass").append("<option value='" + warehousecl.class_id + "'>" + warehousecl.class_name + "</option>");
                         }
                         form.render('select');
                     }
@@ -219,16 +248,25 @@
             , height: 'full-170'
             , cols: [[
                 {field: 'good_id', width: 90, align: 'center', title: '商品ID'}
-                , {
-                    field: 'good_pic',
-                    width: 140,
-                    align: 'center',
-                    title: '商品图片',
-                    templet: '#table_main_pic'
-                }
+                , {field: 'good_pic', width: 140, align: 'center', title: '商品图片', templet: '#table_main_pic'}
                 , {field: 'goodsTitle', align: 'center', edit: 'text', title: '商品标题'}
-                , {field: 'warehouse_name', width: 160, align: 'center', title: '仓库'}
-                , {field: 'cost_price', title: '成本', edit: 'text', width: 100, align: 'center'}
+                , {
+                    field: 'warehouse_class', width: 160, align: 'center', title: '仓库', templet:
+                    function (d) {
+                            // 将遍历的字符串列表以字符串形式拼接
+                            var res = `<div class="layui-input-inline">
+                                <select name="house_select" lay-filter="currhouseSelect" class="house_select" data-currentwhid="`+d["classId"]+`" data-value="`+d["kdId"]+`">`;
+                        for (let i = 0;i< casehouse.length;i++){
+                                res+=`<option value="`+casehouse[i]["wh_id"]+`">`+casehouse[i]["wh_title"]+`</option>`;
+                        }
+                            // 将所有的option和select 统一返回给表格单元格
+                                res+=`</select>
+                                </div>`;
+
+                            return res;
+                    }
+                }
+                , {field: 'cost_price', title: '成本', edit: 'number', width: 100, align: 'center'}
                 , {field: 'good_price', title: '会员价(利润)', align: 'center', width: 110, edit: 'text', fixed: 'right'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'good_vip_price', align: 'center', title: '代理价(利润)', width: 110, edit: 'text', fixed: 'right'}
                 , {
@@ -259,8 +297,45 @@
             , page: {
                 layout: ['prev', 'page', 'next', 'skip', 'refresh']
             }
-
+            ,done: function (res, curr, count) {
+                // 渲染之前组装select的option选项值
+                layui.each($("select[name='house_select']"), function (index, item) {
+                    var elem = $(item);
+                    elem.val(res["data"][index]["classId"]);
+                });
+                form.render('select');
+            }
         });
+
+        form.on('select(currhouseSelect)', function (obj) {
+            var selectid = obj.value;
+            let kdId = obj.elem.dataset.value; //当前数据的id
+            let currentwhid = obj.elem.dataset.currentwhid;//当前的仓库id
+            if(selectid !=currentwhid){
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/admin/goods/editprice",
+                    data: {
+                        field: "classId",
+                        kdId: kdId,
+                        price: selectid
+                    },
+                    success: function (result) {
+                        layer.msg(result.message);
+                        table.reload('sample-table');
+                    },
+                    error: function () {
+                        layer.msg('删除失败，请稍后再试');
+                    }
+                });
+            }
+            // 更新到表格的缓存数据中，才能在获得选中行等等其他的方法中得到更新之后的值
+            //tableData[trElem.data('index')][elem.attr('name')] = obj.value;
+            //form.render('select');
+        });
+
         table.on('tool(table_goods)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             let data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -319,6 +394,7 @@
                 });
             }
         });
+
         table.on('edit(table_goods)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
             $.ajax({
                 //几个参数需要注意一下

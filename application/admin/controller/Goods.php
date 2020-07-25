@@ -116,9 +116,9 @@ class Goods extends AdminBaseController
             $qurey = db('goods')->where('kdId', $kdId)->setField($field, $price);
         }
         if ($qurey) {
-            ds_json_encode(10000, "修改价格成功");
+            ds_json_encode(10000, "修改成功");
         }
-        ds_json_encode(10001, "修改价格失败");
+        ds_json_encode(10001, "修改失败");
     }
 
     /**
